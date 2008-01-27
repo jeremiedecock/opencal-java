@@ -1,0 +1,207 @@
+/*
+ * OpenCAL version 3.0
+ * Copyright (c) 2007 Jérémie Decock (http://www.jdhp.org)
+ */
+
+package org.jdhp.opencal.model.xml.reviewer;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
+import org.jdhp.opencal.controller.Controller;
+import org.xml.sax.Attributes;
+import org.xml.sax.helpers.DefaultHandler;
+
+public class ReviewHandler extends DefaultHandler {
+	
+	private PrintWriter newFile;
+	
+	private String idCard;
+	private String result;
+	private Date date;
+	
+	private boolean questionFlag;
+	private boolean answerFlag;
+	private boolean tagFlag;
+	private boolean reviewedCardFlag;
+	
+	public ReviewHandler(String file, String idCard, String result) {
+		super();
+		
+		if(file.equals("")) Controller.getUserInterface().printError("La variable file n'est pas définie...");
+		
+		try {
+			this.newFile = new PrintWriter(new FileWriter(file));
+		} catch(IOException e) {
+			Controller.getUserInterface().printError("Impossible d'écrire dans le fichier " + file);
+			Controller.exit(32);
+		}
+
+		this.idCard = idCard;
+		this.result = result;
+		this.date = new Date();
+
+		this.questionFlag = false;
+		this.answerFlag = false;
+		this.tagFlag = false;
+		this.reviewedCardFlag = false;
+	}
+	
+	public void startDocument() {
+		this.newFile.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+//		this.newFile.println("<!DOCTYPE card_db [");
+//		this.newFile.println("    <!--- Card Database -->");
+//		this.newFile.println("    <!ELEMENT card_db (card)*>");
+//		this.newFile.println("");
+//		this.newFile.println("    <!--- Card -->");
+//		this.newFile.println("    <!--- cdate (Format ISO 8601 : YYYY-MM-DD) -->");
+//		this.newFile.println("    <!--- <!ELEMENT card (question,answer?,review*,tag*)> -->");
+//		this.newFile.println("    <!ELEMENT card (question,answer?,(review|tag)*)>");
+//		this.newFile.println("    <!ATTLIST card id ID #REQUIRED>");
+//		this.newFile.println("    <!ATTLIST card cdate CDATA #REQUIRED>");
+//		this.newFile.println("");
+//		this.newFile.println("    <!--- Question -->");
+//		this.newFile.println("    <!ELEMENT question (#PCDATA)>");
+//		this.newFile.println("");
+//		this.newFile.println("    <!--- Answer -->");
+//		this.newFile.println("    <!ELEMENT answer (#PCDATA)>");
+//		this.newFile.println("");
+//		this.newFile.println("    <!--- Review -->");
+//		this.newFile.println("    <!--- rdate (Format ISO 8601 : YYYY-MM-DD) -->");
+//		this.newFile.println("    <!ELEMENT review EMPTY>");
+//		this.newFile.println("    <!ATTLIST review rdate CDATA #REQUIRED>");
+//		this.newFile.println("    <!ATTLIST review result (GOOD|BAD) #REQUIRED>");
+//		this.newFile.println("");
+//		this.newFile.println("    <!--- Tag -->");
+//		this.newFile.println("    <!ELEMENT tag (#PCDATA)>");
+//		this.newFile.println("]>");
+//		this.newFile.println("<?xml-stylesheet type=\"text/css\" href=\"card_db.css\" ?>");
+		this.newFile.println("");
+		this.newFile.println("<!--");
+		this.newFile.println("    Document   : card_db.xml");
+		this.newFile.println("    Created on : 14 aout 2007, 11:40");
+		this.newFile.println("    Author     : Jérémie DECOCK");
+//		this.newFile.println("    Generator  : " + Controller.programName + " " + Controller.version + " (Java - DTD v3)");
+//		this.newFile.println("    Description: " + Controller.programName + "'s flashcards.");
+		this.newFile.println("-->");
+		this.newFile.println("");
+	}
+	
+	public void startElement(String uri, String name, String qName, Attributes atts) {
+		if(uri.equals("")) {
+			if(qName.equals("card_db")) {
+				this.newFile.println("<card_db>");
+			}
+			else if(qName.equals("card")) {
+				this.newFile.println("	<card id=\"" + atts.getValue("id") + "\" cdate=\"" + atts.getValue("cdate") + "\">");
+				if(atts.getValue("id").equals(this.idCard)) this.reviewedCardFlag = true;
+			}
+			else if(qName.equals("question")) {
+				this.questionFlag = true;
+				this.newFile.print("		<question><![CDATA[");
+			}
+			else if(qName.equals("answer")) {
+				this.answerFlag = true;
+				this.newFile.print("		<answer><![CDATA[");
+			}
+			else if(qName.equals("review")) {
+				this.newFile.println("		<review rdate=\"" + atts.getValue("rdate") + "\" result=\"" + atts.getValue("result") + "\" />");
+			}
+			else if(qName.equals("tag")) {
+				this.tagFlag = true;
+				this.newFile.print("		<tag>");
+			}
+		} else {
+			if(name.equals("card_db")) {
+				this.newFile.println("<card_db>");
+			}
+			else if(name.equals("card")) {
+				this.newFile.println("	<card id=\"" + atts.getValue("id") + "\" cdate=\"" + atts.getValue("cdate") + "\">");
+				if(atts.getValue("id").equals(this.idCard)) this.reviewedCardFlag = true;
+			}
+			else if(name.equals("question")) {
+				this.questionFlag = true;
+				this.newFile.print("		<question><![CDATA[");
+			}
+			else if(name.equals("answer")) {
+				this.answerFlag = true;
+				this.newFile.print("		<answer><![CDATA[");
+			}
+			else if(name.equals("review")) {
+				this.newFile.println("		<review rdate=\"" + atts.getValue("rdate") + "\" result=\"" + atts.getValue("result") + "\" />");
+			}
+			else if(name.equals("tag")) {
+				this.tagFlag = true;
+				this.newFile.print("		<tag>");
+			}
+		}
+	}
+
+	public void endElement(String uri, String name, String qName) {
+		if(uri.equals("")) {
+			if(qName.equals("card_db")) {
+				this.newFile.println("</card_db>");
+			}
+			else if(qName.equals("card")) {
+				if(this.reviewedCardFlag == true) {
+					GregorianCalendar gc = new GregorianCalendar();
+					gc.setTime(this.date); // TODO : cette ligne (tout comme l'attribut date) est inutile ?
+					this.newFile.println("		<review rdate=\"" + gc.get(Calendar.YEAR) + "-" + (gc.get(Calendar.MONTH) + 1) + "-" + gc.get(Calendar.DAY_OF_MONTH) + "\" result=\"" + this.result + "\" />");
+					this.reviewedCardFlag = false;
+				}
+				this.newFile.println("	</card>");
+			}
+			else if(qName.equals("question")) {
+				this.newFile.println("]]></question>");
+				this.questionFlag = false;
+			}
+			else if(qName.equals("answer")) {
+				this.newFile.println("]]></answer>");
+				this.answerFlag = false;
+			}
+			else if(qName.equals("tag")) {
+				this.newFile.println("</tag>");
+				this.tagFlag = false;
+			}
+		} else {
+			if(name.equals("card_db")) {
+				this.newFile.println("</card_db>");
+			}
+			else if(name.equals("card")) {
+				if(this.reviewedCardFlag == true) {
+					GregorianCalendar gc = new GregorianCalendar();
+					gc.setTime(this.date); // TODO : cette ligne (tout comme l'attribut date) est inutile ?
+					this.newFile.println("		<review rdate=\"" + gc.get(Calendar.YEAR) + "-" + (gc.get(Calendar.MONTH) + 1) + "-" + gc.get(Calendar.DAY_OF_MONTH) + "\" result=\"" + this.result + "\" />");
+					this.reviewedCardFlag = false;
+				}
+				this.newFile.println("	</card>");
+			}
+			else if(name.equals("question")) {
+				this.newFile.println("]]></question>");
+				this.questionFlag = false;
+			}
+			else if(name.equals("answer")) {
+				this.newFile.println("]]></answer>");
+				this.answerFlag = false;
+			}
+			else if(name.equals("tag")) {
+				this.newFile.println("</tag>");
+				this.tagFlag = false;
+			}
+		}
+	}
+
+	public void characters(char ch[], int start, int length) {
+		if(this.questionFlag == true || this.answerFlag == true || this.tagFlag == true) {
+			for (int i=start ; i<start+length ; i++) this.newFile.print(ch[i]);
+		}
+	}
+	
+	public void endDocument() {
+		this.newFile.close();
+	}
+}
