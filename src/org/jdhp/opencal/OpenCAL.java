@@ -13,7 +13,7 @@ import org.jdhp.opencal.view.swt.SWTGUI;
 public class OpenCAL {
 
 	// Common
-	public final static String programVersion = "3.0.1";
+	public final static String programVersion = "3.0.2";
 	public final static String programName = "pdbm";
 	
 	public final static String cardDb = "/home/gremy/card_db.xml";
