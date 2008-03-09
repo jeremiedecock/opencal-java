@@ -13,22 +13,33 @@ import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 
 import org.jdhp.opencal.OpenCAL;
-import org.jdhp.opencal.controller.Controller;
+import org.jdhp.opencal.controller.reviewer.ReviewController;
 import org.jdhp.opencal.view.UserInterface;
 import org.jdhp.opencal.view.swing.explorer.ExplorerPanel;
 import org.jdhp.opencal.view.swing.maker.MakeCardPanel;
 import org.jdhp.opencal.view.swing.reviewer.ReviewPanel;
 import org.jdhp.opencal.view.swing.stats.StatPanel;
 
+/**
+ * 
+ * @author Jérémie Decock
+ *
+ */
 public class SwingGUI extends UserInterface {
 	
 	final private JFrame window;
 	
 	final private MakeCardPanel makeCardPanel;
+	
 	final private ReviewPanel reviewerPanel;
+	
 	final private ExplorerPanel explorerPanel;
+	
 	final private StatPanel statsPanel;
 	
+	/**
+	 * 
+	 */
 	public SwingGUI() {
 		this.window = new JFrame();
 		
@@ -103,28 +114,43 @@ public class SwingGUI extends UserInterface {
 		
 	}
 	
+	/**
+	 * 
+	 */
 	public void print(String text) {
 		JOptionPane.showMessageDialog(this.window, text, "Message", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
+	/**
+	 * 
+	 */
 	public void printAlert(String text) {
 		JOptionPane.showMessageDialog(this.window, text, "Attention", JOptionPane.WARNING_MESSAGE);
 	}
 	
+	/**
+	 * 
+	 */
 	public void printError(String text) {
 		JOptionPane.showMessageDialog(this.window, text, "Erreur", JOptionPane.ERROR_MESSAGE);
 	}
 	
+	/**
+	 * 
+	 */
 	public void update() {
 		// appel repaint ...
 	}
 	
+	/**
+	 * 
+	 */
 	public void run() {
-		// Init pour reviewer
-		this.reviewerPanel.textArea.setText("QUESTION " + (Controller.pile.getReviewedCards() + 1) + " (r:" + Controller.pile.getRemainingCards() + " - p:" + Controller.card.getPriority() + ") :\n" + Controller.card.getQuestion());
+		// Init reviewer
+		this.reviewerPanel.textArea.setText("QUESTION " + (ReviewController.pile.getReviewedCards() + 1) + " (r:" + ReviewController.pile.getRemainingCards() + " - p:" + ReviewController.card.getPriority() + ") :\n" + ReviewController.card.getQuestion());
 		
 		this.reviewerPanel.prevButton.setEnabled(false);
-		if(Controller.pile.pointerIsOnTheLastCard()) {
+		if(ReviewController.pile.pointerIsOnTheLastCard()) {
 			this.reviewerPanel.nextButton.setEnabled(false);
 		}
 		

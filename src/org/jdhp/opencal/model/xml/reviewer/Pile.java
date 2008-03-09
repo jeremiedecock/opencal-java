@@ -16,14 +16,26 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
+/**
+ * 
+ * @author Jérémie Decock
+ *
+ */
 public class Pile {
 	
 	// TODO : supprimer cardDb et le remplacer chaque fois que c nécessaire par Controller.cardDb
 	private String cardDb;
+	
 	private ArrayList<Card> cardTable;
+	
 	private int pointer;
+	
 	private int reviewedCards;
 	
+	/**
+	 * 
+	 * @param cardDb
+	 */
 	public Pile(String cardDb) {
 		this.cardDb = cardDb;
 		this.reviewedCards = 0;
@@ -68,10 +80,17 @@ public class Pile {
 		this.sortCards();
 	}
 	
+	/**
+	 * 
+	 * @param newCard
+	 */
 	public void addCard(Card newCard) {
 		this.cardTable.add(newCard);		
 	}
 
+	/**
+	 * 
+	 */
 	public void sortCards() {
 		// Tri bulle
 		for(int i=this.cardTable.size()-1 ; i>0 ; i--) {
@@ -98,6 +117,9 @@ public class Pile {
 		}
 	}
 
+	/**
+	 * 
+	 */
 	public void removePointedCard() {
 		this.cardTable.remove(this.pointer);
 		if(this.pointer >= this.cardTable.size() && !this.isEmpty()) {
@@ -105,37 +127,66 @@ public class Pile {
 		}
 	}
 
+	/**
+	 * 
+	 */
 	public void gotoPrevCard() {
 		if(!this.pointerIsOnTheFirstCard()) this.pointer--;
 	}
 
+	/**
+	 * 
+	 */
 	public void gotoNextCard() {
 		if(!this.pointerIsOnTheLastCard()) this.pointer++;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean pointerIsOnTheFirstCard() {
 		if(this.pointer == 0) return true;
 		else return false;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean pointerIsOnTheLastCard() {
 		if(this.pointer >= this.cardTable.size() - 1) return true;
 		else return false;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean isEmpty() {
 		if(this.cardTable.size() == 0) return true;
 		else return false;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public int getReviewedCards() {
 		return this.reviewedCards;
 	}
 
+	/**
+	 * 
+	 */
 	public void incrementReviewedCards() {
 		this.reviewedCards++;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public int getRemainingCards() {
 		return this.cardTable.size();
 	}

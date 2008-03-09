@@ -15,18 +15,30 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import org.jdhp.opencal.controller.Controller;
+import org.jdhp.opencal.controller.reviewer.ReviewController;
 
+/**
+ * 
+ * @author Jérémie Decock
+ *
+ */
 public class ReviewPanel extends JPanel implements ActionListener {
 	
 	final public JButton prevButton;
+	
 	final public JButton nextButton;
+	
 	final public JButton answerButton;
+	
 	final public JButton goodButton;
+	
 	final public JButton badButton;
 	
 	final public JTextArea textArea;
 	
+	/**
+	 * 
+	 */
 	public ReviewPanel() {
 		super();
 		
@@ -69,12 +81,15 @@ public class ReviewPanel extends JPanel implements ActionListener {
 		this.add(this.badButton);
 	}
 
+	/**
+	 * 
+	 */
 	public void actionPerformed(ActionEvent ev) {
 		if(ev.getSource() == this.prevButton) {
-			Controller.pile.gotoPrevCard();
-			Controller.card = Controller.pile.getPointedCard();
-			this.textArea.setText("QUESTION " + (Controller.pile.getReviewedCards() + 1) + " (r:" + Controller.pile.getRemainingCards() + " - p:" + Controller.card.getPriority() + ") :\n" + Controller.card.getQuestion());
-			if(Controller.pile.pointerIsOnTheFirstCard()) {
+			ReviewController.pile.gotoPrevCard();
+			ReviewController.card = ReviewController.pile.getPointedCard();
+			this.textArea.setText("QUESTION " + (ReviewController.pile.getReviewedCards() + 1) + " (r:" + ReviewController.pile.getRemainingCards() + " - p:" + ReviewController.card.getPriority() + ") :\n" + ReviewController.card.getQuestion());
+			if(ReviewController.pile.pointerIsOnTheFirstCard()) {
 				this.prevButton.setEnabled(false);
 			}
 			this.nextButton.setEnabled(true);
@@ -84,41 +99,41 @@ public class ReviewPanel extends JPanel implements ActionListener {
 			this.prevButton.setEnabled(false);
 			this.goodButton.setEnabled(true);
 			this.badButton.setEnabled(true);
-			this.textArea.setText("QUESTION " + (Controller.pile.getReviewedCards() + 1) + " (r:" + Controller.pile.getRemainingCards() + " - p:" + Controller.card.getPriority() + ") :\n" + Controller.card.getQuestion() + "\n\nANSWER :\n" + Controller.card.getAnswer());
+			this.textArea.setText("QUESTION " + (ReviewController.pile.getReviewedCards() + 1) + " (r:" + ReviewController.pile.getRemainingCards() + " - p:" + ReviewController.card.getPriority() + ") :\n" + ReviewController.card.getQuestion() + "\n\nANSWER :\n" + ReviewController.card.getAnswer());
 		} else if(ev.getSource() == this.nextButton) {
-			Controller.pile.gotoNextCard();
-			Controller.card = Controller.pile.getPointedCard();
-			this.textArea.setText("QUESTION " + (Controller.pile.getReviewedCards() + 1) + " (r:" + Controller.pile.getRemainingCards() + " - p:" + Controller.card.getPriority() + ") :\n" + Controller.card.getQuestion());
-			if(Controller.pile.pointerIsOnTheLastCard()) {
+			ReviewController.pile.gotoNextCard();
+			ReviewController.card = ReviewController.pile.getPointedCard();
+			this.textArea.setText("QUESTION " + (ReviewController.pile.getReviewedCards() + 1) + " (r:" + ReviewController.pile.getRemainingCards() + " - p:" + ReviewController.card.getPriority() + ") :\n" + ReviewController.card.getQuestion());
+			if(ReviewController.pile.pointerIsOnTheLastCard()) {
 				this.nextButton.setEnabled(false);
 			}
 			this.prevButton.setEnabled(true);
 		} else if(ev.getSource() == this.goodButton) {
-			Controller.updateCard("GOOD");
-			Controller.card = Controller.pile.getPointedCard();
-			if(!Controller.pile.pointerIsOnTheLastCard()) {
+			ReviewController.updateCard("GOOD");
+			ReviewController.card = ReviewController.pile.getPointedCard();
+			if(!ReviewController.pile.pointerIsOnTheLastCard()) {
 				this.nextButton.setEnabled(true);
 			}
 			this.answerButton.setEnabled(true);
-			if(!Controller.pile.pointerIsOnTheFirstCard()) {
+			if(!ReviewController.pile.pointerIsOnTheFirstCard()) {
 				this.prevButton.setEnabled(true);
 			}
 			this.goodButton.setEnabled(false);
 			this.badButton.setEnabled(false);
-			this.textArea.setText("QUESTION " + (Controller.pile.getReviewedCards() + 1) + " (r:" + Controller.pile.getRemainingCards() + " - p:" + Controller.card.getPriority() + ") :\n" + Controller.card.getQuestion());
+			this.textArea.setText("QUESTION " + (ReviewController.pile.getReviewedCards() + 1) + " (r:" + ReviewController.pile.getRemainingCards() + " - p:" + ReviewController.card.getPriority() + ") :\n" + ReviewController.card.getQuestion());
 		} else if(ev.getSource() == this.badButton) {
-			Controller.updateCard("BAD");
-			Controller.card = Controller.pile.getPointedCard();
-			if(!Controller.pile.pointerIsOnTheLastCard()) {
+			ReviewController.updateCard("BAD");
+			ReviewController.card = ReviewController.pile.getPointedCard();
+			if(!ReviewController.pile.pointerIsOnTheLastCard()) {
 				this.nextButton.setEnabled(true);
 			}
 			this.answerButton.setEnabled(true);
-			if(!Controller.pile.pointerIsOnTheFirstCard()) {
+			if(!ReviewController.pile.pointerIsOnTheFirstCard()) {
 				this.prevButton.setEnabled(true);
 			}
 			this.goodButton.setEnabled(false);
 			this.badButton.setEnabled(false);
-			this.textArea.setText("QUESTION " + (Controller.pile.getReviewedCards() + 1) + " (r:" + Controller.pile.getRemainingCards() + " - p:" + Controller.card.getPriority() + ") :\n" + Controller.card.getQuestion());
+			this.textArea.setText("QUESTION " + (ReviewController.pile.getReviewedCards() + 1) + " (r:" + ReviewController.pile.getRemainingCards() + " - p:" + ReviewController.card.getPriority() + ") :\n" + ReviewController.card.getQuestion());
 		}
 	}
 }

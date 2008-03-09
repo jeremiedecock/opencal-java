@@ -16,14 +16,26 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import org.jdhp.opencal.controller.Controller;
+import org.jdhp.opencal.controller.maker.MakeController;
 
+/**
+ * 
+ * @author Jérémie Decock
+ *
+ */
 public class MakeCardPanel extends JPanel implements ActionListener {
+	
 	final private JButton addButton;
 	
 	private JTextArea questionArea;
+	
 	private JTextArea answerArea;
+	
 	private JTextArea tagsArea;
 	
+	/**
+	 * 
+	 */
 	public MakeCardPanel() {
 		super();
 		
@@ -62,11 +74,14 @@ public class MakeCardPanel extends JPanel implements ActionListener {
 		this.add(this.addButton);
 	}
 	
+	/**
+	 * 
+	 */
 	public void actionPerformed(ActionEvent ev) {
 		if(this.questionArea.getText().equals("")) {
 			Controller.getUserInterface().printAlert("La question ne doit pas être vide");
 		} else {
-			Controller.addCard(this.questionArea.getText(), this.answerArea.getText(), this.tagsArea.getText());
+			MakeController.addCard(this.questionArea.getText(), this.answerArea.getText(), this.tagsArea.getText());
 			this.questionArea.setText("");
 			this.answerArea.setText("");
 			this.tagsArea.setText("");

@@ -8,8 +8,16 @@ package org.jdhp.opencal.view.swing.stats;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * 
+ * @author Jérémie Decock
+ *
+ */
 public class StatPanel extends JPanel {
 
+	/**
+	 * 
+	 */
 	public StatPanel() {
 		super();
 		

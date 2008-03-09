@@ -8,8 +8,16 @@ package org.jdhp.opencal.view.swing.explorer;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * 
+ * @author Jérémie Decock
+ *
+ */
 public class ExplorerPanel extends JPanel {
 	
+	/**
+	 * 
+	 */
 	public ExplorerPanel() {
 		super();
 		

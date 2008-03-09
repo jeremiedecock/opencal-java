@@ -16,14 +16,25 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.jdhp.opencal.controller.Controller;
+import org.jdhp.opencal.controller.reviewer.ReviewController;
 
+/**
+ * 
+ * @author Jérémie Decock
+ *
+ */
 public class ReviewerView {
 
 	final private Composite parentComposite;
 	
 	final private StyledText reviewerText;
+	
 	final private Button nextButton;
 	
+	/**
+	 * 
+	 * @param parentComposite
+	 */
 	public ReviewerView(Composite parentComposite) {
 		this.parentComposite = parentComposite;
 
@@ -75,22 +86,22 @@ public class ReviewerView {
 		
 		goodButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				Controller.updateCard("GOOD");
-				Controller.card = Controller.pile.getPointedCard();
-				if(!Controller.pile.pointerIsOnTheLastCard()) {
+				ReviewController.updateCard("GOOD");
+				ReviewController.card = ReviewController.pile.getPointedCard();
+				if(!ReviewController.pile.pointerIsOnTheLastCard()) {
 					nextButton.setEnabled(true);
 				}
 				answerButton.setEnabled(true);
-				if(!Controller.pile.pointerIsOnTheFirstCard()) {
+				if(!ReviewController.pile.pointerIsOnTheFirstCard()) {
 					previewButton.setEnabled(true);
 				}
 				goodButton.setEnabled(false);
 				badButton.setEnabled(false);
-				reviewerText.setText("QUESTION\n\n" + Controller.card.getQuestion());
+				reviewerText.setText("QUESTION\n\n" + ReviewController.card.getQuestion());
 				reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
-				Controller.getUserInterface().setStatusLabel2("L : " + Controller.card.getPriority(), "Card level " + Controller.card.getPriority());
-				Controller.getUserInterface().setStatusLabel3("D : " + Controller.pile.getReviewedCards(), Controller.pile.getReviewedCards() + " review done");
-				Controller.getUserInterface().setStatusLabel4("R : " + Controller.pile.getRemainingCards(), Controller.pile.getRemainingCards() + " cards to review");
+				Controller.getUserInterface().setStatusLabel2("L : " + ReviewController.card.getPriority(), "Card level " + ReviewController.card.getPriority());
+				Controller.getUserInterface().setStatusLabel3("D : " + ReviewController.pile.getReviewedCards(), ReviewController.pile.getReviewedCards() + " review done");
+				Controller.getUserInterface().setStatusLabel4("R : " + ReviewController.pile.getRemainingCards(), ReviewController.pile.getRemainingCards() + " cards to review");
 			}
 		});
 		
@@ -104,22 +115,22 @@ public class ReviewerView {
 		
 		badButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				Controller.updateCard("BAD");
-				Controller.card = Controller.pile.getPointedCard();
-				if(!Controller.pile.pointerIsOnTheLastCard()) {
+				ReviewController.updateCard("BAD");
+				ReviewController.card = ReviewController.pile.getPointedCard();
+				if(!ReviewController.pile.pointerIsOnTheLastCard()) {
 					nextButton.setEnabled(true);
 				}
 				answerButton.setEnabled(true);
-				if(!Controller.pile.pointerIsOnTheFirstCard()) {
+				if(!ReviewController.pile.pointerIsOnTheFirstCard()) {
 					previewButton.setEnabled(true);
 				}
 				goodButton.setEnabled(false);
 				badButton.setEnabled(false);
-				reviewerText.setText("QUESTION\n\n" + Controller.card.getQuestion());
+				reviewerText.setText("QUESTION\n\n" + ReviewController.card.getQuestion());
 				reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
-				Controller.getUserInterface().setStatusLabel2("L : " + Controller.card.getPriority(), "Card level " + Controller.card.getPriority());
-				Controller.getUserInterface().setStatusLabel3("D : " + Controller.pile.getReviewedCards(), Controller.pile.getReviewedCards() + " review done");
-				Controller.getUserInterface().setStatusLabel4("R : " + Controller.pile.getRemainingCards(), Controller.pile.getRemainingCards() + " cards to review");
+				Controller.getUserInterface().setStatusLabel2("L : " + ReviewController.card.getPriority(), "Card level " + ReviewController.card.getPriority());
+				Controller.getUserInterface().setStatusLabel3("D : " + ReviewController.pile.getReviewedCards(), ReviewController.pile.getReviewedCards() + " review done");
+				Controller.getUserInterface().setStatusLabel4("R : " + ReviewController.pile.getRemainingCards(), ReviewController.pile.getRemainingCards() + " cards to review");
 			}
 		});
 		
@@ -133,15 +144,15 @@ public class ReviewerView {
 		
 		previewButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				Controller.pile.gotoPrevCard();
-				Controller.card = Controller.pile.getPointedCard();
-				reviewerText.setText("QUESTION\n\n" + Controller.card.getQuestion());
+				ReviewController.pile.gotoPrevCard();
+				ReviewController.card = ReviewController.pile.getPointedCard();
+				reviewerText.setText("QUESTION\n\n" + ReviewController.card.getQuestion());
 				reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
-				Controller.getUserInterface().setStatusLabel2("L : " + Controller.card.getPriority(), "Card level " + Controller.card.getPriority());
-				Controller.getUserInterface().setStatusLabel3("D : " + Controller.pile.getReviewedCards(), Controller.pile.getReviewedCards() + " review done");
-				Controller.getUserInterface().setStatusLabel4("R : " + Controller.pile.getRemainingCards(), Controller.pile.getRemainingCards() + " cards to review");
+				Controller.getUserInterface().setStatusLabel2("L : " + ReviewController.card.getPriority(), "Card level " + ReviewController.card.getPriority());
+				Controller.getUserInterface().setStatusLabel3("D : " + ReviewController.pile.getReviewedCards(), ReviewController.pile.getReviewedCards() + " review done");
+				Controller.getUserInterface().setStatusLabel4("R : " + ReviewController.pile.getRemainingCards(), ReviewController.pile.getRemainingCards() + " cards to review");
 				
-				if(Controller.pile.pointerIsOnTheFirstCard()) {
+				if(ReviewController.pile.pointerIsOnTheFirstCard()) {
 					previewButton.setEnabled(false);
 				}
 				nextButton.setEnabled(true);
@@ -164,11 +175,11 @@ public class ReviewerView {
 				badButton.setEnabled(true);
 //				reviewerText.setText("QUESTION\n\n" + Controller.card.getQuestion() + "\n\nANSWER\n\n" + Controller.card.getAnswer());
 				int textLength = reviewerText.getCharCount();
-				reviewerText.append("\n\nANSWER\n\n" + Controller.card.getAnswer());
+				reviewerText.append("\n\nANSWER\n\n" + ReviewController.card.getAnswer());
 				reviewerText.setStyleRange(new StyleRange(textLength + 2, 6, null, null, SWT.BOLD));
-				Controller.getUserInterface().setStatusLabel2("L : " + Controller.card.getPriority(), "Card level " + Controller.card.getPriority());
-				Controller.getUserInterface().setStatusLabel3("D : " + Controller.pile.getReviewedCards(), Controller.pile.getReviewedCards() + " review done");
-				Controller.getUserInterface().setStatusLabel4("R : " + Controller.pile.getRemainingCards(), Controller.pile.getRemainingCards() + " cards to review");
+				Controller.getUserInterface().setStatusLabel2("L : " + ReviewController.card.getPriority(), "Card level " + ReviewController.card.getPriority());
+				Controller.getUserInterface().setStatusLabel3("D : " + ReviewController.pile.getReviewedCards(), ReviewController.pile.getReviewedCards() + " review done");
+				Controller.getUserInterface().setStatusLabel4("R : " + ReviewController.pile.getRemainingCards(), ReviewController.pile.getRemainingCards() + " cards to review");
 			}
 		});
 		
@@ -181,15 +192,15 @@ public class ReviewerView {
 		
 		this.nextButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				Controller.pile.gotoNextCard();
-				Controller.card = Controller.pile.getPointedCard();
-				reviewerText.setText("QUESTION\n\n" + Controller.card.getQuestion());
+				ReviewController.pile.gotoNextCard();
+				ReviewController.card = ReviewController.pile.getPointedCard();
+				reviewerText.setText("QUESTION\n\n" + ReviewController.card.getQuestion());
 				reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
-				Controller.getUserInterface().setStatusLabel2("L : " + Controller.card.getPriority(), "Card level " + Controller.card.getPriority());
-				Controller.getUserInterface().setStatusLabel3("D : " + Controller.pile.getReviewedCards(), Controller.pile.getReviewedCards() + " review done");
-				Controller.getUserInterface().setStatusLabel4("R : " + Controller.pile.getRemainingCards(), Controller.pile.getRemainingCards() + " cards to review");
+				Controller.getUserInterface().setStatusLabel2("L : " + ReviewController.card.getPriority(), "Card level " + ReviewController.card.getPriority());
+				Controller.getUserInterface().setStatusLabel3("D : " + ReviewController.pile.getReviewedCards(), ReviewController.pile.getReviewedCards() + " review done");
+				Controller.getUserInterface().setStatusLabel4("R : " + ReviewController.pile.getRemainingCards(), ReviewController.pile.getRemainingCards() + " cards to review");
 				
-				if(Controller.pile.pointerIsOnTheLastCard()) {
+				if(ReviewController.pile.pointerIsOnTheLastCard()) {
 					nextButton.setEnabled(false);
 				}
 				previewButton.setEnabled(true);
@@ -198,12 +209,15 @@ public class ReviewerView {
 		
 	}
 	
+	/**
+	 * 
+	 */
 	public void init() {
-		this.reviewerText.setText("QUESTION\n\n" + Controller.card.getQuestion());
+		this.reviewerText.setText("QUESTION\n\n" + ReviewController.card.getQuestion());
 		this.reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
 		
 //		previewButton.setEnabled(false);
-		if(Controller.pile.pointerIsOnTheLastCard()) {
+		if(ReviewController.pile.pointerIsOnTheLastCard()) {
 			this.nextButton.setEnabled(false);
 		}
 	}

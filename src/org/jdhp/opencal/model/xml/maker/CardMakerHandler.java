@@ -15,21 +15,38 @@ import org.jdhp.opencal.controller.Controller;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
+/**
+ * 
+ * @author Jérémie Decock
+ *
+ */
 public class CardMakerHandler extends DefaultHandler {
 	
 	private PrintWriter tmpFile;
 	
 	private int id;
+	
 	private String question;
+	
 	private String answer;
+	
 	private String tags;
 	
 	private boolean questionFlag;
+	
 	private boolean answerFlag;
+	
 	private boolean tagFlag;
 	
 	private static String lastCardRecordedId = "";
 	
+	/**
+	 * 
+	 * @param tmpFileName
+	 * @param question
+	 * @param answer
+	 * @param tags
+	 */
 	public CardMakerHandler(String tmpFileName, String question, String answer, String tags) {
 		super();
 		
@@ -51,6 +68,9 @@ public class CardMakerHandler extends DefaultHandler {
 		this.tagFlag = false;
 	}
 
+	/**
+	 * 
+	 */
 	public void startDocument() {
 		this.tmpFile.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 //		this.tmpFile.println("<!DOCTYPE card_db [");
@@ -91,10 +111,16 @@ public class CardMakerHandler extends DefaultHandler {
 		this.tmpFile.println("");
 	}
 
+	/**
+	 * 
+	 */
 	public void endDocument() {
 		this.tmpFile.close();
 	}
 
+	/**
+	 * 
+	 */
 	public void startElement(String uri, String name, String qName, Attributes atts) {
 		if(uri.equals("")) {
 			if(qName.equals("card_db")) {
@@ -147,6 +173,9 @@ public class CardMakerHandler extends DefaultHandler {
 		}
 	}
 
+	/**
+	 * 
+	 */
 	public void endElement(String uri, String name, String qName) {
 		if(uri.equals("")) {
 			if(qName.equals("card_db")) {
@@ -208,12 +237,19 @@ public class CardMakerHandler extends DefaultHandler {
 		}
 	}
 
+	/**
+	 * 
+	 */
 	public void characters(char ch[], int start, int length) {
 		if(this.questionFlag == true || this.answerFlag == true || this.tagFlag == true) {
 			for (int i=start ; i<start+length ; i++) this.tmpFile.print(ch[i]);
 		}
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public static String getLastCardRecordedId() {
 		return CardMakerHandler.lastCardRecordedId;
 	}

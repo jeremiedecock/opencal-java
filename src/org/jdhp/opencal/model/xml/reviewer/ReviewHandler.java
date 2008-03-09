@@ -16,19 +16,35 @@ import org.jdhp.opencal.controller.Controller;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
+/**
+ * 
+ * @author Jérémie Decock
+ *
+ */
 public class ReviewHandler extends DefaultHandler {
 	
 	private PrintWriter newFile;
 	
 	private String idCard;
+	
 	private String result;
+	
 	private Date date;
 	
 	private boolean questionFlag;
+	
 	private boolean answerFlag;
+	
 	private boolean tagFlag;
+	
 	private boolean reviewedCardFlag;
 	
+	/**
+	 * 
+	 * @param file
+	 * @param idCard
+	 * @param result
+	 */
 	public ReviewHandler(String file, String idCard, String result) {
 		super();
 		
@@ -51,6 +67,9 @@ public class ReviewHandler extends DefaultHandler {
 		this.reviewedCardFlag = false;
 	}
 	
+	/**
+	 * 
+	 */
 	public void startDocument() {
 		this.newFile.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 //		this.newFile.println("<!DOCTYPE card_db [");
@@ -91,6 +110,9 @@ public class ReviewHandler extends DefaultHandler {
 		this.newFile.println("");
 	}
 	
+	/**
+	 * 
+	 */
 	public void startElement(String uri, String name, String qName, Attributes atts) {
 		if(uri.equals("")) {
 			if(qName.equals("card_db")) {
@@ -141,6 +163,9 @@ public class ReviewHandler extends DefaultHandler {
 		}
 	}
 
+	/**
+	 * 
+	 */
 	public void endElement(String uri, String name, String qName) {
 		if(uri.equals("")) {
 			if(qName.equals("card_db")) {
@@ -195,12 +220,18 @@ public class ReviewHandler extends DefaultHandler {
 		}
 	}
 
+	/**
+	 * 
+	 */
 	public void characters(char ch[], int start, int length) {
 		if(this.questionFlag == true || this.answerFlag == true || this.tagFlag == true) {
 			for (int i=start ; i<start+length ; i++) this.newFile.print(ch[i]);
 		}
 	}
 	
+	/**
+	 * 
+	 */
 	public void endDocument() {
 		this.newFile.close();
 	}

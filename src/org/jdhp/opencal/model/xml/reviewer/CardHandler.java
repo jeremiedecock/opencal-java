@@ -12,18 +12,35 @@ import java.util.GregorianCalendar;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
+/**
+ * 
+ * @author Jérémie Decock
+ *
+ */
 public class CardHandler extends DefaultHandler {
 
 	private Pile pile;
+	
 	private ArrayList<ReviewItem> reviewList;
+	
 	private String id;
+	
 	private String question;
+	
 	private String answer;
+	
 	private Date date;
+	
 	private String result;
+	
 	private boolean questionFlag;
+	
 	private boolean answerFlag;
 	
+	/**
+	 * 
+	 * @param pile
+	 */
 	public CardHandler(Pile pile) {
 		super();
 		
@@ -33,14 +50,23 @@ public class CardHandler extends DefaultHandler {
 		this.answerFlag = false;
 	}
 	
+	/**
+	 * 
+	 */
 	public void startDocument() {
 		
 	}
 	
+	/**
+	 * 
+	 */
 	public void endDocument() {
 		
 	}
 	
+	/**
+	 * 
+	 */
 	public void startElement(String uri, String name, String qName, Attributes atts) {
 		if(uri.equals("")) {
 			if(qName.equals("card")) {
@@ -89,6 +115,9 @@ public class CardHandler extends DefaultHandler {
 		}
 	}
 	
+	/**
+	 * 
+	 */
 	public void endElement(String uri, String name, String qName) {
 		if(uri.equals("")) {
 			if(qName.equals("card")) {
@@ -113,6 +142,9 @@ public class CardHandler extends DefaultHandler {
 		}
 	}
 	
+	/**
+	 * 
+	 */
 	public void characters(char ch[], int start, int length) {
 		if(this.questionFlag == true) {
 			for (int i=start ; i<start+length ; i++) this.question += ch[i];
@@ -122,6 +154,10 @@ public class CardHandler extends DefaultHandler {
 		}
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public int calculateCardPriority() {
 		int priorityRank = 0;
 		for(int i=0 ; i<this.reviewList.size() ; i++) {

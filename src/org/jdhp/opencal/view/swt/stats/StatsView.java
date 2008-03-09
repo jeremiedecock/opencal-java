@@ -10,10 +10,19 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
+/**
+ * 
+ * @author Jérémie Decock
+ *
+ */
 public class StatsView {
 
 	final private Composite parentComposite;
 	
+	/**
+	 * 
+	 * @param parentComposite
+	 */
 	public StatsView(Composite parentComposite) {
 		this.parentComposite = parentComposite;
 

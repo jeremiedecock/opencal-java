@@ -23,27 +23,40 @@ import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.controller.Controller;
+import org.jdhp.opencal.controller.reviewer.ReviewController;
 import org.jdhp.opencal.view.UserInterface;
 import org.jdhp.opencal.view.swt.explorer.ExplorerView;
 import org.jdhp.opencal.view.swt.maker.MakerView;
 import org.jdhp.opencal.view.swt.reviewer.ReviewerView;
 import org.jdhp.opencal.view.swt.stats.StatsView;
 
+/**
+ * 
+ * @author Jérémie Decock
+ *
+ */
 public class SWTGUI extends UserInterface {
 	
 	final private Display display;
+	
 	final private Shell shell;
 	
 	final private ReviewerView reviewerView;
 	
 	final private Label statusLabel1;
+	
 	final private Label statusLabel2;
+	
 	final private Label statusLabel3;
+	
 	final private Label statusLabel4;
 	
 	final private TabItem tabItemMake;
+	
 	final private TabItem tabItemReview;
+	
 	final private TabItem tabItemExplore;
+	
 	final private TabItem tabItemStat;
 	
 	/**
@@ -193,8 +206,8 @@ public class SWTGUI extends UserInterface {
 	public void initMakerTabView() {
 		Controller.getUserInterface().setStatusLabel1("", "");
 		Controller.getUserInterface().setStatusLabel2("", "");
-		Controller.getUserInterface().setStatusLabel3("D : " + Controller.pile.getReviewedCards(), Controller.pile.getReviewedCards() + " review done");
-		Controller.getUserInterface().setStatusLabel4("R : " + Controller.pile.getRemainingCards(), Controller.pile.getRemainingCards() + " cards to review");
+		Controller.getUserInterface().setStatusLabel3("D : " + ReviewController.pile.getReviewedCards(), ReviewController.pile.getReviewedCards() + " review done");
+		Controller.getUserInterface().setStatusLabel4("R : " + ReviewController.pile.getRemainingCards(), ReviewController.pile.getRemainingCards() + " cards to review");
 		
 		// Signale si le fichier card_db.xml est innexistant
 //		if(! new File(OpenCAL.cardDb).exists()) Controller.getUserInterface().setStatusLabel1("Card database not found", "Card database not found");
@@ -206,9 +219,9 @@ public class SWTGUI extends UserInterface {
 	 */
 	public void initReviewerTabView() {
 		Controller.getUserInterface().setStatusLabel1("", "");
-		Controller.getUserInterface().setStatusLabel2("L : " + Controller.card.getPriority(), "Card level " + Controller.card.getPriority());
-		Controller.getUserInterface().setStatusLabel3("D : " + Controller.pile.getReviewedCards(), Controller.pile.getReviewedCards() + " review done");
-		Controller.getUserInterface().setStatusLabel4("R : " + Controller.pile.getRemainingCards(), Controller.pile.getRemainingCards() + " cards to review");
+		Controller.getUserInterface().setStatusLabel2("L : " + ReviewController.card.getPriority(), "Card level " + ReviewController.card.getPriority());
+		Controller.getUserInterface().setStatusLabel3("D : " + ReviewController.pile.getReviewedCards(), ReviewController.pile.getReviewedCards() + " review done");
+		Controller.getUserInterface().setStatusLabel4("R : " + ReviewController.pile.getRemainingCards(), ReviewController.pile.getRemainingCards() + " cards to review");
 		
 		// Signale si le fichier card_db.xml est innexistant
 //		if(! new File(OpenCAL.cardDb).exists()) Controller.getUserInterface().setStatusLabel1("Card database not found", "Card database not found");
@@ -223,8 +236,8 @@ public class SWTGUI extends UserInterface {
 	public void initExplorerTabView() {
 		Controller.getUserInterface().setStatusLabel1("", "");
 		Controller.getUserInterface().setStatusLabel2("", "");
-		Controller.getUserInterface().setStatusLabel3("D : " + Controller.pile.getReviewedCards(), Controller.pile.getReviewedCards() + " review done");
-		Controller.getUserInterface().setStatusLabel4("R : " + Controller.pile.getRemainingCards(), Controller.pile.getRemainingCards() + " cards to review");
+		Controller.getUserInterface().setStatusLabel3("D : " + ReviewController.pile.getReviewedCards(), ReviewController.pile.getReviewedCards() + " review done");
+		Controller.getUserInterface().setStatusLabel4("R : " + ReviewController.pile.getRemainingCards(), ReviewController.pile.getRemainingCards() + " cards to review");
 		
 		// Signale si le fichier card_db.xml est innexistant
 //		if(! new File(OpenCAL.cardDb).exists()) Controller.getUserInterface().setStatusLabel1("Card database not found", "Card database not found");
@@ -237,8 +250,8 @@ public class SWTGUI extends UserInterface {
 	public void initStatTabView() {
 		Controller.getUserInterface().setStatusLabel1("", "");
 		Controller.getUserInterface().setStatusLabel2("", "");
-		Controller.getUserInterface().setStatusLabel3("D : " + Controller.pile.getReviewedCards(), Controller.pile.getReviewedCards() + " review done");
-		Controller.getUserInterface().setStatusLabel4("R : " + Controller.pile.getRemainingCards(), Controller.pile.getRemainingCards() + " cards to review");
+		Controller.getUserInterface().setStatusLabel3("D : " + ReviewController.pile.getReviewedCards(), ReviewController.pile.getReviewedCards() + " review done");
+		Controller.getUserInterface().setStatusLabel4("R : " + ReviewController.pile.getRemainingCards(), ReviewController.pile.getRemainingCards() + " cards to review");
 		
 		// Signale si le fichier card_db.xml est innexistant
 //		if(! new File(OpenCAL.cardDb).exists()) Controller.getUserInterface().setStatusLabel1("Card database not found", "Card database not found");
@@ -279,20 +292,20 @@ public class SWTGUI extends UserInterface {
 	 * 
 	 */
 	public void update() {
-		// appel repaint ...
+		// call repaint ...
 	}
 	
 	/**
 	 * 
 	 */
 	public void run() {
-		// Initialise la vue pour l'onglet Tab
+		// Initialize Tab view
 		this.initMakerTabView();
 		
-		// Initialise le reviewer
+		// Initialize the reviewer
 		this.reviewerView.init();
 		
-		// Boucle principale
+		// Main loop
 		this.shell.open();
 		
 		while(!this.shell.isDisposed()) {
