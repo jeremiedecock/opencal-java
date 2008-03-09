@@ -30,7 +30,7 @@ public class ReviewController {
 	 * 
 	 */
 	public static void init() {
-		ReviewController.pile = new Pile(OpenCAL.cardDb);
+		ReviewController.pile = new Pile();
 		ReviewController.card = ReviewController.pile.getPointedCard();
 	}
 	

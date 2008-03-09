@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.controller.Controller;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -23,10 +24,7 @@ import org.xml.sax.helpers.XMLReaderFactory;
  */
 public class Pile {
 	
-	// TODO : supprimer cardDb et le remplacer chaque fois que c nécessaire par Controller.cardDb
-	private String cardDb;
-	
-	private ArrayList<Card> cardTable;
+	private ArrayList<Card> cardList;
 	
 	private int pointer;
 	
@@ -36,11 +34,10 @@ public class Pile {
 	 * 
 	 * @param cardDb
 	 */
-	public Pile(String cardDb) {
-		this.cardDb = cardDb;
+	public Pile() {
 		this.reviewedCards = 0;
 		this.pointer = 0;
-		this.cardTable = new ArrayList<Card>();
+		this.cardList = new ArrayList<Card>();
 		
 		// Parse le document XML avec SAX et crée le tableau
 		// TODO : en plus de vérifier si le doc xml est bien formé, vérifier si il est conforme à la DTD !
@@ -59,17 +56,17 @@ public class Pile {
 			xr.setErrorHandler(handler);
 			
 			//xr.parse(new InputSource((InputStream) ClassLoader.getSystemResourceAsStream(Controller.cardDb))); // parse le fichier à la racine du .jar
-			FileReader r = new FileReader(this.cardDb);
+			FileReader r = new FileReader(OpenCAL.cardDb);
 			xr.parse(new InputSource(r));
 			r.close();
 		} catch(SAXException e) {
-			Controller.getUserInterface().printError(this.cardDb + " n'est pas valide (SAXException)");
+			Controller.getUserInterface().printError(OpenCAL.cardDb + " n'est pas valide (SAXException)");
 			Controller.exit(2);
 		} catch(FileNotFoundException e) {
-			Controller.getUserInterface().printError(this.cardDb + " est introuvable (FileNotFoundException)");
+			Controller.getUserInterface().printError(OpenCAL.cardDb + " est introuvable (FileNotFoundException)");
 			Controller.exit(2);
 		} catch(IOException e) {
-			Controller.getUserInterface().printError(this.cardDb + " est illisible (IOException)");
+			Controller.getUserInterface().printError(OpenCAL.cardDb + " est illisible (IOException)");
 			Controller.exit(2);
 		}
 		
@@ -85,7 +82,7 @@ public class Pile {
 	 * @param newCard
 	 */
 	public void addCard(Card newCard) {
-		this.cardTable.add(newCard);		
+		this.cardList.add(newCard);		
 	}
 
 	/**
@@ -93,12 +90,12 @@ public class Pile {
 	 */
 	public void sortCards() {
 		// Tri bulle
-		for(int i=this.cardTable.size()-1 ; i>0 ; i--) {
+		for(int i=this.cardList.size()-1 ; i>0 ; i--) {
 			for(int j=0 ; j<i ; j++) {
-				if(((Card) this.cardTable.get(j+1)).getPriority() < ((Card) this.cardTable.get(j)).getPriority()) {
-					Card tmp = this.cardTable.get(j+1);
-					this.cardTable.set(j+1, this.cardTable.get(j));
-					this.cardTable.set(j, tmp);
+				if(((Card) this.cardList.get(j+1)).getPriority() < ((Card) this.cardList.get(j)).getPriority()) {
+					Card tmp = this.cardList.get(j+1);
+					this.cardList.set(j+1, this.cardList.get(j));
+					this.cardList.set(j, tmp);
 				}
 			}
 		}
@@ -110,7 +107,7 @@ public class Pile {
 	 */
 	public Card getPointedCard() {
 		if(!this.isEmpty()) {
-			return (Card) this.cardTable.get(this.pointer);
+			return (Card) this.cardList.get(this.pointer);
 		} else {
 			Controller.getUserInterface().printAlert("Review terminated");
 			return null;
@@ -121,9 +118,9 @@ public class Pile {
 	 * 
 	 */
 	public void removePointedCard() {
-		this.cardTable.remove(this.pointer);
-		if(this.pointer >= this.cardTable.size() && !this.isEmpty()) {
-			this.pointer = this.cardTable.size() - 1;
+		this.cardList.remove(this.pointer);
+		if(this.pointer >= this.cardList.size() && !this.isEmpty()) {
+			this.pointer = this.cardList.size() - 1;
 		}
 	}
 
@@ -155,7 +152,7 @@ public class Pile {
 	 * @return
 	 */
 	public boolean pointerIsOnTheLastCard() {
-		if(this.pointer >= this.cardTable.size() - 1) return true;
+		if(this.pointer >= this.cardList.size() - 1) return true;
 		else return false;
 	}
 
@@ -164,7 +161,7 @@ public class Pile {
 	 * @return
 	 */
 	public boolean isEmpty() {
-		if(this.cardTable.size() == 0) return true;
+		if(this.cardList.size() == 0) return true;
 		else return false;
 	}
 
@@ -188,10 +185,6 @@ public class Pile {
 	 * @return
 	 */
 	public int getRemainingCards() {
-		return this.cardTable.size();
+		return this.cardList.size();
 	}
-
-//	public String getCardDb() {
-//		return this.cardDb;
-//	}
 }
