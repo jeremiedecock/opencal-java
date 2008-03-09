@@ -10,7 +10,7 @@ package org.jdhp.opencal.view;
  * @author Jérémie Decock
  *
  */
-public abstract class UserInterface {
+public interface UserInterface {
 	
 	public abstract void setStatusLabel1(String text, String toolTipText);
 	

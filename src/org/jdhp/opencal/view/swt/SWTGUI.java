@@ -35,7 +35,7 @@ import org.jdhp.opencal.view.swt.stats.StatsView;
  * @author Jérémie Decock
  *
  */
-public class SWTGUI extends UserInterface {
+public class SWTGUI implements UserInterface {
 	
 	final private Display display;
 	

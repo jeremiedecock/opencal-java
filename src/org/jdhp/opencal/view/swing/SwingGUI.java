@@ -25,7 +25,7 @@ import org.jdhp.opencal.view.swing.stats.StatPanel;
  * @author Jérémie Decock
  *
  */
-public class SwingGUI extends UserInterface {
+public class SwingGUI implements UserInterface {
 	
 	final private JFrame window;
 	
