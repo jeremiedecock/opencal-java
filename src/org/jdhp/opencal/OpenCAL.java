@@ -15,7 +15,7 @@ import org.jdhp.opencal.view.swt.SWTGUI;
  */
 public class OpenCAL {
 
-	public final static String programVersion = "3.0.2";
+	public final static String programVersion = "3.0";
 	
 	public final static String programName = "pdbm";
 	
