@@ -92,7 +92,7 @@ public class Pile {
 		// Tri bulle
 		for(int i=this.cardList.size()-1 ; i>0 ; i--) {
 			for(int j=0 ; j<i ; j++) {
-				if(((Card) this.cardList.get(j+1)).getPriority() < ((Card) this.cardList.get(j)).getPriority()) {
+				if(((Card) this.cardList.get(j+1)).getPriorityRank() < ((Card) this.cardList.get(j)).getPriorityRank()) {
 					Card tmp = this.cardList.get(j+1);
 					this.cardList.set(j+1, this.cardList.get(j));
 					this.cardList.set(j, tmp);

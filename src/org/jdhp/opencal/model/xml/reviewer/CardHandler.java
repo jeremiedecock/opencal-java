@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import org.jdhp.opencal.controller.reviewer.inspector.Inspector;
+import org.jdhp.opencal.controller.reviewer.inspector.InspectorArnold;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -19,9 +21,11 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class CardHandler extends DefaultHandler {
 
+	private static Inspector inspector = new InspectorArnold();
+	
 	private Pile pile;
 	
-	private ArrayList<ReviewItem> reviewList;
+	private ArrayList<ReviewItem> revisionList;
 	
 	private String id;
 	
@@ -45,7 +49,7 @@ public class CardHandler extends DefaultHandler {
 		super();
 		
 		this.pile = pile;
-		this.reviewList = new ArrayList<ReviewItem>();
+		this.revisionList = new ArrayList<ReviewItem>();
 		this.questionFlag = false;
 		this.answerFlag = false;
 	}
@@ -88,7 +92,7 @@ public class CardHandler extends DefaultHandler {
 				// TODO : s'assurer que le tableau date a bien 3 entrées (pour pas planter le programme en modifiant manuellement le fichier XML)
 				this.date = (new GregorianCalendar(Integer.parseInt(date[0]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[2]))).getTime();
 				this.result = atts.getValue("result");
-				this.reviewList.add(new ReviewItem(this.date, this.result));
+				this.revisionList.add(new ReviewItem(this.date, this.result));
 			}
 		} else {
 			if(name.equals("card")) {
@@ -110,7 +114,7 @@ public class CardHandler extends DefaultHandler {
 				// TODO : s'assurer que le tableau date a bien 3 entrées (pour pas planter le programme en modifiant manuellement le fichier XML)
 				this.date = (new GregorianCalendar(Integer.parseInt(date[0]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[2]))).getTime();
 				this.result = atts.getValue("result");
-				this.reviewList.add(new ReviewItem(this.date, this.result));
+				this.revisionList.add(new ReviewItem(this.date, this.result));
 			}
 		}
 	}
@@ -121,7 +125,7 @@ public class CardHandler extends DefaultHandler {
 	public void endElement(String uri, String name, String qName) {
 		if(uri.equals("")) {
 			if(qName.equals("card")) {
-				this.pile.addCard(new Card(this.id, this.question, this.answer, this.calculateCardPriority()));
+				this.pile.addCard(new Card(this.id, this.question, this.answer, CardHandler.inspector.valueCardPriority(this.revisionList)));
 			}
 			else if(qName.equals("question")) {
 				this.questionFlag = false;
@@ -131,7 +135,7 @@ public class CardHandler extends DefaultHandler {
 			}
 		} else {
 			if(name.equals("card")) {
-				this.pile.addCard(new Card(this.id, this.question, this.answer, this.calculateCardPriority()));
+				this.pile.addCard(new Card(this.id, this.question, this.answer, CardHandler.inspector.valueCardPriority(this.revisionList)));
 			}
 			else if(name.equals("question")) {
 				this.questionFlag = false;
@@ -153,27 +157,5 @@ public class CardHandler extends DefaultHandler {
 			for (int i=start ; i<start+length ; i++) this.answer += ch[i];
 		}
 	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public int calculateCardPriority() {
-		int priorityRank = 0;
-		for(int i=0 ; i<this.reviewList.size() ; i++) {
-			int oldestReviewIndex = 0;
-			for(int reviewIndex=0 ; reviewIndex<this.reviewList.size() ; reviewIndex++) {
-				if(((ReviewItem) this.reviewList.get(reviewIndex)).getReviewDate().before(((ReviewItem) this.reviewList.get(oldestReviewIndex)).getReviewDate())) {
-					oldestReviewIndex = reviewIndex;
-				}
-			}
-			if(((ReviewItem) this.reviewList.get(oldestReviewIndex)).getReviewResult().toUpperCase().equals("GOOD")) {
-				priorityRank++;
-			} else {
-				priorityRank = 0;
-			}
-			this.reviewList.remove(oldestReviewIndex);
-		}
-		return priorityRank;
-	}
+
 }

@@ -18,20 +18,20 @@ public class Card {
 	
 	private String answer;
 	
-	private int priority;
+	private int priorityRank;
 	
 	/**
 	 * 
 	 * @param id
 	 * @param question
 	 * @param answer
-	 * @param priority
+	 * @param priorityRank
 	 */
-	public Card(String id, String question, String answer, int priority) {
+	public Card(String id, String question, String answer, int priorityRank) {
 		this.id = id;
 		this.question = question;
 		this.answer = answer;
-		this.priority = priority;
+		this.priorityRank = priorityRank;
 	}
 	
 	/**
@@ -62,7 +62,7 @@ public class Card {
 	 * 
 	 * @return
 	 */
-	public int getPriority() {
-		return this.priority;
+	public int getPriorityRank() {
+		return this.priorityRank;
 	}
 }

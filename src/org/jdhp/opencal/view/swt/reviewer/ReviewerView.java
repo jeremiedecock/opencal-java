@@ -99,7 +99,7 @@ public class ReviewerView {
 				badButton.setEnabled(false);
 				reviewerText.setText("QUESTION\n\n" + ReviewController.card.getQuestion());
 				reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
-				Controller.getUserInterface().setStatusLabel2("L : " + ReviewController.card.getPriority(), "Card level " + ReviewController.card.getPriority());
+				Controller.getUserInterface().setStatusLabel2("L : " + ReviewController.card.getPriorityRank(), "Card level " + ReviewController.card.getPriorityRank());
 				Controller.getUserInterface().setStatusLabel3("D : " + ReviewController.pile.getReviewedCards(), ReviewController.pile.getReviewedCards() + " review done");
 				Controller.getUserInterface().setStatusLabel4("R : " + ReviewController.pile.getRemainingCards(), ReviewController.pile.getRemainingCards() + " cards to review");
 			}
@@ -128,7 +128,7 @@ public class ReviewerView {
 				badButton.setEnabled(false);
 				reviewerText.setText("QUESTION\n\n" + ReviewController.card.getQuestion());
 				reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
-				Controller.getUserInterface().setStatusLabel2("L : " + ReviewController.card.getPriority(), "Card level " + ReviewController.card.getPriority());
+				Controller.getUserInterface().setStatusLabel2("L : " + ReviewController.card.getPriorityRank(), "Card level " + ReviewController.card.getPriorityRank());
 				Controller.getUserInterface().setStatusLabel3("D : " + ReviewController.pile.getReviewedCards(), ReviewController.pile.getReviewedCards() + " review done");
 				Controller.getUserInterface().setStatusLabel4("R : " + ReviewController.pile.getRemainingCards(), ReviewController.pile.getRemainingCards() + " cards to review");
 			}
@@ -148,7 +148,7 @@ public class ReviewerView {
 				ReviewController.card = ReviewController.pile.getPointedCard();
 				reviewerText.setText("QUESTION\n\n" + ReviewController.card.getQuestion());
 				reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
-				Controller.getUserInterface().setStatusLabel2("L : " + ReviewController.card.getPriority(), "Card level " + ReviewController.card.getPriority());
+				Controller.getUserInterface().setStatusLabel2("L : " + ReviewController.card.getPriorityRank(), "Card level " + ReviewController.card.getPriorityRank());
 				Controller.getUserInterface().setStatusLabel3("D : " + ReviewController.pile.getReviewedCards(), ReviewController.pile.getReviewedCards() + " review done");
 				Controller.getUserInterface().setStatusLabel4("R : " + ReviewController.pile.getRemainingCards(), ReviewController.pile.getRemainingCards() + " cards to review");
 				
@@ -177,7 +177,7 @@ public class ReviewerView {
 				int textLength = reviewerText.getCharCount();
 				reviewerText.append("\n\nANSWER\n\n" + ReviewController.card.getAnswer());
 				reviewerText.setStyleRange(new StyleRange(textLength + 2, 6, null, null, SWT.BOLD));
-				Controller.getUserInterface().setStatusLabel2("L : " + ReviewController.card.getPriority(), "Card level " + ReviewController.card.getPriority());
+				Controller.getUserInterface().setStatusLabel2("L : " + ReviewController.card.getPriorityRank(), "Card level " + ReviewController.card.getPriorityRank());
 				Controller.getUserInterface().setStatusLabel3("D : " + ReviewController.pile.getReviewedCards(), ReviewController.pile.getReviewedCards() + " review done");
 				Controller.getUserInterface().setStatusLabel4("R : " + ReviewController.pile.getRemainingCards(), ReviewController.pile.getRemainingCards() + " cards to review");
 			}
@@ -196,7 +196,7 @@ public class ReviewerView {
 				ReviewController.card = ReviewController.pile.getPointedCard();
 				reviewerText.setText("QUESTION\n\n" + ReviewController.card.getQuestion());
 				reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
-				Controller.getUserInterface().setStatusLabel2("L : " + ReviewController.card.getPriority(), "Card level " + ReviewController.card.getPriority());
+				Controller.getUserInterface().setStatusLabel2("L : " + ReviewController.card.getPriorityRank(), "Card level " + ReviewController.card.getPriorityRank());
 				Controller.getUserInterface().setStatusLabel3("D : " + ReviewController.pile.getReviewedCards(), ReviewController.pile.getReviewedCards() + " review done");
 				Controller.getUserInterface().setStatusLabel4("R : " + ReviewController.pile.getRemainingCards(), ReviewController.pile.getRemainingCards() + " cards to review");
 				
