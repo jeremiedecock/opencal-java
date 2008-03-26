@@ -10,7 +10,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import org.jdhp.opencal.controller.reviewer.inspector.Inspector;
-import org.jdhp.opencal.controller.reviewer.inspector.InspectorArnold;
+import org.jdhp.opencal.controller.reviewer.inspector.InspectorAlan;
+import org.jdhp.opencal.controller.reviewer.inspector.InspectorBrian;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -21,7 +22,7 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class CardHandler extends DefaultHandler {
 
-	private static Inspector inspector = new InspectorArnold();
+	private static Inspector inspector = new InspectorBrian();
 	
 	private Pile pile;
 	
@@ -29,11 +30,13 @@ public class CardHandler extends DefaultHandler {
 	
 	private String id;
 	
+	private Date cdate;
+	
 	private String question;
 	
 	private String answer;
 	
-	private Date date;
+	private Date rdate;
 	
 	private String result;
 	
@@ -75,6 +78,11 @@ public class CardHandler extends DefaultHandler {
 		if(uri.equals("")) {
 			if(qName.equals("card")) {
 				this.id = atts.getValue("id");
+				// Les dates sont au format ISO 8601 (YYYY-MM-DD)
+				String[] date = atts.getValue("cdate").split("-",3);
+				// TODO : s'assurer que le tableau date a bien 3 entrées (pour pas planter le programme en modifiant manuellement le fichier XML)
+				this.cdate = (new GregorianCalendar(Integer.parseInt(date[0]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[2]))).getTime();
+				
 				this.question = "";
 				this.answer = "";
 			}
@@ -90,9 +98,9 @@ public class CardHandler extends DefaultHandler {
 				// Les dates sont au format ISO 8601 (YYYY-MM-DD)
 				String[] date = atts.getValue("rdate").split("-",3);
 				// TODO : s'assurer que le tableau date a bien 3 entrées (pour pas planter le programme en modifiant manuellement le fichier XML)
-				this.date = (new GregorianCalendar(Integer.parseInt(date[0]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[2]))).getTime();
+				this.rdate = (new GregorianCalendar(Integer.parseInt(date[0]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[2]))).getTime();
 				this.result = atts.getValue("result");
-				this.revisionList.add(new ReviewItem(this.date, this.result));
+				this.revisionList.add(new ReviewItem(this.rdate, this.result));
 			}
 		} else {
 			if(name.equals("card")) {
@@ -112,9 +120,9 @@ public class CardHandler extends DefaultHandler {
 				// Les dates sont au format ISO 8601 (YYYY-MM-DD)
 				String[] date = atts.getValue("rdate").split("-",3);
 				// TODO : s'assurer que le tableau date a bien 3 entrées (pour pas planter le programme en modifiant manuellement le fichier XML)
-				this.date = (new GregorianCalendar(Integer.parseInt(date[0]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[2]))).getTime();
+				this.rdate = (new GregorianCalendar(Integer.parseInt(date[0]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[2]))).getTime();
 				this.result = atts.getValue("result");
-				this.revisionList.add(new ReviewItem(this.date, this.result));
+				this.revisionList.add(new ReviewItem(this.rdate, this.result));
 			}
 		}
 	}
@@ -125,7 +133,7 @@ public class CardHandler extends DefaultHandler {
 	public void endElement(String uri, String name, String qName) {
 		if(uri.equals("")) {
 			if(qName.equals("card")) {
-				this.pile.addCard(new Card(this.id, this.question, this.answer, CardHandler.inspector.valueCardPriority(this.revisionList)));
+				this.pile.addCard(new Card(this.id, this.question, this.answer, CardHandler.inspector.valueCardPriority(this.revisionList, this.cdate)));
 			}
 			else if(qName.equals("question")) {
 				this.questionFlag = false;
@@ -135,7 +143,7 @@ public class CardHandler extends DefaultHandler {
 			}
 		} else {
 			if(name.equals("card")) {
-				this.pile.addCard(new Card(this.id, this.question, this.answer, CardHandler.inspector.valueCardPriority(this.revisionList)));
+				this.pile.addCard(new Card(this.id, this.question, this.answer, CardHandler.inspector.valueCardPriority(this.revisionList, this.cdate)));
 			}
 			else if(name.equals("question")) {
 				this.questionFlag = false;
