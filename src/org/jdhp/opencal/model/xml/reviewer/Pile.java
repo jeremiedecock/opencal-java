@@ -70,25 +70,24 @@ public class Pile {
 			Controller.exit(2);
 		}
 		
-		// TODO : Évalue les priorités
-		// ...
-		
-		// Tri le tableau par priorité décroissante
 		this.sortCards();
 	}
 	
 	/**
+	 * Toutes les cartes dont le degré de priorité est négatif sont ignorés
 	 * 
 	 * @param newCard
 	 */
 	public void addCard(Card newCard) {
-		this.cardList.add(newCard);		
+		if(newCard.getPriorityRank() >= 0) {
+			this.cardList.add(newCard);
+		}
 	}
 
 	/**
-	 * 
+	 * Tri le tableau par priorité décroissante
 	 */
-	public void sortCards() {
+	private void sortCards() {
 		// Tri bulle
 		for(int i=this.cardList.size()-1 ; i>0 ; i--) {
 			for(int j=0 ; j<i ; j++) {
