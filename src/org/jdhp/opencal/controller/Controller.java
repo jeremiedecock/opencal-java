@@ -7,6 +7,7 @@ package org.jdhp.opencal.controller;
 
 import org.jdhp.opencal.controller.maker.MakeController;
 import org.jdhp.opencal.controller.reviewer.ReviewController;
+import org.jdhp.opencal.controller.stats.StatsController;
 import org.jdhp.opencal.view.UserInterface;
 
 /**
@@ -24,6 +25,7 @@ public class Controller {
 	public static void init() {
 		MakeController.init();
 		ReviewController.init();
+		StatsController.init();
 	}
 	
 	/**
