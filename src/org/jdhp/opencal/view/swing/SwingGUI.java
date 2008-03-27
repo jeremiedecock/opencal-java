@@ -147,10 +147,10 @@ public class SwingGUI implements UserInterface {
 	 */
 	public void run() {
 		// Init reviewer
-		this.reviewerPanel.textArea.setText("QUESTION " + (ReviewController.pile.getReviewedCards() + 1) + " (r:" + ReviewController.pile.getRemainingCards() + " - p:" + ReviewController.card.getPriorityRank() + ") :\n" + ReviewController.card.getQuestion());
+		this.reviewerPanel.textArea.setText("QUESTION " + (ReviewController.revisionPile.getReviewedCards() + 1) + " (r:" + ReviewController.revisionPile.getRemainingCards() + " - p:" + ReviewController.card.getPriorityRank() + ") :\n" + ReviewController.card.getQuestion());
 		
 		this.reviewerPanel.prevButton.setEnabled(false);
-		if(ReviewController.pile.pointerIsOnTheLastCard()) {
+		if(ReviewController.revisionPile.pointerIsOnTheLastCard()) {
 			this.reviewerPanel.nextButton.setEnabled(false);
 		}
 		

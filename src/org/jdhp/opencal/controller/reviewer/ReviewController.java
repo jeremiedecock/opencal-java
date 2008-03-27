@@ -8,7 +8,7 @@ import java.io.IOException;
 import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.controller.Controller;
 import org.jdhp.opencal.model.xml.reviewer.Card;
-import org.jdhp.opencal.model.xml.reviewer.Pile;
+import org.jdhp.opencal.model.xml.reviewer.RevisionPile;
 import org.jdhp.opencal.model.xml.reviewer.ReviewHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -22,7 +22,7 @@ import org.xml.sax.helpers.XMLReaderFactory;
  */
 public class ReviewController {
 
-	public static Pile pile;
+	public static RevisionPile revisionPile;
 	
 	public static Card card;
 	
@@ -30,8 +30,8 @@ public class ReviewController {
 	 * 
 	 */
 	public static void init() {
-		ReviewController.pile = new Pile();
-		ReviewController.card = ReviewController.pile.getPointedCard();
+		ReviewController.revisionPile = new RevisionPile();
+		ReviewController.card = ReviewController.revisionPile.getPointedCard();
 	}
 	
 	/**
@@ -73,7 +73,7 @@ public class ReviewController {
 			Controller.exit(2);
 		}
 
-		ReviewController.pile.incrementReviewedCards();
-		ReviewController.pile.removePointedCard();
+		ReviewController.revisionPile.incrementReviewedCards();
+		ReviewController.revisionPile.removePointedCard();
 	}
 }

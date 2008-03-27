@@ -24,7 +24,7 @@ public class CardHandler extends DefaultHandler {
 
 	private static Inspector inspector = new InspectorBrian();
 	
-	private Pile pile;
+	private RevisionPile revisionPile;
 	
 	private ArrayList<ReviewItem> revisionList;
 	
@@ -46,12 +46,12 @@ public class CardHandler extends DefaultHandler {
 	
 	/**
 	 * 
-	 * @param pile
+	 * @param revisionPile
 	 */
-	public CardHandler(Pile pile) {
+	public CardHandler(RevisionPile revisionPile) {
 		super();
 		
-		this.pile = pile;
+		this.revisionPile = revisionPile;
 		this.revisionList = new ArrayList<ReviewItem>();
 		this.questionFlag = false;
 		this.answerFlag = false;
@@ -133,7 +133,7 @@ public class CardHandler extends DefaultHandler {
 	public void endElement(String uri, String name, String qName) {
 		if(uri.equals("")) {
 			if(qName.equals("card")) {
-				this.pile.addCard(new Card(this.id, this.question, this.answer, CardHandler.inspector.valueCardPriority(this.revisionList, this.cdate)));
+				this.revisionPile.addCard(new Card(this.id, this.question, this.answer, CardHandler.inspector.valueCardPriority(this.revisionList, this.cdate)));
 			}
 			else if(qName.equals("question")) {
 				this.questionFlag = false;
@@ -143,7 +143,7 @@ public class CardHandler extends DefaultHandler {
 			}
 		} else {
 			if(name.equals("card")) {
-				this.pile.addCard(new Card(this.id, this.question, this.answer, CardHandler.inspector.valueCardPriority(this.revisionList, this.cdate)));
+				this.revisionPile.addCard(new Card(this.id, this.question, this.answer, CardHandler.inspector.valueCardPriority(this.revisionList, this.cdate)));
 			}
 			else if(name.equals("question")) {
 				this.questionFlag = false;

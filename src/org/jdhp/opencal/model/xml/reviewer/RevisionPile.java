@@ -22,7 +22,7 @@ import org.xml.sax.helpers.XMLReaderFactory;
  * @author Jérémie Decock
  *
  */
-public class Pile {
+public class RevisionPile {
 	
 	private ArrayList<Card> cardList;
 	
@@ -34,7 +34,7 @@ public class Pile {
 	 * 
 	 * @param cardDb
 	 */
-	public Pile() {
+	public RevisionPile() {
 		this.reviewedCards = 0;
 		this.pointer = 0;
 		this.cardList = new ArrayList<Card>();
@@ -46,9 +46,9 @@ public class Pile {
 			/* TODO : Comment ça se fait que la ligne suivante ne provoque pas d'erreur ?
 			 *        On passe à CardHandler l'objet this, or comme on est dans le constructeur,
 			 *        cette objet n'existe pas encore (il est en train d'être créé)... A méditer...
-			 *        Ne serait-il pas mieux de créer une méthode "init()" dans la classe Pile
+			 *        Ne serait-il pas mieux de créer une méthode "init()" dans la classe RevisionPile
 			 *        et de créer le handler dans cette classe en l'appelant après la création
-			 *        de l'objet pile ?
+			 *        de l'objet revisionPile ?
 			 */        
 			XMLReader xr = XMLReaderFactory.createXMLReader();
 			CardHandler handler = new CardHandler(this);
