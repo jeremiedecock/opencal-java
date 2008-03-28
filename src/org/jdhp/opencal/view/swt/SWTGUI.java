@@ -92,13 +92,13 @@ public class SWTGUI implements UserInterface {
 		
 		tabItemMake.setText("Make");
 		tabItemReview.setText("Review");
-		tabItemExplore.setText("Explorer");
-		tabItemStat.setText("Stats");
+		tabItemExplore.setText("Explore");
+		tabItemStat.setText("Statistics");
 		
 		tabItemMake.setToolTipText("Make Cards");
 		tabItemReview.setToolTipText("Review Cards");
-		tabItemExplore.setToolTipText("Explorer");
-		tabItemStat.setToolTipText("Stats");
+		tabItemExplore.setToolTipText("Explore Card Database");
+		tabItemStat.setToolTipText("Look Use Statistics");
 		
 		Composite makeCardComposite = new Composite(tabFolder, SWT.NONE);
 		Composite reviewerComposite = new Composite(tabFolder, SWT.NONE);
