@@ -6,6 +6,7 @@
 package org.jdhp.opencal.view.swt.stats;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.text.SimpleDateFormat;
@@ -50,7 +51,7 @@ public class StatsView {
 		
 		// ********** //
 
-		TimeSeries s1 = new TimeSeries("Card Created Per Day", Day.class);
+		TimeSeries s1 = new TimeSeries("Card created per day", Day.class);
 		s1.add(new Day(2, 2, 2001), 18);
 		s1.add(new Day(3, 2, 2001), 6);
 		s1.add(new Day(4, 2, 2001), 15);
@@ -59,7 +60,7 @@ public class StatsView {
 		s1.add(new Day(7, 2, 2001), 14);
 		s1.add(new Day(8, 2, 2001), 15);
 
-		TimeSeries s2 = new TimeSeries("Revision Per Day", Day.class);
+		TimeSeries s2 = new TimeSeries("Revision per day", Day.class);
 		s2.add(new Day(2, 2, 2001), 12);
 		s2.add(new Day(3, 2, 2001), 2);
 		s2.add(new Day(4, 2, 2001), 11);
@@ -88,6 +89,9 @@ public class StatsView {
 
 		DateAxis axis = (DateAxis) plot.getDomainAxis();
 		axis.setDateFormatOverride(new SimpleDateFormat("dd/MM/yyyy"));
+		
+		chart.getLegend().setMargin(new RectangleInsets(10.0, 0.0, 5.0, 0.0));
+		chart.getLegend().setItemFont(new Font("Monospaced", Font.PLAIN, 9));
 		
 		// ********** //
 		
