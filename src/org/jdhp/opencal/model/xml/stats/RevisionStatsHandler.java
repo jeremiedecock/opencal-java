@@ -26,18 +26,18 @@ import org.xml.sax.helpers.XMLReaderFactory;
  * @author Jérémie Decock
  *
  */
-public class CardCreationStatsHandler extends DefaultHandler {
+public class RevisionStatsHandler extends DefaultHandler {
 
-	private HashMap<Date, Integer> cardCreationStats = null;
+	private HashMap<Date, Integer> revisionStats = null;
 	
 	/**
 	 * 
 	 */
-	public static HashMap<Date, Integer> getCardCreationStats() {
+	public static HashMap<Date, Integer> getRevisionStats() {
 		// Parse le document XML avec SAX et crée le tableau
 		// TODO : en plus de vérifier si le doc xml est bien formé, vérifier si il est conforme à la DTD !
 		
-		CardCreationStatsHandler handler = new CardCreationStatsHandler();
+		RevisionStatsHandler handler = new RevisionStatsHandler();
 
 		try {
 			XMLReader xr = XMLReaderFactory.createXMLReader();
@@ -59,17 +59,17 @@ public class CardCreationStatsHandler extends DefaultHandler {
 			Controller.exit(2);
 		}
 		
-		return handler.cardCreationStats;
+		return handler.revisionStats;
 	}
 	
 	/**
 	 * 
 	 * @param revisionPile
 	 */
-	public CardCreationStatsHandler() {
+	public RevisionStatsHandler() {
 		super();
 		
-		this.cardCreationStats = new HashMap<Date, Integer>();
+		this.revisionStats = new HashMap<Date, Integer>();
 	}
 	
 	/**
@@ -91,29 +91,29 @@ public class CardCreationStatsHandler extends DefaultHandler {
 	 */
 	public void startElement(String uri, String name, String qName, Attributes atts) {
 		if(uri.equals("")) {
-			if(qName.equals("card")) {
+			if(qName.equals("review")) {
 				// Les dates sont au format ISO 8601 (YYYY-MM-DD)
-				String[] date = atts.getValue("cdate").split("-",3);
+				String[] date = atts.getValue("rdate").split("-",3);
 				// TODO : s'assurer que le tableau date a bien 3 entrées (pour pas planter le programme en modifiant manuellement le fichier XML)
 				Date cdate = (new GregorianCalendar(Integer.parseInt(date[0]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[2]))).getTime();
 				
-				if(this.cardCreationStats.containsKey(cdate)) {
-					this.cardCreationStats.put(cdate, new Integer(this.cardCreationStats.get(cdate).intValue() + 1));
+				if(this.revisionStats.containsKey(cdate)) {
+					this.revisionStats.put(cdate, new Integer(this.revisionStats.get(cdate).intValue() + 1));
 				} else {
-					this.cardCreationStats.put(cdate, new Integer(1));
+					this.revisionStats.put(cdate, new Integer(1));
 				}
 			}
 		} else {
-			if(name.equals("card")) {
+			if(name.equals("review")) {
 				// Les dates sont au format ISO 8601 (YYYY-MM-DD)
-				String[] date = atts.getValue("cdate").split("-",3);
+				String[] date = atts.getValue("rdate").split("-",3);
 				// TODO : s'assurer que le tableau date a bien 3 entrées (pour pas planter le programme en modifiant manuellement le fichier XML)
 				Date cdate = (new GregorianCalendar(Integer.parseInt(date[0]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[2]))).getTime();
 				
-				if(this.cardCreationStats.containsKey(cdate)) {
-					this.cardCreationStats.put(cdate, new Integer(this.cardCreationStats.get(cdate).intValue() + 1));
+				if(this.revisionStats.containsKey(cdate)) {
+					this.revisionStats.put(cdate, new Integer(this.revisionStats.get(cdate).intValue() + 1));
 				} else {
-					this.cardCreationStats.put(cdate, new Integer(1));
+					this.revisionStats.put(cdate, new Integer(1));
 				}
 			}
 		}

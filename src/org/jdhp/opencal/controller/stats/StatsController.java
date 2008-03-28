@@ -1,6 +1,10 @@
 package org.jdhp.opencal.controller.stats;
 
+import java.util.Date;
+import java.util.HashMap;
+
 import org.jdhp.opencal.model.xml.stats.CardCreationStatsHandler;
+import org.jdhp.opencal.model.xml.stats.RevisionStatsHandler;
 
 /**
  * 
@@ -21,7 +25,18 @@ public class StatsController {
 	 * @return
 	 */
 	public static int[] getCardCreationStats() {
-		CardCreationStatsHandler.getCardCreationStats();
+		HashMap<Date, Integer> cardCreationStats = CardCreationStatsHandler.getCardCreationStats();
+		System.out.println(cardCreationStats);
+		return null;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static int[] getRevisionStats() {
+		HashMap<Date, Integer> revisionStats = RevisionStatsHandler.getRevisionStats();
+		System.out.println(revisionStats);
 		return null;
 	}
 }
