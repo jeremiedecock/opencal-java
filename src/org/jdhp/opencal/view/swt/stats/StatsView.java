@@ -10,11 +10,17 @@ import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.jdhp.opencal.controller.stats.StatsController;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -52,22 +58,26 @@ public class StatsView {
 		// ********** //
 
 		TimeSeries s1 = new TimeSeries("Card created per day", Day.class);
-		s1.add(new Day(2, 2, 2001), 18);
-		s1.add(new Day(3, 2, 2001), 6);
-		s1.add(new Day(4, 2, 2001), 15);
-		s1.add(new Day(5, 2, 2001), 16);
-		s1.add(new Day(6, 2, 2001), 5);
-		s1.add(new Day(7, 2, 2001), 14);
-		s1.add(new Day(8, 2, 2001), 15);
+		TreeMap<Date, Integer> cardCreationStats = StatsController.getCardCreationStats();
+		Set entries = cardCreationStats.entrySet();
+		Iterator<Set> it = entries.iterator();
+		while(it.hasNext()) {
+			Map.Entry entry = (Map.Entry) it.next();
+			Date date = (Date) entry.getKey();
+			Integer value = (Integer) entry.getValue();
+			s1.add(new Day(date), value);
+		}
 
 		TimeSeries s2 = new TimeSeries("Revision per day", Day.class);
-		s2.add(new Day(2, 2, 2001), 12);
-		s2.add(new Day(3, 2, 2001), 2);
-		s2.add(new Day(4, 2, 2001), 11);
-		s2.add(new Day(5, 2, 2001), 12);
-		s2.add(new Day(6, 2, 2001), 10);
-		s2.add(new Day(7, 2, 2001), 1);
-		s2.add(new Day(8, 2, 2001), 11);
+		TreeMap<Date, Integer> revisionStats = StatsController.getRevisionStats();
+		entries = revisionStats.entrySet();
+		it = entries.iterator();
+		while(it.hasNext()) {
+			Map.Entry entry = (Map.Entry) it.next();
+			Date date = (Date) entry.getKey();
+			Integer value = (Integer) entry.getValue();
+			s2.add(new Day(date), value);
+		}
 
 		TimeSeriesCollection dataset = new TimeSeriesCollection();
 		dataset.addSeries(s1);

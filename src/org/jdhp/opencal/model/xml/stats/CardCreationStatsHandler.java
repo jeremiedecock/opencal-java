@@ -10,7 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
+import java.util.TreeMap;
 
 import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.controller.Controller;
@@ -28,12 +28,12 @@ import org.xml.sax.helpers.XMLReaderFactory;
  */
 public class CardCreationStatsHandler extends DefaultHandler {
 
-	private HashMap<Date, Integer> cardCreationStats = null;
+	private TreeMap<Date, Integer> cardCreationStats = null;
 	
 	/**
 	 * 
 	 */
-	public static HashMap<Date, Integer> getCardCreationStats() {
+	public static TreeMap<Date, Integer> getCardCreationStats() {
 		// Parse le document XML avec SAX et crée le tableau
 		// TODO : en plus de vérifier si le doc xml est bien formé, vérifier si il est conforme à la DTD !
 		
@@ -69,7 +69,7 @@ public class CardCreationStatsHandler extends DefaultHandler {
 	public CardCreationStatsHandler() {
 		super();
 		
-		this.cardCreationStats = new HashMap<Date, Integer>();
+		this.cardCreationStats = new TreeMap<Date, Integer>();
 	}
 	
 	/**
