@@ -30,7 +30,7 @@ public class StatsController {
 		Date today = new Date();
 		
 		while(date.before(today)) {
-			if(cardCreationStats.get(date) == null) cardCreationStats.put((Date) date.clone(), new Integer(0));
+			if(!cardCreationStats.containsKey(date)) cardCreationStats.put((Date) date.clone(), new Integer(0));
 			date.setTime(date.getTime() + 86400000);
 		}
 		
@@ -47,8 +47,8 @@ public class StatsController {
 		Date today = new Date();
 		
 		while(date.before(today)) {
-			if(revisionStats.get(date) == null) revisionStats.put((Date) date.clone(), new Integer(0));
-			date.setTime(date.getTime() + 86400000);
+			if(!revisionStats.containsKey(date)) revisionStats.put((Date) date.clone(), new Integer(0));
+			date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
 		}
 		
 		return revisionStats;
