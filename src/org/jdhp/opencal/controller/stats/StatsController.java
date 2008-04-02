@@ -26,12 +26,14 @@ public class StatsController {
 	 */
 	public static TreeMap<Date, Integer> getCardCreationStats() {
 		TreeMap<Date, Integer> cardCreationStats = CardCreationStatsHandler.getCardCreationStats();
-		Date date = (Date) cardCreationStats.firstKey().clone();
-		Date today = new Date();
-		
-		while(date.before(today)) {
-			if(!cardCreationStats.containsKey(date)) cardCreationStats.put((Date) date.clone(), new Integer(0));
-			date.setTime(date.getTime() + 86400000);
+		if(!cardCreationStats.isEmpty()) {
+			Date date = (Date) cardCreationStats.firstKey().clone();
+			Date today = new Date();
+			
+			while(date.before(today)) {
+				if(!cardCreationStats.containsKey(date)) cardCreationStats.put((Date) date.clone(), new Integer(0));
+				date.setTime(date.getTime() + 86400000);
+			}
 		}
 		
 		return cardCreationStats;
@@ -43,12 +45,14 @@ public class StatsController {
 	 */
 	public static TreeMap<Date, Integer> getRevisionStats() {
 		TreeMap<Date, Integer> revisionStats = RevisionStatsHandler.getRevisionStats();
-		Date date = (Date) revisionStats.firstKey().clone();
-		Date today = new Date();
-		
-		while(date.before(today)) {
-			if(!revisionStats.containsKey(date)) revisionStats.put((Date) date.clone(), new Integer(0));
-			date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+		if(!revisionStats.isEmpty()) {
+			Date date = (Date) revisionStats.firstKey().clone();
+			Date today = new Date();
+			
+			while(date.before(today)) {
+				if(!revisionStats.containsKey(date)) revisionStats.put((Date) date.clone(), new Integer(0));
+				date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+			}
 		}
 		
 		return revisionStats;

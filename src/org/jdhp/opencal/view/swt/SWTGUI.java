@@ -219,7 +219,7 @@ public class SWTGUI implements UserInterface {
 	 */
 	public void initReviewerTabView() {
 		Controller.getUserInterface().setStatusLabel1("", "");
-		Controller.getUserInterface().setStatusLabel2("L : " + ReviewController.card.getPriorityRank(), "Card level " + ReviewController.card.getPriorityRank());
+		if(ReviewController.card != null) Controller.getUserInterface().setStatusLabel2("L : " + ReviewController.card.getPriorityRank(), "Card level " + ReviewController.card.getPriorityRank());
 		Controller.getUserInterface().setStatusLabel3("D : " + ReviewController.revisionPile.getReviewedCards(), ReviewController.revisionPile.getReviewedCards() + " review done");
 		Controller.getUserInterface().setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards to review");
 		

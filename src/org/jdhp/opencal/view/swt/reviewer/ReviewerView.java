@@ -175,9 +175,9 @@ public class ReviewerView {
 				badButton.setEnabled(true);
 //				reviewerText.setText("QUESTION\n\n" + Controller.card.getQuestion() + "\n\nANSWER\n\n" + Controller.card.getAnswer());
 				int textLength = reviewerText.getCharCount();
-				reviewerText.append("\n\nANSWER\n\n" + ReviewController.card.getAnswer());
+				if(ReviewController.card != null) reviewerText.append("\n\nANSWER\n\n" + ReviewController.card.getAnswer());
 				reviewerText.setStyleRange(new StyleRange(textLength + 2, 6, null, null, SWT.BOLD));
-				Controller.getUserInterface().setStatusLabel2("L : " + ReviewController.card.getPriorityRank(), "Card level " + ReviewController.card.getPriorityRank());
+				if(ReviewController.card != null) Controller.getUserInterface().setStatusLabel2("L : " + ReviewController.card.getPriorityRank(), "Card level " + ReviewController.card.getPriorityRank());
 				Controller.getUserInterface().setStatusLabel3("D : " + ReviewController.revisionPile.getReviewedCards(), ReviewController.revisionPile.getReviewedCards() + " review done");
 				Controller.getUserInterface().setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards to review");
 			}
@@ -213,11 +213,17 @@ public class ReviewerView {
 	 * 
 	 */
 	public void init() {
-		this.reviewerText.setText("QUESTION\n\n" + ReviewController.card.getQuestion());
-		this.reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
-		
-//		previewButton.setEnabled(false);
-		if(ReviewController.revisionPile.pointerIsOnTheLastCard()) {
+		if(ReviewController.card != null) {
+			this.reviewerText.setText("QUESTION\n\n" + ReviewController.card.getQuestion());
+			this.reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
+			
+//			previewButton.setEnabled(false);
+			if(ReviewController.revisionPile.pointerIsOnTheLastCard()) {
+				this.nextButton.setEnabled(false);
+			}
+		} else {
+			this.reviewerText.setText("Review done");
+			this.reviewerText.setStyleRange(new StyleRange(0, 11, null, null, SWT.BOLD));
 			this.nextButton.setEnabled(false);
 		}
 	}
