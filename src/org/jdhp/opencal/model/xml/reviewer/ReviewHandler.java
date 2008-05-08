@@ -72,40 +72,37 @@ public class ReviewHandler extends DefaultHandler {
 	 */
 	public void startDocument() {
 		this.newFile.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-//		this.newFile.println("<!DOCTYPE card_db [");
-//		this.newFile.println("    <!--- Card Database -->");
-//		this.newFile.println("    <!ELEMENT card_db (card)*>");
-//		this.newFile.println("");
-//		this.newFile.println("    <!--- Card -->");
-//		this.newFile.println("    <!--- cdate (Format ISO 8601 : YYYY-MM-DD) -->");
-//		this.newFile.println("    <!--- <!ELEMENT card (question,answer?,review*,tag*)> -->");
-//		this.newFile.println("    <!ELEMENT card (question,answer?,(review|tag)*)>");
-//		this.newFile.println("    <!ATTLIST card id ID #REQUIRED>");
-//		this.newFile.println("    <!ATTLIST card cdate CDATA #REQUIRED>");
-//		this.newFile.println("");
-//		this.newFile.println("    <!--- Question -->");
-//		this.newFile.println("    <!ELEMENT question (#PCDATA)>");
-//		this.newFile.println("");
-//		this.newFile.println("    <!--- Answer -->");
-//		this.newFile.println("    <!ELEMENT answer (#PCDATA)>");
-//		this.newFile.println("");
-//		this.newFile.println("    <!--- Review -->");
-//		this.newFile.println("    <!--- rdate (Format ISO 8601 : YYYY-MM-DD) -->");
-//		this.newFile.println("    <!ELEMENT review EMPTY>");
-//		this.newFile.println("    <!ATTLIST review rdate CDATA #REQUIRED>");
-//		this.newFile.println("    <!ATTLIST review result (GOOD|BAD) #REQUIRED>");
-//		this.newFile.println("");
-//		this.newFile.println("    <!--- Tag -->");
-//		this.newFile.println("    <!ELEMENT tag (#PCDATA)>");
-//		this.newFile.println("]>");
-//		this.newFile.println("<?xml-stylesheet type=\"text/css\" href=\"card_db.css\" ?>");
+		this.newFile.println("<!DOCTYPE pkb [");
+		this.newFile.println("    <!--- Knowledge Base -->");
+		this.newFile.println("    <!ELEMENT pkb (card)*>");
+		this.newFile.println("");
+		this.newFile.println("    <!--- Card -->");
+		this.newFile.println("    <!--- cdate (Format ISO 8601 : YYYY-MM-DD) -->");
+		this.newFile.println("    <!ELEMENT card (question,answer?,(review|tag)*)>");
+		this.newFile.println("    <!ATTLIST card id ID #REQUIRED>");
+		this.newFile.println("    <!ATTLIST card cdate CDATA #REQUIRED>");
+		this.newFile.println("");
+		this.newFile.println("    <!--- Question -->");
+		this.newFile.println("    <!ELEMENT question (#PCDATA)>");
+		this.newFile.println("");
+		this.newFile.println("    <!--- Answer -->");
+		this.newFile.println("    <!ELEMENT answer (#PCDATA)>");
+		this.newFile.println("");
+		this.newFile.println("    <!--- Review -->");
+		this.newFile.println("    <!--- rdate (Format ISO 8601 : YYYY-MM-DD) -->");
+		this.newFile.println("    <!ELEMENT review EMPTY>");
+		this.newFile.println("    <!ATTLIST review rdate CDATA #REQUIRED>");
+		this.newFile.println("    <!ATTLIST review result (GOOD|BAD) #REQUIRED>");
+		this.newFile.println("");
+		this.newFile.println("    <!--- Tag -->");
+		this.newFile.println("    <!ELEMENT tag (#PCDATA)>");
+		this.newFile.println("]>");
+//		this.newFile.println("<?xml-stylesheet type=\"text/css\" href=\"pkb.css\" ?>");
 		this.newFile.println("");
 		this.newFile.println("<!--");
-		this.newFile.println("    Document   : card_db.xml");
-		this.newFile.println("    Created on : 14 aout 2007, 11:40");
-		this.newFile.println("    Author     : Jérémie DECOCK");
+		this.newFile.println("    Personal Knowledge Base for OpenCAL");
+		this.newFile.println("    Copyright (c) 2007,2008 Jérémie DECOCK");
 //		this.newFile.println("    Generator  : " + Controller.programName + " " + Controller.version + " (Java - DTD v3)");
-//		this.newFile.println("    Description: " + Controller.programName + "'s flashcards.");
 		this.newFile.println("-->");
 		this.newFile.println("");
 	}
@@ -115,8 +112,8 @@ public class ReviewHandler extends DefaultHandler {
 	 */
 	public void startElement(String uri, String name, String qName, Attributes atts) {
 		if(uri.equals("")) {
-			if(qName.equals("card_db")) {
-				this.newFile.println("<card_db>");
+			if(qName.equals("pkb")) {
+				this.newFile.println("<pkb>");
 			}
 			else if(qName.equals("card")) {
 				this.newFile.println("	<card id=\"" + atts.getValue("id") + "\" cdate=\"" + atts.getValue("cdate") + "\">");
@@ -138,8 +135,8 @@ public class ReviewHandler extends DefaultHandler {
 				this.newFile.print("		<tag>");
 			}
 		} else {
-			if(name.equals("card_db")) {
-				this.newFile.println("<card_db>");
+			if(name.equals("pkb")) {
+				this.newFile.println("<pkb>");
 			}
 			else if(name.equals("card")) {
 				this.newFile.println("	<card id=\"" + atts.getValue("id") + "\" cdate=\"" + atts.getValue("cdate") + "\">");
@@ -168,8 +165,8 @@ public class ReviewHandler extends DefaultHandler {
 	 */
 	public void endElement(String uri, String name, String qName) {
 		if(uri.equals("")) {
-			if(qName.equals("card_db")) {
-				this.newFile.println("</card_db>");
+			if(qName.equals("pkb")) {
+				this.newFile.println("</pkb>");
 			}
 			else if(qName.equals("card")) {
 				if(this.reviewedCardFlag == true) {
@@ -193,8 +190,8 @@ public class ReviewHandler extends DefaultHandler {
 				this.tagFlag = false;
 			}
 		} else {
-			if(name.equals("card_db")) {
-				this.newFile.println("</card_db>");
+			if(name.equals("pkb")) {
+				this.newFile.println("</pkb>");
 			}
 			else if(name.equals("card")) {
 				if(this.reviewedCardFlag == true) {

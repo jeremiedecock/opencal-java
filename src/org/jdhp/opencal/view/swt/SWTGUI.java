@@ -97,7 +97,7 @@ public class SWTGUI implements UserInterface {
 		
 		tabItemMake.setToolTipText("Make Cards");
 		tabItemReview.setToolTipText("Review Cards");
-		tabItemExplore.setToolTipText("Explore Card Database");
+		tabItemExplore.setToolTipText("Explore Knowledge Base");
 		tabItemStat.setToolTipText("Look Use Statistics");
 		
 		Composite makeCardComposite = new Composite(tabFolder, SWT.NONE);
@@ -209,8 +209,8 @@ public class SWTGUI implements UserInterface {
 		Controller.getUserInterface().setStatusLabel3("D : " + ReviewController.revisionPile.getReviewedCards(), ReviewController.revisionPile.getReviewedCards() + " review done");
 		Controller.getUserInterface().setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards to review");
 		
-		// Signale si le fichier card_db.xml est innexistant
-//		if(! new File(OpenCAL.cardDb).exists()) Controller.getUserInterface().setStatusLabel1("Card database not found", "Card database not found");
+		// Signale si le fichier PKB est innexistant
+//		if(! new File(OpenCAL.pkbFile).exists()) Controller.getUserInterface().setStatusLabel1("Knowledge base not found", "Knowledge base not found");
 //		else Controller.getUserInterface().setStatusLabel1("", "");
 	}
 	
@@ -223,8 +223,8 @@ public class SWTGUI implements UserInterface {
 		Controller.getUserInterface().setStatusLabel3("D : " + ReviewController.revisionPile.getReviewedCards(), ReviewController.revisionPile.getReviewedCards() + " review done");
 		Controller.getUserInterface().setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards to review");
 		
-		// Signale si le fichier card_db.xml est innexistant
-//		if(! new File(OpenCAL.cardDb).exists()) Controller.getUserInterface().setStatusLabel1("Card database not found", "Card database not found");
+		// Signale si le fichier PKB est innexistant
+//		if(! new File(OpenCAL.pkbFile).exists()) Controller.getUserInterface().setStatusLabel1("Knowledge base not found", "Knowledge base not found");
 //		else Controller.getUserInterface().setStatusLabel1("", "");
 		
 		// Cas où il n'y a rien à réviser
@@ -239,8 +239,8 @@ public class SWTGUI implements UserInterface {
 		Controller.getUserInterface().setStatusLabel3("D : " + ReviewController.revisionPile.getReviewedCards(), ReviewController.revisionPile.getReviewedCards() + " review done");
 		Controller.getUserInterface().setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards to review");
 		
-		// Signale si le fichier card_db.xml est innexistant
-//		if(! new File(OpenCAL.cardDb).exists()) Controller.getUserInterface().setStatusLabel1("Card database not found", "Card database not found");
+		// Signale si le fichier PKB est innexistant
+//		if(! new File(OpenCAL.pkbFile).exists()) Controller.getUserInterface().setStatusLabel1("Knowledge base not found", "Knowledge base not found");
 //		else Controller.getUserInterface().setStatusLabel1("", "");
 	}
 	
@@ -253,8 +253,8 @@ public class SWTGUI implements UserInterface {
 		Controller.getUserInterface().setStatusLabel3("D : " + ReviewController.revisionPile.getReviewedCards(), ReviewController.revisionPile.getReviewedCards() + " review done");
 		Controller.getUserInterface().setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards to review");
 		
-		// Signale si le fichier card_db.xml est innexistant
-//		if(! new File(OpenCAL.cardDb).exists()) Controller.getUserInterface().setStatusLabel1("Card database not found", "Card database not found");
+		// Signale si le fichier PKB est innexistant
+//		if(! new File(OpenCAL.pkbFile).exists()) Controller.getUserInterface().setStatusLabel1("Knowledge base not found", "Knowledge base not found");
 //		else Controller.getUserInterface().setStatusLabel1("", "");
 	}
 	

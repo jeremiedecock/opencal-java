@@ -73,40 +73,37 @@ public class CardMakerHandler extends DefaultHandler {
 	 */
 	public void startDocument() {
 		this.tmpFile.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-//		this.tmpFile.println("<!DOCTYPE card_db [");
-//		this.tmpFile.println("    <!--- Card Database -->");
-//		this.tmpFile.println("    <!ELEMENT card_db (card)*>");
-//		this.tmpFile.println("");
-//		this.tmpFile.println("    <!--- Card -->");
-//		this.tmpFile.println("    <!--- cdate (Format ISO 8601 : YYYY-MM-DD) -->");
-//		this.tmpFile.println("    <!--- <!ELEMENT card (question,answer?,review*,tag*)> -->");
-//		this.tmpFile.println("    <!ELEMENT card (question,answer?,(review|tag)*)>");
-//		this.tmpFile.println("    <!ATTLIST card id ID #REQUIRED>");
-//		this.tmpFile.println("    <!ATTLIST card cdate CDATA #REQUIRED>");
-//		this.tmpFile.println("");
-//		this.tmpFile.println("    <!--- Question -->");
-//		this.tmpFile.println("    <!ELEMENT question (#PCDATA)>");
-//		this.tmpFile.println("");
-//		this.tmpFile.println("    <!--- Answer -->");
-//		this.tmpFile.println("    <!ELEMENT answer (#PCDATA)>");
-//		this.tmpFile.println("");
-//		this.tmpFile.println("    <!--- Review -->");
-//		this.tmpFile.println("    <!--- rdate (Format ISO 8601 : YYYY-MM-DD) -->");
-//		this.tmpFile.println("    <!ELEMENT review EMPTY>");
-//		this.tmpFile.println("    <!ATTLIST review rdate CDATA #REQUIRED>");
-//		this.tmpFile.println("    <!ATTLIST review result (GOOD|BAD) #REQUIRED>");
-//		this.tmpFile.println("");
-//		this.tmpFile.println("    <!--- Tag -->");
-//		this.tmpFile.println("    <!ELEMENT tag (#PCDATA)>");
-//		this.tmpFile.println("]>");
-//		this.tmpFile.println("<?xml-stylesheet type=\"text/css\" href=\"card_db.css\" ?>");
+		this.tmpFile.println("<!DOCTYPE pkb [");
+		this.tmpFile.println("    <!--- Knowledge Base -->");
+		this.tmpFile.println("    <!ELEMENT pkb (card)*>");
+		this.tmpFile.println("");
+		this.tmpFile.println("    <!--- Card -->");
+		this.tmpFile.println("    <!--- cdate (Format ISO 8601 : YYYY-MM-DD) -->");
+		this.tmpFile.println("    <!ELEMENT card (question,answer?,(review|tag)*)>");
+		this.tmpFile.println("    <!ATTLIST card id ID #REQUIRED>");
+		this.tmpFile.println("    <!ATTLIST card cdate CDATA #REQUIRED>");
+		this.tmpFile.println("");
+		this.tmpFile.println("    <!--- Question -->");
+		this.tmpFile.println("    <!ELEMENT question (#PCDATA)>");
+		this.tmpFile.println("");
+		this.tmpFile.println("    <!--- Answer -->");
+		this.tmpFile.println("    <!ELEMENT answer (#PCDATA)>");
+		this.tmpFile.println("");
+		this.tmpFile.println("    <!--- Review -->");
+		this.tmpFile.println("    <!--- rdate (Format ISO 8601 : YYYY-MM-DD) -->");
+		this.tmpFile.println("    <!ELEMENT review EMPTY>");
+		this.tmpFile.println("    <!ATTLIST review rdate CDATA #REQUIRED>");
+		this.tmpFile.println("    <!ATTLIST review result (GOOD|BAD) #REQUIRED>");
+		this.tmpFile.println("");
+		this.tmpFile.println("    <!--- Tag -->");
+		this.tmpFile.println("    <!ELEMENT tag (#PCDATA)>");
+		this.tmpFile.println("]>");
+//		this.tmpFile.println("<?xml-stylesheet type=\"text/css\" href=\"pkb.css\" ?>");
 		this.tmpFile.println("");
 		this.tmpFile.println("<!--");
-		this.tmpFile.println("    Document   : card_db.xml");
-		this.tmpFile.println("    Created on : 14 aout 2007, 11:40");
-		this.tmpFile.println("    Author     : Jérémie DECOCK");
+		this.tmpFile.println("    Personal Knowledge Base for OpenCAL");
+		this.tmpFile.println("    Copyright (c) 2007,2008 Jérémie DECOCK");
 //		this.tmpFile.println("    Generator  : " + Controller.programName + " " + Controller.version + " (Java - DTD v3)");
-//		this.tmpFile.println("    Description: " + Controller.programName + "'s flashcards.");
 		this.tmpFile.println("-->");
 		this.tmpFile.println("");
 	}
@@ -123,8 +120,8 @@ public class CardMakerHandler extends DefaultHandler {
 	 */
 	public void startElement(String uri, String name, String qName, Attributes atts) {
 		if(uri.equals("")) {
-			if(qName.equals("card_db")) {
-				this.tmpFile.println("<card_db>");
+			if(qName.equals("pkb")) {
+				this.tmpFile.println("<pkb>");
 			}
 			else if(qName.equals("card")) {
 				this.tmpFile.println("	<card id=\"" + atts.getValue("id") + "\" cdate=\"" + atts.getValue("cdate") + "\">");
@@ -147,8 +144,8 @@ public class CardMakerHandler extends DefaultHandler {
 				this.tmpFile.print("		<tag>");
 			}
 		} else {
-			if(name.equals("card_db")) {
-				this.tmpFile.println("<card_db>");
+			if(name.equals("pkb")) {
+				this.tmpFile.println("<pkb>");
 			}
 			else if(name.equals("card")) {
 				this.tmpFile.println("	<card id=\"" + atts.getValue("id") + "\" cdate=\"" + atts.getValue("cdate") + "\">");
@@ -178,7 +175,7 @@ public class CardMakerHandler extends DefaultHandler {
 	 */
 	public void endElement(String uri, String name, String qName) {
 		if(uri.equals("")) {
-			if(qName.equals("card_db")) {
+			if(qName.equals("pkb")) {
 				if(this.question.equals("")) {
 					Controller.getUserInterface().printAlert("La question ne doit pas être vide");
 				} else {
@@ -192,7 +189,7 @@ public class CardMakerHandler extends DefaultHandler {
 					// Set lastCardRecordedId (used by views)
 					CardMakerHandler.lastCardRecordedId = "" + (this.id + 1);
 				}
-				this.tmpFile.println("</card_db>");
+				this.tmpFile.println("</pkb>");
 			}
 			else if(qName.equals("card")) {
 				this.tmpFile.println("	</card>");
@@ -210,14 +207,14 @@ public class CardMakerHandler extends DefaultHandler {
 				this.tagFlag = false;
 			}
 		} else {
-			if(name.equals("card_db")) {
+			if(name.equals("pkb")) {
 				GregorianCalendar gc = new GregorianCalendar();
 				this.tmpFile.println("	<card id=\"c" + (this.id + 1) + "\" cdate=\"" + gc.get(Calendar.YEAR) + "-" + (gc.get(Calendar.MONTH) + 1) + "-" + gc.get(Calendar.DAY_OF_MONTH) + "\">");
 				this.tmpFile.println("		<question><![CDATA[" + this.question + "]]></question>");
 				if(!this.answer.equals("")) this.tmpFile.println("		<answer><![CDATA[" + this.answer + "]]></answer>");
 				if(!this.tags.equals("")) this.tmpFile.println("		<tag>" + this.tags + "</tag>");
 				this.tmpFile.println("	</card>");
-				this.tmpFile.println("</card_db>");
+				this.tmpFile.println("</pkb>");
 			}
 			else if(name.equals("card")) {
 				this.tmpFile.println("	</card>");

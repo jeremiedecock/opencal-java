@@ -92,7 +92,7 @@ public class MakerView {
 		// Button /////////
 		Button addButton = new Button(this.parentComposite, SWT.PUSH);
 		addButton.setText("Add this card");
-		addButton.setToolTipText("Add this card to the database");
+		addButton.setToolTipText("Add this card to the knowledge base");
 		
 		GridData addButtonGridData = new GridData(GridData.HORIZONTAL_ALIGN_CENTER);
 		addButton.setLayoutData(addButtonGridData);

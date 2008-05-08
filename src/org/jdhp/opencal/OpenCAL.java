@@ -1,6 +1,6 @@
 /*
  * OpenCAL version 3.0
- * Copyright (c) 2007 Jérémie Decock (http://www.jdhp.org)
+ * Copyright (c) 2007,2008 Jérémie DECOCK (http://www.jdhp.org)
  */
 
 package org.jdhp.opencal;
@@ -17,11 +17,11 @@ public class OpenCAL {
 
 	public final static String programVersion = "3.0";
 	
-	public final static String programName = "pdbm";
+	public final static String programName = "OpenCAL";
 	
-	public final static String cardDb = "/home/gremy/card_db.xml";
+	public final static String pkbFile = "/home/gremy/user.pkb";
 	
-	public final static String tmpDb = "/tmp/" + OpenCAL.programName + "_card_db.tmp.xml";
+	public final static String tmpPkbFile = "/tmp/" + OpenCAL.programName + "_user.tmp.pkb";
 	
 	/**
 	 * @param args

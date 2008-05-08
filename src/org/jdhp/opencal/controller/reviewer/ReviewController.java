@@ -43,33 +43,33 @@ public class ReviewController {
 		try {
 			// Create the Handler
 			XMLReader xr = XMLReaderFactory.createXMLReader();
-			ReviewHandler handler = new ReviewHandler(OpenCAL.tmpDb, ReviewController.card.getId(), result);
+			ReviewHandler handler = new ReviewHandler(OpenCAL.tmpPkbFile, ReviewController.card.getId(), result);
 			xr.setContentHandler(handler);
 			xr.setErrorHandler(handler);
 	
 			// Parse the configuration file (config.xml) and create tmpDB
 			//xr.parse(new InputSource((InputStream) ClassLoader.getSystemResourceAsStream(Controller.cardDb))); // parse le fichier à la racine du .jar
-			FileReader r = new FileReader(OpenCAL.cardDb);
+			FileReader r = new FileReader(OpenCAL.pkbFile);
 			xr.parse(new InputSource(r));
 			r.close();
 			
-			// Remplace cardDb par tmpDb
-			File cardDbFile = new File(OpenCAL.cardDb);
-			File tmpDbFile = new File(OpenCAL.tmpDb);
+			// Remplace pkbFile par tmpPkbFile
+			File cardDbFile = new File(OpenCAL.pkbFile);
+			File tmpDbFile = new File(OpenCAL.tmpPkbFile);
 			boolean renameSuccess = tmpDbFile.renameTo(cardDbFile);
 			
 			if(!renameSuccess) {
-				Controller.getUserInterface().printError("Impossible de renommer le fichier " + OpenCAL.tmpDb);
+				Controller.getUserInterface().printError("Impossible de renommer le fichier " + OpenCAL.tmpPkbFile);
 				Controller.exit(12);
 			}
 		} catch(SAXException e) {
-			Controller.getUserInterface().printError(OpenCAL.cardDb + " n'est pas valide (SAXException)");
+			Controller.getUserInterface().printError(OpenCAL.pkbFile + " n'est pas valide (SAXException)");
 			Controller.exit(2);
 		} catch(FileNotFoundException e) {
-			Controller.getUserInterface().print(OpenCAL.cardDb + " est introuvable (FileNotFoundException)");
+			Controller.getUserInterface().print(OpenCAL.pkbFile + " est introuvable (FileNotFoundException)");
 			Controller.exit(2);
 		} catch(IOException e) {
-			Controller.getUserInterface().printError(OpenCAL.cardDb + " est illisible (IOException)");
+			Controller.getUserInterface().printError(OpenCAL.pkbFile + " est illisible (IOException)");
 			Controller.exit(2);
 		}
 

@@ -61,7 +61,7 @@ public class MakeCardPanel extends JPanel implements ActionListener {
 		JLabel tagsLabel = new JLabel("Tags :");
 
 		this.addButton = new JButton("Save");
-		this.addButton.setToolTipText("Add this card to the database.");
+		this.addButton.setToolTipText("Add this card to the knowledge base.");
 		this.addButton.addActionListener(this);
 		
 		this.setLayout(new FlowLayout());

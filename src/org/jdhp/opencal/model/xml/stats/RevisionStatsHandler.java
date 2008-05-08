@@ -45,17 +45,17 @@ public class RevisionStatsHandler extends DefaultHandler {
 			xr.setErrorHandler(handler);
 			
 			//xr.parse(new InputSource((InputStream) ClassLoader.getSystemResourceAsStream(Controller.cardDb))); // parse le fichier à la racine du .jar
-			FileReader r = new FileReader(OpenCAL.cardDb);
+			FileReader r = new FileReader(OpenCAL.pkbFile);
 			xr.parse(new InputSource(r));
 			r.close();
 		} catch(SAXException e) {
-			Controller.getUserInterface().printError(OpenCAL.cardDb + " n'est pas valide (SAXException)");
+			Controller.getUserInterface().printError(OpenCAL.pkbFile + " n'est pas valide (SAXException)");
 			Controller.exit(2);
 		} catch(FileNotFoundException e) {
-			Controller.getUserInterface().printError(OpenCAL.cardDb + " est introuvable (FileNotFoundException)");
+			Controller.getUserInterface().printError(OpenCAL.pkbFile + " est introuvable (FileNotFoundException)");
 			Controller.exit(2);
 		} catch(IOException e) {
-			Controller.getUserInterface().printError(OpenCAL.cardDb + " est illisible (IOException)");
+			Controller.getUserInterface().printError(OpenCAL.pkbFile + " est illisible (IOException)");
 			Controller.exit(2);
 		}
 		
