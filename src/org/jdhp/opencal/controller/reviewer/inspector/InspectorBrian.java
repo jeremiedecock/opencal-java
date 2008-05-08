@@ -95,7 +95,7 @@ public class InspectorBrian implements Inspector {
 		if(previousRevisionDate == null) {
 			expectedRevisionDate = null;
 		} else {
-			expectedRevisionDate = new Date(previousRevisionDate.getTime() + (revisionDates[grade] * 24 * 60 * 60 * 1000));
+			expectedRevisionDate = new Date(previousRevisionDate.getTime() + (((long) this.revisionDates[grade]) * 24 * 60 * 60 * 1000));
 		}
 		return expectedRevisionDate;
 	}
