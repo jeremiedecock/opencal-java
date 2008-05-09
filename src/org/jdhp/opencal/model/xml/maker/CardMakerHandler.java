@@ -30,7 +30,7 @@ public class CardMakerHandler extends DefaultHandler {
 	
 	private String answer;
 	
-	private String tags;
+	private String[] tags;
 	
 	private boolean questionFlag;
 	
@@ -47,7 +47,7 @@ public class CardMakerHandler extends DefaultHandler {
 	 * @param answer
 	 * @param tags
 	 */
-	public CardMakerHandler(String tmpFileName, String question, String answer, String tags) {
+	public CardMakerHandler(String tmpFileName, String question, String answer, String[] tags) {
 		super();
 		
 		if(tmpFileName.equals("")) Controller.getUserInterface().printError("La variable tmpFileName n'est pas définie...");
@@ -183,7 +183,9 @@ public class CardMakerHandler extends DefaultHandler {
 					this.tmpFile.println("	<card id=\"c" + (this.id + 1) + "\" cdate=\"" + gc.get(Calendar.YEAR) + "-" + (gc.get(Calendar.MONTH) + 1) + "-" + gc.get(Calendar.DAY_OF_MONTH) + "\">");
 					this.tmpFile.println("		<question><![CDATA[" + this.question + "]]></question>");
 					if(!this.answer.equals("")) this.tmpFile.println("		<answer><![CDATA[" + this.answer + "]]></answer>");
-					if(!this.tags.equals("")) this.tmpFile.println("		<tag>" + this.tags + "</tag>");
+					for(int i=0 ; i < this.tags.length ; i++) {
+						this.tmpFile.println("		<tag>" + this.tags[i] + "</tag>");
+					}
 					this.tmpFile.println("	</card>");
 					
 					// Set lastCardRecordedId (used by views)
@@ -208,12 +210,21 @@ public class CardMakerHandler extends DefaultHandler {
 			}
 		} else {
 			if(name.equals("pkb")) {
-				GregorianCalendar gc = new GregorianCalendar();
-				this.tmpFile.println("	<card id=\"c" + (this.id + 1) + "\" cdate=\"" + gc.get(Calendar.YEAR) + "-" + (gc.get(Calendar.MONTH) + 1) + "-" + gc.get(Calendar.DAY_OF_MONTH) + "\">");
-				this.tmpFile.println("		<question><![CDATA[" + this.question + "]]></question>");
-				if(!this.answer.equals("")) this.tmpFile.println("		<answer><![CDATA[" + this.answer + "]]></answer>");
-				if(!this.tags.equals("")) this.tmpFile.println("		<tag>" + this.tags + "</tag>");
-				this.tmpFile.println("	</card>");
+				if(this.question.equals("")) {
+					Controller.getUserInterface().printAlert("La question ne doit pas être vide");
+				} else {
+					GregorianCalendar gc = new GregorianCalendar();
+					this.tmpFile.println("	<card id=\"c" + (this.id + 1) + "\" cdate=\"" + gc.get(Calendar.YEAR) + "-" + (gc.get(Calendar.MONTH) + 1) + "-" + gc.get(Calendar.DAY_OF_MONTH) + "\">");
+					this.tmpFile.println("		<question><![CDATA[" + this.question + "]]></question>");
+					if(!this.answer.equals("")) this.tmpFile.println("		<answer><![CDATA[" + this.answer + "]]></answer>");
+					for(int i=0 ; i < this.tags.length ; i++) {
+						this.tmpFile.println("		<tag>" + this.tags[i] + "</tag>");
+					}
+					this.tmpFile.println("	</card>");
+
+					// Set lastCardRecordedId (used by views)
+					CardMakerHandler.lastCardRecordedId = "" + (this.id + 1);
+				}
 				this.tmpFile.println("</pkb>");
 			}
 			else if(name.equals("card")) {

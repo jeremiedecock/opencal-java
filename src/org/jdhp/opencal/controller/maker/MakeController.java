@@ -41,15 +41,18 @@ public class MakeController {
 	 * @param answer
 	 * @param tag
 	 */
-	public static void addCard(String question, String answer, String tags) {
+	public static void addCard(String question, String answer, String tagString) {
+
+		// Get tags
+		String[] tagArray = tagString.split("\n");
+		
 		if(question.equals("")) {
 			Controller.getUserInterface().printAlert("La question ne doit pas être vide");
 		} else {
 			try {
-				
 				// Crée le Handler
 				XMLReader xr = XMLReaderFactory.createXMLReader();
-				CardMakerHandler handler = new CardMakerHandler(OpenCAL.tmpPkbFile, question, answer, tags);
+				CardMakerHandler handler = new CardMakerHandler(OpenCAL.tmpPkbFile, question, answer, tagArray);
 				xr.setContentHandler(handler);
 				xr.setErrorHandler(handler);
 		
@@ -121,7 +124,9 @@ public class MakeController {
 					file.println("	<card id=\"c1\" cdate=\"" + gc.get(Calendar.YEAR) + "-" + (gc.get(Calendar.MONTH) + 1) + "-" + gc.get(Calendar.DAY_OF_MONTH) + "\">");
 					file.println("		<question><![CDATA[" + question + "]]></question>");
 					if(!answer.equals("")) file.println("		<answer><![CDATA[" + answer + "]]></answer>");
-					if(!tags.equals("")) file.println("		<tag>" + tags + "</tag>");
+					for(int i=0 ; i < tagArray.length ; i++) {
+						file.println("		<tag>" + tagArray[i] + "</tag>");
+					}
 					file.println("	</card>");
 					file.println("</pkb>");
 					
