@@ -101,7 +101,7 @@ public class CardMakerHandler extends DefaultHandler {
 //		this.tmpFile.println("<?xml-stylesheet type=\"text/css\" href=\"pkb.css\" ?>");
 		this.tmpFile.println("");
 		this.tmpFile.println("<!--");
-		this.tmpFile.println("    Personal Knowledge Base for OpenCAL");
+		this.tmpFile.println("    Personal Knowledge Base version 1.0");
 		this.tmpFile.println("    Copyright (c) 2007,2008 Jérémie DECOCK");
 //		this.tmpFile.println("    Generator  : " + Controller.programName + " " + Controller.version + " (Java - DTD v3)");
 		this.tmpFile.println("-->");

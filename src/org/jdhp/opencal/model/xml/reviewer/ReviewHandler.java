@@ -100,7 +100,7 @@ public class ReviewHandler extends DefaultHandler {
 //		this.newFile.println("<?xml-stylesheet type=\"text/css\" href=\"pkb.css\" ?>");
 		this.newFile.println("");
 		this.newFile.println("<!--");
-		this.newFile.println("    Personal Knowledge Base for OpenCAL");
+		this.newFile.println("    Personal Knowledge Base version 1.0");
 		this.newFile.println("    Copyright (c) 2007,2008 Jérémie DECOCK");
 //		this.newFile.println("    Generator  : " + Controller.programName + " " + Controller.version + " (Java - DTD v3)");
 		this.newFile.println("-->");

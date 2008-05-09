@@ -112,7 +112,7 @@ public class MakeController {
 //					file.println("<?xml-stylesheet type=\"text/css\" href=\"pkb.css\" ?>");
 					file.println("");
 					file.println("<!--");
-					file.println("    Personal Knowledge Base for OpenCAL");
+					file.println("    Personal Knowledge Base version 1.0");
 					file.println("    Copyright (c) 2007,2008 Jérémie DECOCK");
 //					file.println("    Generator  : " + Controller.programName + " " + Controller.version + " (Java - DTD v3)");
 					file.println("-->");
