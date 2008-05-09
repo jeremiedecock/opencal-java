@@ -5,8 +5,6 @@
 
 package org.jdhp.opencal.view.swt;
 
-import java.io.File;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -15,7 +13,11 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Monitor;
 import org.eclipse.swt.widgets.Shell;
@@ -79,6 +81,43 @@ public class SWTGUI implements UserInterface {
         int y = bounds.y + (bounds.height - rect.height) / 2;
         this.shell.setLocation(x, y);
 		
+        // Create the menubar
+        Menu menu = new Menu(this.shell, SWT.BAR);
+        this.shell.setMenuBar(menu);
+        
+        MenuItem fileItem = new MenuItem(menu, SWT.CASCADE);
+        fileItem.setText("File");
+        
+        MenuItem helpItem = new MenuItem(menu, SWT.CASCADE);
+        helpItem.setText("About");
+        
+        Menu fileMenu = new Menu(shell, SWT.DROP_DOWN);
+        fileItem.setMenu(fileMenu);
+        
+        Menu aboutMenu = new Menu(shell, SWT.DROP_DOWN);
+        helpItem.setMenu(aboutMenu);
+        
+        MenuItem quitItem = new MenuItem(fileMenu, SWT.PUSH);
+        quitItem.setText("Quit");
+        
+        quitItem.addListener(SWT.Selection, new Listener() {
+        	public void handleEvent(Event e) {
+        		Controller.exit(0);
+        	}
+        });
+        
+        MenuItem aboutItem = new MenuItem(aboutMenu, SWT.PUSH);
+        aboutItem.setText("About OpenCAL");
+        
+        aboutItem.addListener(SWT.Selection, new Listener() {
+        	public void handleEvent(Event e) {
+        		MessageBox mb = new MessageBox(shell, SWT.APPLICATION_MODAL | SWT.ICON_INFORMATION | SWT.OK);
+        		mb.setText("About OpenCAL");
+        		mb.setMessage(OpenCAL.programName + " " + OpenCAL.programVersion + "\nCopyright (c) 2007,2008 Jérémie DECOCK");
+        		mb.open();
+        	}
+        });
+        
         // Create the tabfolder
 		TabFolder tabFolder = new TabFolder(this.shell, SWT.NONE);
 		
