@@ -86,7 +86,7 @@ public class ReviewerView {
 		
 		goodButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				ReviewController.updateCard("GOOD");
+				ReviewController.updateCard("good");
 				ReviewController.card = ReviewController.revisionPile.getPointedCard();
 				if(!ReviewController.revisionPile.pointerIsOnTheLastCard()) {
 					nextButton.setEnabled(true);
@@ -115,7 +115,7 @@ public class ReviewerView {
 		
 		badButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				ReviewController.updateCard("BAD");
+				ReviewController.updateCard("bad");
 				ReviewController.card = ReviewController.revisionPile.getPointedCard();
 				if(!ReviewController.revisionPile.pointerIsOnTheLastCard()) {
 					nextButton.setEnabled(true);

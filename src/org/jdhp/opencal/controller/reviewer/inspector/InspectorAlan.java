@@ -48,7 +48,7 @@ public class InspectorAlan implements Inspector {
 	 * @param oldestRevisionItem
 	 */
 	private int checkRevisionAndUpdateGrade(ReviewItem oldestRevisionItem, int grade) {
-		if(oldestRevisionItem.getReviewResult().toUpperCase().equals("GOOD")) {
+		if(oldestRevisionItem.getReviewResult().toLowerCase().equals("good")) {
 			grade++;
 		} else {
 			grade = 0;

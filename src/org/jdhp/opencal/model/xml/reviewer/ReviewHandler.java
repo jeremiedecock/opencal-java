@@ -92,7 +92,7 @@ public class ReviewHandler extends DefaultHandler {
 		this.newFile.println("    <!--- rdate (Format ISO 8601 : YYYY-MM-DD) -->");
 		this.newFile.println("    <!ELEMENT review EMPTY>");
 		this.newFile.println("    <!ATTLIST review rdate CDATA #REQUIRED>");
-		this.newFile.println("    <!ATTLIST review result (GOOD|BAD) #REQUIRED>");
+		this.newFile.println("    <!ATTLIST review result (good|bad) #REQUIRED>");
 		this.newFile.println("");
 		this.newFile.println("    <!--- Tag -->");
 		this.newFile.println("    <!ELEMENT tag (#PCDATA)>");

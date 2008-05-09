@@ -57,7 +57,7 @@ public class InspectorBrian implements Inspector {
 	 * @param oldestRevisionItem
 	 */
 	private int checkRevisionAndUpdateGrade(ReviewItem oldestRevisionItem, Date expectedRevisionDate, int grade) {
-		if(oldestRevisionItem.getReviewResult().toUpperCase().equals("GOOD")) {
+		if(oldestRevisionItem.getReviewResult().toLowerCase().equals("good")) {
 			if(!isTooEarly(expectedRevisionDate, oldestRevisionItem.getReviewDate())) grade++;
 		} else {
 			grade = 0;

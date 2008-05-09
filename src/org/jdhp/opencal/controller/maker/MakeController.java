@@ -104,7 +104,7 @@ public class MakeController {
 					file.println("    <!--- rdate (Format ISO 8601 : YYYY-MM-DD) -->");
 					file.println("    <!ELEMENT review EMPTY>");
 					file.println("    <!ATTLIST review rdate CDATA #REQUIRED>");
-					file.println("    <!ATTLIST review result (GOOD|BAD) #REQUIRED>");
+					file.println("    <!ATTLIST review result (good|bad) #REQUIRED>");
 					file.println("");
 					file.println("    <!--- Tag -->");
 					file.println("    <!ELEMENT tag (#PCDATA)>");

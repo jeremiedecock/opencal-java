@@ -93,7 +93,7 @@ public class CardMakerHandler extends DefaultHandler {
 		this.tmpFile.println("    <!--- rdate (Format ISO 8601 : YYYY-MM-DD) -->");
 		this.tmpFile.println("    <!ELEMENT review EMPTY>");
 		this.tmpFile.println("    <!ATTLIST review rdate CDATA #REQUIRED>");
-		this.tmpFile.println("    <!ATTLIST review result (GOOD|BAD) #REQUIRED>");
+		this.tmpFile.println("    <!ATTLIST review result (good|bad) #REQUIRED>");
 		this.tmpFile.println("");
 		this.tmpFile.println("    <!--- Tag -->");
 		this.tmpFile.println("    <!ELEMENT tag (#PCDATA)>");

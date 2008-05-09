@@ -109,7 +109,7 @@ public class ReviewPanel extends JPanel implements ActionListener {
 			}
 			this.prevButton.setEnabled(true);
 		} else if(ev.getSource() == this.goodButton) {
-			ReviewController.updateCard("GOOD");
+			ReviewController.updateCard("good");
 			ReviewController.card = ReviewController.revisionPile.getPointedCard();
 			if(!ReviewController.revisionPile.pointerIsOnTheLastCard()) {
 				this.nextButton.setEnabled(true);
@@ -122,7 +122,7 @@ public class ReviewPanel extends JPanel implements ActionListener {
 			this.badButton.setEnabled(false);
 			this.textArea.setText("QUESTION " + (ReviewController.revisionPile.getReviewedCards() + 1) + " (r:" + ReviewController.revisionPile.getRemainingCards() + " - p:" + ReviewController.card.getPriorityRank() + ") :\n" + ReviewController.card.getQuestion());
 		} else if(ev.getSource() == this.badButton) {
-			ReviewController.updateCard("BAD");
+			ReviewController.updateCard("bad");
 			ReviewController.card = ReviewController.revisionPile.getPointedCard();
 			if(!ReviewController.revisionPile.pointerIsOnTheLastCard()) {
 				this.nextButton.setEnabled(true);
