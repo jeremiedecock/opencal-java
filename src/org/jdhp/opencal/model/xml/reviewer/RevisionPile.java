@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.controller.Controller;
+import org.jdhp.opencal.model.xml.stats.RevisionDoneTodayHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
@@ -35,7 +36,7 @@ public class RevisionPile {
 	 * @param pkbFile
 	 */
 	public RevisionPile() {
-		this.reviewedCards = 0;
+		this.reviewedCards = RevisionDoneTodayHandler.getRevisionDoneToday();
 		this.pointer = 0;
 		this.cardList = new ArrayList<Card>();
 		

@@ -245,8 +245,8 @@ public class SWTGUI implements UserInterface {
 	public void initMakerTabView() {
 		Controller.getUserInterface().setStatusLabel1("", "");
 		Controller.getUserInterface().setStatusLabel2("", "");
-		Controller.getUserInterface().setStatusLabel3("D : " + ReviewController.revisionPile.getReviewedCards(), ReviewController.revisionPile.getReviewedCards() + " review done");
-		Controller.getUserInterface().setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards to review");
+		Controller.getUserInterface().setStatusLabel3("D : " + ReviewController.revisionPile.getReviewedCards(), ReviewController.revisionPile.getReviewedCards() + " review done today");
+		Controller.getUserInterface().setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards left for today");
 		
 		// Signale si le fichier PKB est innexistant
 //		if(! new File(OpenCAL.pkbFile).exists()) Controller.getUserInterface().setStatusLabel1("Knowledge base not found", "Knowledge base not found");
@@ -259,8 +259,8 @@ public class SWTGUI implements UserInterface {
 	public void initReviewerTabView() {
 		Controller.getUserInterface().setStatusLabel1("", "");
 		if(ReviewController.card != null) Controller.getUserInterface().setStatusLabel2("L : " + ReviewController.card.getPriorityRank(), "Card level " + ReviewController.card.getPriorityRank());
-		Controller.getUserInterface().setStatusLabel3("D : " + ReviewController.revisionPile.getReviewedCards(), ReviewController.revisionPile.getReviewedCards() + " review done");
-		Controller.getUserInterface().setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards to review");
+		Controller.getUserInterface().setStatusLabel3("D : " + ReviewController.revisionPile.getReviewedCards(), ReviewController.revisionPile.getReviewedCards() + " review done today");
+		Controller.getUserInterface().setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards left for today");
 		
 		// Signale si le fichier PKB est innexistant
 //		if(! new File(OpenCAL.pkbFile).exists()) Controller.getUserInterface().setStatusLabel1("Knowledge base not found", "Knowledge base not found");
@@ -275,8 +275,8 @@ public class SWTGUI implements UserInterface {
 	public void initExplorerTabView() {
 		Controller.getUserInterface().setStatusLabel1("", "");
 		Controller.getUserInterface().setStatusLabel2("", "");
-		Controller.getUserInterface().setStatusLabel3("D : " + ReviewController.revisionPile.getReviewedCards(), ReviewController.revisionPile.getReviewedCards() + " review done");
-		Controller.getUserInterface().setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards to review");
+		Controller.getUserInterface().setStatusLabel3("D : " + ReviewController.revisionPile.getReviewedCards(), ReviewController.revisionPile.getReviewedCards() + " review done today");
+		Controller.getUserInterface().setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards left for today");
 		
 		// Signale si le fichier PKB est innexistant
 //		if(! new File(OpenCAL.pkbFile).exists()) Controller.getUserInterface().setStatusLabel1("Knowledge base not found", "Knowledge base not found");
@@ -289,8 +289,8 @@ public class SWTGUI implements UserInterface {
 	public void initStatTabView() {
 		Controller.getUserInterface().setStatusLabel1("", "");
 		Controller.getUserInterface().setStatusLabel2("", "");
-		Controller.getUserInterface().setStatusLabel3("D : " + ReviewController.revisionPile.getReviewedCards(), ReviewController.revisionPile.getReviewedCards() + " review done");
-		Controller.getUserInterface().setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards to review");
+		Controller.getUserInterface().setStatusLabel3("D : " + ReviewController.revisionPile.getReviewedCards(), ReviewController.revisionPile.getReviewedCards() + " review done today");
+		Controller.getUserInterface().setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards left for today");
 		
 		// Signale si le fichier PKB est innexistant
 //		if(! new File(OpenCAL.pkbFile).exists()) Controller.getUserInterface().setStatusLabel1("Knowledge base not found", "Knowledge base not found");
