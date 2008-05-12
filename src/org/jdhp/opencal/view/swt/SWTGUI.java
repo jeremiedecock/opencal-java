@@ -45,6 +45,8 @@ public class SWTGUI implements UserInterface {
 	
 	final private ReviewerView reviewerView;
 	
+	final private StatsView statsView;
+	
 	final private Label statusLabel1;
 	
 	final private Label statusLabel2;
@@ -152,7 +154,7 @@ public class SWTGUI implements UserInterface {
 		new MakerView(makeCardComposite);
 		this.reviewerView = new ReviewerView(reviewerComposite);
 		new ExplorerView(explorerComposite);
-		new StatsView(statsComposite);
+		this.statsView = new StatsView(statsComposite);
 		
 		// Add listeners on tabFolder (prevent when a tabItem is selected)
 		tabFolder.addSelectionListener(new SelectionAdapter() {
@@ -292,6 +294,7 @@ public class SWTGUI implements UserInterface {
 		Controller.getUserInterface().setStatusLabel3("D : " + ReviewController.revisionPile.getReviewedCards(), ReviewController.revisionPile.getReviewedCards() + " review done today");
 		Controller.getUserInterface().setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards left for today");
 		
+		this.statsView.updateChart();
 		// Signale si le fichier PKB est innexistant
 //		if(! new File(OpenCAL.pkbFile).exists()) Controller.getUserInterface().setStatusLabel1("Knowledge base not found", "Knowledge base not found");
 //		else Controller.getUserInterface().setStatusLabel1("", "");

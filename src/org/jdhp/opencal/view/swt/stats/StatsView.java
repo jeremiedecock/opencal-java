@@ -40,6 +40,10 @@ public class StatsView {
 
 	final private Composite parentComposite;
 	
+	final private TimeSeriesCollection dataset;
+	
+	final private JFreeChart chart;
+	
 	/**
 	 * 
 	 * @param parentComposite
@@ -54,7 +58,7 @@ public class StatsView {
 		this.parentComposite.setLayout(new FillLayout(SWT.VERTICAL));
 		
 		// ********** //
-
+		
 		TimeSeries s1 = new TimeSeries("Card created per day", Day.class);
 		TreeMap<Date, Integer> cardCreationStats = StatsController.getCardCreationStats();
 		Set entries = cardCreationStats.entrySet();
@@ -77,17 +81,17 @@ public class StatsView {
 			s2.add(new Day(date), value);
 		}
 
-		TimeSeriesCollection dataset = new TimeSeriesCollection();
+		this.dataset = new TimeSeriesCollection();
 		dataset.addSeries(s1);
 		dataset.addSeries(s2);
 
 		// ********** //
 		
-		JFreeChart chart = ChartFactory.createTimeSeriesChart("Statistics", "", "", dataset, true, true, false);
-		chart.setBackgroundPaint(new Color(this.parentComposite.getBackground().getRed(), this.parentComposite.getBackground().getGreen(), this.parentComposite.getBackground().getBlue()));
-		chart.setPadding(new RectangleInsets(10.0, 10.0, 10.0, 10.0));
+		this.chart = ChartFactory.createTimeSeriesChart("Statistics", "", "", dataset, true, true, false);
+		this.chart.setBackgroundPaint(new Color(this.parentComposite.getBackground().getRed(), this.parentComposite.getBackground().getGreen(), this.parentComposite.getBackground().getBlue()));
+		this.chart.setPadding(new RectangleInsets(10.0, 10.0, 10.0, 10.0));
 
-		XYPlot plot = (XYPlot) chart.getPlot();
+		XYPlot plot = (XYPlot) this.chart.getPlot();
 		plot.setBackgroundPaint(Color.white);
 		plot.setDomainGridlinePaint(Color.lightGray);
 		plot.setRangeGridlinePaint(Color.lightGray);
@@ -98,8 +102,8 @@ public class StatsView {
 		DateAxis axis = (DateAxis) plot.getDomainAxis();
 		axis.setDateFormatOverride(new SimpleDateFormat("dd/MM/yyyy"));
 		
-		chart.getLegend().setMargin(new RectangleInsets(10.0, 0.0, 5.0, 0.0));
-		chart.getLegend().setItemFont(new Font("Monospaced", Font.PLAIN, 9));
+		this.chart.getLegend().setMargin(new RectangleInsets(10.0, 0.0, 5.0, 0.0));
+		this.chart.getLegend().setItemFont(new Font("Monospaced", Font.PLAIN, 9));
 		
 		// ********** //
 		
@@ -107,9 +111,43 @@ public class StatsView {
 		Frame chartFrame = SWT_AWT.new_Frame(awtComp);
 		
 		chartFrame.setLayout(new GridLayout());
-		ChartPanel cp = new ChartPanel(chart);
+		ChartPanel cp = new ChartPanel(this.chart);
 		chartFrame.add(cp);
-		
+	}
+	
+	/**
+	 * 
+	 */
+	public void updateChart() {
+//		TimeSeries s1 = new TimeSeries("Card created per day", Day.class);
+//		TreeMap<Date, Integer> cardCreationStats = StatsController.getCardCreationStats();
+//		Set entries = cardCreationStats.entrySet();
+//		Iterator<Set> it = entries.iterator();
+//		while(it.hasNext()) {
+//			Map.Entry entry = (Map.Entry) it.next();
+//			Date date = (Date) entry.getKey();
+//			Integer value = (Integer) entry.getValue();
+//			s1.add(new Day(date), value);
+//		}
+//
+//		TimeSeries s2 = new TimeSeries("Revision per day", Day.class);
+//		TreeMap<Date, Integer> revisionStats = StatsController.getRevisionStats();
+//		entries = revisionStats.entrySet();
+//		it = entries.iterator();
+//		while(it.hasNext()) {
+//			Map.Entry entry = (Map.Entry) it.next();
+//			Date date = (Date) entry.getKey();
+//			Integer value = (Integer) entry.getValue();
+//			s2.add(new Day(date), value);
+//		}
+//
+//		this.dataset.removeAllSeries();
+//		this.dataset.addSeries(s1);
+//		this.dataset.addSeries(s2);
+//
+//		// ********** //
+//		
+//		this.chart.setNotify(true);
 	}
 	
 }
