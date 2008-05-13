@@ -33,69 +33,50 @@ public class MakerView {
 	 * @param parentComposite
 	 */
 	public MakerView(Composite parentComposite) {
-		this.parentComposite = parentComposite;
-
-		///////////////////////////////////////////////////////////////////////
-		// Make makeCardComposite /////////////////////////////////////////////
-		///////////////////////////////////////////////////////////////////////
 		
-		GridLayout makeCardCompositeGridLayout = new GridLayout(1, false);
-		this.parentComposite.setLayout(makeCardCompositeGridLayout);
+		this.parentComposite = parentComposite;
+		this.parentComposite.setLayout(new GridLayout(1, false));
 		
 		Font monoFont = new Font(this.parentComposite.getDisplay(), "mono", 10, SWT.NORMAL);
 		
 		// Question ////////
 		Group questionGroup = new Group(this.parentComposite, SWT.NONE);
+		questionGroup.setLayoutData(new GridData(GridData.FILL_BOTH));
 		questionGroup.setLayout(new GridLayout(1, false));
 		questionGroup.setText("Question");
 		
 		final Text questionText = new Text(questionGroup, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
+		questionText.setLayoutData(new GridData(GridData.FILL_BOTH));
 		questionText.setFont(monoFont);
 		questionText.setTabs(3);
 		
-		GridData questionGroupGridData = new GridData(GridData.FILL_BOTH);
-		questionGroup.setLayoutData(questionGroupGridData);
-		
-		GridData questionTextGridData = new GridData(GridData.FILL_BOTH);
-		questionText.setLayoutData(questionTextGridData);
-		
 		// Answer //////////
 		Group answerGroup = new Group(this.parentComposite, SWT.NONE);
+		answerGroup.setLayoutData(new GridData(GridData.FILL_BOTH));
 		answerGroup.setLayout(new GridLayout(1, false));
 		answerGroup.setText("Answer");
 		
 		final Text answerText = new Text(answerGroup, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
+		answerText.setLayoutData(new GridData(GridData.FILL_BOTH));
 		answerText.setFont(monoFont);
 		answerText.setTabs(3);
 
-		GridData answerGroupGridData = new GridData(GridData.FILL_BOTH);
-		answerGroup.setLayoutData(answerGroupGridData);
-		
-		GridData answerTextGridData = new GridData(GridData.FILL_BOTH);
-		answerText.setLayoutData(answerTextGridData);
-		
 		// Tags ////////////
 		Group tagGroup = new Group(this.parentComposite, SWT.NONE);
+		tagGroup.setLayoutData(new GridData(GridData.FILL_BOTH));
 		tagGroup.setLayout(new GridLayout(1, false));
 		tagGroup.setText("Tags");
 		
 		final Text tagsText = new Text(tagGroup, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
+		tagsText.setLayoutData(new GridData(GridData.FILL_BOTH));
 		tagsText.setFont(monoFont);
 		tagsText.setTabs(3);
-
-		GridData tagsGroupGridData = new GridData(GridData.FILL_BOTH);
-		tagGroup.setLayoutData(tagsGroupGridData);
-		
-		GridData tagsTextGridData = new GridData(GridData.FILL_BOTH);
-		tagsText.setLayoutData(tagsTextGridData);
 		
 		// Button /////////
 		Button addButton = new Button(this.parentComposite, SWT.PUSH);
+		addButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_CENTER));
 		addButton.setText("Add this card");
 		addButton.setToolTipText("Add this card to the knowledge base");
-		
-		GridData addButtonGridData = new GridData(GridData.HORIZONTAL_ALIGN_CENTER);
-		addButton.setLayoutData(addButtonGridData);
 		
 		addButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {

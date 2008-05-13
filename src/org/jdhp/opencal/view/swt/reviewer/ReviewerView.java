@@ -36,26 +36,25 @@ public class ReviewerView {
 	 * @param parentComposite
 	 */
 	public ReviewerView(Composite parentComposite) {
-		this.parentComposite = parentComposite;
-
-		///////////////////////////////////////////////////////////////////////
-		// Make reviewerComposite /////////////////////////////////////////////
-		///////////////////////////////////////////////////////////////////////
 		
-		GridLayout reviewerCompositeGridLayout = new GridLayout(2, false);
-		this.parentComposite.setLayout(reviewerCompositeGridLayout);
+		this.parentComposite = parentComposite;
+		this.parentComposite.setLayout(new GridLayout(2, false));
 
 		Font monoFont = new Font(this.parentComposite.getDisplay(), "mono", 10, SWT.NORMAL);
 		
-		// Text //////////////////
+		///////////////////////////////////////////////////////////////////////
+		// reviewerText ///////////////////////////////////////////////////////
+		///////////////////////////////////////////////////////////////////////
+		
 		this.reviewerText = new StyledText(this.parentComposite, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.READ_ONLY | SWT.BORDER);
+		this.reviewerText.setLayoutData(new GridData(GridData.FILL_BOTH));
 		this.reviewerText.setFont(monoFont);
 		this.reviewerText.setTabs(3);
 		
-		GridData textGridData = new GridData(GridData.FILL_BOTH);
-		this.reviewerText.setLayoutData(textGridData);
+		///////////////////////////////////////////////////////////////////////
+		// resultButtonComposite //////////////////////////////////////////////
+		///////////////////////////////////////////////////////////////////////
 		
-		// ResultButtons /////////
 		Composite resultButtonComposite = new Composite(this.parentComposite, SWT.NONE);
 		GridLayout resultButtonCompositeGridLayout = new GridLayout(1, false);
 		resultButtonCompositeGridLayout.verticalSpacing = 40;
@@ -64,7 +63,10 @@ public class ReviewerView {
 		final Button goodButton = new Button(resultButtonComposite, SWT.PUSH);
 		final Button badButton = new Button(resultButtonComposite, SWT.PUSH);
 		
-		// NavigationButton //////
+		///////////////////////////////////////////////////////////////////////
+		// navigationButtonComposite //////////////////////////////////////////
+		///////////////////////////////////////////////////////////////////////
+		
 		Composite navigationButtonComposite = new Composite(this.parentComposite, SWT.NONE);
 		navigationButtonComposite.setLayout(new GridLayout(3, true));
 		
@@ -76,13 +78,15 @@ public class ReviewerView {
 		final Button answerButton = new Button(navigationButtonComposite, SWT.PUSH);
 		this.nextButton = new Button(navigationButtonComposite, SWT.PUSH);
 		
-		// GoodButton ////////////
+		///////////////////////////////////////////////////////////////////////
+		// resultButtons //////////////////////////////////////////////////////
+		///////////////////////////////////////////////////////////////////////
+		
+		// goodButton /////////////
+		goodButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		goodButton.setEnabled(false);
 		goodButton.setText("Good");
 		goodButton.setToolTipText("Good answer");
-		
-		GridData goodButtonGridData = new GridData(GridData.FILL_HORIZONTAL);
-		goodButton.setLayoutData(goodButtonGridData);
-		goodButton.setEnabled(false);
 		
 		goodButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -105,13 +109,11 @@ public class ReviewerView {
 			}
 		});
 		
-		// BadButton /////////////
+		// badButton /////////////
+		badButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		badButton.setEnabled(false);
 		badButton.setText("Bad");
 		badButton.setToolTipText("Bad answer");
-		
-		GridData badButtonGridData = new GridData(GridData.FILL_HORIZONTAL);
-		badButton.setLayoutData(badButtonGridData);
-		badButton.setEnabled(false);
 		
 		badButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -134,13 +136,15 @@ public class ReviewerView {
 			}
 		});
 		
+		///////////////////////////////////////////////////////////////////////
+		// navigationButtonComposite //////////////////////////////////////////
+		///////////////////////////////////////////////////////////////////////
+		
 		// PreviewButton /////////
+		previewButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		previewButton.setEnabled(false);
 		previewButton.setText("Preview");
 		previewButton.setToolTipText("Goto the preview card");
-		previewButton.setEnabled(false);
-		
-		GridData previewButtonGridData = new GridData(GridData.FILL_HORIZONTAL);
-		previewButton.setLayoutData(previewButtonGridData);
 		
 		previewButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -160,11 +164,9 @@ public class ReviewerView {
 		});
 		
 		// AnswerButton //////////
+		answerButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		answerButton.setText("Answer");
 		answerButton.setToolTipText("Show the answer for this card (review this card)");
-
-		GridData answerButtonGridData = new GridData(GridData.FILL_HORIZONTAL);
-		answerButton.setLayoutData(answerButtonGridData);
 		
 		answerButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -184,11 +186,9 @@ public class ReviewerView {
 		});
 		
 		// NextButton ////////////
+		this.nextButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		this.nextButton.setText("Next");
 		this.nextButton.setToolTipText("Goto the next card");
-		
-		GridData nextButtonGridData = new GridData(GridData.FILL_HORIZONTAL);
-		this.nextButton.setLayoutData(nextButtonGridData);
 		
 		this.nextButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
