@@ -18,6 +18,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Text;
+import org.jdhp.opencal.controller.explorer.MadeCardsController;
 
 /**
  * 
@@ -73,8 +74,7 @@ public class ExplorerView {
 		final List cardsList = new List(cardSelectionComposite, SWT.BORDER | SWT.V_SCROLL);
 		cardsList.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
-		String[] items = {"carte1", "carte2", "carte3", "carte4", "carte5", "carte6", "carte7", "carte8", "carte9", "carte10", "carte11", "carte12", "carte13", "carte14", "carte15"};
-		cardsList.setItems(items);
+		cardsList.setItems(new String[0]);
 		
 		///////////////////////////////////////////////////////////////////////
 		// EditionCardComposite ///////////////////////////////////////////////
@@ -163,20 +163,16 @@ public class ExplorerView {
 			public void widgetSelected(SelectionEvent e) {
 				switch(displayModeCombo.getSelectionIndex()) {
 					case 0 :
-						String[] items1 = {"carte1", "carte2", "carte3", "carte4", "carte5", "carte6", "carte7", "carte8", "carte9", "carte10", "carte11", "carte12", "carte13", "carte14", "carte15"};
-						cardsList.setItems(items1);
+						cardsList.setItems(new String[0]);
 						break;
 					case 1 : 
-						String[] items2 = {"carte3", "carte4", "carte5", "carte6", "carte7"};
-						cardsList.setItems(items2);
+						cardsList.setItems(new String[0]);
 						break;
 					case 2 :
-						String[] items3 = {"carte1", "carte3", "carte7"};
-						cardsList.setItems(items3);
+						cardsList.setItems(MadeCardsController.getStrings());
 						break;
 					case 3 :
-						String[] items4 = {"carte1", "carte7"};
-						cardsList.setItems(items4);
+						cardsList.setItems(new String[0]);
 						break;
 				}
 			}
@@ -185,8 +181,22 @@ public class ExplorerView {
 		// cardsListListener ////////////
 		cardsList.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				questionText.setText("Question card : " + cardsList.getItem(cardsList.getSelectionIndex()));
-				answerText.setText("Answer card " + cardsList.getSelectionIndex());
+				switch (displayModeCombo.getSelectionIndex()) {
+					case 0:
+						
+						break;
+					case 1:
+						
+						break;
+					case 2:
+						questionText.setText(MadeCardsController.getQuestion(cardsList.getSelectionIndex()));
+						answerText.setText(MadeCardsController.getAnswer(cardsList.getSelectionIndex()));
+						tagsText.setText(MadeCardsController.getTags(cardsList.getSelectionIndex()));
+						break;
+					case 3:
+						
+						break;
+				}
 			}
 		});
 	}
