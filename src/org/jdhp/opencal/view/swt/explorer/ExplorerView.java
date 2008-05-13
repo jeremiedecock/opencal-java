@@ -6,8 +6,6 @@
 package org.jdhp.opencal.view.swt.explorer;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Font;
@@ -50,6 +48,10 @@ public class ExplorerView {
 		this.parentComposite = parentComposite;
 		this.parentComposite.setLayout(new GridLayout(2, false));
 		
+		final Text questionText;
+		final Text answerText;
+		final Text tagsText;
+		
 		ExplorerView.currentDisplayMode = ExplorerView.ALL_CARDS;
 
 		///////////////////////////////////////////////////////////////////////
@@ -74,35 +76,6 @@ public class ExplorerView {
 		String[] items = {"carte1", "carte2", "carte3", "carte4", "carte5", "carte6", "carte7", "carte8", "carte9", "carte10", "carte11", "carte12", "carte13", "carte14", "carte15"};
 		cardsList.setItems(items);
 		
-		// displayModeComboListener ////////////
-		displayModeCombo.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				switch(displayModeCombo.getSelectionIndex()) {
-					case 0 :
-						String[] items1 = {"carte1", "carte2", "carte3", "carte4", "carte5", "carte6", "carte7", "carte8", "carte9", "carte10", "carte11", "carte12", "carte13", "carte14", "carte15"};
-						cardsList.setItems(items1);
-						break;
-					case 1 : 
-						String[] items2 = {"carte3", "carte4", "carte5", "carte6", "carte7"};
-						cardsList.setItems(items2);
-						break;
-					case 2 :
-						String[] items3 = {"carte1", "carte3", "carte7"};
-						cardsList.setItems(items3);
-						break;
-					case 3 :
-						String[] items4 = {"carte1", "carte7"};
-						cardsList.setItems(items4);
-						break;
-				}
-			}
-		});
-		
-		// cardsListListener ////////////
-		cardsList.addSelectionListener(new SelectionAdapter() {
-			
-		});
-		
 		///////////////////////////////////////////////////////////////////////
 		// EditionCardComposite ///////////////////////////////////////////////
 		///////////////////////////////////////////////////////////////////////
@@ -119,7 +92,7 @@ public class ExplorerView {
 		questionGroup.setLayout(new GridLayout(1, false));
 		questionGroup.setText("Question");
 		
-		final Text questionText = new Text(questionGroup, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
+		questionText = new Text(questionGroup, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
 		questionText.setLayoutData(new GridData(GridData.FILL_BOTH));
 		questionText.setFont(monoFont);
 		questionText.setTabs(3);
@@ -130,7 +103,7 @@ public class ExplorerView {
 		answerGroup.setLayout(new GridLayout(1, false));
 		answerGroup.setText("Answer");
 		
-		final Text answerText = new Text(answerGroup, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
+		answerText = new Text(answerGroup, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
 		answerText.setLayoutData(new GridData(GridData.FILL_BOTH));
 		answerText.setFont(monoFont);
 		answerText.setTabs(3);
@@ -141,7 +114,7 @@ public class ExplorerView {
 		tagGroup.setLayout(new GridLayout(1, false));
 		tagGroup.setText("Tags");
 		
-		final Text tagsText = new Text(tagGroup, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
+		tagsText = new Text(tagGroup, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
 		tagsText.setLayoutData(new GridData(GridData.FILL_BOTH));
 		tagsText.setFont(monoFont);
 		tagsText.setTabs(3);
@@ -178,6 +151,42 @@ public class ExplorerView {
 		cancelButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				
+			}
+		});
+		
+		///////////////////////////////////////////////////////////////////////
+		// CardSelectionListeners /////////////////////////////////////////////
+		///////////////////////////////////////////////////////////////////////
+		
+		// displayModeComboListener ////////////
+		displayModeCombo.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				switch(displayModeCombo.getSelectionIndex()) {
+					case 0 :
+						String[] items1 = {"carte1", "carte2", "carte3", "carte4", "carte5", "carte6", "carte7", "carte8", "carte9", "carte10", "carte11", "carte12", "carte13", "carte14", "carte15"};
+						cardsList.setItems(items1);
+						break;
+					case 1 : 
+						String[] items2 = {"carte3", "carte4", "carte5", "carte6", "carte7"};
+						cardsList.setItems(items2);
+						break;
+					case 2 :
+						String[] items3 = {"carte1", "carte3", "carte7"};
+						cardsList.setItems(items3);
+						break;
+					case 3 :
+						String[] items4 = {"carte1", "carte7"};
+						cardsList.setItems(items4);
+						break;
+				}
+			}
+		});
+		
+		// cardsListListener ////////////
+		cardsList.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				questionText.setText("Question card : " + cardsList.getItem(cardsList.getSelectionIndex()));
+				answerText.setText("Answer card " + cardsList.getSelectionIndex());
 			}
 		});
 	}
