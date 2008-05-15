@@ -16,6 +16,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.jdhp.opencal.controller.Controller;
+import org.jdhp.opencal.controller.explorer.ReviewedCardsController;
 import org.jdhp.opencal.controller.reviewer.ReviewController;
 
 /**
@@ -90,6 +91,7 @@ public class ReviewerView {
 		
 		goodButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
+				ReviewedCardsController.add(new org.jdhp.opencal.model.xml.explorer.Card(ReviewController.card.getQuestion(), ReviewController.card.getAnswer(), "", "Good"));
 				ReviewController.updateCard("good");
 				ReviewController.card = ReviewController.revisionPile.getPointedCard();
 				if(!ReviewController.revisionPile.pointerIsOnTheLastCard()) {
@@ -117,6 +119,7 @@ public class ReviewerView {
 		
 		badButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
+				ReviewedCardsController.add(new org.jdhp.opencal.model.xml.explorer.Card(ReviewController.card.getQuestion(), ReviewController.card.getAnswer(), "", "Bad"));
 				ReviewController.updateCard("bad");
 				ReviewController.card = ReviewController.revisionPile.getPointedCard();
 				if(!ReviewController.revisionPile.pointerIsOnTheLastCard()) {

@@ -1,6 +1,7 @@
 package org.jdhp.opencal.controller.explorer;
 
 import org.jdhp.opencal.model.xml.explorer.Card;
+import org.jdhp.opencal.model.xml.explorer.MadeCardsHandler;
 import org.jdhp.opencal.model.xml.explorer.MadeCardsPile;
 
 /**
@@ -19,6 +20,7 @@ public class MadeCardsController {
 	 */
 	public static void init() {
 		MadeCardsController.madeCardsPile = new MadeCardsPile();
+		MadeCardsHandler.initMadeCardsPile(MadeCardsController.madeCardsPile);
 	}
 	
 	/**

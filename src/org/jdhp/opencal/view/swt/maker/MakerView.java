@@ -86,7 +86,7 @@ public class MakerView {
 					Controller.getUserInterface().printAlert("La question ne doit pas être vide !");
 				} else {
 					MakeController.addCard(questionText.getText(), answerText.getText(), tagsText.getText());
-					MadeCardsController.add(new Card(questionText.getText(), answerText.getText(), tagsText.getText()));
+					MadeCardsController.add(new Card(questionText.getText(), answerText.getText(), tagsText.getText(), ""));
 					questionText.setText("");
 					answerText.setText("");
 					tagsText.setText("");

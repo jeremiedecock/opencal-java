@@ -6,6 +6,7 @@
 package org.jdhp.opencal.controller;
 
 import org.jdhp.opencal.controller.explorer.MadeCardsController;
+import org.jdhp.opencal.controller.explorer.ReviewedCardsController;
 import org.jdhp.opencal.controller.maker.MakeController;
 import org.jdhp.opencal.controller.reviewer.ReviewController;
 import org.jdhp.opencal.controller.stats.StatsController;
@@ -28,6 +29,7 @@ public class Controller {
 		ReviewController.init();
 		StatsController.init();
 		MadeCardsController.init();
+		ReviewedCardsController.init();
 	}
 	
 	/**

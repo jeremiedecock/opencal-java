@@ -18,6 +18,8 @@ public class Card {
 	
 	private String tags;
 	
+	private String result;
+	
 	/**
 	 * 
 	 * @param id
@@ -25,10 +27,11 @@ public class Card {
 	 * @param answer
 	 * @param priorityRank
 	 */
-	public Card(String question, String answer, String tags) {
+	public Card(String question, String answer, String tags, String result) {
 		this.question = question;
 		this.answer = answer;
 		this.tags = tags;
+		this.result = result;
 	}
 	
 	/**
@@ -53,5 +56,13 @@ public class Card {
 	 */
 	public String getTags() {
 		return this.tags;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String getResult() {
+		return this.result;
 	}
 }

@@ -19,6 +19,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Text;
 import org.jdhp.opencal.controller.explorer.MadeCardsController;
+import org.jdhp.opencal.controller.explorer.ReviewedCardsController;
 
 /**
  * 
@@ -40,6 +41,8 @@ public class ExplorerView {
 	final private Composite parentComposite;
 	
 	final private String[] displayModes = {"All Cards", "Reviewed Cards", "Made Cards", "Disabled Cards"};
+	
+	final List cardsList;
 	
 	/**
 	 * 
@@ -71,7 +74,8 @@ public class ExplorerView {
 		displayModeCombo.select(ExplorerView.currentDisplayMode);
 		
 		// cardsList ////////////
-		final List cardsList = new List(cardSelectionComposite, SWT.BORDER | SWT.V_SCROLL);
+//		final List cardsList = new List(cardSelectionComposite, SWT.BORDER | SWT.V_SCROLL);
+		cardsList = new List(cardSelectionComposite, SWT.BORDER | SWT.V_SCROLL);
 		cardsList.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
 		cardsList.setItems(new String[0]);
@@ -166,7 +170,7 @@ public class ExplorerView {
 						cardsList.setItems(new String[0]);
 						break;
 					case 1 : 
-						cardsList.setItems(new String[0]);
+						cardsList.setItems(ReviewedCardsController.getStrings());
 						break;
 					case 2 :
 						cardsList.setItems(MadeCardsController.getStrings());
@@ -186,7 +190,9 @@ public class ExplorerView {
 						
 						break;
 					case 1:
-						
+						questionText.setText(ReviewedCardsController.getQuestion(cardsList.getSelectionIndex()));
+						answerText.setText(ReviewedCardsController.getAnswer(cardsList.getSelectionIndex()));
+						tagsText.setText(ReviewedCardsController.getResult(cardsList.getSelectionIndex()));
 						break;
 					case 2:
 						questionText.setText(MadeCardsController.getQuestion(cardsList.getSelectionIndex()));
@@ -200,5 +206,15 @@ public class ExplorerView {
 			}
 		});
 	}
+	
+//	private void updateList(String[] itemsString, String[] tooltips, int[] redItems) {
+//		// set items strings
+//		this.cardsList.setItems(itemsString);
+//		
+//		// set tooltips
+//		for(int i=0 ; i < tooltips.length ; i++) {
+//			if(i < this.cardsList.getItemCount()) this.cardsList.getItem(i).setToolTipText(tooltips[i]);
+//		}
+//	}
 	
 }
