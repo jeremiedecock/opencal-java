@@ -1,6 +1,6 @@
 /*
  * OpenCAL version 3.0
- * Copyright (c) 2007 Jérémie Decock (http://www.jdhp.org)
+ * Copyright (c) 2007,2008 Jérémie Decock
  */
 
 package org.jdhp.opencal.view.swing.explorer;

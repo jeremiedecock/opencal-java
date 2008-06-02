@@ -1,3 +1,8 @@
+/*
+ * OpenCAL version 3.0
+ * Copyright (c) 2007,2008 Jérémie Decock
+ */
+
 package org.jdhp.opencal.controller.reviewer;
 
 import java.io.File;
