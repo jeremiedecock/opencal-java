@@ -3,11 +3,13 @@
 
 	<property name="src_dir" value="${basedir}/src" />
 	<property name="class_dir" value="${basedir}/bin" />
+	<property name="lib_dir" value="${basedir}/ext/lib" />
 	<property name="doc_dir" value="${basedir}/doc" />
 	<property name="dist_dir" value="${basedir}/dist" />
 	<property name="dist_project_dir" value="${dist_dir}/opencal" />
 	<property name="jar_file" value="${dist_project_dir}/opencal.jar" />
 	<property name="dist_file" value="${dist_dir}/opencal.zip" />
+	<property name="classpath" value="${class_dir}:${class_dir}/jcommon-1.0.12.jar:${class_dir}/junit_3.8.2.jar:${class_dir}/org.eclipse.swt.gtk.linux.x86_3.3.2.v3347.jar:${class_dir}/jfreechart-1.0.9.jar:${class_dir}/org.eclipse.swt_3.3.2.v3347.jar" />
 
 	<target name="init_dist" description="Generate the dist directories">
 		<echo>Generate the dist directories</echo>
@@ -19,7 +21,10 @@
 		<echo>Generate class files</echo>
 		<delete dir="${class_dir}" />
 		<mkdir dir="${class_dir}" />
-		<javac srcdir="${src_dir}" destdir="${class_dir}" />
+		<copy todir="${class_dir}">
+			<fileset dir="${lib_dir}"/>
+		</copy>
+		<javac srcdir="${src_dir}" destdir="${class_dir}" classpath="${classpath}" />
 	</target>
 
 	<target name="jar" depends="build, init_dist" description="Generate the jar file">
@@ -28,6 +33,7 @@
 		<jar destfile="${jar_file}" basedir="${class_dir}">
 			<manifest>
 				<attribute name="Main-Class" value="org.jdhp.opencal.OpenCAL" />
+				<attribute name="Class-Path" value="./ ./jcommon-1.0.12.jar ./junit_3.8.2.jar ./org.eclipse.swt.gtk.linux.x86_3.3.2.v3347.jar ./jfreechart-1.0.9.jar ./org.eclipse.swt_3.3.2.v3347.jar" />
 			</manifest>
 		</jar>
 	</target>
@@ -57,7 +63,7 @@
 
 	<target name="run" depends="build" description="Run the project">
 		<echo>Run the project</echo>
-		<java classpath="${class_dir}" classname="org.jdhp.opencal.OpenCAL" fork="true" />
+		<java classpath="${classpath}" classname="org.jdhp.opencal.OpenCAL" fork="true" />
 	</target>
 	
 	<target name="help" description="Display help">
