@@ -16,6 +16,7 @@
 		<mkdir dir="${dist_dir}" />
 		<mkdir dir="${dist_project_dir}" />
 		<mkdir dir="${dist_project_dir}/lib" />
+		<copy file="${basedir}/run.sh" todir="${dist_project_dir}" />
 		<copy todir="${dist_project_dir}/lib">
 			<fileset dir="${lib_dir}"/>
 		</copy>
@@ -49,7 +50,7 @@
 		<echo>Generate documentation</echo>
 		<delete dir="${doc_dir}" />
 		<mkdir dir="${doc_dir}" />
-		<javadoc sourcepath="${src_dir}" destdir="${doc_dir}" />
+		<javadoc sourcepath="${src_dir}" destdir="${doc_dir}" packagenames="org.jdhp.opencal.*" />
 	</target>
 
 	<target name="clean" description="Remove class and doc directories and jar and dist files">

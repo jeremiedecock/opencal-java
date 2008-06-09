@@ -2,7 +2,7 @@
 
 MOUNT_SCRIPT="/media/data/gremy/cryptoloop/developpement_logiciel.mount.sh"
 UMOUNT_SCRIPT="/media/data/gremy/cryptoloop/developpement_logiciel.umount.sh"
-OPENCAL_SCRIPT="/media/data/gremy/developpement_logiciel/workspaces/eclipse/projets_java/project_0002/run.sh"
+OPENCAL_SCRIPT="/media/data/gremy/developpement_logiciel/bin/opencal/run.sh"
 
 if [ -e "$OPENCAL_SCRIPT" ]; then
 {
