@@ -102,4 +102,28 @@ public class StatsController {
 		
 		return revisionStats;
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getNumberOfCardsMadeToday() {
+		return 0;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getNumberOfCardsReviewedToday() {
+		return 0;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getNumberOfCardsScheduledForToday() {
+		return 0;
+	}
 }
