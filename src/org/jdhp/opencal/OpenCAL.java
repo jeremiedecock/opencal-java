@@ -19,7 +19,7 @@ public class OpenCAL {
 	
 	public final static String programName = "OpenCAL";
 	
-	public final static String pkbFilePath = "/home/gremy/user.pkb";
+	public final static String pkbFilePath = "/home/gremy/user_dev.pkb";
 	
 	public final static String tmpPkbFile = "/tmp/" + OpenCAL.programName + "_user.tmp.pkb";
 	
