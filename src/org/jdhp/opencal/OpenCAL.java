@@ -19,7 +19,7 @@ public class OpenCAL {
 	
 	public final static String programName = "OpenCAL";
 	
-	public final static String pkbFile = "/home/gremy/user.pkb";
+	public final static String pkbFilePath = "/home/gremy/user.pkb";
 	
 	public final static String tmpPkbFile = "/tmp/" + OpenCAL.programName + "_user.tmp.pkb";
 	
@@ -27,10 +27,10 @@ public class OpenCAL {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		Controller.init();
+		
 		// Controller.setUserInterface(new SwingGUI());
 		Controller.setUserInterface(new SWTGUI());
-		
-		Controller.init();
 		
 		Controller.getUserInterface().run();
 	}

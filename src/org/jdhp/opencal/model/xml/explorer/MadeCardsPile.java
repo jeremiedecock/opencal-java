@@ -18,7 +18,7 @@ public class MadeCardsPile {
 	
 	/**
 	 * 
-	 * @param pkbFile
+	 * @param pkbFilePath
 	 */
 	public MadeCardsPile() {
 		this.cardList = new ArrayList<Card>();

@@ -54,12 +54,12 @@ public class ReviewController {
 	
 			// Parse the configuration file (config.xml) and create tmpDB
 			//xr.parse(new InputSource((InputStream) ClassLoader.getSystemResourceAsStream(Controller.cardDb))); // parse le fichier à la racine du .jar
-			FileReader r = new FileReader(OpenCAL.pkbFile);
+			FileReader r = new FileReader(OpenCAL.pkbFilePath);
 			xr.parse(new InputSource(r));
 			r.close();
 			
-			// Remplace pkbFile par tmpPkbFile
-			File cardDbFile = new File(OpenCAL.pkbFile);
+			// Remplace pkbFilePath par tmpPkbFile
+			File cardDbFile = new File(OpenCAL.pkbFilePath);
 			File tmpDbFile = new File(OpenCAL.tmpPkbFile);
 			boolean renameSuccess = tmpDbFile.renameTo(cardDbFile);
 			
@@ -68,13 +68,13 @@ public class ReviewController {
 				Controller.exit(12);
 			}
 		} catch(SAXException e) {
-			Controller.getUserInterface().printError(OpenCAL.pkbFile + " n'est pas valide (SAXException)");
+			Controller.getUserInterface().printError(OpenCAL.pkbFilePath + " n'est pas valide (SAXException)");
 			Controller.exit(2);
 		} catch(FileNotFoundException e) {
-			Controller.getUserInterface().print(OpenCAL.pkbFile + " est introuvable (FileNotFoundException)");
+			Controller.getUserInterface().print(OpenCAL.pkbFilePath + " est introuvable (FileNotFoundException)");
 			Controller.exit(2);
 		} catch(IOException e) {
-			Controller.getUserInterface().printError(OpenCAL.pkbFile + " est illisible (IOException)");
+			Controller.getUserInterface().printError(OpenCAL.pkbFilePath + " est illisible (IOException)");
 			Controller.exit(2);
 		}
 

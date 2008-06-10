@@ -58,12 +58,12 @@ public class MakeController {
 		
 				// Parse the configuration file (config.xml) et crée tmpDB
 				//xr.parse(new InputSource((InputStream) ClassLoader.getSystemResourceAsStream(Controller.cardDb))); // parse le fichier à la racine du .jar
-				FileReader r = new FileReader(OpenCAL.pkbFile);
+				FileReader r = new FileReader(OpenCAL.pkbFilePath);
 				xr.parse(new InputSource(r));
 				r.close();
 				
-				// Remplace pkbFile par tmpPkbFile
-				File cardDbFile = new File(OpenCAL.pkbFile);
+				// Remplace pkbFilePath par tmpPkbFile
+				File cardDbFile = new File(OpenCAL.pkbFilePath);
 				File tmpDbFile = new File(OpenCAL.tmpPkbFile);
 				boolean result = tmpDbFile.renameTo(cardDbFile);
 				
@@ -74,15 +74,15 @@ public class MakeController {
 				
 			} catch(SAXException e) {
 				
-				Controller.getUserInterface().printError(OpenCAL.pkbFile + " n'est pas valide (SAXException)");
+				Controller.getUserInterface().printError(OpenCAL.pkbFilePath + " n'est pas valide (SAXException)");
 				Controller.exit(2);
 				
 			} catch(FileNotFoundException e) {
 				
-				// Le fichier pkbFile n'existe pas, on va le créer
-				Controller.getUserInterface().print("Le fichier " + OpenCAL.pkbFile + " n'existe pas et va être créé.");
+				// Le fichier pkbFilePath n'existe pas, on va le créer
+				Controller.getUserInterface().print("Le fichier " + OpenCAL.pkbFilePath + " n'existe pas et va être créé.");
 				try {
-					PrintWriter file = new PrintWriter(OpenCAL.pkbFile);
+					PrintWriter file = new PrintWriter(OpenCAL.pkbFilePath);
 					file.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 					file.println("<!DOCTYPE pkb [");
 					file.println("    <!--- Knowledge Base -->");
@@ -132,11 +132,11 @@ public class MakeController {
 					
 					file.close();
 				} catch(FileNotFoundException e2) {
-					Controller.getUserInterface().printError(OpenCAL.pkbFile + " ne peut pas être créé (FileNotFoundException)");
+					Controller.getUserInterface().printError(OpenCAL.pkbFilePath + " ne peut pas être créé (FileNotFoundException)");
 					Controller.exit(2);
 				}
 			} catch(IOException e) {
-				Controller.getUserInterface().printError(OpenCAL.pkbFile + " est illisible (IOException)");
+				Controller.getUserInterface().printError(OpenCAL.pkbFilePath + " est illisible (IOException)");
 				Controller.exit(2);
 			}
 		}

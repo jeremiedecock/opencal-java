@@ -18,7 +18,7 @@ public class ReviewedCardsPile {
 	
 	/**
 	 * 
-	 * @param pkbFile
+	 * @param pkbFilePath
 	 */
 	public ReviewedCardsPile() {
 		this.cardList = new ArrayList<Card>();

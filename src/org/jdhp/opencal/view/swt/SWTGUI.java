@@ -251,7 +251,7 @@ public class SWTGUI implements UserInterface {
 		Controller.getUserInterface().setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards left for today");
 		
 		// Signale si le fichier PKB est innexistant
-//		if(! new File(OpenCAL.pkbFile).exists()) Controller.getUserInterface().setStatusLabel1("Knowledge base not found", "Knowledge base not found");
+//		if(! new File(OpenCAL.pkbFilePath).exists()) Controller.getUserInterface().setStatusLabel1("Knowledge base not found", "Knowledge base not found");
 //		else Controller.getUserInterface().setStatusLabel1("", "");
 	}
 	
@@ -265,7 +265,7 @@ public class SWTGUI implements UserInterface {
 		Controller.getUserInterface().setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards left for today");
 		
 		// Signale si le fichier PKB est innexistant
-//		if(! new File(OpenCAL.pkbFile).exists()) Controller.getUserInterface().setStatusLabel1("Knowledge base not found", "Knowledge base not found");
+//		if(! new File(OpenCAL.pkbFilePath).exists()) Controller.getUserInterface().setStatusLabel1("Knowledge base not found", "Knowledge base not found");
 //		else Controller.getUserInterface().setStatusLabel1("", "");
 		
 		// Cas où il n'y a rien à réviser
@@ -281,7 +281,7 @@ public class SWTGUI implements UserInterface {
 		Controller.getUserInterface().setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards left for today");
 		
 		// Signale si le fichier PKB est innexistant
-//		if(! new File(OpenCAL.pkbFile).exists()) Controller.getUserInterface().setStatusLabel1("Knowledge base not found", "Knowledge base not found");
+//		if(! new File(OpenCAL.pkbFilePath).exists()) Controller.getUserInterface().setStatusLabel1("Knowledge base not found", "Knowledge base not found");
 //		else Controller.getUserInterface().setStatusLabel1("", "");
 	}
 	
@@ -296,7 +296,7 @@ public class SWTGUI implements UserInterface {
 		
 		this.statsView.updateChart();
 		// Signale si le fichier PKB est innexistant
-//		if(! new File(OpenCAL.pkbFile).exists()) Controller.getUserInterface().setStatusLabel1("Knowledge base not found", "Knowledge base not found");
+//		if(! new File(OpenCAL.pkbFilePath).exists()) Controller.getUserInterface().setStatusLabel1("Knowledge base not found", "Knowledge base not found");
 //		else Controller.getUserInterface().setStatusLabel1("", "");
 	}
 	
