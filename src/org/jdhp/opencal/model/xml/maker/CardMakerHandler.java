@@ -8,8 +8,8 @@ package org.jdhp.opencal.model.xml.maker;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.jdhp.opencal.controller.Controller;
 import org.xml.sax.Attributes;
@@ -40,6 +40,8 @@ public class CardMakerHandler extends DefaultHandler {
 	
 	private static String lastCardRecordedId = "";
 	
+	private SimpleDateFormat iso8601Formatter;
+	
 	/**
 	 * 
 	 * @param tmpFileName
@@ -66,6 +68,8 @@ public class CardMakerHandler extends DefaultHandler {
 		this.questionFlag = false;
 		this.answerFlag = false;
 		this.tagFlag = false;
+		
+		this.iso8601Formatter = new SimpleDateFormat("yyyy-MM-dd");
 	}
 
 	/**
@@ -179,8 +183,7 @@ public class CardMakerHandler extends DefaultHandler {
 				if(this.question.equals("")) {
 					Controller.getUserInterface().printAlert("La question ne doit pas être vide");
 				} else {
-					GregorianCalendar gc = new GregorianCalendar();
-					this.tmpFile.println("	<card id=\"c" + (this.id + 1) + "\" cdate=\"" + gc.get(Calendar.YEAR) + "-" + (gc.get(Calendar.MONTH) + 1) + "-" + gc.get(Calendar.DAY_OF_MONTH) + "\">");
+					this.tmpFile.println("	<card id=\"c" + (this.id + 1) + "\" cdate=\"" + this.iso8601Formatter.format(new Date()) + "\">");
 					this.tmpFile.println("		<question><![CDATA[" + this.question + "]]></question>");
 					if(!this.answer.equals("")) this.tmpFile.println("		<answer><![CDATA[" + this.answer + "]]></answer>");
 					for(int i=0 ; i < this.tags.length ; i++) {
@@ -213,8 +216,7 @@ public class CardMakerHandler extends DefaultHandler {
 				if(this.question.equals("")) {
 					Controller.getUserInterface().printAlert("La question ne doit pas être vide");
 				} else {
-					GregorianCalendar gc = new GregorianCalendar();
-					this.tmpFile.println("	<card id=\"c" + (this.id + 1) + "\" cdate=\"" + gc.get(Calendar.YEAR) + "-" + (gc.get(Calendar.MONTH) + 1) + "-" + gc.get(Calendar.DAY_OF_MONTH) + "\">");
+					this.tmpFile.println("	<card id=\"c" + (this.id + 1) + "\" cdate=\"" + this.iso8601Formatter.format(new Date()) + "\">");
 					this.tmpFile.println("		<question><![CDATA[" + this.question + "]]></question>");
 					if(!this.answer.equals("")) this.tmpFile.println("		<answer><![CDATA[" + this.answer + "]]></answer>");
 					for(int i=0 ; i < this.tags.length ; i++) {

@@ -105,6 +105,11 @@ public class CardHandler extends DefaultHandler {
 		} else {
 			if(name.equals("card")) {
 				this.id = atts.getValue("id");
+				// Les dates sont au format ISO 8601 (YYYY-MM-DD)
+				String[] date = atts.getValue("cdate").split("-",3);
+				// TODO : s'assurer que le tableau date a bien 3 entrées (pour pas planter le programme en modifiant manuellement le fichier XML)
+				this.cdate = (new GregorianCalendar(Integer.parseInt(date[0]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[2]))).getTime();
+				
 				this.question = "";
 				this.answer = "";
 			}

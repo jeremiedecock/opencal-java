@@ -8,7 +8,8 @@ package org.jdhp.opencal.model.xml.explorer;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.GregorianCalendar;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.controller.Controller;
@@ -43,6 +44,8 @@ public class MadeCardsHandler extends DefaultHandler {
 	private boolean answerFlag;
 	
 	private boolean tagsFlag;
+	
+	private SimpleDateFormat iso8601Formatter;
 	
 	/**
 	 * 
@@ -83,10 +86,8 @@ public class MadeCardsHandler extends DefaultHandler {
 	public MadeCardsHandler() {
 		super();
 		
-		GregorianCalendar today = new GregorianCalendar();
-		this.todayString = today.get(GregorianCalendar.YEAR) + "-" + (today.get(GregorianCalendar.MONTH) + 1) + "-" + today.get(GregorianCalendar.DAY_OF_MONTH);
-//		SimpleDateFormat iso8601Formatter = new SimpleDateFormat("yyyy-MM-dd");  // ne marche pas car affiche "2008-05-10" au lieu de "2008-5-10"
-//		this.todayString = iso8601Formatter.format(new Date());
+		this.iso8601Formatter = new SimpleDateFormat("yyyy-MM-dd");
+		this.todayString = this.iso8601Formatter.format(new Date());
 	}
 	
 	/**

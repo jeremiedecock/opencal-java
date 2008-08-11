@@ -8,9 +8,8 @@ package org.jdhp.opencal.model.xml.reviewer;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Calendar;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import org.jdhp.opencal.controller.Controller;
 import org.xml.sax.Attributes;
@@ -29,8 +28,6 @@ public class ReviewHandler extends DefaultHandler {
 	
 	private String result;
 	
-	private Date date;
-	
 	private boolean questionFlag;
 	
 	private boolean answerFlag;
@@ -38,6 +35,8 @@ public class ReviewHandler extends DefaultHandler {
 	private boolean tagFlag;
 	
 	private boolean reviewedCardFlag;
+	
+	private SimpleDateFormat iso8601Formatter;
 	
 	/**
 	 * 
@@ -59,12 +58,13 @@ public class ReviewHandler extends DefaultHandler {
 
 		this.idCard = idCard;
 		this.result = result;
-		this.date = new Date();
 
 		this.questionFlag = false;
 		this.answerFlag = false;
 		this.tagFlag = false;
 		this.reviewedCardFlag = false;
+		
+		this.iso8601Formatter = new SimpleDateFormat("yyyy-MM-dd");
 	}
 	
 	/**
@@ -170,9 +170,7 @@ public class ReviewHandler extends DefaultHandler {
 			}
 			else if(qName.equals("card")) {
 				if(this.reviewedCardFlag == true) {
-					GregorianCalendar gc = new GregorianCalendar();
-					gc.setTime(this.date); // TODO : cette ligne (tout comme l'attribut date) est inutile ?
-					this.newFile.println("		<review rdate=\"" + gc.get(Calendar.YEAR) + "-" + (gc.get(Calendar.MONTH) + 1) + "-" + gc.get(Calendar.DAY_OF_MONTH) + "\" result=\"" + this.result + "\" />");
+					this.newFile.println("		<review rdate=\"" + this.iso8601Formatter.format(new Date()) + "\" result=\"" + this.result + "\" />");
 					this.reviewedCardFlag = false;
 				}
 				this.newFile.println("	</card>");
@@ -195,9 +193,7 @@ public class ReviewHandler extends DefaultHandler {
 			}
 			else if(name.equals("card")) {
 				if(this.reviewedCardFlag == true) {
-					GregorianCalendar gc = new GregorianCalendar();
-					gc.setTime(this.date); // TODO : cette ligne (tout comme l'attribut date) est inutile ?
-					this.newFile.println("		<review rdate=\"" + gc.get(Calendar.YEAR) + "-" + (gc.get(Calendar.MONTH) + 1) + "-" + gc.get(Calendar.DAY_OF_MONTH) + "\" result=\"" + this.result + "\" />");
+					this.newFile.println("		<review rdate=\"" + this.iso8601Formatter.format(new Date()) + "\" result=\"" + this.result + "\" />");
 					this.reviewedCardFlag = false;
 				}
 				this.newFile.println("	</card>");
