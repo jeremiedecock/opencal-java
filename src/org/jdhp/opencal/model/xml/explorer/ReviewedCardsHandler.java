@@ -69,13 +69,13 @@ public class ReviewedCardsHandler extends DefaultHandler {
 			xr.parse(new InputSource(r));
 			r.close();
 		} catch(SAXException e) {
-			OpenCAL.MainWindow.printError(OpenCAL.pkbFilePath + " n'est pas valide (SAXException)");
+			OpenCAL.mainWindow.printError(OpenCAL.pkbFilePath + " n'est pas valide (SAXException)");
 			OpenCAL.exit(2);
 		} catch(FileNotFoundException e) {
-			OpenCAL.MainWindow.printError(OpenCAL.pkbFilePath + " est introuvable (FileNotFoundException)");
+			OpenCAL.mainWindow.printError(OpenCAL.pkbFilePath + " est introuvable (FileNotFoundException)");
 			OpenCAL.exit(2);
 		} catch(IOException e) {
-			OpenCAL.MainWindow.printError(OpenCAL.pkbFilePath + " est illisible (IOException)");
+			OpenCAL.mainWindow.printError(OpenCAL.pkbFilePath + " est illisible (IOException)");
 			OpenCAL.exit(2);
 		}
 	}

@@ -47,12 +47,12 @@ public class ReviewHandler extends DefaultHandler {
 	public ReviewHandler(String file, String idCard, String result) {
 		super();
 		
-		if(file.equals("")) OpenCAL.MainWindow.printError("La variable file n'est pas définie...");
+		if(file.equals("")) OpenCAL.mainWindow.printError("La variable file n'est pas définie...");
 		
 		try {
 			this.newFile = new PrintWriter(new FileWriter(file));
 		} catch(IOException e) {
-			OpenCAL.MainWindow.printError("Impossible d'écrire dans le fichier " + file);
+			OpenCAL.mainWindow.printError("Impossible d'écrire dans le fichier " + file);
 			OpenCAL.exit(32);
 		}
 

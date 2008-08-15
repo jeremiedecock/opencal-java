@@ -83,14 +83,14 @@ public class MakerTab {
 		addButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				if(questionText.getText().equals("")) {
-					OpenCAL.MainWindow.printAlert("La question ne doit pas être vide !");
+					OpenCAL.mainWindow.printAlert("La question ne doit pas être vide !");
 				} else {
 					MakeController.addCard(questionText.getText(), answerText.getText(), tagsText.getText());
 					MadeCardsController.add(new Card(questionText.getText(), answerText.getText(), tagsText.getText(), ""));
 					questionText.setText("");
 					answerText.setText("");
 					tagsText.setText("");
-					OpenCAL.MainWindow.setStatusLabel1("Card #" + CardMakerHandler.getLastCardRecordedId() + " recorded", "Card #" + CardMakerHandler.getLastCardRecordedId() + " recorded");
+					OpenCAL.mainWindow.setStatusLabel1("Card #" + CardMakerHandler.getLastCardRecordedId() + " recorded", "Card #" + CardMakerHandler.getLastCardRecordedId() + " recorded");
 				}
 			
 				// Donne le focus à la questionArea

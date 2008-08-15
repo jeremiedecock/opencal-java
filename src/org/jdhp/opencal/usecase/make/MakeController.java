@@ -46,7 +46,7 @@ public class MakeController {
 		String[] tagArray = tagString.split("\n");
 		
 		if(question.equals("")) {
-			OpenCAL.MainWindow.printAlert("La question ne doit pas être vide");
+			OpenCAL.mainWindow.printAlert("La question ne doit pas être vide");
 		} else {
 			try {
 				// Crée le Handler
@@ -67,19 +67,19 @@ public class MakeController {
 				boolean result = tmpDbFile.renameTo(cardDbFile);
 				
 				if(!result) {
-					OpenCAL.MainWindow.printError("Impossible de renommer le fichier " + OpenCAL.tmpPkbFile);
+					OpenCAL.mainWindow.printError("Impossible de renommer le fichier " + OpenCAL.tmpPkbFile);
 					OpenCAL.exit(12);
 				}
 				
 			} catch(SAXException e) {
 				
-				OpenCAL.MainWindow.printError(OpenCAL.pkbFilePath + " n'est pas valide (SAXException)");
+				OpenCAL.mainWindow.printError(OpenCAL.pkbFilePath + " n'est pas valide (SAXException)");
 				OpenCAL.exit(2);
 				
 			} catch(FileNotFoundException e) {
 				
 				// Le fichier pkbFilePath n'existe pas, on va le créer
-				OpenCAL.MainWindow.print("Le fichier " + OpenCAL.pkbFilePath + " n'existe pas et va être créé.");
+				OpenCAL.mainWindow.print("Le fichier " + OpenCAL.pkbFilePath + " n'existe pas et va être créé.");
 				try {
 					PrintWriter file = new PrintWriter(OpenCAL.pkbFilePath);
 					file.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
@@ -131,11 +131,11 @@ public class MakeController {
 					
 					file.close();
 				} catch(FileNotFoundException e2) {
-					OpenCAL.MainWindow.printError(OpenCAL.pkbFilePath + " ne peut pas être créé (FileNotFoundException)");
+					OpenCAL.mainWindow.printError(OpenCAL.pkbFilePath + " ne peut pas être créé (FileNotFoundException)");
 					OpenCAL.exit(2);
 				}
 			} catch(IOException e) {
-				OpenCAL.MainWindow.printError(OpenCAL.pkbFilePath + " est illisible (IOException)");
+				OpenCAL.mainWindow.printError(OpenCAL.pkbFilePath + " est illisible (IOException)");
 				OpenCAL.exit(2);
 			}
 		}

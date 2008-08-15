@@ -249,8 +249,8 @@ public class MainWindow {
 		this.setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards left for today");
 		
 		// Signale si le fichier PKB est innexistant
-//		if(! new File(OpenCAL.pkbFilePath).exists()) OpenCAL.MainWindow.setStatusLabel1("Knowledge base not found", "Knowledge base not found");
-//		else OpenCAL.MainWindow.setStatusLabel1("", "");
+//		if(! new File(OpenCAL.pkbFilePath).exists()) OpenCAL.mainWindow.setStatusLabel1("Knowledge base not found", "Knowledge base not found");
+//		else OpenCAL.mainWindow.setStatusLabel1("", "");
 	}
 	
 	/**
@@ -263,8 +263,8 @@ public class MainWindow {
 		this.setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards left for today");
 		
 		// Signale si le fichier PKB est innexistant
-//		if(! new File(OpenCAL.pkbFilePath).exists()) OpenCAL.MainWindow.setStatusLabel1("Knowledge base not found", "Knowledge base not found");
-//		else OpenCAL.MainWindow.setStatusLabel1("", "");
+//		if(! new File(OpenCAL.pkbFilePath).exists()) OpenCAL.mainWindow.setStatusLabel1("Knowledge base not found", "Knowledge base not found");
+//		else OpenCAL.mainWindow.setStatusLabel1("", "");
 		
 		// Cas où il n'y a rien à réviser
 	}
@@ -279,8 +279,8 @@ public class MainWindow {
 		this.setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards left for today");
 		
 		// Signale si le fichier PKB est innexistant
-//		if(! new File(OpenCAL.pkbFilePath).exists()) OpenCAL.MainWindow.setStatusLabel1("Knowledge base not found", "Knowledge base not found");
-//		else OpenCAL.MainWindow.setStatusLabel1("", "");
+//		if(! new File(OpenCAL.pkbFilePath).exists()) OpenCAL.mainWindow.setStatusLabel1("Knowledge base not found", "Knowledge base not found");
+//		else OpenCAL.mainWindow.setStatusLabel1("", "");
 	}
 	
 	/**
@@ -294,8 +294,8 @@ public class MainWindow {
 		
 		this.statsTab.updateChart();
 		// Signale si le fichier PKB est innexistant
-//		if(! new File(OpenCAL.pkbFilePath).exists()) OpenCAL.MainWindow.setStatusLabel1("Knowledge base not found", "Knowledge base not found");
-//		else OpenCAL.MainWindow.setStatusLabel1("", "");
+//		if(! new File(OpenCAL.pkbFilePath).exists()) OpenCAL.mainWindow.setStatusLabel1("Knowledge base not found", "Knowledge base not found");
+//		else OpenCAL.mainWindow.setStatusLabel1("", "");
 	}
 	
 	/**

@@ -38,7 +38,7 @@ public class OpenCAL {
 	
 	public final static String tmpPkbFile = "/tmp/" + OpenCAL.programName + "_user.tmp.pkb";
 	
-	public static MainWindow MainWindow;
+	public static MainWindow mainWindow;
 	
 	public static Document domDocument;
 	
@@ -57,23 +57,23 @@ public class OpenCAL {
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			OpenCAL.domDocument = db.parse(pkbFile);
 		} catch(SAXException e) {
-			OpenCAL.MainWindow.printError(OpenCAL.pkbFilePath + " n'est pas valide (SAXException)");
+			OpenCAL.mainWindow.printError(OpenCAL.pkbFilePath + " n'est pas valide (SAXException)");
 			OpenCAL.exit(2);
 		} catch(FileNotFoundException e) {
-			OpenCAL.MainWindow.print(OpenCAL.pkbFilePath + " est introuvable (FileNotFoundException)");
+			OpenCAL.mainWindow.print(OpenCAL.pkbFilePath + " est introuvable (FileNotFoundException)");
 			OpenCAL.exit(2);
 		} catch(IOException e) {
-			OpenCAL.MainWindow.printError(OpenCAL.pkbFilePath + " est illisible (IOException)");
+			OpenCAL.mainWindow.printError(OpenCAL.pkbFilePath + " est illisible (IOException)");
 			OpenCAL.exit(2);
 		} catch(ParserConfigurationException e) {
-			OpenCAL.MainWindow.printError("The XML parser was not configured (ParserConfigurationException)");
+			OpenCAL.mainWindow.printError("The XML parser was not configured (ParserConfigurationException)");
 			OpenCAL.exit(2);
 		}
 		
 		// Misc init
 		OpenCAL.init();
-		OpenCAL.MainWindow = new MainWindow();
-		OpenCAL.MainWindow.run();
+		OpenCAL.mainWindow = new MainWindow();
+		OpenCAL.mainWindow.run();
 	}
 
 	/**
