@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.controller.Controller;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
@@ -47,12 +48,12 @@ public class ReviewHandler extends DefaultHandler {
 	public ReviewHandler(String file, String idCard, String result) {
 		super();
 		
-		if(file.equals("")) Controller.getUserInterface().printError("La variable file n'est pas définie...");
+		if(file.equals("")) OpenCAL.GUI.printError("La variable file n'est pas définie...");
 		
 		try {
 			this.newFile = new PrintWriter(new FileWriter(file));
 		} catch(IOException e) {
-			Controller.getUserInterface().printError("Impossible d'écrire dans le fichier " + file);
+			OpenCAL.GUI.printError("Impossible d'écrire dans le fichier " + file);
 			Controller.exit(32);
 		}
 

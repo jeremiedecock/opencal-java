@@ -3,7 +3,7 @@
  * Copyright (c) 2007,2008 Jérémie Decock
  */
 
-package org.jdhp.opencal.view.swt.stats;
+package org.jdhp.opencal.gui;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -36,7 +36,7 @@ import org.jfree.ui.RectangleInsets;
  * @author Jérémie Decock
  *
  */
-public class StatsView {
+public class StatsTab {
 
 	final private Composite parentComposite;
 	
@@ -48,7 +48,7 @@ public class StatsView {
 	 * 
 	 * @param parentComposite
 	 */
-	public StatsView(Composite parentComposite) {
+	public StatsTab(Composite parentComposite) {
 		this.parentComposite = parentComposite;
 
 		///////////////////////////////////////////////////////////////////////

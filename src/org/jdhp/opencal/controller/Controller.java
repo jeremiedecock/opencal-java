@@ -19,7 +19,6 @@ import org.jdhp.opencal.controller.explorer.ReviewedCardsController;
 import org.jdhp.opencal.controller.maker.MakeController;
 import org.jdhp.opencal.controller.reviewer.ReviewController;
 import org.jdhp.opencal.controller.stats.StatsController;
-import org.jdhp.opencal.view.UserInterface;
 import org.w3c.dom.Document;
 //import org.w3c.dom.Element;
 //import org.w3c.dom.NodeList;
@@ -32,8 +31,6 @@ import org.xml.sax.SAXException;
  *
  */
 public class Controller {
-	
-	private static UserInterface ui;
 	
 	private static Document xmlDocument;
 	
@@ -58,16 +55,16 @@ public class Controller {
 //				System.out.println(card.getAttribute("id") + " : " + ((Text) question.getFirstChild()).getData());
 //			}
 		} catch(SAXException e) {
-			Controller.getUserInterface().printError(OpenCAL.pkbFilePath + " n'est pas valide (SAXException)");
+			OpenCAL.GUI.printError(OpenCAL.pkbFilePath + " n'est pas valide (SAXException)");
 			Controller.exit(2);
 		} catch(FileNotFoundException e) {
-			Controller.getUserInterface().print(OpenCAL.pkbFilePath + " est introuvable (FileNotFoundException)");
+			OpenCAL.GUI.print(OpenCAL.pkbFilePath + " est introuvable (FileNotFoundException)");
 			Controller.exit(2);
 		} catch(IOException e) {
-			Controller.getUserInterface().printError(OpenCAL.pkbFilePath + " est illisible (IOException)");
+			OpenCAL.GUI.printError(OpenCAL.pkbFilePath + " est illisible (IOException)");
 			Controller.exit(2);
 		} catch(ParserConfigurationException e) {
-			Controller.getUserInterface().printError("The XML parser was not configured (ParserConfigurationException)");
+			OpenCAL.GUI.printError("The XML parser was not configured (ParserConfigurationException)");
 			Controller.exit(2);
 		}
 		
@@ -95,19 +92,4 @@ public class Controller {
 		System.exit(status);
 	}
 	
-	/**
-	 * 
-	 * @return
-	 */
-	public static UserInterface getUserInterface() {
-		return Controller.ui;
-	}
-
-	/**
-	 * 
-	 * @param ui
-	 */
-	public static void setUserInterface(UserInterface ui) {
-		Controller.ui = ui;
-	}
 }

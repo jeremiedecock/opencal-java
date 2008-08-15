@@ -3,7 +3,7 @@
  * Copyright (c) 2007,2008 Jérémie Decock
  */
 
-package org.jdhp.opencal.view.swt.explorer;
+package org.jdhp.opencal.gui;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -26,7 +26,7 @@ import org.jdhp.opencal.controller.explorer.ReviewedCardsController;
  * @author Jérémie Decock
  *
  */
-public class ExplorerView {
+public class ExplorerTab {
 
 	final private static int ALL_CARDS = 0;
 	
@@ -48,7 +48,7 @@ public class ExplorerView {
 	 * 
 	 * @param parentComposite
 	 */
-	public ExplorerView(Composite parentComposite) {
+	public ExplorerTab(Composite parentComposite) {
 		this.parentComposite = parentComposite;
 		this.parentComposite.setLayout(new GridLayout(2, false));
 		
@@ -56,7 +56,7 @@ public class ExplorerView {
 		final Text answerText;
 		final Text tagsText;
 		
-		ExplorerView.currentDisplayMode = ExplorerView.ALL_CARDS;
+		ExplorerTab.currentDisplayMode = ExplorerTab.ALL_CARDS;
 
 		///////////////////////////////////////////////////////////////////////
 		// CardSelectionComposite /////////////////////////////////////////////
@@ -71,7 +71,7 @@ public class ExplorerView {
 		displayModeCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		
 		displayModeCombo.setItems(displayModes);
-		displayModeCombo.select(ExplorerView.currentDisplayMode);
+		displayModeCombo.select(ExplorerTab.currentDisplayMode);
 		
 		// cardsList ////////////
 //		final List cardsList = new List(cardSelectionComposite, SWT.BORDER | SWT.V_SCROLL);

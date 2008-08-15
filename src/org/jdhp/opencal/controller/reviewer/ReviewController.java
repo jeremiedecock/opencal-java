@@ -64,17 +64,17 @@ public class ReviewController {
 			boolean renameSuccess = tmpDbFile.renameTo(cardDbFile);
 			
 			if(!renameSuccess) {
-				Controller.getUserInterface().printError("Impossible de renommer le fichier " + OpenCAL.tmpPkbFile);
+				OpenCAL.GUI.printError("Impossible de renommer le fichier " + OpenCAL.tmpPkbFile);
 				Controller.exit(12);
 			}
 		} catch(SAXException e) {
-			Controller.getUserInterface().printError(OpenCAL.pkbFilePath + " n'est pas valide (SAXException)");
+			OpenCAL.GUI.printError(OpenCAL.pkbFilePath + " n'est pas valide (SAXException)");
 			Controller.exit(2);
 		} catch(FileNotFoundException e) {
-			Controller.getUserInterface().print(OpenCAL.pkbFilePath + " est introuvable (FileNotFoundException)");
+			OpenCAL.GUI.print(OpenCAL.pkbFilePath + " est introuvable (FileNotFoundException)");
 			Controller.exit(2);
 		} catch(IOException e) {
-			Controller.getUserInterface().printError(OpenCAL.pkbFilePath + " est illisible (IOException)");
+			OpenCAL.GUI.printError(OpenCAL.pkbFilePath + " est illisible (IOException)");
 			Controller.exit(2);
 		}
 

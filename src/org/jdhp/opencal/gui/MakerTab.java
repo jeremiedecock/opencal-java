@@ -3,7 +3,7 @@
  * Copyright (c) 2007,2008 Jérémie Decock
  */
 
-package org.jdhp.opencal.view.swt.maker;
+package org.jdhp.opencal.gui;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
-import org.jdhp.opencal.controller.Controller;
+import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.controller.explorer.MadeCardsController;
 import org.jdhp.opencal.controller.maker.MakeController;
 import org.jdhp.opencal.model.xml.explorer.Card;
@@ -26,7 +26,7 @@ import org.jdhp.opencal.model.xml.maker.CardMakerHandler;
  * @author Jérémie Decock
  *
  */
-public class MakerView {
+public class MakerTab {
 
 	final private Composite parentComposite;
 	
@@ -34,7 +34,7 @@ public class MakerView {
 	 * 
 	 * @param parentComposite
 	 */
-	public MakerView(Composite parentComposite) {
+	public MakerTab(Composite parentComposite) {
 		
 		this.parentComposite = parentComposite;
 		this.parentComposite.setLayout(new GridLayout(1, false));
@@ -83,14 +83,14 @@ public class MakerView {
 		addButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				if(questionText.getText().equals("")) {
-					Controller.getUserInterface().printAlert("La question ne doit pas être vide !");
+					OpenCAL.GUI.printAlert("La question ne doit pas être vide !");
 				} else {
 					MakeController.addCard(questionText.getText(), answerText.getText(), tagsText.getText());
 					MadeCardsController.add(new Card(questionText.getText(), answerText.getText(), tagsText.getText(), ""));
 					questionText.setText("");
 					answerText.setText("");
 					tagsText.setText("");
-					Controller.getUserInterface().setStatusLabel1("Card #" + CardMakerHandler.getLastCardRecordedId() + " recorded", "Card #" + CardMakerHandler.getLastCardRecordedId() + " recorded");
+					OpenCAL.GUI.setStatusLabel1("Card #" + CardMakerHandler.getLastCardRecordedId() + " recorded", "Card #" + CardMakerHandler.getLastCardRecordedId() + " recorded");
 				}
 			
 				// Donne le focus à la questionArea
