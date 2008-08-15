@@ -39,37 +39,18 @@ public class OpenCAL {
 	
 	public static MainWindow MainWindow;
 	
-	private static Document xmlDocument;
+	public static Document domDocument;
 	
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		OpenCAL.init();
-		OpenCAL.MainWindow = new MainWindow();
-		OpenCAL.MainWindow.run();
-	}
-
-	/**
-	 * Initialize all controllers
-	 */
-	public static void init() {
-		// Make the XML DOM tree
+		// Build the XML DOM tree
 		try {
 			File pkbFile = new File(OpenCAL.pkbFilePath);
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder db = dbf.newDocumentBuilder();
-			OpenCAL.xmlDocument = db.parse(pkbFile);
-			
-//			Element rootElement = doc.getDocumentElement();
-//			System.out.println("Nom root element : " + rootElement.getNodeName());
-//			
-//			NodeList nodeCards = doc.getElementsByTagName("card");
-//			for(int i=0 ; i<nodeCards.getLength() ; i++) {
-//				Element card = (Element) nodeCards.item(i);
-//				Element question = (Element) card.getElementsByTagName("question").item(0);
-//				System.out.println(card.getAttribute("id") + " : " + ((Text) question.getFirstChild()).getData());
-//			}
+			OpenCAL.domDocument = db.parse(pkbFile);
 		} catch(SAXException e) {
 			OpenCAL.MainWindow.printError(OpenCAL.pkbFilePath + " n'est pas valide (SAXException)");
 			OpenCAL.exit(2);
@@ -84,21 +65,23 @@ public class OpenCAL {
 			OpenCAL.exit(2);
 		}
 		
+		// Misc init
+		OpenCAL.init();
+		OpenCAL.MainWindow = new MainWindow();
+		OpenCAL.MainWindow.run();
+	}
+
+	/**
+	 * Initialize all controllers
+	 */
+	public static void init() {
 		MakeController.init();
 		ReviewController.init();
 		StatsController.init();
 		MadeCardsController.init();
 		ReviewedCardsController.init();
 	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public static Document getXmlDocument() {
-		return OpenCAL.xmlDocument;
-	}
-	
+		
 	/**
 	 * Quit the program
 	 * 
