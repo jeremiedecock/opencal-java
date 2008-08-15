@@ -55,16 +55,16 @@ public class Controller {
 //				System.out.println(card.getAttribute("id") + " : " + ((Text) question.getFirstChild()).getData());
 //			}
 		} catch(SAXException e) {
-			OpenCAL.GUI.printError(OpenCAL.pkbFilePath + " n'est pas valide (SAXException)");
+			OpenCAL.MainWindow.printError(OpenCAL.pkbFilePath + " n'est pas valide (SAXException)");
 			Controller.exit(2);
 		} catch(FileNotFoundException e) {
-			OpenCAL.GUI.print(OpenCAL.pkbFilePath + " est introuvable (FileNotFoundException)");
+			OpenCAL.MainWindow.print(OpenCAL.pkbFilePath + " est introuvable (FileNotFoundException)");
 			Controller.exit(2);
 		} catch(IOException e) {
-			OpenCAL.GUI.printError(OpenCAL.pkbFilePath + " est illisible (IOException)");
+			OpenCAL.MainWindow.printError(OpenCAL.pkbFilePath + " est illisible (IOException)");
 			Controller.exit(2);
 		} catch(ParserConfigurationException e) {
-			OpenCAL.GUI.printError("The XML parser was not configured (ParserConfigurationException)");
+			OpenCAL.MainWindow.printError("The XML parser was not configured (ParserConfigurationException)");
 			Controller.exit(2);
 		}
 		

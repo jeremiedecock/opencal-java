@@ -49,13 +49,13 @@ public class RevisionDoneTodayHandler extends DefaultHandler {
 			xr.parse(new InputSource(r));
 			r.close();
 		} catch(SAXException e) {
-			OpenCAL.GUI.printError(OpenCAL.pkbFilePath + " n'est pas valide (SAXException)");
+			OpenCAL.MainWindow.printError(OpenCAL.pkbFilePath + " n'est pas valide (SAXException)");
 			Controller.exit(2);
 		} catch(FileNotFoundException e) {
-			OpenCAL.GUI.printError(OpenCAL.pkbFilePath + " est introuvable (FileNotFoundException)");
+			OpenCAL.MainWindow.printError(OpenCAL.pkbFilePath + " est introuvable (FileNotFoundException)");
 			Controller.exit(2);
 		} catch(IOException e) {
-			OpenCAL.GUI.printError(OpenCAL.pkbFilePath + " est illisible (IOException)");
+			OpenCAL.MainWindow.printError(OpenCAL.pkbFilePath + " est illisible (IOException)");
 			Controller.exit(2);
 		}
 		

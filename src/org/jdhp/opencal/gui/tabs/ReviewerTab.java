@@ -3,7 +3,7 @@
  * Copyright (c) 2007,2008 Jérémie Decock
  */
 
-package org.jdhp.opencal.gui;
+package org.jdhp.opencal.gui.tabs;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
@@ -105,9 +105,9 @@ public class ReviewerTab {
 				badButton.setEnabled(false);
 				reviewerText.setText("QUESTION\n\n" + ReviewController.card.getQuestion());
 				reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
-				OpenCAL.GUI.setStatusLabel2("L : " + ReviewController.card.getPriorityRank(), "Card level " + ReviewController.card.getPriorityRank());
-				OpenCAL.GUI.setStatusLabel3("D : " + ReviewController.revisionPile.getReviewedCards(), ReviewController.revisionPile.getReviewedCards() + " review done today");
-				OpenCAL.GUI.setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards left for today");
+				OpenCAL.MainWindow.setStatusLabel2("L : " + ReviewController.card.getPriorityRank(), "Card level " + ReviewController.card.getPriorityRank());
+				OpenCAL.MainWindow.setStatusLabel3("D : " + ReviewController.revisionPile.getReviewedCards(), ReviewController.revisionPile.getReviewedCards() + " review done today");
+				OpenCAL.MainWindow.setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards left for today");
 			}
 		});
 		
@@ -133,9 +133,9 @@ public class ReviewerTab {
 				badButton.setEnabled(false);
 				reviewerText.setText("QUESTION\n\n" + ReviewController.card.getQuestion());
 				reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
-				OpenCAL.GUI.setStatusLabel2("L : " + ReviewController.card.getPriorityRank(), "Card level " + ReviewController.card.getPriorityRank());
-				OpenCAL.GUI.setStatusLabel3("D : " + ReviewController.revisionPile.getReviewedCards(), ReviewController.revisionPile.getReviewedCards() + " review done today");
-				OpenCAL.GUI.setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards left for today");
+				OpenCAL.MainWindow.setStatusLabel2("L : " + ReviewController.card.getPriorityRank(), "Card level " + ReviewController.card.getPriorityRank());
+				OpenCAL.MainWindow.setStatusLabel3("D : " + ReviewController.revisionPile.getReviewedCards(), ReviewController.revisionPile.getReviewedCards() + " review done today");
+				OpenCAL.MainWindow.setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards left for today");
 			}
 		});
 		
@@ -155,9 +155,9 @@ public class ReviewerTab {
 				ReviewController.card = ReviewController.revisionPile.getPointedCard();
 				reviewerText.setText("QUESTION\n\n" + ReviewController.card.getQuestion());
 				reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
-				OpenCAL.GUI.setStatusLabel2("L : " + ReviewController.card.getPriorityRank(), "Card level " + ReviewController.card.getPriorityRank());
-				OpenCAL.GUI.setStatusLabel3("D : " + ReviewController.revisionPile.getReviewedCards(), ReviewController.revisionPile.getReviewedCards() + " review done today");
-				OpenCAL.GUI.setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards left for today");
+				OpenCAL.MainWindow.setStatusLabel2("L : " + ReviewController.card.getPriorityRank(), "Card level " + ReviewController.card.getPriorityRank());
+				OpenCAL.MainWindow.setStatusLabel3("D : " + ReviewController.revisionPile.getReviewedCards(), ReviewController.revisionPile.getReviewedCards() + " review done today");
+				OpenCAL.MainWindow.setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards left for today");
 				
 				if(ReviewController.revisionPile.pointerIsOnTheFirstCard()) {
 					previewButton.setEnabled(false);
@@ -182,9 +182,9 @@ public class ReviewerTab {
 				int textLength = reviewerText.getCharCount();
 				if(ReviewController.card != null) reviewerText.append("\n\nANSWER\n\n" + ReviewController.card.getAnswer());
 				reviewerText.setStyleRange(new StyleRange(textLength + 2, 6, null, null, SWT.BOLD));
-				if(ReviewController.card != null) OpenCAL.GUI.setStatusLabel2("L : " + ReviewController.card.getPriorityRank(), "Card level " + ReviewController.card.getPriorityRank());
-				OpenCAL.GUI.setStatusLabel3("D : " + ReviewController.revisionPile.getReviewedCards(), ReviewController.revisionPile.getReviewedCards() + " review done today");
-				OpenCAL.GUI.setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards left for today");
+				if(ReviewController.card != null) OpenCAL.MainWindow.setStatusLabel2("L : " + ReviewController.card.getPriorityRank(), "Card level " + ReviewController.card.getPriorityRank());
+				OpenCAL.MainWindow.setStatusLabel3("D : " + ReviewController.revisionPile.getReviewedCards(), ReviewController.revisionPile.getReviewedCards() + " review done today");
+				OpenCAL.MainWindow.setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards left for today");
 			}
 		});
 		
@@ -199,9 +199,9 @@ public class ReviewerTab {
 				ReviewController.card = ReviewController.revisionPile.getPointedCard();
 				reviewerText.setText("QUESTION\n\n" + ReviewController.card.getQuestion());
 				reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
-				OpenCAL.GUI.setStatusLabel2("L : " + ReviewController.card.getPriorityRank(), "Card level " + ReviewController.card.getPriorityRank());
-				OpenCAL.GUI.setStatusLabel3("D : " + ReviewController.revisionPile.getReviewedCards(), ReviewController.revisionPile.getReviewedCards() + " review done today");
-				OpenCAL.GUI.setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards left for today");
+				OpenCAL.MainWindow.setStatusLabel2("L : " + ReviewController.card.getPriorityRank(), "Card level " + ReviewController.card.getPriorityRank());
+				OpenCAL.MainWindow.setStatusLabel3("D : " + ReviewController.revisionPile.getReviewedCards(), ReviewController.revisionPile.getReviewedCards() + " review done today");
+				OpenCAL.MainWindow.setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards left for today");
 				
 				if(ReviewController.revisionPile.pointerIsOnTheLastCard()) {
 					nextButton.setEnabled(false);

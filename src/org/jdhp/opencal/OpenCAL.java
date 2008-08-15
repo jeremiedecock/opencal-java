@@ -6,7 +6,7 @@
 package org.jdhp.opencal;
 
 import org.jdhp.opencal.controller.Controller;
-import org.jdhp.opencal.gui.GUI;
+import org.jdhp.opencal.gui.MainWindow;
 
 /**
  * 
@@ -23,14 +23,14 @@ public class OpenCAL {
 	
 	public final static String tmpPkbFile = "/tmp/" + OpenCAL.programName + "_user.tmp.pkb";
 	
-	public static GUI GUI;
+	public static MainWindow MainWindow;
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		Controller.init();
-		OpenCAL.GUI = new GUI();
-		OpenCAL.GUI.run();
+		OpenCAL.MainWindow = new MainWindow();
+		OpenCAL.MainWindow.run();
 	}
 
 }

@@ -3,7 +3,7 @@
  * Copyright (c) 2007,2008 Jérémie Decock
  */
 
-package org.jdhp.opencal.gui;
+package org.jdhp.opencal.gui.tabs;
 
 import java.awt.Color;
 import java.awt.Font;

@@ -26,13 +26,17 @@ import org.eclipse.swt.widgets.TabItem;
 import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.controller.Controller;
 import org.jdhp.opencal.controller.reviewer.ReviewController;
+import org.jdhp.opencal.gui.tabs.ExplorerTab;
+import org.jdhp.opencal.gui.tabs.MakerTab;
+import org.jdhp.opencal.gui.tabs.ReviewerTab;
+import org.jdhp.opencal.gui.tabs.StatsTab;
 
 /**
  * 
  * @author Jérémie Decock
  *
  */
-public class GUI {
+public class MainWindow {
 	
 	final private Display display;
 	
@@ -61,7 +65,7 @@ public class GUI {
 	/**
 	 * 
 	 */
-	public GUI() {
+	public MainWindow() {
 		this.display = new Display();
 		this.shell = new Shell(this.display);
 		this.shell.setLayout(new GridLayout(1, false));
@@ -246,8 +250,8 @@ public class GUI {
 		this.setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards left for today");
 		
 		// Signale si le fichier PKB est innexistant
-//		if(! new File(OpenCAL.pkbFilePath).exists()) OpenCAL.GUI.setStatusLabel1("Knowledge base not found", "Knowledge base not found");
-//		else OpenCAL.GUI.setStatusLabel1("", "");
+//		if(! new File(OpenCAL.pkbFilePath).exists()) OpenCAL.MainWindow.setStatusLabel1("Knowledge base not found", "Knowledge base not found");
+//		else OpenCAL.MainWindow.setStatusLabel1("", "");
 	}
 	
 	/**
@@ -260,8 +264,8 @@ public class GUI {
 		this.setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards left for today");
 		
 		// Signale si le fichier PKB est innexistant
-//		if(! new File(OpenCAL.pkbFilePath).exists()) OpenCAL.GUI.setStatusLabel1("Knowledge base not found", "Knowledge base not found");
-//		else OpenCAL.GUI.setStatusLabel1("", "");
+//		if(! new File(OpenCAL.pkbFilePath).exists()) OpenCAL.MainWindow.setStatusLabel1("Knowledge base not found", "Knowledge base not found");
+//		else OpenCAL.MainWindow.setStatusLabel1("", "");
 		
 		// Cas où il n'y a rien à réviser
 	}
@@ -276,8 +280,8 @@ public class GUI {
 		this.setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards left for today");
 		
 		// Signale si le fichier PKB est innexistant
-//		if(! new File(OpenCAL.pkbFilePath).exists()) OpenCAL.GUI.setStatusLabel1("Knowledge base not found", "Knowledge base not found");
-//		else OpenCAL.GUI.setStatusLabel1("", "");
+//		if(! new File(OpenCAL.pkbFilePath).exists()) OpenCAL.MainWindow.setStatusLabel1("Knowledge base not found", "Knowledge base not found");
+//		else OpenCAL.MainWindow.setStatusLabel1("", "");
 	}
 	
 	/**
@@ -291,8 +295,8 @@ public class GUI {
 		
 		this.statsTab.updateChart();
 		// Signale si le fichier PKB est innexistant
-//		if(! new File(OpenCAL.pkbFilePath).exists()) OpenCAL.GUI.setStatusLabel1("Knowledge base not found", "Knowledge base not found");
-//		else OpenCAL.GUI.setStatusLabel1("", "");
+//		if(! new File(OpenCAL.pkbFilePath).exists()) OpenCAL.MainWindow.setStatusLabel1("Knowledge base not found", "Knowledge base not found");
+//		else OpenCAL.MainWindow.setStatusLabel1("", "");
 	}
 	
 	/**

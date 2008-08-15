@@ -53,12 +53,12 @@ public class CardMakerHandler extends DefaultHandler {
 	public CardMakerHandler(String tmpFileName, String question, String answer, String[] tags) {
 		super();
 		
-		if(tmpFileName.equals("")) OpenCAL.GUI.printError("La variable tmpFileName n'est pas définie...");
+		if(tmpFileName.equals("")) OpenCAL.MainWindow.printError("La variable tmpFileName n'est pas définie...");
 		
 		try {
 			this.tmpFile = new PrintWriter(new FileWriter(tmpFileName));
 		} catch(IOException e) {
-			OpenCAL.GUI.printError("Impossible d'écrire dans le fichier " + tmpFileName);
+			OpenCAL.MainWindow.printError("Impossible d'écrire dans le fichier " + tmpFileName);
 			Controller.exit(32);
 		}
 		
@@ -182,7 +182,7 @@ public class CardMakerHandler extends DefaultHandler {
 		if(uri.equals("")) {
 			if(qName.equals("pkb")) {
 				if(this.question.equals("")) {
-					OpenCAL.GUI.printAlert("La question ne doit pas être vide");
+					OpenCAL.MainWindow.printAlert("La question ne doit pas être vide");
 				} else {
 					this.tmpFile.println("	<card id=\"c" + (this.id + 1) + "\" cdate=\"" + this.iso8601Formatter.format(new Date()) + "\">");
 					this.tmpFile.println("		<question><![CDATA[" + this.question + "]]></question>");
@@ -215,7 +215,7 @@ public class CardMakerHandler extends DefaultHandler {
 		} else {
 			if(name.equals("pkb")) {
 				if(this.question.equals("")) {
-					OpenCAL.GUI.printAlert("La question ne doit pas être vide");
+					OpenCAL.MainWindow.printAlert("La question ne doit pas être vide");
 				} else {
 					this.tmpFile.println("	<card id=\"c" + (this.id + 1) + "\" cdate=\"" + this.iso8601Formatter.format(new Date()) + "\">");
 					this.tmpFile.println("		<question><![CDATA[" + this.question + "]]></question>");

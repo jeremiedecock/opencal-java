@@ -3,7 +3,7 @@
  * Copyright (c) 2007,2008 Jérémie Decock
  */
 
-package org.jdhp.opencal.gui;
+package org.jdhp.opencal.gui.tabs;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -83,14 +83,14 @@ public class MakerTab {
 		addButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				if(questionText.getText().equals("")) {
-					OpenCAL.GUI.printAlert("La question ne doit pas être vide !");
+					OpenCAL.MainWindow.printAlert("La question ne doit pas être vide !");
 				} else {
 					MakeController.addCard(questionText.getText(), answerText.getText(), tagsText.getText());
 					MadeCardsController.add(new Card(questionText.getText(), answerText.getText(), tagsText.getText(), ""));
 					questionText.setText("");
 					answerText.setText("");
 					tagsText.setText("");
-					OpenCAL.GUI.setStatusLabel1("Card #" + CardMakerHandler.getLastCardRecordedId() + " recorded", "Card #" + CardMakerHandler.getLastCardRecordedId() + " recorded");
+					OpenCAL.MainWindow.setStatusLabel1("Card #" + CardMakerHandler.getLastCardRecordedId() + " recorded", "Card #" + CardMakerHandler.getLastCardRecordedId() + " recorded");
 				}
 			
 				// Donne le focus à la questionArea
