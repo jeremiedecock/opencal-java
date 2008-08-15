@@ -19,13 +19,6 @@ import org.w3c.dom.NodeList;
  *
  */
 public class StatsController {
-
-	/**
-	 * 
-	 */
-	public static void init() {
-		// void
-	}
 	
 	/**
 	 * 
@@ -108,7 +101,15 @@ public class StatsController {
 	 * @return
 	 */
 	public static int getNumberOfCardsMadeToday() {
-		return 0;
+		int numberOfCardsMadeToday = 0;
+		
+		NodeList nodeCards = OpenCAL.domDocument.getElementsByTagName("card");
+		for(int i=0 ; i<nodeCards.getLength() ; i++) {
+			Element card = (Element) nodeCards.item(i);
+			if(card.getAttribute("cdate").equals(OpenCAL.iso8601Formatter.format(new Date()))) numberOfCardsMadeToday++;
+		}
+		
+		return numberOfCardsMadeToday;
 	}
 	
 	/**
@@ -116,7 +117,15 @@ public class StatsController {
 	 * @return
 	 */
 	public static int getNumberOfCardsReviewedToday() {
-		return 0;
+		int numberOfCardsReviewedToday = 0;
+		
+		NodeList nodeCards = OpenCAL.domDocument.getElementsByTagName("review");
+		for(int i=0 ; i<nodeCards.getLength() ; i++) {
+			Element card = (Element) nodeCards.item(i);
+			if(card.getAttribute("rdate").equals(OpenCAL.iso8601Formatter.format(new Date()))) numberOfCardsReviewedToday++;
+		}
+		
+		return numberOfCardsReviewedToday;
 	}
 	
 	/**

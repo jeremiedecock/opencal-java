@@ -8,6 +8,7 @@ package org.jdhp.opencal;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -41,10 +42,14 @@ public class OpenCAL {
 	
 	public static Document domDocument;
 	
+	public static SimpleDateFormat iso8601Formatter;
+	
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		OpenCAL.iso8601Formatter = new SimpleDateFormat("yyyy-MM-dd");
+		
 		// Build the XML DOM tree
 		try {
 			File pkbFile = new File(OpenCAL.pkbFilePath);
@@ -77,7 +82,6 @@ public class OpenCAL {
 	public static void init() {
 		MakeController.init();
 		ReviewController.init();
-		StatsController.init();
 		MadeCardsController.init();
 		ReviewedCardsController.init();
 	}

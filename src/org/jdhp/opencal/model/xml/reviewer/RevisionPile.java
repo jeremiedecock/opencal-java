@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import org.jdhp.opencal.OpenCAL;
-import org.jdhp.opencal.model.xml.stats.RevisionDoneTodayHandler;
+import org.jdhp.opencal.usecase.getstats.StatsController;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
@@ -35,7 +35,7 @@ public class RevisionPile {
 	 * @param pkbFilePath
 	 */
 	public RevisionPile() {
-		this.reviewedCards = RevisionDoneTodayHandler.getRevisionDoneToday();
+		this.reviewedCards = StatsController.getNumberOfCardsReviewedToday();
 		this.pointer = 0;
 		this.cardList = new ArrayList<Card>();
 		
