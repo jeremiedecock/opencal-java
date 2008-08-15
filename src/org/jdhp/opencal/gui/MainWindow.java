@@ -24,11 +24,11 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.jdhp.opencal.OpenCAL;
-import org.jdhp.opencal.controller.reviewer.ReviewController;
 import org.jdhp.opencal.gui.tabs.ExplorerTab;
 import org.jdhp.opencal.gui.tabs.MakerTab;
 import org.jdhp.opencal.gui.tabs.ReviewerTab;
 import org.jdhp.opencal.gui.tabs.StatsTab;
+import org.jdhp.opencal.usecase.review.ReviewController;
 
 /**
  * 

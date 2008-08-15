@@ -16,8 +16,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.jdhp.opencal.OpenCAL;
-import org.jdhp.opencal.controller.explorer.ReviewedCardsController;
-import org.jdhp.opencal.controller.reviewer.ReviewController;
+import org.jdhp.opencal.usecase.explore.ReviewedCardsController;
+import org.jdhp.opencal.usecase.review.ReviewController;
 
 /**
  * 

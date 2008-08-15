@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import org.jdhp.opencal.controller.reviewer.inspector.Inspector;
-import org.jdhp.opencal.controller.reviewer.inspector.InspectorAlan;
-import org.jdhp.opencal.controller.reviewer.inspector.InspectorBrian;
+import org.jdhp.opencal.usecase.review.inspector.Inspector;
+import org.jdhp.opencal.usecase.review.inspector.InspectorAlan;
+import org.jdhp.opencal.usecase.review.inspector.InspectorBrian;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 

@@ -16,10 +16,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
 import org.jdhp.opencal.OpenCAL;
-import org.jdhp.opencal.controller.explorer.MadeCardsController;
-import org.jdhp.opencal.controller.maker.MakeController;
 import org.jdhp.opencal.model.xml.explorer.Card;
 import org.jdhp.opencal.model.xml.maker.CardMakerHandler;
+import org.jdhp.opencal.usecase.explore.MadeCardsController;
+import org.jdhp.opencal.usecase.make.MakeController;
 
 /**
  * 

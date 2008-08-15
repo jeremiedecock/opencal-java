@@ -18,8 +18,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Text;
-import org.jdhp.opencal.controller.explorer.MadeCardsController;
-import org.jdhp.opencal.controller.explorer.ReviewedCardsController;
+import org.jdhp.opencal.usecase.explore.MadeCardsController;
+import org.jdhp.opencal.usecase.explore.ReviewedCardsController;
 
 /**
  * 

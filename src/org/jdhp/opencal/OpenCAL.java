@@ -13,12 +13,12 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.jdhp.opencal.controller.explorer.MadeCardsController;
-import org.jdhp.opencal.controller.explorer.ReviewedCardsController;
-import org.jdhp.opencal.controller.maker.MakeController;
-import org.jdhp.opencal.controller.reviewer.ReviewController;
-import org.jdhp.opencal.controller.stats.StatsController;
 import org.jdhp.opencal.gui.MainWindow;
+import org.jdhp.opencal.usecase.explore.MadeCardsController;
+import org.jdhp.opencal.usecase.explore.ReviewedCardsController;
+import org.jdhp.opencal.usecase.getstats.StatsController;
+import org.jdhp.opencal.usecase.make.MakeController;
+import org.jdhp.opencal.usecase.review.ReviewController;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
