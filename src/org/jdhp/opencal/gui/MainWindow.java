@@ -24,7 +24,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.jdhp.opencal.OpenCAL;
-import org.jdhp.opencal.controller.Controller;
 import org.jdhp.opencal.controller.reviewer.ReviewController;
 import org.jdhp.opencal.gui.tabs.ExplorerTab;
 import org.jdhp.opencal.gui.tabs.MakerTab;
@@ -103,7 +102,7 @@ public class MainWindow {
         
         quitItem.addListener(SWT.Selection, new Listener() {
         	public void handleEvent(Event e) {
-        		Controller.exit(0);
+        		OpenCAL.exit(0);
         	}
         });
         

@@ -11,7 +11,6 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import org.jdhp.opencal.OpenCAL;
-import org.jdhp.opencal.controller.Controller;
 import org.jdhp.opencal.model.xml.reviewer.Card;
 import org.jdhp.opencal.model.xml.reviewer.RevisionPile;
 import org.jdhp.opencal.model.xml.reviewer.ReviewHandler;
@@ -65,17 +64,17 @@ public class ReviewController {
 			
 			if(!renameSuccess) {
 				OpenCAL.MainWindow.printError("Impossible de renommer le fichier " + OpenCAL.tmpPkbFile);
-				Controller.exit(12);
+				OpenCAL.exit(12);
 			}
 		} catch(SAXException e) {
 			OpenCAL.MainWindow.printError(OpenCAL.pkbFilePath + " n'est pas valide (SAXException)");
-			Controller.exit(2);
+			OpenCAL.exit(2);
 		} catch(FileNotFoundException e) {
 			OpenCAL.MainWindow.print(OpenCAL.pkbFilePath + " est introuvable (FileNotFoundException)");
-			Controller.exit(2);
+			OpenCAL.exit(2);
 		} catch(IOException e) {
 			OpenCAL.MainWindow.printError(OpenCAL.pkbFilePath + " est illisible (IOException)");
-			Controller.exit(2);
+			OpenCAL.exit(2);
 		}
 
 		ReviewController.revisionPile.incrementReviewedCards();

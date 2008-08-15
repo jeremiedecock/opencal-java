@@ -14,7 +14,6 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import org.jdhp.opencal.OpenCAL;
-import org.jdhp.opencal.controller.Controller;
 import org.jdhp.opencal.model.xml.maker.CardMakerHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -69,13 +68,13 @@ public class MakeController {
 				
 				if(!result) {
 					OpenCAL.MainWindow.printError("Impossible de renommer le fichier " + OpenCAL.tmpPkbFile);
-					Controller.exit(12);
+					OpenCAL.exit(12);
 				}
 				
 			} catch(SAXException e) {
 				
 				OpenCAL.MainWindow.printError(OpenCAL.pkbFilePath + " n'est pas valide (SAXException)");
-				Controller.exit(2);
+				OpenCAL.exit(2);
 				
 			} catch(FileNotFoundException e) {
 				
@@ -114,7 +113,7 @@ public class MakeController {
 					file.println("<!--");
 					file.println("    Personal Knowledge Base version 1.0");
 					file.println("    Copyright (c) 2007,2008 Jérémie DECOCK");
-//					file.println("    Generator  : " + Controller.programName + " " + Controller.version + " (Java - DTD v3)");
+//					file.println("    Generator  : " + OpenCAL.programName + " " + OpenCAL.version + " (Java - DTD v3)");
 					file.println("-->");
 					file.println("");
 					
@@ -133,11 +132,11 @@ public class MakeController {
 					file.close();
 				} catch(FileNotFoundException e2) {
 					OpenCAL.MainWindow.printError(OpenCAL.pkbFilePath + " ne peut pas être créé (FileNotFoundException)");
-					Controller.exit(2);
+					OpenCAL.exit(2);
 				}
 			} catch(IOException e) {
 				OpenCAL.MainWindow.printError(OpenCAL.pkbFilePath + " est illisible (IOException)");
-				Controller.exit(2);
+				OpenCAL.exit(2);
 			}
 		}
 	}

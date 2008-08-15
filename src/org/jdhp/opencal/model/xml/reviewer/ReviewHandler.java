@@ -12,7 +12,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.jdhp.opencal.OpenCAL;
-import org.jdhp.opencal.controller.Controller;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -54,7 +53,7 @@ public class ReviewHandler extends DefaultHandler {
 			this.newFile = new PrintWriter(new FileWriter(file));
 		} catch(IOException e) {
 			OpenCAL.MainWindow.printError("Impossible d'écrire dans le fichier " + file);
-			Controller.exit(32);
+			OpenCAL.exit(32);
 		}
 
 		this.idCard = idCard;
@@ -103,7 +102,7 @@ public class ReviewHandler extends DefaultHandler {
 		this.newFile.println("<!--");
 		this.newFile.println("    Personal Knowledge Base version 1.0");
 		this.newFile.println("    Copyright (c) 2007,2008 Jérémie DECOCK");
-//		this.newFile.println("    Generator  : " + Controller.programName + " " + Controller.version + " (Java - DTD v3)");
+//		this.newFile.println("    Generator  : " + OpenCAL.programName + " " + OpenCAL.version + " (Java - DTD v3)");
 		this.newFile.println("-->");
 		this.newFile.println("");
 	}

@@ -178,7 +178,7 @@ public class ReviewerTab {
 				previewButton.setEnabled(false);
 				goodButton.setEnabled(true);
 				badButton.setEnabled(true);
-//				reviewerText.setText("QUESTION\n\n" + Controller.card.getQuestion() + "\n\nANSWER\n\n" + Controller.card.getAnswer());
+//				reviewerText.setText("QUESTION\n\n" + OpenCAL.card.getQuestion() + "\n\nANSWER\n\n" + OpenCAL.card.getAnswer());
 				int textLength = reviewerText.getCharCount();
 				if(ReviewController.card != null) reviewerText.append("\n\nANSWER\n\n" + ReviewController.card.getAnswer());
 				reviewerText.setStyleRange(new StyleRange(textLength + 2, 6, null, null, SWT.BOLD));

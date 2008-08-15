@@ -12,7 +12,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.jdhp.opencal.OpenCAL;
-import org.jdhp.opencal.controller.Controller;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -69,13 +68,13 @@ public class MadeCardsHandler extends DefaultHandler {
 			r.close();
 		} catch(SAXException e) {
 			OpenCAL.MainWindow.printError(OpenCAL.pkbFilePath + " n'est pas valide (SAXException)");
-			Controller.exit(2);
+			OpenCAL.exit(2);
 		} catch(FileNotFoundException e) {
 			OpenCAL.MainWindow.printError(OpenCAL.pkbFilePath + " est introuvable (FileNotFoundException)");
-			Controller.exit(2);
+			OpenCAL.exit(2);
 		} catch(IOException e) {
 			OpenCAL.MainWindow.printError(OpenCAL.pkbFilePath + " est illisible (IOException)");
-			Controller.exit(2);
+			OpenCAL.exit(2);
 		}
 	}
 	

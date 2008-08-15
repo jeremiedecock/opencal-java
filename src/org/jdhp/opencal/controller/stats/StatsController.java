@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TreeMap;
 
-import org.jdhp.opencal.controller.Controller;
+import org.jdhp.opencal.OpenCAL;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -34,7 +34,7 @@ public class StatsController {
 	public static TreeMap<Date, Integer> getCardCreationStats() {
 		TreeMap<Date, Integer> cardCreationStats = new TreeMap<Date, Integer>();
 		
-		NodeList nodeCards = Controller.getXmlDocument().getElementsByTagName("card");
+		NodeList nodeCards = OpenCAL.getXmlDocument().getElementsByTagName("card");
 		for(int i=0 ; i<nodeCards.getLength() ; i++) {
 			Element card = (Element) nodeCards.item(i);
 			
@@ -72,7 +72,7 @@ public class StatsController {
 	public static TreeMap<Date, Integer> getRevisionStats() {
 		TreeMap<Date, Integer> revisionStats = new TreeMap<Date, Integer>();
 		
-		NodeList nodeCards = Controller.getXmlDocument().getElementsByTagName("review");
+		NodeList nodeCards = OpenCAL.getXmlDocument().getElementsByTagName("review");
 		for(int i=0 ; i<nodeCards.getLength() ; i++) {
 			Element review = (Element) nodeCards.item(i);
 			
