@@ -16,8 +16,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.jdhp.opencal.OpenCAL;
-import org.jdhp.opencal.usecase.explore.ReviewedCardsController;
-import org.jdhp.opencal.usecase.review.ReviewController;
+import org.jdhp.opencal.usecase.CardManipulator;
+import org.jdhp.opencal.usecase.review.ReviewedCard;
 
 /**
  * 
@@ -31,6 +31,8 @@ public class ReviewerTab {
 	final private StyledText reviewerText;
 	
 	final private Button nextButton;
+	
+	final private CardManipulator manipulator = OpenCAL.reviewedCardList.manipulator();
 	
 	/**
 	 * 
@@ -91,23 +93,23 @@ public class ReviewerTab {
 		
 		goodButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				ReviewedCardsController.add(new org.jdhp.opencal.model.xml.explorer.Card(ReviewController.card.getQuestion(), ReviewController.card.getAnswer(), "", "Good"));
-				ReviewController.updateCard("good");
-				ReviewController.card = ReviewController.revisionPile.getPointedCard();
-				if(!ReviewController.revisionPile.pointerIsOnTheLastCard()) {
-					nextButton.setEnabled(true);
-				}
+				((ReviewedCard) manipulator.pop()).putReview("good");
+				manipulator.remove();
+				
+				if(manipulator.hasPreview()) previewButton.setEnabled(true);
+				else previewButton.setEnabled(false);
 				answerButton.setEnabled(true);
-				if(!ReviewController.revisionPile.pointerIsOnTheFirstCard()) {
-					previewButton.setEnabled(true);
-				}
+				if(manipulator.hasNext()) nextButton.setEnabled(true);
+				else nextButton.setEnabled(false);
 				goodButton.setEnabled(false);
 				badButton.setEnabled(false);
-				reviewerText.setText("QUESTION\n\n" + ReviewController.card.getQuestion());
+				
+				ReviewedCard card = (ReviewedCard) manipulator.pop();
+				reviewerText.setText("QUESTION\n\n" + card.getQuestion());
 				reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
-				OpenCAL.mainWindow.setStatusLabel2("L : " + ReviewController.card.getPriorityRank(), "Card level " + ReviewController.card.getPriorityRank());
-				OpenCAL.mainWindow.setStatusLabel3("D : " + ReviewController.revisionPile.getReviewedCards(), ReviewController.revisionPile.getReviewedCards() + " review done today");
-				OpenCAL.mainWindow.setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards left for today");
+				OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
+				OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.getReviewedCards(), OpenCAL.reviewedCardList.getReviewedCards() + " review done today");
+				OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.reviewedCardList.getRemainingCards(), OpenCAL.reviewedCardList.getRemainingCards() + " cards left for today");
 			}
 		});
 		
@@ -119,23 +121,23 @@ public class ReviewerTab {
 		
 		badButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				ReviewedCardsController.add(new org.jdhp.opencal.model.xml.explorer.Card(ReviewController.card.getQuestion(), ReviewController.card.getAnswer(), "", "Bad"));
-				ReviewController.updateCard("bad");
-				ReviewController.card = ReviewController.revisionPile.getPointedCard();
-				if(!ReviewController.revisionPile.pointerIsOnTheLastCard()) {
-					nextButton.setEnabled(true);
-				}
+				((ReviewedCard) manipulator.pop()).putReview("bad");
+				manipulator.remove();
+				
+				if(manipulator.hasPreview()) previewButton.setEnabled(true);
+				else previewButton.setEnabled(false);
 				answerButton.setEnabled(true);
-				if(!ReviewController.revisionPile.pointerIsOnTheFirstCard()) {
-					previewButton.setEnabled(true);
-				}
+				if(manipulator.hasNext()) nextButton.setEnabled(true);
+				else nextButton.setEnabled(false);
 				goodButton.setEnabled(false);
 				badButton.setEnabled(false);
-				reviewerText.setText("QUESTION\n\n" + ReviewController.card.getQuestion());
+
+				ReviewedCard card = (ReviewedCard) manipulator.pop();
+				reviewerText.setText("QUESTION\n\n" + card.getQuestion());
 				reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
-				OpenCAL.mainWindow.setStatusLabel2("L : " + ReviewController.card.getPriorityRank(), "Card level " + ReviewController.card.getPriorityRank());
-				OpenCAL.mainWindow.setStatusLabel3("D : " + ReviewController.revisionPile.getReviewedCards(), ReviewController.revisionPile.getReviewedCards() + " review done today");
-				OpenCAL.mainWindow.setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards left for today");
+				OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
+				OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.getReviewedCards(), OpenCAL.reviewedCardList.getReviewedCards() + " review done today");
+				OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.reviewedCardList.getRemainingCards(), OpenCAL.reviewedCardList.getRemainingCards() + " cards left for today");
 			}
 		});
 		
@@ -151,18 +153,18 @@ public class ReviewerTab {
 		
 		previewButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				ReviewController.revisionPile.gotoPrevCard();
-				ReviewController.card = ReviewController.revisionPile.getPointedCard();
-				reviewerText.setText("QUESTION\n\n" + ReviewController.card.getQuestion());
+				manipulator.preview();
+				ReviewedCard card = (ReviewedCard) manipulator.pop();
+				reviewerText.setText("QUESTION\n\n" + card.getQuestion());
 				reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
-				OpenCAL.mainWindow.setStatusLabel2("L : " + ReviewController.card.getPriorityRank(), "Card level " + ReviewController.card.getPriorityRank());
-				OpenCAL.mainWindow.setStatusLabel3("D : " + ReviewController.revisionPile.getReviewedCards(), ReviewController.revisionPile.getReviewedCards() + " review done today");
-				OpenCAL.mainWindow.setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards left for today");
+				OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
+				OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.getReviewedCards(), OpenCAL.reviewedCardList.getReviewedCards() + " review done today");
+				OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.reviewedCardList.getRemainingCards(), OpenCAL.reviewedCardList.getRemainingCards() + " cards left for today");
 				
-				if(ReviewController.revisionPile.pointerIsOnTheFirstCard()) {
-					previewButton.setEnabled(false);
-				}
-				nextButton.setEnabled(true);
+				if(manipulator.hasPreview()) previewButton.setEnabled(true);
+				else previewButton.setEnabled(false);
+				if(manipulator.hasNext()) nextButton.setEnabled(true);
+				else nextButton.setEnabled(false);
 			}
 		});
 		
@@ -178,13 +180,16 @@ public class ReviewerTab {
 				previewButton.setEnabled(false);
 				goodButton.setEnabled(true);
 				badButton.setEnabled(true);
+				
 //				reviewerText.setText("QUESTION\n\n" + OpenCAL.card.getQuestion() + "\n\nANSWER\n\n" + OpenCAL.card.getAnswer());
 				int textLength = reviewerText.getCharCount();
-				if(ReviewController.card != null) reviewerText.append("\n\nANSWER\n\n" + ReviewController.card.getAnswer());
+				
+				ReviewedCard card = (ReviewedCard) manipulator.pop();
+				if(card != null) reviewerText.append("\n\nANSWER\n\n" + card.getAnswer());
 				reviewerText.setStyleRange(new StyleRange(textLength + 2, 6, null, null, SWT.BOLD));
-				if(ReviewController.card != null) OpenCAL.mainWindow.setStatusLabel2("L : " + ReviewController.card.getPriorityRank(), "Card level " + ReviewController.card.getPriorityRank());
-				OpenCAL.mainWindow.setStatusLabel3("D : " + ReviewController.revisionPile.getReviewedCards(), ReviewController.revisionPile.getReviewedCards() + " review done today");
-				OpenCAL.mainWindow.setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards left for today");
+				if(card != null) OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
+				OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.getReviewedCards(), OpenCAL.reviewedCardList.getReviewedCards() + " review done today");
+				OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.reviewedCardList.getRemainingCards(), OpenCAL.reviewedCardList.getRemainingCards() + " cards left for today");
 			}
 		});
 		
@@ -195,18 +200,18 @@ public class ReviewerTab {
 		
 		this.nextButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				ReviewController.revisionPile.gotoNextCard();
-				ReviewController.card = ReviewController.revisionPile.getPointedCard();
-				reviewerText.setText("QUESTION\n\n" + ReviewController.card.getQuestion());
+				manipulator.next();
+				ReviewedCard card = (ReviewedCard) manipulator.pop();
+				reviewerText.setText("QUESTION\n\n" + card.getQuestion());
 				reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
-				OpenCAL.mainWindow.setStatusLabel2("L : " + ReviewController.card.getPriorityRank(), "Card level " + ReviewController.card.getPriorityRank());
-				OpenCAL.mainWindow.setStatusLabel3("D : " + ReviewController.revisionPile.getReviewedCards(), ReviewController.revisionPile.getReviewedCards() + " review done today");
-				OpenCAL.mainWindow.setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards left for today");
+				OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
+				OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.getReviewedCards(), OpenCAL.reviewedCardList.getReviewedCards() + " review done today");
+				OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.reviewedCardList.getRemainingCards(), OpenCAL.reviewedCardList.getRemainingCards() + " cards left for today");
 				
-				if(ReviewController.revisionPile.pointerIsOnTheLastCard()) {
-					nextButton.setEnabled(false);
-				}
-				previewButton.setEnabled(true);
+				if(manipulator.hasPreview()) previewButton.setEnabled(true);
+				else previewButton.setEnabled(false);
+				if(manipulator.hasNext()) nextButton.setEnabled(true);
+				else nextButton.setEnabled(false);
 			}
 		});
 		
@@ -216,14 +221,13 @@ public class ReviewerTab {
 	 * 
 	 */
 	public void init() {
-		if(ReviewController.card != null) {
-			this.reviewerText.setText("QUESTION\n\n" + ReviewController.card.getQuestion());
+		ReviewedCard card = (ReviewedCard) manipulator.pop();
+		if(card != null) {
+			this.reviewerText.setText("QUESTION\n\n" + card.getQuestion());
 			this.reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
 			
-//			previewButton.setEnabled(false);
-			if(ReviewController.revisionPile.pointerIsOnTheLastCard()) {
-				this.nextButton.setEnabled(false);
-			}
+			if(manipulator.hasNext()) nextButton.setEnabled(true);
+			else nextButton.setEnabled(false);
 		} else {
 			this.reviewerText.setText("Review done");
 			this.reviewerText.setStyleRange(new StyleRange(0, 11, null, null, SWT.BOLD));

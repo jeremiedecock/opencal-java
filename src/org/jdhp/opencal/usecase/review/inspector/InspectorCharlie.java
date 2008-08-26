@@ -5,10 +5,7 @@
 
 package org.jdhp.opencal.usecase.review.inspector;
 
-import java.util.ArrayList;
-import java.util.Date;
-
-import org.jdhp.opencal.model.xml.reviewer.ReviewItem;
+import org.jdhp.opencal.usecase.Card;
 
 /**
  * 
@@ -23,39 +20,39 @@ public class InspectorCharlie implements Inspector {
 	 * 
 	 * @return
 	 */
-	public int valueCardPriority(ArrayList<ReviewItem> revisionList, Date cardCreationDate) {
+	public int assess(Card card) {
 		int grade = 0;
 		
-		while(revisionList.size() > 0) {
-			int oldestRevisionIndex = 0;
-			
-			// get the oldest revision
-			for(int revisionIndex=0 ; revisionIndex<revisionList.size() ; revisionIndex++) {
-				if(((ReviewItem) revisionList.get(revisionIndex)).getReviewDate().before(((ReviewItem) revisionList.get(oldestRevisionIndex)).getReviewDate())) {
-					oldestRevisionIndex = revisionIndex;
-				}
-			}
-			
-			// check the oldest revision and update the grade
-			if(((ReviewItem) revisionList.get(oldestRevisionIndex)).getReviewResult().toLowerCase().equals("good")) {
-//				Date expectedDate = getExpectedDate();
-				Date today = new Date();
-				
-//				if(expectedDate.before(today)) { // In advance
-					// ...
-//				} else if(expectedDate.after(today)) { // In late
-					// ...
-//				} else { // ...
-//					grade = gedIncrementedGrade(grade);
+//		while(revisionList.size() > 0) {
+//			int oldestRevisionIndex = 0;
+//			
+//			// get the oldest revision
+//			for(int revisionIndex=0 ; revisionIndex<revisionList.size() ; revisionIndex++) {
+//				if(((ReviewItem) revisionList.get(revisionIndex)).getReviewDate().before(((ReviewItem) revisionList.get(oldestRevisionIndex)).getReviewDate())) {
+//					oldestRevisionIndex = revisionIndex;
 //				}
-				
-			} else {
-				grade = 0;
-			}
-			
-			// remove the oldest revision
-			revisionList.remove(oldestRevisionIndex);
-		}
+//			}
+//			
+//			// check the oldest revision and update the grade
+//			if(((ReviewItem) revisionList.get(oldestRevisionIndex)).getReviewResult().toLowerCase().equals("good")) {
+////				Date expectedDate = getExpectedDate();
+//				Date today = new Date();
+//				
+////				if(expectedDate.before(today)) { // In advance
+//					// ...
+////				} else if(expectedDate.after(today)) { // In late
+//					// ...
+////				} else { // ...
+////					grade = gedIncrementedGrade(grade);
+////				}
+//				
+//			} else {
+//				grade = 0;
+//			}
+//			
+//			// remove the oldest revision
+//			revisionList.remove(oldestRevisionIndex);
+//		}
 		
 		return grade;
 	}

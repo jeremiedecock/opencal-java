@@ -20,7 +20,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.jdhp.opencal.usecase.getstats.StatsController;
+import org.jdhp.opencal.usecase.statistics.Statistics;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -60,7 +60,7 @@ public class StatsTab {
 		// ********** //
 		
 		TimeSeries s1 = new TimeSeries("Card created per day", Day.class);
-		TreeMap<Date, Integer> cardCreationStats = StatsController.getCardCreationStats();
+		TreeMap<Date, Integer> cardCreationStats = Statistics.getCardCreationStats();
 		Set entries = cardCreationStats.entrySet();
 		Iterator<Set> it = entries.iterator();
 		while(it.hasNext()) {
@@ -71,7 +71,7 @@ public class StatsTab {
 		}
 
 		TimeSeries s2 = new TimeSeries("Revision per day", Day.class);
-		TreeMap<Date, Integer> revisionStats = StatsController.getRevisionStats();
+		TreeMap<Date, Integer> revisionStats = Statistics.getRevisionStats();
 		entries = revisionStats.entrySet();
 		it = entries.iterator();
 		while(it.hasNext()) {
@@ -120,7 +120,7 @@ public class StatsTab {
 	 */
 	public void updateChart() {
 //		TimeSeries s1 = new TimeSeries("Card created per day", Day.class);
-//		TreeMap<Date, Integer> cardCreationStats = StatsController.getCardCreationStats();
+//		TreeMap<Date, Integer> cardCreationStats = Statistics.getCardCreationStats();
 //		Set entries = cardCreationStats.entrySet();
 //		Iterator<Set> it = entries.iterator();
 //		while(it.hasNext()) {
@@ -131,7 +131,7 @@ public class StatsTab {
 //		}
 //
 //		TimeSeries s2 = new TimeSeries("Revision per day", Day.class);
-//		TreeMap<Date, Integer> revisionStats = StatsController.getRevisionStats();
+//		TreeMap<Date, Integer> revisionStats = Statistics.getRevisionStats();
 //		entries = revisionStats.entrySet();
 //		it = entries.iterator();
 //		while(it.hasNext()) {

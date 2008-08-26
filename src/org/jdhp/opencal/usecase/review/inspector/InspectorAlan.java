@@ -5,10 +5,9 @@
 
 package org.jdhp.opencal.usecase.review.inspector;
 
-import java.util.ArrayList;
-import java.util.Date;
-
-import org.jdhp.opencal.model.xml.reviewer.ReviewItem;
+import org.jdhp.opencal.usecase.Card;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 /**
  * 
@@ -18,46 +17,23 @@ import org.jdhp.opencal.model.xml.reviewer.ReviewItem;
 public class InspectorAlan implements Inspector {
 
 	/**
-	 * InspectorAlan don't care about time...
+	 * Alan is a lazy guy. He doesn't care about too late or too early reviews.
 	 * 
 	 * @return
 	 */
-	public int valueCardPriority(ArrayList<ReviewItem> revisionList, Date cardCreationDate) {
+	public int assess(Card card) {
 		int grade = 0;
-		while(revisionList.size() > 0) {
-			int oldestRevisionIndex = this.getOldestRevision(revisionList);
-			grade = this.checkRevisionAndUpdateGrade((ReviewItem) revisionList.get(oldestRevisionIndex), grade);
-			revisionList.remove(oldestRevisionIndex);
-		}
-		return grade;
-	}
-	
-	/**
-	 * Get the oldest revision
-	 * 
-	 * @return
-	 */
-	private int getOldestRevision(ArrayList<ReviewItem> revisionList) {
-		int oldestRevisionIndex = 0;
-		for(int revisionIndex=0 ; revisionIndex<revisionList.size() ; revisionIndex++) {
-			if(((ReviewItem) revisionList.get(revisionIndex)).getReviewDate().before(((ReviewItem) revisionList.get(oldestRevisionIndex)).getReviewDate())) {
-				oldestRevisionIndex = revisionIndex;
+		
+		// TODO : vérifier que les noeuds "review" sont bien classés par date croissante
+		NodeList reviewList = card.getElement().getElementsByTagName("review");
+		for(int i=0 ; i < reviewList.getLength() ; i++) {
+			if(((Element) reviewList.item(i)).getAttribute("result").equals("good")) {
+				grade++;
+			} else {
+				grade = 0;
 			}
 		}
-		return oldestRevisionIndex;
-	}
-	
-	/**
-	 * Check the oldest revision and update the grade
-	 * 
-	 * @param oldestRevisionItem
-	 */
-	private int checkRevisionAndUpdateGrade(ReviewItem oldestRevisionItem, int grade) {
-		if(oldestRevisionItem.getReviewResult().toLowerCase().equals("good")) {
-			grade++;
-		} else {
-			grade = 0;
-		}
+		
 		return grade;
 	}
 	

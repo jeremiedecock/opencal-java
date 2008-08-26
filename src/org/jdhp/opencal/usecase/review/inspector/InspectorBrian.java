@@ -5,10 +5,12 @@
 
 package org.jdhp.opencal.usecase.review.inspector;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
-import org.jdhp.opencal.model.xml.reviewer.ReviewItem;
+import org.jdhp.opencal.usecase.Card;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 /**
  * 
@@ -20,54 +22,70 @@ public class InspectorBrian implements Inspector {
 	private final int[] revisionDates = {1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048};
 	
 	/**
-	 * InspectorBrian don't care about lates revision...
+	 * Brian is a little more professional than Alan.
+	 * He don't validate reviews when it's too early...
+	 * but he doesn't care about lates.
 	 * 
 	 * @return
 	 */
-	public int valueCardPriority(ArrayList<ReviewItem> revisionList, Date cardCreationDate) {
+	public int assess(Card card) {
 		int grade = 0;
-		Date previousRevisionDate = cardCreationDate;
-		Date expectedRevisionDate = getExpectedRevisionDate(cardCreationDate, grade);
-		while(revisionList.size() > 0) {
-			int oldestRevisionIndex = this.getOldestRevision(revisionList);
-			grade = this.checkRevisionAndUpdateGrade((ReviewItem) revisionList.get(oldestRevisionIndex), expectedRevisionDate, grade);
-			previousRevisionDate = ((ReviewItem) revisionList.get(oldestRevisionIndex)).getReviewDate();
-			expectedRevisionDate = getExpectedRevisionDate(previousRevisionDate, grade);
-			revisionList.remove(oldestRevisionIndex);
-		}
-		if(isTooEarly(expectedRevisionDate, new Date())) {
-			grade = -1;
-		}
-		return grade;
-	}
-	
-	/**
-	 * Get the oldest revision
-	 * 
-	 * @return
-	 */
-	private int getOldestRevision(ArrayList<ReviewItem> revisionList) {
-		int oldestRevisionIndex = 0;
-		for(int revisionIndex=0 ; revisionIndex<revisionList.size() ; revisionIndex++) {
-			if(((ReviewItem) revisionList.get(revisionIndex)).getReviewDate().before(((ReviewItem) revisionList.get(oldestRevisionIndex)).getReviewDate())) {
-				oldestRevisionIndex = revisionIndex;
+		
+		String[] date = card.getElement().getAttribute("cdate").split("-",3);
+		// TODO : s'assurer que le tableau date a bien 3 entrées (pour pas planter le programme en modifiant manuellement le fichier XML)
+		Date lastRevisionDate = (new GregorianCalendar(Integer.parseInt(date[0]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[2]))).getTime();
+		
+		Date expectedRevisionDate = getExpectedRevisionDate(lastRevisionDate, grade);
+		
+		// TODO : vérifier que les noeuds "review" sont bien classés par date croissante
+		NodeList reviewList = card.getElement().getElementsByTagName("review");
+		for(int i=0 ; i < reviewList.getLength() ; i++) {
+			String[] rdateString = ((Element) reviewList.item(i)).getAttribute("rdate").split("-",3);
+			// TODO : s'assurer que le tableau date a bien 3 entrées (pour pas planter le programme en modifiant manuellement le fichier XML)
+			Date rdate = (new GregorianCalendar(Integer.parseInt(rdateString[0]), Integer.parseInt(rdateString[1]) - 1, Integer.parseInt(rdateString[2]))).getTime();
+			
+			if(((Element) reviewList.item(i)).getAttribute("result").equals("good")) {
+				grade++;
+				lastRevisionDate = rdate;
+				expectedRevisionDate = getExpectedRevisionDate(lastRevisionDate, grade);
+			} else {
+				grade = 0;
+				lastRevisionDate = rdate;
+				expectedRevisionDate = getExpectedRevisionDate(lastRevisionDate, grade);
 			}
 		}
-		return oldestRevisionIndex;
-	}
-	
-	/**
-	 * Check the oldest revision and update the grade
-	 * 
-	 * @param oldestRevisionItem
-	 */
-	private int checkRevisionAndUpdateGrade(ReviewItem oldestRevisionItem, Date expectedRevisionDate, int grade) {
-		if(oldestRevisionItem.getReviewResult().toLowerCase().equals("good")) {
-			if(!isTooEarly(expectedRevisionDate, oldestRevisionItem.getReviewDate())) grade++;
-		} else {
-			grade = 0;
+		
+		if(isTooEarly(expectedRevisionDate, new Date())) {
+			// It's too early to review this card. The card will be hide.
+			grade = -1;
 		}
+		
 		return grade;
+		
+/*
+	lastRevisionDate = date(*strptime(cardNode.getAttribute('cdate') ,"%Y-%m-%d")[0:3])
+	expectedRevisionDate = lastRevisionDate + timedelta(days=REVISION_DATES[grade])
+
+	for reviewNode in cardNode.getElementsByTagName("review"):
+		rdate = date(*strptime(reviewNode.getAttribute('rdate') ,"%Y-%m-%d")[0:3])
+		if reviewNode.getAttribute('result') == 'good':
+			if rdate >= expectedRevisionDate:
+				# That's ok, we're not in advance.
+				grade += 1
+				lastRevisionDate = rdate
+				expectedRevisionDate = lastRevisionDate + timedelta(days=REVISION_DATES[grade]) 
+		else:
+			grade = 0
+			lastRevisionDate = rdate
+			expectedRevisionDate = lastRevisionDate + timedelta(days=REVISION_DATES[grade]) 
+
+	if date.today() >= expectedRevisionDate:
+		# That's ok, we're not in advance.
+		return grade
+	else:
+		# It's too early to review this card. The card will be hide.
+		return -1
+*/
 	}
 	
 	/**

@@ -28,7 +28,7 @@ import org.jdhp.opencal.gui.tabs.ExplorerTab;
 import org.jdhp.opencal.gui.tabs.MakerTab;
 import org.jdhp.opencal.gui.tabs.ReviewerTab;
 import org.jdhp.opencal.gui.tabs.StatsTab;
-import org.jdhp.opencal.usecase.review.ReviewController;
+import org.jdhp.opencal.usecase.statistics.Statistics;
 
 /**
  * 
@@ -245,8 +245,8 @@ public class MainWindow {
 	public void initMakerTabView() {
 		this.setStatusLabel1("", "");
 		this.setStatusLabel2("", "");
-		this.setStatusLabel3("D : " + ReviewController.revisionPile.getReviewedCards(), ReviewController.revisionPile.getReviewedCards() + " review done today");
-		this.setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards left for today");
+		this.setStatusLabel3("D : " + Statistics.getNumberOfCardsReviewedToday(), Statistics.getNumberOfCardsReviewedToday() + " review done today");
+		this.setStatusLabel4("R : " + Statistics.getNumberOfCardsScheduledForToday(), Statistics.getNumberOfCardsScheduledForToday() + " cards left for today");
 		
 		// Signale si le fichier PKB est innexistant
 //		if(! new File(OpenCAL.pkbFilePath).exists()) OpenCAL.mainWindow.setStatusLabel1("Knowledge base not found", "Knowledge base not found");
@@ -257,10 +257,10 @@ public class MainWindow {
 	 * 
 	 */
 	public void initReviewerTabView() {
-		this.setStatusLabel1("", "");
-		if(ReviewController.card != null) this.setStatusLabel2("L : " + ReviewController.card.getPriorityRank(), "Card level " + ReviewController.card.getPriorityRank());
-		this.setStatusLabel3("D : " + ReviewController.revisionPile.getReviewedCards(), ReviewController.revisionPile.getReviewedCards() + " review done today");
-		this.setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards left for today");
+//		this.setStatusLabel1("", "");
+//		if(ReviewedCard.card != null) this.setStatusLabel2("L : " + ReviewedCard.card.getPriorityRank(), "Card level " + ReviewedCard.card.getPriorityRank());
+//		this.setStatusLabel3("D : " + Statistics.getNumberOfCardsReviewedToday(), Statistics.getNumberOfCardsReviewedToday() + " review done today");
+//		this.setStatusLabel4("R : " + Statistics.getNumberOfCardsScheduledForToday(), Statistics.getNumberOfCardsScheduledForToday() + " cards left for today");
 		
 		// Signale si le fichier PKB est innexistant
 //		if(! new File(OpenCAL.pkbFilePath).exists()) OpenCAL.mainWindow.setStatusLabel1("Knowledge base not found", "Knowledge base not found");
@@ -275,8 +275,8 @@ public class MainWindow {
 	public void initExplorerTabView() {
 		this.setStatusLabel1("", "");
 		this.setStatusLabel2("", "");
-		this.setStatusLabel3("D : " + ReviewController.revisionPile.getReviewedCards(), ReviewController.revisionPile.getReviewedCards() + " review done today");
-		this.setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards left for today");
+		this.setStatusLabel3("D : " + Statistics.getNumberOfCardsReviewedToday(), Statistics.getNumberOfCardsReviewedToday() + " review done today");
+		this.setStatusLabel4("R : " + Statistics.getNumberOfCardsScheduledForToday(), Statistics.getNumberOfCardsScheduledForToday() + " cards left for today");
 		
 		// Signale si le fichier PKB est innexistant
 //		if(! new File(OpenCAL.pkbFilePath).exists()) OpenCAL.mainWindow.setStatusLabel1("Knowledge base not found", "Knowledge base not found");
@@ -289,8 +289,8 @@ public class MainWindow {
 	public void initStatTabView() {
 		this.setStatusLabel1("", "");
 		this.setStatusLabel2("", "");
-		this.setStatusLabel3("D : " + ReviewController.revisionPile.getReviewedCards(), ReviewController.revisionPile.getReviewedCards() + " review done today");
-		this.setStatusLabel4("R : " + ReviewController.revisionPile.getRemainingCards(), ReviewController.revisionPile.getRemainingCards() + " cards left for today");
+		this.setStatusLabel3("D : " + Statistics.getNumberOfCardsReviewedToday(), Statistics.getNumberOfCardsReviewedToday() + " review done today");
+		this.setStatusLabel4("R : " + Statistics.getNumberOfCardsScheduledForToday(), Statistics.getNumberOfCardsScheduledForToday() + " cards left for today");
 		
 		this.statsTab.updateChart();
 		// Signale si le fichier PKB est innexistant

@@ -82,7 +82,7 @@ public class ReviewedCardsHandler extends DefaultHandler {
 	
 	/**
 	 * 
-	 * @param revisionPile
+	 * @param cardManipulator
 	 */
 	public ReviewedCardsHandler() {
 		super();

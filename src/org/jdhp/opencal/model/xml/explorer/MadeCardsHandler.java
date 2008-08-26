@@ -80,7 +80,7 @@ public class MadeCardsHandler extends DefaultHandler {
 	
 	/**
 	 * 
-	 * @param revisionPile
+	 * @param cardManipulator
 	 */
 	public MadeCardsHandler() {
 		super();

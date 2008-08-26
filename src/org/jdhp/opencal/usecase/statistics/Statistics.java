@@ -3,7 +3,7 @@
  * Copyright (c) 2007,2008 Jérémie Decock
  */
 
-package org.jdhp.opencal.usecase.getstats;
+package org.jdhp.opencal.usecase.statistics;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -18,7 +18,7 @@ import org.w3c.dom.NodeList;
  * @author Jérémie Decock
  *
  */
-public class StatsController {
+public class Statistics {
 	
 	/**
 	 * 
