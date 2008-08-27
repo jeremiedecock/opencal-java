@@ -31,8 +31,6 @@ public class ReviewerTab {
 	
 	final private StyledText reviewerText;
 	
-	final private Button nextButton;
-	
 	final private CardManipulator manipulator = OpenCAL.reviewedCardList.manipulator();
 	
 	/**
@@ -54,6 +52,15 @@ public class ReviewerTab {
 		this.reviewerText.setLayoutData(new GridData(GridData.FILL_BOTH));
 		this.reviewerText.setFont(monoFont);
 		this.reviewerText.setTabs(3);
+		
+		ReviewedCard card = (ReviewedCard) manipulator.pop();
+		if(card != null) {
+			this.reviewerText.setText("QUESTION\n\n" + card.getQuestion());
+			this.reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
+		} else {
+			this.reviewerText.setText("Review done");
+			this.reviewerText.setStyleRange(new StyleRange(0, 11, null, null, SWT.BOLD));
+		}
 		
 		///////////////////////////////////////////////////////////////////////
 		// resultButtonComposite //////////////////////////////////////////////
@@ -94,7 +101,7 @@ public class ReviewerTab {
 		
 		final Button previousButton = new Button(centralNavigationButtonComposite, SWT.PUSH);
 		final Button answerButton = new Button(centralNavigationButtonComposite, SWT.PUSH);
-		this.nextButton = new Button(centralNavigationButtonComposite, SWT.PUSH);
+		final Button nextButton = new Button(centralNavigationButtonComposite, SWT.PUSH);
 		
 		///////////////////////////////////////////////////////////////////////
 		// resultButtons //////////////////////////////////////////////////////
@@ -274,12 +281,20 @@ public class ReviewerTab {
 		});
 		
 		// NextButton ////////////
-		this.nextButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		this.nextButton.setText("Next");
-		this.nextButton.setImage(SharedImages.getImage(SharedImages.GO_NEXT));
-		this.nextButton.setToolTipText("Goto the next card");
+		nextButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		nextButton.setText("Next");
+		nextButton.setImage(SharedImages.getImage(SharedImages.GO_NEXT));
+		nextButton.setToolTipText("Goto the next card");
 		
-		this.nextButton.addSelectionListener(new SelectionAdapter() {
+		if(manipulator.hasNext()) {
+			nextButton.setEnabled(true);
+			lastButton.setEnabled(true);
+		} else {
+			nextButton.setEnabled(false);
+			lastButton.setEnabled(false);
+		}
+		
+		nextButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				manipulator.next();
 				ReviewedCard card = (ReviewedCard) manipulator.pop();
@@ -337,25 +352,6 @@ public class ReviewerTab {
 				}
 			}
 		});
-		
-	}
-	
-	/**
-	 * 
-	 */
-	public void init() {
-		ReviewedCard card = (ReviewedCard) manipulator.pop();
-		if(card != null) {
-			this.reviewerText.setText("QUESTION\n\n" + card.getQuestion());
-			this.reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
-			
-			if(manipulator.hasNext()) nextButton.setEnabled(true);
-			else nextButton.setEnabled(false);
-		} else {
-			this.reviewerText.setText("Review done");
-			this.reviewerText.setStyleRange(new StyleRange(0, 11, null, null, SWT.BOLD));
-			this.nextButton.setEnabled(false);
-		}
 	}
 	
 }

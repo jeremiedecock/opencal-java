@@ -41,8 +41,6 @@ public class MainWindow {
 	
 	final private Shell shell;
 	
-	final private ReviewerTab reviewerTab;
-	
 	final private StatsTab statsTab;
 	
 	final private Label statusLabel1;
@@ -150,7 +148,7 @@ public class MainWindow {
 		tabItemStat.setControl(statsComposite);
 		
 		new MakerTab(makeCardComposite);
-		this.reviewerTab = new ReviewerTab(reviewerComposite);
+		new ReviewerTab(reviewerComposite);
 		new ExplorerTab(explorerComposite);
 		this.statsTab = new StatsTab(statsComposite);
 		
@@ -341,9 +339,6 @@ public class MainWindow {
 	public void run() {
 		// Initialize Tab view
 		this.initMakerTabView();
-		
-		// Initialize the reviewer
-		this.reviewerTab.init();
 		
 		// Main loop
 		this.shell.open();
