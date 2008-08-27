@@ -86,7 +86,9 @@ public class ReviewerTab {
 		// centralNavigationButtonComposite ///////////////////////////////////
 		///////////////////////////////////////////////////////////////////////
 		
-		centralNavigationButtonComposite.setLayout(new GridLayout(3, true));
+		GridLayout centralNavigationButtonCompositeGridLayout = new GridLayout(3, true);
+		centralNavigationButtonCompositeGridLayout.marginWidth = 0;
+		centralNavigationButtonComposite.setLayout(centralNavigationButtonCompositeGridLayout);
 		
 		centralNavigationButtonComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		
