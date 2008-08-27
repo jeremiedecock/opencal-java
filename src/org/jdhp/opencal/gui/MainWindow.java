@@ -37,7 +37,7 @@ import org.jdhp.opencal.usecase.statistics.Statistics;
  */
 public class MainWindow {
 	
-	final private Display display;
+	final public static Display DISPLAY = new Display();
 	
 	final private Shell shell;
 	
@@ -65,8 +65,8 @@ public class MainWindow {
 	 * 
 	 */
 	public MainWindow() {
-		this.display = new Display();
-		this.shell = new Shell(this.display);
+//		this.display = new Display();
+		this.shell = new Shell(MainWindow.DISPLAY);
 		this.shell.setLayout(new GridLayout(1, false));
 		
 		this.shell.setText(OpenCAL.programName + " " + OpenCAL.programVersion);
@@ -74,7 +74,7 @@ public class MainWindow {
 		this.shell.setSize (640, 480);
 		
 		// Center the main shell on the primary monitor
-        Monitor primary = this.display.getPrimaryMonitor();
+        Monitor primary = MainWindow.DISPLAY.getPrimaryMonitor();
         Rectangle bounds = primary.getBounds();
         Rectangle rect = this.shell.getBounds();
         int x = bounds.x + (bounds.width - rect.width) / 2;
@@ -349,10 +349,10 @@ public class MainWindow {
 		this.shell.open();
 		
 		while(!this.shell.isDisposed()) {
-			if(!this.display.readAndDispatch()) this.display.sleep();
+			if(!MainWindow.DISPLAY.readAndDispatch()) MainWindow.DISPLAY.sleep();
 		}
 		
-		this.display.dispose();
+		MainWindow.DISPLAY.dispose();
 	}
 	
 }

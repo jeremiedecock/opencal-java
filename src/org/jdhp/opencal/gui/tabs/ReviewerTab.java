@@ -16,6 +16,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.jdhp.opencal.OpenCAL;
+import org.jdhp.opencal.gui.images.SharedImages;
 import org.jdhp.opencal.usecase.CardManipulator;
 import org.jdhp.opencal.usecase.review.ReviewedCard;
 
@@ -71,15 +72,27 @@ public class ReviewerTab {
 		///////////////////////////////////////////////////////////////////////
 		
 		Composite navigationButtonComposite = new Composite(this.parentComposite, SWT.NONE);
-		navigationButtonComposite.setLayout(new GridLayout(3, true));
+		navigationButtonComposite.setLayout(new GridLayout(3, false));
 		
 		GridData navigationButtonCompositeGridData = new GridData(GridData.FILL_HORIZONTAL);
 		navigationButtonCompositeGridData.horizontalSpan = 2;
 		navigationButtonComposite.setLayoutData(navigationButtonCompositeGridData);
 		
-		final Button previewButton = new Button(navigationButtonComposite, SWT.PUSH);
-		final Button answerButton = new Button(navigationButtonComposite, SWT.PUSH);
-		this.nextButton = new Button(navigationButtonComposite, SWT.PUSH);
+		final Button firstButton = new Button(navigationButtonComposite, SWT.PUSH);
+		Composite centralNavigationButtonComposite = new Composite(navigationButtonComposite, SWT.NONE);
+		final Button lastButton = new Button(navigationButtonComposite, SWT.PUSH);
+		
+		///////////////////////////////////////////////////////////////////////
+		// centralNavigationButtonComposite ///////////////////////////////////
+		///////////////////////////////////////////////////////////////////////
+		
+		centralNavigationButtonComposite.setLayout(new GridLayout(3, true));
+		
+		centralNavigationButtonComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		
+		final Button previousButton = new Button(centralNavigationButtonComposite, SWT.PUSH);
+		final Button answerButton = new Button(centralNavigationButtonComposite, SWT.PUSH);
+		this.nextButton = new Button(centralNavigationButtonComposite, SWT.PUSH);
 		
 		///////////////////////////////////////////////////////////////////////
 		// resultButtons //////////////////////////////////////////////////////
@@ -88,19 +101,30 @@ public class ReviewerTab {
 		// goodButton /////////////
 		goodButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		goodButton.setEnabled(false);
-		goodButton.setText("Good");
-		goodButton.setToolTipText("Good answer");
+		goodButton.setText("Correct");
+		goodButton.setImage(SharedImages.getImage(SharedImages.FACE_SMILE));
+		goodButton.setToolTipText("Right answer");
 		
 		goodButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				((ReviewedCard) manipulator.pop()).putReview("good");
 				manipulator.remove();
 				
-				if(manipulator.hasPreview()) previewButton.setEnabled(true);
-				else previewButton.setEnabled(false);
+				if(manipulator.hasPreview()) {
+					previousButton.setEnabled(true);
+					firstButton.setEnabled(true);
+				} else {
+					previousButton.setEnabled(false);
+					firstButton.setEnabled(false);
+				}
+				if(manipulator.hasNext()) {
+					nextButton.setEnabled(true);
+					lastButton.setEnabled(true);
+				} else {
+					nextButton.setEnabled(false);
+					lastButton.setEnabled(false);
+				}
 				answerButton.setEnabled(true);
-				if(manipulator.hasNext()) nextButton.setEnabled(true);
-				else nextButton.setEnabled(false);
 				goodButton.setEnabled(false);
 				badButton.setEnabled(false);
 				
@@ -116,19 +140,30 @@ public class ReviewerTab {
 		// badButton /////////////
 		badButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		badButton.setEnabled(false);
-		badButton.setText("Bad");
-		badButton.setToolTipText("Bad answer");
+		badButton.setText("Wrong");
+		badButton.setImage(SharedImages.getImage(SharedImages.FACE_SAD));
+		badButton.setToolTipText("Wrong answer");
 		
 		badButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				((ReviewedCard) manipulator.pop()).putReview("bad");
 				manipulator.remove();
 				
-				if(manipulator.hasPreview()) previewButton.setEnabled(true);
-				else previewButton.setEnabled(false);
+				if(manipulator.hasPreview()) {
+					previousButton.setEnabled(true);
+					firstButton.setEnabled(true);
+				} else {
+					previousButton.setEnabled(false);
+					firstButton.setEnabled(false);
+				}
+				if(manipulator.hasNext()) {
+					nextButton.setEnabled(true);
+					lastButton.setEnabled(true);
+				} else {
+					nextButton.setEnabled(false);
+					lastButton.setEnabled(false);
+				}
 				answerButton.setEnabled(true);
-				if(manipulator.hasNext()) nextButton.setEnabled(true);
-				else nextButton.setEnabled(false);
 				goodButton.setEnabled(false);
 				badButton.setEnabled(false);
 
@@ -145,13 +180,46 @@ public class ReviewerTab {
 		// navigationButtonComposite //////////////////////////////////////////
 		///////////////////////////////////////////////////////////////////////
 		
-		// PreviewButton /////////
-		previewButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		previewButton.setEnabled(false);
-		previewButton.setText("Preview");
-		previewButton.setToolTipText("Goto the preview card");
+		// FirstButton /////////
+		firstButton.setEnabled(false);
+		firstButton.setImage(SharedImages.getImage(SharedImages.GO_FIRST));
+		firstButton.setToolTipText("Goto the first card");
 		
-		previewButton.addSelectionListener(new SelectionAdapter() {
+		firstButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				manipulator.first();
+				ReviewedCard card = (ReviewedCard) manipulator.pop();
+				reviewerText.setText("QUESTION\n\n" + card.getQuestion());
+				reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
+				OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
+				OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.getReviewedCards(), OpenCAL.reviewedCardList.getReviewedCards() + " review done today");
+				OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.reviewedCardList.getRemainingCards(), OpenCAL.reviewedCardList.getRemainingCards() + " cards left for today");
+				
+				if(manipulator.hasPreview()) {
+					previousButton.setEnabled(true);
+					firstButton.setEnabled(true);
+				} else {
+					previousButton.setEnabled(false);
+					firstButton.setEnabled(false);
+				}
+				if(manipulator.hasNext()) {
+					nextButton.setEnabled(true);
+					lastButton.setEnabled(true);
+				} else {
+					nextButton.setEnabled(false);
+					lastButton.setEnabled(false);
+				}
+			}
+		});
+		
+		// PreviousButton /////////
+		previousButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		previousButton.setEnabled(false);
+		previousButton.setText("Previous");
+		previousButton.setImage(SharedImages.getImage(SharedImages.GO_PREVIOUS));
+		previousButton.setToolTipText("Goto the previous card");
+		
+		previousButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				manipulator.preview();
 				ReviewedCard card = (ReviewedCard) manipulator.pop();
@@ -161,15 +229,25 @@ public class ReviewerTab {
 				OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.getReviewedCards(), OpenCAL.reviewedCardList.getReviewedCards() + " review done today");
 				OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.reviewedCardList.getRemainingCards(), OpenCAL.reviewedCardList.getRemainingCards() + " cards left for today");
 				
-				if(manipulator.hasPreview()) previewButton.setEnabled(true);
-				else previewButton.setEnabled(false);
-				if(manipulator.hasNext()) nextButton.setEnabled(true);
-				else nextButton.setEnabled(false);
+				if(manipulator.hasPreview()) {
+					previousButton.setEnabled(true);
+					firstButton.setEnabled(true);
+				} else {
+					previousButton.setEnabled(false);
+					firstButton.setEnabled(false);
+				}
+				if(manipulator.hasNext()) {
+					nextButton.setEnabled(true);
+					lastButton.setEnabled(true);
+				} else {
+					nextButton.setEnabled(false);
+					lastButton.setEnabled(false);
+				}
 			}
 		});
 		
 		// AnswerButton //////////
-		answerButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		answerButton.setLayoutData(new GridData(GridData.FILL_BOTH));
 		answerButton.setText("Answer");
 		answerButton.setToolTipText("Show the answer for this card (review this card)");
 		
@@ -177,7 +255,7 @@ public class ReviewerTab {
 			public void widgetSelected(SelectionEvent e) {
 				nextButton.setEnabled(false);
 				answerButton.setEnabled(false);
-				previewButton.setEnabled(false);
+				previousButton.setEnabled(false);
 				goodButton.setEnabled(true);
 				badButton.setEnabled(true);
 				
@@ -196,6 +274,7 @@ public class ReviewerTab {
 		// NextButton ////////////
 		this.nextButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		this.nextButton.setText("Next");
+		this.nextButton.setImage(SharedImages.getImage(SharedImages.GO_NEXT));
 		this.nextButton.setToolTipText("Goto the next card");
 		
 		this.nextButton.addSelectionListener(new SelectionAdapter() {
@@ -208,10 +287,52 @@ public class ReviewerTab {
 				OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.getReviewedCards(), OpenCAL.reviewedCardList.getReviewedCards() + " review done today");
 				OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.reviewedCardList.getRemainingCards(), OpenCAL.reviewedCardList.getRemainingCards() + " cards left for today");
 				
-				if(manipulator.hasPreview()) previewButton.setEnabled(true);
-				else previewButton.setEnabled(false);
-				if(manipulator.hasNext()) nextButton.setEnabled(true);
-				else nextButton.setEnabled(false);
+				if(manipulator.hasPreview()) {
+					previousButton.setEnabled(true);
+					firstButton.setEnabled(true);
+				} else {
+					previousButton.setEnabled(false);
+					firstButton.setEnabled(false);
+				}
+				if(manipulator.hasNext()) {
+					nextButton.setEnabled(true);
+					lastButton.setEnabled(true);
+				} else {
+					nextButton.setEnabled(false);
+					lastButton.setEnabled(false);
+				}
+			}
+		});
+		
+		// LastButton /////////
+		lastButton.setEnabled(true);
+		lastButton.setImage(SharedImages.getImage(SharedImages.GO_LAST));
+		lastButton.setToolTipText("Goto the last card");
+		
+		lastButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				manipulator.last();
+				ReviewedCard card = (ReviewedCard) manipulator.pop();
+				reviewerText.setText("QUESTION\n\n" + card.getQuestion());
+				reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
+				OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
+				OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.getReviewedCards(), OpenCAL.reviewedCardList.getReviewedCards() + " review done today");
+				OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.reviewedCardList.getRemainingCards(), OpenCAL.reviewedCardList.getRemainingCards() + " cards left for today");
+				
+				if(manipulator.hasPreview()) {
+					previousButton.setEnabled(true);
+					firstButton.setEnabled(true);
+				} else {
+					previousButton.setEnabled(false);
+					firstButton.setEnabled(false);
+				}
+				if(manipulator.hasNext()) {
+					nextButton.setEnabled(true);
+					lastButton.setEnabled(true);
+				} else {
+					nextButton.setEnabled(false);
+					lastButton.setEnabled(false);
+				}
 			}
 		});
 		

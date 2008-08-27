@@ -26,6 +26,10 @@
 		<echo>Generate class files</echo>
 		<delete dir="${class_dir}" />
 		<mkdir dir="${class_dir}" />
+		<mkdir dir="${class_dir}/org/jdhp/opencal/gui/icons" />
+		<copy todir="${class_dir}/org/jdhp/opencal/gui/icons">
+			<fileset dir="${src_dir}/org/jdhp/opencal/gui/icons" />
+		</copy>
 		<javac srcdir="${src_dir}" destdir="${class_dir}" classpath="${classpath}" />
 	</target>
 

@@ -79,16 +79,16 @@ public class CardManipulator {
 	 * 
 	 * @return
 	 */
-	public Card first() {
-		return this.cardList.get(0);
+	public void first() {
+		this.cursor = 0;
 	}
 	
 	/**
 	 * 
 	 * @return
 	 */
-	public Card last() {
-		return this.cardList.get(this.cardList.size() - 1);
+	public void last() {
+		this.cursor = this.cardList.size() - 1;
 	}
 	
 	/**

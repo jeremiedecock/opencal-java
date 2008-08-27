@@ -16,6 +16,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
 import org.jdhp.opencal.OpenCAL;
+import org.jdhp.opencal.gui.images.SharedImages;
 import org.jdhp.opencal.model.xml.explorer.Card;
 import org.jdhp.opencal.model.xml.maker.CardMakerHandler;
 import org.jdhp.opencal.usecase.explore.MadeCardsController;
@@ -78,6 +79,7 @@ public class MakerTab {
 		Button addButton = new Button(this.parentComposite, SWT.PUSH);
 		addButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_CENTER));
 		addButton.setText("Add this card");
+		addButton.setImage(SharedImages.getImage(SharedImages.LIST_ADD));
 		addButton.setToolTipText("Add this card to the knowledge base");
 		
 		addButton.addSelectionListener(new SelectionAdapter() {
