@@ -8,6 +8,7 @@ package org.jdhp.opencal.usecase.review.inspector;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.usecase.Card;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -44,7 +45,7 @@ public class InspectorBrian implements Inspector {
 			// TODO : s'assurer que le tableau date a bien 3 entrées (pour pas planter le programme en modifiant manuellement le fichier XML)
 			Date rdate = (new GregorianCalendar(Integer.parseInt(rdateString[0]), Integer.parseInt(rdateString[1]) - 1, Integer.parseInt(rdateString[2]))).getTime();
 			
-			if(((Element) reviewList.item(i)).getAttribute("result").equals("good")) {
+			if(((Element) reviewList.item(i)).getAttribute("result").equals(OpenCAL.RIGHT_ANSWER_STRING)) {
 				grade++;
 				lastRevisionDate = rdate;
 				expectedRevisionDate = getExpectedRevisionDate(lastRevisionDate, grade);

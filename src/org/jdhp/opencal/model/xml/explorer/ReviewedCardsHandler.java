@@ -65,17 +65,17 @@ public class ReviewedCardsHandler extends DefaultHandler {
 			xr.setErrorHandler(handler);
 			
 			//xr.parse(new InputSource((InputStream) ClassLoader.getSystemResourceAsStream(Controller.cardDb))); // parse le fichier à la racine du .jar
-			FileReader r = new FileReader(OpenCAL.pkbFilePath);
+			FileReader r = new FileReader(OpenCAL.PKB_FILE_PATH);
 			xr.parse(new InputSource(r));
 			r.close();
 		} catch(SAXException e) {
-			OpenCAL.mainWindow.printError(OpenCAL.pkbFilePath + " n'est pas valide (SAXException)");
+			OpenCAL.mainWindow.printError(OpenCAL.PKB_FILE_PATH + " n'est pas valide (SAXException)");
 			OpenCAL.exit(2);
 		} catch(FileNotFoundException e) {
-			OpenCAL.mainWindow.printError(OpenCAL.pkbFilePath + " est introuvable (FileNotFoundException)");
+			OpenCAL.mainWindow.printError(OpenCAL.PKB_FILE_PATH + " est introuvable (FileNotFoundException)");
 			OpenCAL.exit(2);
 		} catch(IOException e) {
-			OpenCAL.mainWindow.printError(OpenCAL.pkbFilePath + " est illisible (IOException)");
+			OpenCAL.mainWindow.printError(OpenCAL.PKB_FILE_PATH + " est illisible (IOException)");
 			OpenCAL.exit(2);
 		}
 	}

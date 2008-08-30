@@ -5,6 +5,7 @@
 
 package org.jdhp.opencal.usecase.review.inspector;
 
+import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.usecase.Card;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -27,7 +28,7 @@ public class InspectorAlan implements Inspector {
 		// TODO : vérifier que les noeuds "review" sont bien classés par date croissante
 		NodeList reviewList = card.getElement().getElementsByTagName("review");
 		for(int i=0 ; i < reviewList.getLength() ; i++) {
-			if(((Element) reviewList.item(i)).getAttribute("result").equals("good")) {
+			if(((Element) reviewList.item(i)).getAttribute("result").equals(OpenCAL.RIGHT_ANSWER_STRING)) {
 				grade++;
 			} else {
 				grade = 0;

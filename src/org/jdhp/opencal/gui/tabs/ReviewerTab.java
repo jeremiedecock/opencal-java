@@ -116,7 +116,7 @@ public class ReviewerTab {
 		
 		goodButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				((ReviewedCard) manipulator.pop()).putReview("good");
+				((ReviewedCard) manipulator.pop()).putReview(OpenCAL.RIGHT_ANSWER_STRING);
 				manipulator.remove();
 				
 				if(manipulator.hasPreview()) {
@@ -155,7 +155,7 @@ public class ReviewerTab {
 		
 		badButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				((ReviewedCard) manipulator.pop()).putReview("bad");
+				((ReviewedCard) manipulator.pop()).putReview(OpenCAL.WRONG_ANSWER_STRING);
 				manipulator.remove();
 				
 				if(manipulator.hasPreview()) {

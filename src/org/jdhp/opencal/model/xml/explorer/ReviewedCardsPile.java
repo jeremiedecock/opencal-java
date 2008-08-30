@@ -7,6 +7,8 @@ package org.jdhp.opencal.model.xml.explorer;
 
 import java.util.ArrayList;
 
+import org.jdhp.opencal.OpenCAL;
+
 /**
  * 
  * @author Jérémie Decock
@@ -18,7 +20,7 @@ public class ReviewedCardsPile {
 	
 	/**
 	 * 
-	 * @param pkbFilePath
+	 * @param PKB_FILE_PATH
 	 */
 	public ReviewedCardsPile() {
 		this.cardList = new ArrayList<Card>();
@@ -40,7 +42,7 @@ public class ReviewedCardsPile {
 		String[] stringArray = new String[this.cardList.size()];
 		
 		for(int i=0 ; i<this.cardList.size() ; i++) {
-			if(this.cardList.get(i).getResult().toLowerCase().equals("bad")) stringArray[i] = "[*] " + this.cardList.get(i).getQuestion();
+			if(this.cardList.get(i).getResult().toLowerCase().equals(OpenCAL.WRONG_ANSWER_STRING)) stringArray[i] = "[*] " + this.cardList.get(i).getQuestion();
 			else stringArray[i] = this.cardList.get(i).getQuestion();
 			if(stringArray[i].length() > 14) stringArray[i] = stringArray[i].substring(0, 11) + "...";
 		}

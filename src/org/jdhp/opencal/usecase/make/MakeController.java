@@ -51,37 +51,37 @@ public class MakeController {
 			try {
 				// Crée le Handler
 				XMLReader xr = XMLReaderFactory.createXMLReader();
-				CardMakerHandler handler = new CardMakerHandler(OpenCAL.tmpPkbFile, question, answer, tagArray);
+				CardMakerHandler handler = new CardMakerHandler(OpenCAL.TMP_PKB_FILE, question, answer, tagArray);
 				xr.setContentHandler(handler);
 				xr.setErrorHandler(handler);
 		
 				// Parse the configuration file (config.xml) et crée tmpDB
 				//xr.parse(new InputSource((InputStream) ClassLoader.getSystemResourceAsStream(Controller.cardDb))); // parse le fichier à la racine du .jar
-				FileReader r = new FileReader(OpenCAL.pkbFilePath);
+				FileReader r = new FileReader(OpenCAL.PKB_FILE_PATH);
 				xr.parse(new InputSource(r));
 				r.close();
 				
-				// Remplace pkbFilePath par tmpPkbFile
-				File cardDbFile = new File(OpenCAL.pkbFilePath);
-				File tmpDbFile = new File(OpenCAL.tmpPkbFile);
+				// Remplace PKB_FILE_PATH par TMP_PKB_FILE
+				File cardDbFile = new File(OpenCAL.PKB_FILE_PATH);
+				File tmpDbFile = new File(OpenCAL.TMP_PKB_FILE);
 				boolean result = tmpDbFile.renameTo(cardDbFile);
 				
 				if(!result) {
-					OpenCAL.mainWindow.printError("Impossible de renommer le fichier " + OpenCAL.tmpPkbFile);
+					OpenCAL.mainWindow.printError("Impossible de renommer le fichier " + OpenCAL.TMP_PKB_FILE);
 					OpenCAL.exit(12);
 				}
 				
 			} catch(SAXException e) {
 				
-				OpenCAL.mainWindow.printError(OpenCAL.pkbFilePath + " n'est pas valide (SAXException)");
+				OpenCAL.mainWindow.printError(OpenCAL.PKB_FILE_PATH + " n'est pas valide (SAXException)");
 				OpenCAL.exit(2);
 				
 			} catch(FileNotFoundException e) {
 				
-				// Le fichier pkbFilePath n'existe pas, on va le créer
-				OpenCAL.mainWindow.print("Le fichier " + OpenCAL.pkbFilePath + " n'existe pas et va être créé.");
+				// Le fichier PKB_FILE_PATH n'existe pas, on va le créer
+				OpenCAL.mainWindow.print("Le fichier " + OpenCAL.PKB_FILE_PATH + " n'existe pas et va être créé.");
 				try {
-					PrintWriter file = new PrintWriter(OpenCAL.pkbFilePath);
+					PrintWriter file = new PrintWriter(OpenCAL.PKB_FILE_PATH);
 					file.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 					file.println("<!DOCTYPE pkb [");
 					file.println("    <!--- Knowledge Base -->");
@@ -113,7 +113,7 @@ public class MakeController {
 					file.println("<!--");
 					file.println("    Personal Knowledge Base version 1.0");
 					file.println("    Copyright (c) 2007,2008 Jérémie DECOCK");
-//					file.println("    Generator  : " + OpenCAL.programName + " " + OpenCAL.version + " (Java - DTD v3)");
+//					file.println("    Generator  : " + OpenCAL.PROGRAM_NAME + " " + OpenCAL.version + " (Java - DTD v3)");
 					file.println("-->");
 					file.println("");
 					
@@ -131,11 +131,11 @@ public class MakeController {
 					
 					file.close();
 				} catch(FileNotFoundException e2) {
-					OpenCAL.mainWindow.printError(OpenCAL.pkbFilePath + " ne peut pas être créé (FileNotFoundException)");
+					OpenCAL.mainWindow.printError(OpenCAL.PKB_FILE_PATH + " ne peut pas être créé (FileNotFoundException)");
 					OpenCAL.exit(2);
 				}
 			} catch(IOException e) {
-				OpenCAL.mainWindow.printError(OpenCAL.pkbFilePath + " est illisible (IOException)");
+				OpenCAL.mainWindow.printError(OpenCAL.PKB_FILE_PATH + " est illisible (IOException)");
 				OpenCAL.exit(2);
 			}
 		}

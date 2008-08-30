@@ -22,7 +22,7 @@ public class CardManipulator {
 	
 	/**
 	 * 
-	 * @param pkbFilePath
+	 * @param PKB_FILE_PATH
 	 */
 	public CardManipulator(ArrayList<Card> cardList) {
 		this.cursor = 0;

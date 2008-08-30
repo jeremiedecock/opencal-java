@@ -67,7 +67,7 @@ public class MainWindow {
 		this.shell = new Shell(MainWindow.DISPLAY);
 		this.shell.setLayout(new GridLayout(1, false));
 		
-		this.shell.setText(OpenCAL.programName + " " + OpenCAL.programVersion);
+		this.shell.setText(OpenCAL.PROGRAM_NAME + " " + OpenCAL.PROGRAM_VERSION);
 		this.shell.setMinimumSize(400, 350);
 		this.shell.setSize (640, 480);
 		
@@ -111,7 +111,7 @@ public class MainWindow {
         	public void handleEvent(Event e) {
         		MessageBox mb = new MessageBox(shell, SWT.APPLICATION_MODAL | SWT.ICON_INFORMATION | SWT.OK);
         		mb.setText("About OpenCAL");
-        		mb.setMessage(OpenCAL.programName + " " + OpenCAL.programVersion + "\nCopyright (c) 2007,2008 Jérémie DECOCK");
+        		mb.setMessage(OpenCAL.PROGRAM_NAME + " " + OpenCAL.PROGRAM_VERSION + "\nCopyright (c) 2007,2008 Jérémie DECOCK");
         		mb.open();
         	}
         });
@@ -247,7 +247,7 @@ public class MainWindow {
 		this.setStatusLabel4("R : " + Statistics.getNumberOfCardsScheduledForToday(), Statistics.getNumberOfCardsScheduledForToday() + " cards left for today");
 		
 		// Signale si le fichier PKB est innexistant
-//		if(! new File(OpenCAL.pkbFilePath).exists()) OpenCAL.mainWindow.setStatusLabel1("Knowledge base not found", "Knowledge base not found");
+//		if(! new File(OpenCAL.PKB_FILE_PATH).exists()) OpenCAL.mainWindow.setStatusLabel1("Knowledge base not found", "Knowledge base not found");
 //		else OpenCAL.mainWindow.setStatusLabel1("", "");
 	}
 	
@@ -261,7 +261,7 @@ public class MainWindow {
 //		this.setStatusLabel4("R : " + Statistics.getNumberOfCardsScheduledForToday(), Statistics.getNumberOfCardsScheduledForToday() + " cards left for today");
 		
 		// Signale si le fichier PKB est innexistant
-//		if(! new File(OpenCAL.pkbFilePath).exists()) OpenCAL.mainWindow.setStatusLabel1("Knowledge base not found", "Knowledge base not found");
+//		if(! new File(OpenCAL.PKB_FILE_PATH).exists()) OpenCAL.mainWindow.setStatusLabel1("Knowledge base not found", "Knowledge base not found");
 //		else OpenCAL.mainWindow.setStatusLabel1("", "");
 		
 		// Cas où il n'y a rien à réviser
@@ -277,7 +277,7 @@ public class MainWindow {
 		this.setStatusLabel4("R : " + Statistics.getNumberOfCardsScheduledForToday(), Statistics.getNumberOfCardsScheduledForToday() + " cards left for today");
 		
 		// Signale si le fichier PKB est innexistant
-//		if(! new File(OpenCAL.pkbFilePath).exists()) OpenCAL.mainWindow.setStatusLabel1("Knowledge base not found", "Knowledge base not found");
+//		if(! new File(OpenCAL.PKB_FILE_PATH).exists()) OpenCAL.mainWindow.setStatusLabel1("Knowledge base not found", "Knowledge base not found");
 //		else OpenCAL.mainWindow.setStatusLabel1("", "");
 	}
 	
@@ -292,7 +292,7 @@ public class MainWindow {
 		
 		this.statsTab.updateChart();
 		// Signale si le fichier PKB est innexistant
-//		if(! new File(OpenCAL.pkbFilePath).exists()) OpenCAL.mainWindow.setStatusLabel1("Knowledge base not found", "Knowledge base not found");
+//		if(! new File(OpenCAL.PKB_FILE_PATH).exists()) OpenCAL.mainWindow.setStatusLabel1("Knowledge base not found", "Knowledge base not found");
 //		else OpenCAL.mainWindow.setStatusLabel1("", "");
 	}
 	
