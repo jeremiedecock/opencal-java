@@ -28,7 +28,14 @@ public class ReviewedCardList extends CardList {
 		NodeList nodeCards = OpenCAL.domDocument.getElementsByTagName("card");
 		for(int i=0 ; i<nodeCards.getLength() ; i++) {
 			ReviewedCard card = new ReviewedCard((Element) nodeCards.item(i));
-			if(card.getGrade() >= 0) this.cardList.add(card);
+			
+			boolean isSuspended = false;
+			String[] tags = card.getTags();
+			for(int j=0 ; j < tags.length ; j++) {
+				if(tags[j].equals(OpenCAL.SUSPENDED_CARD_STRING)) isSuspended = true;
+			}
+			
+			if(card.getGrade() >= 0 && !isSuspended) this.cardList.add(card);
 		}
 		
 		this.sortCards();

@@ -5,6 +5,8 @@
 
 package org.jdhp.opencal.usecase;
 
+import java.util.ArrayList;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -35,6 +37,19 @@ public class Card {
 		NodeList nodeCards = this.element.getElementsByTagName("answer");
 		Element answerElement = (Element) nodeCards.item(0);
 		return answerElement.getTextContent(); // TODO : ???
+	}
+	
+	public String[] getTags() {
+		ArrayList<String> tags = new ArrayList<String>();
+		
+		NodeList nodeCards = this.element.getElementsByTagName("tag");
+		Element tagElement;
+		for(int i=0 ; i < nodeCards.getLength() ; i++) {
+			tagElement = (Element) nodeCards.item(i);
+			tags.add(tagElement.getTextContent());
+		}
+		
+		return tags.toArray(new String[0]);
 	}
 	
 }
