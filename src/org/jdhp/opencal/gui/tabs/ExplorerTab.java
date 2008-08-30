@@ -18,6 +18,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Text;
+import org.jdhp.opencal.gui.images.SharedImages;
 import org.jdhp.opencal.usecase.explore.MadeCardsController;
 import org.jdhp.opencal.usecase.explore.ReviewedCardsController;
 
@@ -130,14 +131,13 @@ public class ExplorerTab {
 		Composite fileButtonComposite = new Composite(editionCardComposite, SWT.NONE);
 		fileButtonComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		
-		RowLayout fileButtonCompositeLayout = new RowLayout(SWT.HORIZONTAL);
-		fileButtonCompositeLayout.justify = true;
-		fileButtonComposite.setLayout(fileButtonCompositeLayout);
+		fileButtonComposite.setLayout(new GridLayout(2, true));
 		
 		// SaveButton /////////
 		Button saveButton = new Button(fileButtonComposite, SWT.PUSH);
 		saveButton.setEnabled(false);
 		saveButton.setText("Save");
+		saveButton.setImage(SharedImages.getImage(SharedImages.MEDIA_FLOPPY));
 		saveButton.setToolTipText("Save modification for this card");
 		
 		saveButton.addSelectionListener(new SelectionAdapter() {
@@ -148,6 +148,7 @@ public class ExplorerTab {
 		
 		// CancelButton /////////
 		Button cancelButton = new Button(fileButtonComposite, SWT.PUSH);
+		cancelButton.setLayoutData(new GridData(GridData.FILL_VERTICAL));
 		cancelButton.setEnabled(false);
 		cancelButton.setText("Cancel");
 		cancelButton.setToolTipText("Cancel modification for this card");

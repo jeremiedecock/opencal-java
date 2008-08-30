@@ -258,6 +258,7 @@ public class ReviewerTab {
 		// AnswerButton //////////
 		answerButton.setLayoutData(new GridData(GridData.FILL_BOTH));
 		answerButton.setText("Answer");
+		answerButton.setImage(SharedImages.getImage(SharedImages.EDIT_FIND));
 		answerButton.setToolTipText("Show the answer for this card (review this card)");
 		
 		answerButton.addSelectionListener(new SelectionAdapter() {
