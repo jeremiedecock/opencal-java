@@ -16,18 +16,18 @@ import org.w3c.dom.NodeList;
  * @author Jérémie Decock
  *
  */
-public class ReviewedCardList extends CardList {
+public class PlannedCardList extends CardList {
 
 	private int reviewedCards;
 	
-	public ReviewedCardList() {
+	public PlannedCardList() {
 		super();
 		
 		this.reviewedCards = 0;
 		
 		NodeList nodeCards = OpenCAL.domDocument.getElementsByTagName("card");
 		for(int i=0 ; i<nodeCards.getLength() ; i++) {
-			ReviewedCard card = new ReviewedCard((Element) nodeCards.item(i));
+			PlannedCard card = new PlannedCard((Element) nodeCards.item(i));
 			
 			boolean isSuspended = false;
 			String[] tags = card.getTags();
@@ -48,7 +48,7 @@ public class ReviewedCardList extends CardList {
 		// Tri bulle
 		for(int i=this.cardList.size()-1 ; i>0 ; i--) {
 			for(int j=0 ; j<i ; j++) {
-				if(((ReviewedCard) this.cardList.get(j+1)).getGrade() < ((ReviewedCard) this.cardList.get(j)).getGrade()) {
+				if(((PlannedCard) this.cardList.get(j+1)).getGrade() < ((PlannedCard) this.cardList.get(j)).getGrade()) {
 					Card tmp = this.cardList.get(j+1);
 					this.cardList.set(j+1, this.cardList.get(j));
 					this.cardList.set(j, tmp);

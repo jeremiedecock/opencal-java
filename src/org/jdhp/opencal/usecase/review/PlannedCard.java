@@ -16,11 +16,11 @@ import org.w3c.dom.Element;
  * @author Jérémie Decock
  *
  */
-public class ReviewedCard extends Card {
+public class PlannedCard extends Card {
 
 	private int grade;
 	
-	public ReviewedCard(Element element) {
+	public PlannedCard(Element element) {
 		super(element);
 		
 		this.grade = OpenCAL.inspector.assess(this);
@@ -40,7 +40,7 @@ public class ReviewedCard extends Card {
 		// Serialize DOM tree
 		OpenCAL.updateXmlFile();
 		
-		OpenCAL.reviewedCardList.incrementReviewedCards();
+		OpenCAL.plannedCardList.incrementReviewedCards();
 	}
 	
 }

@@ -25,7 +25,7 @@ import org.jdhp.opencal.gui.MainWindow;
 import org.jdhp.opencal.usecase.explore.MadeCardsController;
 import org.jdhp.opencal.usecase.explore.ReviewedCardsController;
 import org.jdhp.opencal.usecase.make.MakeController;
-import org.jdhp.opencal.usecase.review.ReviewedCardList;
+import org.jdhp.opencal.usecase.review.PlannedCardList;
 import org.jdhp.opencal.usecase.review.inspector.Inspector;
 import org.jdhp.opencal.usecase.review.inspector.InspectorBrian;
 import org.w3c.dom.Document;
@@ -60,7 +60,7 @@ public class OpenCAL {
 	
 	public static SimpleDateFormat iso8601Formatter;
 	
-	public static ReviewedCardList reviewedCardList;
+	public static PlannedCardList plannedCardList;
 	
 	public static Inspector inspector;
 	
@@ -102,7 +102,7 @@ public class OpenCAL {
 	 */
 	public static void init() {
 		OpenCAL.inspector = new InspectorBrian();
-		OpenCAL.reviewedCardList = new ReviewedCardList();
+		OpenCAL.plannedCardList = new PlannedCardList();
 		
 		MakeController.init();
 		MadeCardsController.init();

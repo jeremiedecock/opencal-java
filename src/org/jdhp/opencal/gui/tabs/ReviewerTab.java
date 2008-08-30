@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.gui.images.SharedImages;
 import org.jdhp.opencal.usecase.CardManipulator;
-import org.jdhp.opencal.usecase.review.ReviewedCard;
+import org.jdhp.opencal.usecase.review.PlannedCard;
 
 /**
  * 
@@ -31,7 +31,7 @@ public class ReviewerTab {
 	
 	final private StyledText reviewerText;
 	
-	final private CardManipulator manipulator = OpenCAL.reviewedCardList.manipulator();
+	final private CardManipulator manipulator = OpenCAL.plannedCardList.manipulator();
 	
 	/**
 	 * 
@@ -53,7 +53,7 @@ public class ReviewerTab {
 		this.reviewerText.setFont(monoFont);
 		this.reviewerText.setTabs(3);
 		
-		ReviewedCard card = (ReviewedCard) manipulator.pop();
+		PlannedCard card = (PlannedCard) manipulator.pop();
 		if(card != null) {
 			this.reviewerText.setText("QUESTION\n\n" + card.getQuestion());
 			this.reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
@@ -116,7 +116,7 @@ public class ReviewerTab {
 		
 		goodButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				((ReviewedCard) manipulator.pop()).putReview(OpenCAL.RIGHT_ANSWER_STRING);
+				((PlannedCard) manipulator.pop()).putReview(OpenCAL.RIGHT_ANSWER_STRING);
 				manipulator.remove();
 				
 				if(manipulator.hasPreview()) {
@@ -137,12 +137,12 @@ public class ReviewerTab {
 				goodButton.setEnabled(false);
 				badButton.setEnabled(false);
 				
-				ReviewedCard card = (ReviewedCard) manipulator.pop();
+				PlannedCard card = (PlannedCard) manipulator.pop();
 				reviewerText.setText("QUESTION\n\n" + card.getQuestion());
 				reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
 				OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
-				OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.getReviewedCards(), OpenCAL.reviewedCardList.getReviewedCards() + " review done today");
-				OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.reviewedCardList.getRemainingCards(), OpenCAL.reviewedCardList.getRemainingCards() + " cards left for today");
+				OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.plannedCardList.getReviewedCards(), OpenCAL.plannedCardList.getReviewedCards() + " review done today");
+				OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.getRemainingCards(), OpenCAL.plannedCardList.getRemainingCards() + " cards left for today");
 			}
 		});
 		
@@ -155,7 +155,7 @@ public class ReviewerTab {
 		
 		badButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				((ReviewedCard) manipulator.pop()).putReview(OpenCAL.WRONG_ANSWER_STRING);
+				((PlannedCard) manipulator.pop()).putReview(OpenCAL.WRONG_ANSWER_STRING);
 				manipulator.remove();
 				
 				if(manipulator.hasPreview()) {
@@ -176,12 +176,12 @@ public class ReviewerTab {
 				goodButton.setEnabled(false);
 				badButton.setEnabled(false);
 
-				ReviewedCard card = (ReviewedCard) manipulator.pop();
+				PlannedCard card = (PlannedCard) manipulator.pop();
 				reviewerText.setText("QUESTION\n\n" + card.getQuestion());
 				reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
 				OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
-				OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.getReviewedCards(), OpenCAL.reviewedCardList.getReviewedCards() + " review done today");
-				OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.reviewedCardList.getRemainingCards(), OpenCAL.reviewedCardList.getRemainingCards() + " cards left for today");
+				OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.plannedCardList.getReviewedCards(), OpenCAL.plannedCardList.getReviewedCards() + " review done today");
+				OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.getRemainingCards(), OpenCAL.plannedCardList.getRemainingCards() + " cards left for today");
 			}
 		});
 		
@@ -197,12 +197,12 @@ public class ReviewerTab {
 		firstButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				manipulator.first();
-				ReviewedCard card = (ReviewedCard) manipulator.pop();
+				PlannedCard card = (PlannedCard) manipulator.pop();
 				reviewerText.setText("QUESTION\n\n" + card.getQuestion());
 				reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
 				OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
-				OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.getReviewedCards(), OpenCAL.reviewedCardList.getReviewedCards() + " review done today");
-				OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.reviewedCardList.getRemainingCards(), OpenCAL.reviewedCardList.getRemainingCards() + " cards left for today");
+				OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.plannedCardList.getReviewedCards(), OpenCAL.plannedCardList.getReviewedCards() + " review done today");
+				OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.getRemainingCards(), OpenCAL.plannedCardList.getRemainingCards() + " cards left for today");
 				
 				if(manipulator.hasPreview()) {
 					previousButton.setEnabled(true);
@@ -231,12 +231,12 @@ public class ReviewerTab {
 		previousButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				manipulator.preview();
-				ReviewedCard card = (ReviewedCard) manipulator.pop();
+				PlannedCard card = (PlannedCard) manipulator.pop();
 				reviewerText.setText("QUESTION\n\n" + card.getQuestion());
 				reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
 				OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
-				OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.getReviewedCards(), OpenCAL.reviewedCardList.getReviewedCards() + " review done today");
-				OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.reviewedCardList.getRemainingCards(), OpenCAL.reviewedCardList.getRemainingCards() + " cards left for today");
+				OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.plannedCardList.getReviewedCards(), OpenCAL.plannedCardList.getReviewedCards() + " review done today");
+				OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.getRemainingCards(), OpenCAL.plannedCardList.getRemainingCards() + " cards left for today");
 				
 				if(manipulator.hasPreview()) {
 					previousButton.setEnabled(true);
@@ -272,12 +272,12 @@ public class ReviewerTab {
 //				reviewerText.setText("QUESTION\n\n" + OpenCAL.card.getQuestion() + "\n\nANSWER\n\n" + OpenCAL.card.getAnswer());
 				int textLength = reviewerText.getCharCount();
 				
-				ReviewedCard card = (ReviewedCard) manipulator.pop();
+				PlannedCard card = (PlannedCard) manipulator.pop();
 				if(card != null) reviewerText.append("\n\nANSWER\n\n" + card.getAnswer());
 				reviewerText.setStyleRange(new StyleRange(textLength + 2, 6, null, null, SWT.BOLD));
 				if(card != null) OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
-				OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.getReviewedCards(), OpenCAL.reviewedCardList.getReviewedCards() + " review done today");
-				OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.reviewedCardList.getRemainingCards(), OpenCAL.reviewedCardList.getRemainingCards() + " cards left for today");
+				OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.plannedCardList.getReviewedCards(), OpenCAL.plannedCardList.getReviewedCards() + " review done today");
+				OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.getRemainingCards(), OpenCAL.plannedCardList.getRemainingCards() + " cards left for today");
 			}
 		});
 		
@@ -298,12 +298,12 @@ public class ReviewerTab {
 		nextButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				manipulator.next();
-				ReviewedCard card = (ReviewedCard) manipulator.pop();
+				PlannedCard card = (PlannedCard) manipulator.pop();
 				reviewerText.setText("QUESTION\n\n" + card.getQuestion());
 				reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
 				OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
-				OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.getReviewedCards(), OpenCAL.reviewedCardList.getReviewedCards() + " review done today");
-				OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.reviewedCardList.getRemainingCards(), OpenCAL.reviewedCardList.getRemainingCards() + " cards left for today");
+				OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.plannedCardList.getReviewedCards(), OpenCAL.plannedCardList.getReviewedCards() + " review done today");
+				OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.getRemainingCards(), OpenCAL.plannedCardList.getRemainingCards() + " cards left for today");
 				
 				if(manipulator.hasPreview()) {
 					previousButton.setEnabled(true);
@@ -330,12 +330,12 @@ public class ReviewerTab {
 		lastButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				manipulator.last();
-				ReviewedCard card = (ReviewedCard) manipulator.pop();
+				PlannedCard card = (PlannedCard) manipulator.pop();
 				reviewerText.setText("QUESTION\n\n" + card.getQuestion());
 				reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
 				OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
-				OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.getReviewedCards(), OpenCAL.reviewedCardList.getReviewedCards() + " review done today");
-				OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.reviewedCardList.getRemainingCards(), OpenCAL.reviewedCardList.getRemainingCards() + " cards left for today");
+				OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.plannedCardList.getReviewedCards(), OpenCAL.plannedCardList.getReviewedCards() + " review done today");
+				OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.getRemainingCards(), OpenCAL.plannedCardList.getRemainingCards() + " cards left for today");
 				
 				if(manipulator.hasPreview()) {
 					previousButton.setEnabled(true);

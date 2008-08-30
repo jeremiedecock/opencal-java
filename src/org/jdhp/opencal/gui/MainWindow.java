@@ -258,7 +258,7 @@ public class MainWindow {
 	 */
 	public void initReviewerTabView() {
 //		this.setStatusLabel1("", "");
-//		if(ReviewedCard.card != null) this.setStatusLabel2("L : " + ReviewedCard.card.getPriorityRank(), "Card level " + ReviewedCard.card.getPriorityRank());
+//		if(PlannedCard.card != null) this.setStatusLabel2("L : " + PlannedCard.card.getPriorityRank(), "Card level " + PlannedCard.card.getPriorityRank());
 //		this.setStatusLabel3("D : " + Statistics.getNumberOfCardsReviewedToday(), Statistics.getNumberOfCardsReviewedToday() + " review done today");
 //		this.setStatusLabel4("R : " + Statistics.getNumberOfCardsScheduledForToday(), Statistics.getNumberOfCardsScheduledForToday() + " cards left for today");
 		
