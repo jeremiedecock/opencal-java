@@ -17,28 +17,64 @@ import org.w3c.dom.NodeList;
  */
 public class Card {
 
-	protected Element element; // TODO : node ou element ?
+	protected Element element;
 	
+	/**
+	 * 
+	 * @param element
+	 */
 	public Card(Element element) {
 		this.element = element;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public Element getElement() {
 		return this.element;
 	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getId() {
+		return this.element.getAttribute("id");
+	}
 	
+	/**
+	 * 
+	 * @return
+	 */
+	public String getCreationDate() {
+		return this.element.getAttribute("cdate");
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public String getQuestion() {
 		NodeList nodeCards = this.element.getElementsByTagName("question");
 		Element questionElement = (Element) nodeCards.item(0);
 		return questionElement.getTextContent(); // TODO : ???
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public String getAnswer() {
 		NodeList nodeCards = this.element.getElementsByTagName("answer");
 		Element answerElement = (Element) nodeCards.item(0);
 		return answerElement.getTextContent(); // TODO : ???
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public String[] getTags() {
 		ArrayList<String> tags = new ArrayList<String>();
 		
@@ -50,6 +86,23 @@ public class Card {
 		}
 		
 		return tags.toArray(new String[0]);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Review[] getReviews() {
+		ArrayList<Review> reviews = new ArrayList<Review>();
+		
+		NodeList nodeCards = this.element.getElementsByTagName("review");
+		Element reviewElement;
+		for(int i=0 ; i < nodeCards.getLength() ; i++) {
+			reviewElement = (Element) nodeCards.item(i);
+			reviews.add(new Review(reviewElement.getAttribute("rdate"), reviewElement.getAttribute("result")));
+		}
+		
+		return reviews.toArray(new Review[0]);
 	}
 	
 }

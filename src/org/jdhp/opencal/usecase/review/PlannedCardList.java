@@ -18,12 +18,8 @@ import org.w3c.dom.NodeList;
  */
 public class PlannedCardList extends CardList {
 
-	private int reviewedCards;
-	
 	public PlannedCardList() {
 		super();
-		
-		this.reviewedCards = 0;
 		
 		NodeList nodeCards = OpenCAL.domDocument.getElementsByTagName("card");
 		for(int i=0 ; i<nodeCards.getLength() ; i++) {
@@ -35,7 +31,7 @@ public class PlannedCardList extends CardList {
 				if(tags[j].equals(OpenCAL.SUSPENDED_CARD_STRING)) isSuspended = true;
 			}
 			
-			if(card.getGrade() >= 0 && !isSuspended) this.cardList.add(card);
+			if(card.getGrade() >= 0 && !isSuspended) this.add(card);
 		}
 		
 		this.sortCards();
@@ -46,26 +42,14 @@ public class PlannedCardList extends CardList {
 	 */
 	private void sortCards() {
 		// Tri bulle
-		for(int i=this.cardList.size()-1 ; i>0 ; i--) {
+		for(int i=this.size()-1 ; i>0 ; i--) {
 			for(int j=0 ; j<i ; j++) {
-				if(((PlannedCard) this.cardList.get(j+1)).getGrade() < ((PlannedCard) this.cardList.get(j)).getGrade()) {
-					Card tmp = this.cardList.get(j+1);
-					this.cardList.set(j+1, this.cardList.get(j));
-					this.cardList.set(j, tmp);
+				if(((PlannedCard) this.get(j+1)).getGrade() < ((PlannedCard) this.get(j)).getGrade()) {
+					Card tmp = this.get(j+1);
+					this.set(j+1, this.get(j));
+					this.set(j, tmp);
 				}
 			}
 		}
-	}
-	
-	public int getReviewedCards() {
-		return this.reviewedCards;
-	}
-	
-	public int getRemainingCards() {
-		return this.cardList.size();
-	}
-	
-	public void incrementReviewedCards() {
-		this.reviewedCards++;
 	}
 }

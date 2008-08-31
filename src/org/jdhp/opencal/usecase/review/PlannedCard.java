@@ -40,7 +40,8 @@ public class PlannedCard extends Card {
 		// Serialize DOM tree
 		OpenCAL.updateXmlFile();
 		
-		OpenCAL.plannedCardList.incrementReviewedCards();
+//		OpenCAL.plannedCardList.remove(this);  // pb : le manipulator n'est pas au courrant...
+		OpenCAL.reviewedCardList.add(this);
 	}
 	
 }

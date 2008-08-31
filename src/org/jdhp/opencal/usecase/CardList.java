@@ -15,17 +15,14 @@ import org.jdhp.opencal.usecase.Manipulable;
  * @author Jérémie Decock
  *
  */
-public class CardList implements Manipulable {
+public class CardList extends ArrayList<Card> implements Manipulable {
 
-	protected ArrayList<Card> cardList;
-	
 	public CardList() {
-		this.cardList = new ArrayList<Card>();
-		// TODO : ex-init...
+		super();
 	}
 	
 	public CardManipulator manipulator() {
-		return new CardManipulator(this.cardList);
+		return new CardManipulator(this);
 	}
 	
 }
