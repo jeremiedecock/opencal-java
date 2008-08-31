@@ -26,9 +26,9 @@ import org.jdhp.opencal.usecase.explore.MadeCardsController;
 import org.jdhp.opencal.usecase.explore.ReviewedCardsController;
 import org.jdhp.opencal.usecase.inspector.Inspector;
 import org.jdhp.opencal.usecase.inspector.InspectorBrian;
+import org.jdhp.opencal.usecase.lists.PlannedCardList;
+import org.jdhp.opencal.usecase.lists.ReviewedCardList;
 import org.jdhp.opencal.usecase.make.MakeController;
-import org.jdhp.opencal.usecase.review.PlannedCardList;
-import org.jdhp.opencal.usecase.review.ReviewedCardList;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 

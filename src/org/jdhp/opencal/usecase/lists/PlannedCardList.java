@@ -3,7 +3,7 @@
  * Copyright (c) 2007,2008 Jérémie Decock
  */
 
-package org.jdhp.opencal.usecase.review;
+package org.jdhp.opencal.usecase.lists;
 
 import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.usecase.Card;

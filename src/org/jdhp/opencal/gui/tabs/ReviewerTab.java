@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.gui.images.SharedImages;
 import org.jdhp.opencal.usecase.CardManipulator;
-import org.jdhp.opencal.usecase.review.PlannedCard;
+import org.jdhp.opencal.usecase.lists.PlannedCard;
 
 /**
  * 
