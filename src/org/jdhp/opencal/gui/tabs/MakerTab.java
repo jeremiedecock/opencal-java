@@ -85,7 +85,7 @@ public class MakerTab {
 					OpenCAL.mainWindow.printAlert("La question ne doit pas être vide !");
 				} else {
 					Card newCard = new Card(questionText.getText(), answerText.getText(), tagsText.getText().split("\n"));
-					OpenCAL.madeCardList.add(newCard);
+					OpenCAL.newCardList.add(newCard);
 					questionText.setText("");
 					answerText.setText("");
 					tagsText.setText("");

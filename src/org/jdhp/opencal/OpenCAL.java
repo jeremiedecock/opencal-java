@@ -26,7 +26,7 @@ import org.jdhp.opencal.usecase.explore.MadeCardsController;
 import org.jdhp.opencal.usecase.explore.ReviewedCardsController;
 import org.jdhp.opencal.usecase.inspector.Inspector;
 import org.jdhp.opencal.usecase.inspector.InspectorBrian;
-import org.jdhp.opencal.usecase.lists.MadeCardList;
+import org.jdhp.opencal.usecase.lists.NewCardList;
 import org.jdhp.opencal.usecase.lists.PlannedCardList;
 import org.jdhp.opencal.usecase.lists.ReviewedCardList;
 import org.w3c.dom.Document;
@@ -65,7 +65,7 @@ public class OpenCAL {
 	
 	public static ReviewedCardList reviewedCardList;
 	
-	public static MadeCardList madeCardList;
+	public static NewCardList newCardList;
 	
 	public static Inspector inspector;
 	
@@ -109,7 +109,7 @@ public class OpenCAL {
 		OpenCAL.inspector = new InspectorBrian();
 		OpenCAL.plannedCardList = new PlannedCardList();
 		OpenCAL.reviewedCardList = new ReviewedCardList();
-		OpenCAL.madeCardList = new MadeCardList();
+		OpenCAL.newCardList = new NewCardList();
 		
 		MadeCardsController.init();
 		ReviewedCardsController.init();

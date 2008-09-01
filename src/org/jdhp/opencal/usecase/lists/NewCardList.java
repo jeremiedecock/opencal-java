@@ -18,9 +18,9 @@ import org.w3c.dom.NodeList;
  * @author Jérémie Decock
  *
  */
-public class MadeCardList extends CardList {
+public class NewCardList extends CardList {
 
-	public MadeCardList() {
+	public NewCardList() {
 		super();
 		
 		NodeList nodeCards = OpenCAL.domDocument.getElementsByTagName("card");
