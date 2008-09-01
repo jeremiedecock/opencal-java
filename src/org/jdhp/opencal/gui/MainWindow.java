@@ -331,13 +331,6 @@ public class MainWindow {
 	/**
 	 * 
 	 */
-	public void update() {
-		// call repaint ...
-	}
-	
-	/**
-	 * 
-	 */
 	public void run() {
 		// Initialize Tab view
 		this.initMakerTabView();

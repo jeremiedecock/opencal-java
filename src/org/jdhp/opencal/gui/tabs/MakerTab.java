@@ -86,6 +86,7 @@ public class MakerTab {
 				} else {
 					Card newCard = new Card(questionText.getText(), answerText.getText(), tagsText.getText().split("\n"));
 					OpenCAL.newCardList.add(newCard);
+					OpenCAL.allCardList.add(newCard);
 					questionText.setText("");
 					answerText.setText("");
 					tagsText.setText("");

@@ -24,6 +24,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.jdhp.opencal.gui.MainWindow;
 import org.jdhp.opencal.usecase.inspector.Inspector;
 import org.jdhp.opencal.usecase.inspector.InspectorBrian;
+import org.jdhp.opencal.usecase.lists.AllCardList;
 import org.jdhp.opencal.usecase.lists.NewCardList;
 import org.jdhp.opencal.usecase.lists.PlannedCardList;
 import org.jdhp.opencal.usecase.lists.ReviewedCardList;
@@ -59,6 +60,8 @@ public class OpenCAL {
 	public static Document domDocument;
 	
 	public static SimpleDateFormat iso8601Formatter;
+	
+	public static AllCardList allCardList;
 	
 	public static PlannedCardList plannedCardList;
 	
@@ -99,6 +102,7 @@ public class OpenCAL {
 		// Make inspector and lists
 		OpenCAL.inspector = new InspectorBrian();
 		
+		OpenCAL.allCardList = new AllCardList();
 		OpenCAL.plannedCardList = new PlannedCardList();
 		OpenCAL.reviewedCardList = new ReviewedCardList();
 		OpenCAL.newCardList = new NewCardList();

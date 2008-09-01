@@ -167,7 +167,7 @@ public class ExplorerTab {
 			public void widgetSelected(SelectionEvent e) {
 				switch(displayModeCombo.getSelectionIndex()) {
 					case 0 :
-						cardsList.setItems(new String[0]);
+						cardsList.setItems(OpenCAL.allCardList.getQuestionStrings());
 						break;
 					case 1 : 
 						cardsList.setItems(OpenCAL.reviewedCardList.getQuestionStrings());
@@ -187,7 +187,9 @@ public class ExplorerTab {
 			public void widgetSelected(SelectionEvent e) {
 				switch (displayModeCombo.getSelectionIndex()) {
 					case 0:
-						
+						questionText.setText(OpenCAL.allCardList.get(cardsList.getSelectionIndex()).getQuestion());
+						answerText.setText(OpenCAL.allCardList.get(cardsList.getSelectionIndex()).getAnswer());
+						tagsText.setText(OpenCAL.allCardList.get(cardsList.getSelectionIndex()).getTagsString());
 						break;
 					case 1:
 						questionText.setText(OpenCAL.reviewedCardList.get(cardsList.getSelectionIndex()).getQuestion());
