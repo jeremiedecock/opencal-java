@@ -21,12 +21,15 @@ public class Card {
 
 	protected Element element;
 	
+	private int grade;
+	
 	/**
 	 * 
 	 * @param element
 	 */
 	public Card(Element element) {
 		this.element = element;
+		this.grade = OpenCAL.inspector.assess(this);
 	}
 	
 	/**
@@ -62,6 +65,8 @@ public class Card {
 			
 			// Add the new "card" to the XML file
 			OpenCAL.updateXmlFile();
+			
+			this.grade = OpenCAL.inspector.assess(this);
 		}
 	}
 	
@@ -141,6 +146,35 @@ public class Card {
 		}
 		
 		return reviews.toArray(new Review[0]);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public int getGrade() {
+		return this.grade;
+	}
+	
+	/**
+	 * 
+	 * @param result
+	 */
+	public void putReview(String result) {
+		// Add the new "review" element to the DOM tree
+		Element reviewElement = OpenCAL.domDocument.createElement("review");
+		reviewElement.setAttribute("rdate", OpenCAL.iso8601Formatter.format(new Date()));
+		reviewElement.setAttribute("result", result);
+		this.element.appendChild(reviewElement);
+		
+		// Update grade
+		this.grade = OpenCAL.inspector.assess(this);
+		
+		// Serialize DOM tree
+		OpenCAL.updateXmlFile();
+		
+//		OpenCAL.plannedCardList.remove(this);  // pb : le manipulator n'est pas au courrant...
+		OpenCAL.reviewedCardList.add(this);
 	}
 	
 }

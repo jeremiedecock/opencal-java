@@ -23,7 +23,7 @@ public class PlannedCardList extends CardList {
 		
 		NodeList nodeCards = OpenCAL.domDocument.getElementsByTagName("card");
 		for(int i=0 ; i<nodeCards.getLength() ; i++) {
-			PlannedCard card = new PlannedCard((Element) nodeCards.item(i));
+			Card card = new Card((Element) nodeCards.item(i));
 			
 			boolean isSuspended = false;
 			String[] tags = card.getTags();
@@ -44,7 +44,7 @@ public class PlannedCardList extends CardList {
 		// Tri bulle
 		for(int i=this.size()-1 ; i>0 ; i--) {
 			for(int j=0 ; j<i ; j++) {
-				if(((PlannedCard) this.get(j+1)).getGrade() < ((PlannedCard) this.get(j)).getGrade()) {
+				if((this.get(j+1)).getGrade() < (this.get(j)).getGrade()) {
 					Card tmp = this.get(j+1);
 					this.set(j+1, this.get(j));
 					this.set(j, tmp);

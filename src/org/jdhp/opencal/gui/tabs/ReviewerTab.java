@@ -17,8 +17,8 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.gui.images.SharedImages;
+import org.jdhp.opencal.usecase.Card;
 import org.jdhp.opencal.usecase.CardManipulator;
-import org.jdhp.opencal.usecase.lists.PlannedCard;
 
 /**
  * 
@@ -53,7 +53,7 @@ public class ReviewerTab {
 		this.reviewerText.setFont(monoFont);
 		this.reviewerText.setTabs(3);
 		
-		PlannedCard card = (PlannedCard) manipulator.pop();
+		Card card = manipulator.pop();
 		if(card != null) {
 			this.reviewerText.setText("QUESTION\n\n" + card.getQuestion());
 			this.reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
@@ -116,7 +116,7 @@ public class ReviewerTab {
 		
 		goodButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				((PlannedCard) manipulator.pop()).putReview(OpenCAL.RIGHT_ANSWER_STRING);
+				manipulator.pop().putReview(OpenCAL.RIGHT_ANSWER_STRING);
 				manipulator.remove();
 				
 				if(manipulator.hasPreview()) {
@@ -137,7 +137,7 @@ public class ReviewerTab {
 				goodButton.setEnabled(false);
 				badButton.setEnabled(false);
 				
-				PlannedCard card = (PlannedCard) manipulator.pop();
+				Card card = manipulator.pop();
 				reviewerText.setText("QUESTION\n\n" + card.getQuestion());
 				reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
 				OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
@@ -155,7 +155,7 @@ public class ReviewerTab {
 		
 		badButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				((PlannedCard) manipulator.pop()).putReview(OpenCAL.WRONG_ANSWER_STRING);
+				manipulator.pop().putReview(OpenCAL.WRONG_ANSWER_STRING);
 				manipulator.remove();
 				
 				if(manipulator.hasPreview()) {
@@ -176,7 +176,7 @@ public class ReviewerTab {
 				goodButton.setEnabled(false);
 				badButton.setEnabled(false);
 
-				PlannedCard card = (PlannedCard) manipulator.pop();
+				Card card = manipulator.pop();
 				reviewerText.setText("QUESTION\n\n" + card.getQuestion());
 				reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
 				OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
@@ -197,7 +197,7 @@ public class ReviewerTab {
 		firstButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				manipulator.first();
-				PlannedCard card = (PlannedCard) manipulator.pop();
+				Card card = manipulator.pop();
 				reviewerText.setText("QUESTION\n\n" + card.getQuestion());
 				reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
 				OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
@@ -231,7 +231,7 @@ public class ReviewerTab {
 		previousButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				manipulator.preview();
-				PlannedCard card = (PlannedCard) manipulator.pop();
+				Card card = manipulator.pop();
 				reviewerText.setText("QUESTION\n\n" + card.getQuestion());
 				reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
 				OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
@@ -272,7 +272,7 @@ public class ReviewerTab {
 //				reviewerText.setText("QUESTION\n\n" + OpenCAL.card.getQuestion() + "\n\nANSWER\n\n" + OpenCAL.card.getAnswer());
 				int textLength = reviewerText.getCharCount();
 				
-				PlannedCard card = (PlannedCard) manipulator.pop();
+				Card card = manipulator.pop();
 				if(card != null) reviewerText.append("\n\nANSWER\n\n" + card.getAnswer());
 				reviewerText.setStyleRange(new StyleRange(textLength + 2, 6, null, null, SWT.BOLD));
 				if(card != null) OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
@@ -298,7 +298,7 @@ public class ReviewerTab {
 		nextButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				manipulator.next();
-				PlannedCard card = (PlannedCard) manipulator.pop();
+				Card card = manipulator.pop();
 				reviewerText.setText("QUESTION\n\n" + card.getQuestion());
 				reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
 				OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
@@ -330,7 +330,7 @@ public class ReviewerTab {
 		lastButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				manipulator.last();
-				PlannedCard card = (PlannedCard) manipulator.pop();
+				Card card = manipulator.pop();
 				reviewerText.setText("QUESTION\n\n" + card.getQuestion());
 				reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
 				OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
