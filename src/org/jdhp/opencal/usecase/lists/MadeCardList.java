@@ -3,7 +3,7 @@
  * Copyright (c) 2007,2008 Jérémie Decock
  */
 
-package org.jdhp.opencal.usecase.make;
+package org.jdhp.opencal.usecase.lists;
 
 import java.util.Date;
 

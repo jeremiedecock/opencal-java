@@ -6,7 +6,9 @@
 package org.jdhp.opencal.usecase;
 
 import java.util.ArrayList;
+import java.util.Date;
 
+import org.jdhp.opencal.OpenCAL;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -25,6 +27,42 @@ public class Card {
 	 */
 	public Card(Element element) {
 		this.element = element;
+	}
+	
+	/**
+	 * 
+	 * @param questionText
+	 * @param answerText
+	 * @param tagsText
+	 */
+	public Card(String questionText, String answerText, String[] tagsText) {
+		// Add the new "card" element to the DOM tree
+		Element cardElement = OpenCAL.domDocument.createElement("card");
+		cardElement.setAttribute("cdate", OpenCAL.iso8601Formatter.format(new Date()));
+		cardElement.setAttribute("id", "c0"); // TODO : l'attribut id ne sert à rien... il faut le supprimer du model
+		
+		// TODO : CDATA !!!!!!!!!!!!!!
+		Element questionElement = OpenCAL.domDocument.createElement("question");
+		cardElement.appendChild(questionElement);
+		questionElement.appendChild(OpenCAL.domDocument.createTextNode(questionText));
+		
+		// TODO : CDATA !!!!!!!!!!!!!!
+		Element answerElement = OpenCAL.domDocument.createElement("answer");
+		cardElement.appendChild(answerElement);
+		answerElement.appendChild(OpenCAL.domDocument.createTextNode(answerText));
+		
+		for(int i=0 ; i<tagsText.length ; i++) {
+			Element tagElement = OpenCAL.domDocument.createElement("tag");
+			cardElement.appendChild(tagElement);
+			tagElement.appendChild(OpenCAL.domDocument.createTextNode(tagsText[i]));
+		}
+		
+		NodeList nodeList = OpenCAL.domDocument.getElementsByTagName("pkb");
+		Element pkbElement = (Element) nodeList.item(0);
+		pkbElement.appendChild(cardElement);
+		
+		// Add the new "card" to the XML file
+		OpenCAL.updateXmlFile();
 	}
 	
 	/**

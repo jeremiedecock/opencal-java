@@ -17,10 +17,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
 import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.gui.images.SharedImages;
-import org.jdhp.opencal.model.xml.explorer.Card;
-import org.jdhp.opencal.model.xml.maker.CardMakerHandler;
-import org.jdhp.opencal.usecase.explore.MadeCardsController;
-import org.jdhp.opencal.usecase.make.MakeController;
+import org.jdhp.opencal.usecase.Card;
 
 /**
  * 
@@ -87,12 +84,12 @@ public class MakerTab {
 				if(questionText.getText().equals("")) {
 					OpenCAL.mainWindow.printAlert("La question ne doit pas être vide !");
 				} else {
-					MakeController.addCard(questionText.getText(), answerText.getText(), tagsText.getText());
-					MadeCardsController.add(new Card(questionText.getText(), answerText.getText(), tagsText.getText(), ""));
+					Card newCard = new Card(questionText.getText(), answerText.getText(), tagsText.getText().split("\n"));
+					OpenCAL.madeCardList.add(newCard);
 					questionText.setText("");
 					answerText.setText("");
 					tagsText.setText("");
-					OpenCAL.mainWindow.setStatusLabel1("Card #" + CardMakerHandler.getLastCardRecordedId() + " recorded", "Card #" + CardMakerHandler.getLastCardRecordedId() + " recorded");
+					OpenCAL.mainWindow.setStatusLabel1("Card #" + newCard.getId() + " recorded", "Card #" + newCard.getId() + " recorded");
 				}
 			
 				// Donne le focus à la questionArea
