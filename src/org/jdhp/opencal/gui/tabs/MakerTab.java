@@ -99,4 +99,14 @@ public class MakerTab {
 		});
 	}
 	
+	/**
+	 * 
+	 */
+	public void update() {
+		OpenCAL.mainWindow.setStatusLabel1("", "");
+		OpenCAL.mainWindow.setStatusLabel2("", "");
+		OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
+		OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
+	}
+	
 }

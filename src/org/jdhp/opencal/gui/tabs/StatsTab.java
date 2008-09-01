@@ -20,6 +20,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.usecase.statistics.Statistics;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -118,7 +119,14 @@ public class StatsTab {
 	/**
 	 * 
 	 */
-	public void updateChart() {
+	public void update() {
+		OpenCAL.mainWindow.setStatusLabel1("", "");
+		OpenCAL.mainWindow.setStatusLabel2("", "");
+		OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
+		OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
+	}
+	
+//	public void updateChart() {
 //		TimeSeries s1 = new TimeSeries("Card created per day", Day.class);
 //		TreeMap<Date, Integer> cardCreationStats = Statistics.getCardCreationStats();
 //		Set entries = cardCreationStats.entrySet();
@@ -148,6 +156,6 @@ public class StatsTab {
 //		// ********** //
 //		
 //		this.chart.setNotify(true);
-	}
+//	}
 	
 }

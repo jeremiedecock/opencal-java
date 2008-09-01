@@ -95,44 +95,4 @@ public class Statistics {
 		
 		return revisionStats;
 	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public static int getNumberOfCardsMadeToday() {
-		int numberOfCardsMadeToday = 0;
-		
-		NodeList nodeCards = OpenCAL.domDocument.getElementsByTagName("card");
-		for(int i=0 ; i<nodeCards.getLength() ; i++) {
-			Element card = (Element) nodeCards.item(i);
-			if(card.getAttribute("cdate").equals(OpenCAL.iso8601Formatter.format(new Date()))) numberOfCardsMadeToday++;
-		}
-		
-		return numberOfCardsMadeToday;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public static int getNumberOfCardsReviewedToday() {
-		int numberOfCardsReviewedToday = 0;
-		
-		NodeList nodeCards = OpenCAL.domDocument.getElementsByTagName("review");
-		for(int i=0 ; i<nodeCards.getLength() ; i++) {
-			Element card = (Element) nodeCards.item(i);
-			if(card.getAttribute("rdate").equals(OpenCAL.iso8601Formatter.format(new Date()))) numberOfCardsReviewedToday++;
-		}
-		
-		return numberOfCardsReviewedToday;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public static int getNumberOfCardsScheduledForToday() {
-		return 0;
-	}
 }

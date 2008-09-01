@@ -355,4 +355,31 @@ public class ReviewerTab {
 		});
 	}
 	
+	/**
+	 * 
+	 */
+	public void update() {
+		OpenCAL.mainWindow.setStatusLabel1("", "");
+		Card card = manipulator.pop();
+		if(card != null) OpenCAL.mainWindow.setStatusLabel2("L : " + card.getGrade(), "Card level " + card.getGrade());
+		else OpenCAL.mainWindow.setStatusLabel2("", "");
+		OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
+		OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
+		
+//		if(manipulator.hasPreview()) {
+//			previousButton.setEnabled(true);
+//			firstButton.setEnabled(true);
+//		} else {
+//			previousButton.setEnabled(false);
+//			firstButton.setEnabled(false);
+//		}
+//		if(manipulator.hasNext()) {
+//			nextButton.setEnabled(true);
+//			lastButton.setEnabled(true);
+//		} else {
+//			nextButton.setEnabled(false);
+//			lastButton.setEnabled(false);
+//		}
+	}
+	
 }

@@ -29,7 +29,6 @@ import org.jdhp.opencal.gui.tabs.ExplorerTab;
 import org.jdhp.opencal.gui.tabs.MakerTab;
 import org.jdhp.opencal.gui.tabs.ReviewerTab;
 import org.jdhp.opencal.gui.tabs.StatsTab;
-import org.jdhp.opencal.usecase.statistics.Statistics;
 
 /**
  * 
@@ -41,8 +40,6 @@ public class MainWindow {
 	final public static Display DISPLAY = new Display();
 	
 	final private Shell shell;
-	
-	final private StatsTab statsTab;
 	
 	final private Label statusLabel1;
 	
@@ -59,6 +56,14 @@ public class MainWindow {
 	final private TabItem tabItemExplore;
 	
 	final private TabItem tabItemStat;
+	
+	final private MakerTab makeTab;
+	
+	final private ReviewerTab reviewTab;
+	
+	final private ExplorerTab exploreTab;
+	
+	final private StatsTab statsTab;
 	
 	/**
 	 * 
@@ -119,7 +124,7 @@ public class MainWindow {
         });
         
         // Create the tabfolder
-		TabFolder tabFolder = new TabFolder(this.shell, SWT.NONE);
+		final TabFolder tabFolder = new TabFolder(this.shell, SWT.NONE);
 		
 		GridData tabFolderGridData = new GridData(GridData.FILL_BOTH);
 		tabFolder.setLayoutData(tabFolderGridData);
@@ -149,19 +154,27 @@ public class MainWindow {
 		tabItemExplore.setControl(explorerComposite);
 		tabItemStat.setControl(statsComposite);
 		
-		new MakerTab(makeCardComposite);
-		new ReviewerTab(reviewerComposite);
-		new ExplorerTab(explorerComposite);
-		this.statsTab = new StatsTab(statsComposite);
+		makeTab = new MakerTab(makeCardComposite);
+		reviewTab = new ReviewerTab(reviewerComposite);
+		exploreTab = new ExplorerTab(explorerComposite);
+		statsTab = new StatsTab(statsComposite);
 		
 		// Add listeners on tabFolder (prevent when a tabItem is selected)
 		tabFolder.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				if(e.item instanceof TabItem) {
-					if(((TabItem) e.item).equals(tabItemMake)) initMakerTabView();
-					else if(((TabItem) e.item).equals(tabItemReview)) initReviewerTabView();
-					else if(((TabItem) e.item).equals(tabItemExplore)) initExplorerTabView();
-					else if(((TabItem) e.item).equals(tabItemStat)) initStatTabView();
+				switch (tabFolder.getSelectionIndex()) {
+					case 0 :
+						makeTab.update();
+						break;
+					case 1 :
+						reviewTab.update();
+						break;
+					case 2 :
+						exploreTab.update();
+						break;
+					case 3 :
+						statsTab.update();
+						break;
 				}
 			}
 		});
@@ -242,65 +255,6 @@ public class MainWindow {
 	/**
 	 * 
 	 */
-	public void initMakerTabView() {
-		this.setStatusLabel1("", "");
-		this.setStatusLabel2("", "");
-		this.setStatusLabel3("D : " + Statistics.getNumberOfCardsReviewedToday(), Statistics.getNumberOfCardsReviewedToday() + " review done today");
-		this.setStatusLabel4("R : " + Statistics.getNumberOfCardsScheduledForToday(), Statistics.getNumberOfCardsScheduledForToday() + " cards left for today");
-		
-		// Signale si le fichier PKB est innexistant
-//		if(! new File(OpenCAL.PKB_FILE_PATH).exists()) OpenCAL.mainWindow.setStatusLabel1("Knowledge base not found", "Knowledge base not found");
-//		else OpenCAL.mainWindow.setStatusLabel1("", "");
-	}
-	
-	/**
-	 * 
-	 */
-	public void initReviewerTabView() {
-//		this.setStatusLabel1("", "");
-//		if(PlannedCard.card != null) this.setStatusLabel2("L : " + PlannedCard.card.getPriorityRank(), "Card level " + PlannedCard.card.getPriorityRank());
-//		this.setStatusLabel3("D : " + Statistics.getNumberOfCardsReviewedToday(), Statistics.getNumberOfCardsReviewedToday() + " review done today");
-//		this.setStatusLabel4("R : " + Statistics.getNumberOfCardsScheduledForToday(), Statistics.getNumberOfCardsScheduledForToday() + " cards left for today");
-		
-		// Signale si le fichier PKB est innexistant
-//		if(! new File(OpenCAL.PKB_FILE_PATH).exists()) OpenCAL.mainWindow.setStatusLabel1("Knowledge base not found", "Knowledge base not found");
-//		else OpenCAL.mainWindow.setStatusLabel1("", "");
-		
-		// Cas où il n'y a rien à réviser
-	}
-	
-	/**
-	 * 
-	 */
-	public void initExplorerTabView() {
-		this.setStatusLabel1("", "");
-		this.setStatusLabel2("", "");
-		this.setStatusLabel3("D : " + Statistics.getNumberOfCardsReviewedToday(), Statistics.getNumberOfCardsReviewedToday() + " review done today");
-		this.setStatusLabel4("R : " + Statistics.getNumberOfCardsScheduledForToday(), Statistics.getNumberOfCardsScheduledForToday() + " cards left for today");
-		
-		// Signale si le fichier PKB est innexistant
-//		if(! new File(OpenCAL.PKB_FILE_PATH).exists()) OpenCAL.mainWindow.setStatusLabel1("Knowledge base not found", "Knowledge base not found");
-//		else OpenCAL.mainWindow.setStatusLabel1("", "");
-	}
-	
-	/**
-	 * 
-	 */
-	public void initStatTabView() {
-		this.setStatusLabel1("", "");
-		this.setStatusLabel2("", "");
-		this.setStatusLabel3("D : " + Statistics.getNumberOfCardsReviewedToday(), Statistics.getNumberOfCardsReviewedToday() + " review done today");
-		this.setStatusLabel4("R : " + Statistics.getNumberOfCardsScheduledForToday(), Statistics.getNumberOfCardsScheduledForToday() + " cards left for today");
-		
-		this.statsTab.updateChart();
-		// Signale si le fichier PKB est innexistant
-//		if(! new File(OpenCAL.PKB_FILE_PATH).exists()) OpenCAL.mainWindow.setStatusLabel1("Knowledge base not found", "Knowledge base not found");
-//		else OpenCAL.mainWindow.setStatusLabel1("", "");
-	}
-	
-	/**
-	 * 
-	 */
 	public void print(String text) {
 		MessageBox mb = new MessageBox(this.shell, SWT.APPLICATION_MODAL | SWT.ICON_INFORMATION | SWT.OK);
 		mb.setText("Info...");
@@ -332,8 +286,8 @@ public class MainWindow {
 	 * 
 	 */
 	public void run() {
-		// Initialize Tab view
-		this.initMakerTabView();
+		// init statubar
+		makeTab.update();
 		
 		// Main loop
 		this.shell.open();

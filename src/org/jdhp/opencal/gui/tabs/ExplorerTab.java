@@ -11,7 +11,6 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
@@ -44,6 +43,8 @@ public class ExplorerTab {
 	
 	final List cardsList;
 	
+	final Combo displayModeCombo;
+	
 	/**
 	 * 
 	 * @param parentComposite
@@ -67,7 +68,7 @@ public class ExplorerTab {
 		cardSelectionComposite.setLayout(new GridLayout(1, false));
 		
 		// displayModeCombo ////////////
-		final Combo displayModeCombo = new Combo(cardSelectionComposite, SWT.BORDER | SWT.READ_ONLY);
+		displayModeCombo = new Combo(cardSelectionComposite, SWT.BORDER | SWT.READ_ONLY);
 		displayModeCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		
 		displayModeCombo.setItems(displayModes);
@@ -211,14 +212,29 @@ public class ExplorerTab {
 		});
 	}
 	
-//	private void updateList(String[] itemsString, String[] tooltips, int[] redItems) {
-//		// set items strings
-//		this.cardsList.setItems(itemsString);
-//		
-//		// set tooltips
-//		for(int i=0 ; i < tooltips.length ; i++) {
-//			if(i < this.cardsList.getItemCount()) this.cardsList.getItem(i).setToolTipText(tooltips[i]);
-//		}
-//	}
+	/**
+	 * 
+	 */
+	public void update() {
+		OpenCAL.mainWindow.setStatusLabel1("", "");
+		OpenCAL.mainWindow.setStatusLabel2("", "");
+		OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
+		OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
+		
+		switch(displayModeCombo.getSelectionIndex()) {
+			case 0 :
+				cardsList.setItems(OpenCAL.allCardList.getQuestionStrings());
+				break;
+			case 1 : 
+				cardsList.setItems(OpenCAL.reviewedCardList.getQuestionStrings());
+				break;
+			case 2 :
+				cardsList.setItems(OpenCAL.newCardList.getQuestionStrings());
+				break;
+			case 3 :
+				cardsList.setItems(OpenCAL.suspendedCardList.getQuestionStrings());
+				break;
+		}
+	}
 	
 }
