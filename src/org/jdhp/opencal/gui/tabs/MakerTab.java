@@ -92,7 +92,7 @@ public class MakerTab {
 					OpenCAL.mainWindow.setStatusLabel1("Card #" + newCard.getId() + " recorded", "Card #" + newCard.getId() + " recorded");
 				}
 			
-				// Donne le focus à la questionArea
+				// Set focus to the question field
 				questionText.setFocus();
 			}
 		});

@@ -36,33 +36,33 @@ public class Card {
 	 * @param tagsText
 	 */
 	public Card(String questionText, String answerText, String[] tagsText) {
-		// Add the new "card" element to the DOM tree
-		Element cardElement = OpenCAL.domDocument.createElement("card");
-		cardElement.setAttribute("cdate", OpenCAL.iso8601Formatter.format(new Date()));
-		cardElement.setAttribute("id", "c0"); // TODO : l'attribut id ne sert à rien... il faut le supprimer du model
-		
-		// TODO : CDATA !!!!!!!!!!!!!!
-		Element questionElement = OpenCAL.domDocument.createElement("question");
-		cardElement.appendChild(questionElement);
-		questionElement.appendChild(OpenCAL.domDocument.createTextNode(questionText));
-		
-		// TODO : CDATA !!!!!!!!!!!!!!
-		Element answerElement = OpenCAL.domDocument.createElement("answer");
-		cardElement.appendChild(answerElement);
-		answerElement.appendChild(OpenCAL.domDocument.createTextNode(answerText));
-		
-		for(int i=0 ; i<tagsText.length ; i++) {
-			Element tagElement = OpenCAL.domDocument.createElement("tag");
-			cardElement.appendChild(tagElement);
-			tagElement.appendChild(OpenCAL.domDocument.createTextNode(tagsText[i]));
+		if(questionText != null && !questionText.equals("")) {
+			// Add the new "card" element to the DOM tree
+			this.element = OpenCAL.domDocument.createElement("card");
+			this.element.setAttribute("cdate", OpenCAL.iso8601Formatter.format(new Date()));
+			this.element.setAttribute("id", "c0"); // TODO : l'attribut id ne sert à rien... il faut le supprimer du model
+			
+			Element questionElement = OpenCAL.domDocument.createElement("question");
+			this.element.appendChild(questionElement);
+			questionElement.appendChild(OpenCAL.domDocument.createCDATASection(questionText));
+			
+			Element answerElement = OpenCAL.domDocument.createElement("answer");
+			this.element.appendChild(answerElement);
+			answerElement.appendChild(OpenCAL.domDocument.createCDATASection(answerText));
+			
+			for(int i=0 ; i<tagsText.length ; i++) {
+				Element tagElement = OpenCAL.domDocument.createElement("tag");
+				this.element.appendChild(tagElement);
+				tagElement.appendChild(OpenCAL.domDocument.createTextNode(tagsText[i]));
+			}
+			
+			NodeList nodeList = OpenCAL.domDocument.getElementsByTagName("pkb");
+			Element pkbElement = (Element) nodeList.item(0);
+			pkbElement.appendChild(this.element);
+			
+			// Add the new "card" to the XML file
+			OpenCAL.updateXmlFile();
 		}
-		
-		NodeList nodeList = OpenCAL.domDocument.getElementsByTagName("pkb");
-		Element pkbElement = (Element) nodeList.item(0);
-		pkbElement.appendChild(cardElement);
-		
-		// Add the new "card" to the XML file
-		OpenCAL.updateXmlFile();
 	}
 	
 	/**
