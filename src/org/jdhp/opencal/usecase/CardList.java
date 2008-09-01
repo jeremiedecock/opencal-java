@@ -25,4 +25,14 @@ public class CardList extends ArrayList<Card> implements Manipulable {
 		return new CardManipulator(this);
 	}
 	
+	public String[] getQuestionStrings() {
+		ArrayList<String> questionStrings = new ArrayList<String>();
+		
+		for(int i=0 ; i<this.size() ; i++) {
+			questionStrings.add(this.get(i).getQuestion());
+		}
+		
+		return questionStrings.toArray(new String[0]);
+	}
+	
 }

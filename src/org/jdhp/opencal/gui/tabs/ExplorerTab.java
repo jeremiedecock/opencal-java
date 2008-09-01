@@ -18,9 +18,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Text;
+import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.gui.images.SharedImages;
-import org.jdhp.opencal.usecase.explore.MadeCardsController;
-import org.jdhp.opencal.usecase.explore.ReviewedCardsController;
 
 /**
  * 
@@ -41,7 +40,7 @@ public class ExplorerTab {
 	
 	final private Composite parentComposite;
 	
-	final private String[] displayModes = {"All Cards", "Reviewed Cards", "Made Cards", "Disabled Cards"};
+	final private String[] displayModes = {"All Cards", "Reviewed Cards", "New Cards", "Suspended Cards"};
 	
 	final List cardsList;
 	
@@ -171,13 +170,13 @@ public class ExplorerTab {
 						cardsList.setItems(new String[0]);
 						break;
 					case 1 : 
-						cardsList.setItems(ReviewedCardsController.getStrings());
+						cardsList.setItems(OpenCAL.reviewedCardList.getQuestionStrings());
 						break;
 					case 2 :
-						cardsList.setItems(MadeCardsController.getStrings());
+						cardsList.setItems(OpenCAL.newCardList.getQuestionStrings());
 						break;
 					case 3 :
-						cardsList.setItems(new String[0]);
+						cardsList.setItems(OpenCAL.suspendedCardList.getQuestionStrings());
 						break;
 				}
 			}
@@ -191,17 +190,19 @@ public class ExplorerTab {
 						
 						break;
 					case 1:
-						questionText.setText(ReviewedCardsController.getQuestion(cardsList.getSelectionIndex()));
-						answerText.setText(ReviewedCardsController.getAnswer(cardsList.getSelectionIndex()));
-						tagsText.setText(ReviewedCardsController.getResult(cardsList.getSelectionIndex()));
+						questionText.setText(OpenCAL.reviewedCardList.get(cardsList.getSelectionIndex()).getQuestion());
+						answerText.setText(OpenCAL.reviewedCardList.get(cardsList.getSelectionIndex()).getAnswer());
+						tagsText.setText(OpenCAL.reviewedCardList.get(cardsList.getSelectionIndex()).getTagsString());
 						break;
 					case 2:
-						questionText.setText(MadeCardsController.getQuestion(cardsList.getSelectionIndex()));
-						answerText.setText(MadeCardsController.getAnswer(cardsList.getSelectionIndex()));
-						tagsText.setText(MadeCardsController.getTags(cardsList.getSelectionIndex()));
+						questionText.setText(OpenCAL.newCardList.get(cardsList.getSelectionIndex()).getQuestion());
+						answerText.setText(OpenCAL.newCardList.get(cardsList.getSelectionIndex()).getAnswer());
+						tagsText.setText(OpenCAL.newCardList.get(cardsList.getSelectionIndex()).getTagsString());
 						break;
 					case 3:
-						
+						questionText.setText(OpenCAL.suspendedCardList.get(cardsList.getSelectionIndex()).getQuestion());
+						answerText.setText(OpenCAL.suspendedCardList.get(cardsList.getSelectionIndex()).getAnswer());
+						tagsText.setText(OpenCAL.suspendedCardList.get(cardsList.getSelectionIndex()).getTagsString());
 						break;
 				}
 			}

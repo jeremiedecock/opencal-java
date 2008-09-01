@@ -131,6 +131,20 @@ public class Card {
 		return tags.toArray(new String[0]);
 	}
 	
+	public String getTagsString() {
+		StringBuffer tags = new StringBuffer();
+		
+		NodeList nodeCards = this.element.getElementsByTagName("tag");
+		Element tagElement;
+		for(int i=0 ; i < nodeCards.getLength() ; i++) {
+			tagElement = (Element) nodeCards.item(i);
+			if(tags.length() != 0) tags.append("\n");
+			tags.append(tagElement.getTextContent());
+		}
+		
+		return tags.toString();
+	}
+	
 	/**
 	 * 
 	 * @return

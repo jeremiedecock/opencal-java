@@ -22,8 +22,6 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.jdhp.opencal.gui.MainWindow;
-import org.jdhp.opencal.usecase.explore.MadeCardsController;
-import org.jdhp.opencal.usecase.explore.ReviewedCardsController;
 import org.jdhp.opencal.usecase.inspector.Inspector;
 import org.jdhp.opencal.usecase.inspector.InspectorBrian;
 import org.jdhp.opencal.usecase.lists.NewCardList;
@@ -106,19 +104,9 @@ public class OpenCAL {
 		OpenCAL.newCardList = new NewCardList();
 		OpenCAL.suspendedCardList = new SuspendedCardList();
 		
-		OpenCAL.init();
-		
 		// Make and run GUI
 		OpenCAL.mainWindow = new MainWindow();
 		OpenCAL.mainWindow.run();
-	}
-
-	/**
-	 * Initialize all controllers
-	 */
-	public static void init() {
-		MadeCardsController.init();
-		ReviewedCardsController.init();
 	}
 	
 	/**
