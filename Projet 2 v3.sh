@@ -3,11 +3,13 @@
 MOUNT_SCRIPT="/media/data/gremy/cryptoloop/developpement_logiciel.mount.sh"
 UMOUNT_SCRIPT="/media/data/gremy/cryptoloop/developpement_logiciel.umount.sh"
 OPENCAL_SCRIPT="/media/data/gremy/developpement_logiciel/bin/opencal/run.sh"
+BACKUP_SCRIPT="/media/data/gremy/developpement_logiciel/bin/opencal/backup.sh"
 
 if [ -e "$OPENCAL_SCRIPT" ]; then
 {
 	echo -e "\nLa partition est déjà montée."
-	$OPENCAL_SCRIPT
+	$OPENCAL_SCRIPT &&
+	$BACKUP_SCRIPT
 }
 else
 {
@@ -18,6 +20,7 @@ else
 	{
 		$MOUNT_SCRIPT &&
 		$OPENCAL_SCRIPT &&
+		$BACKUP_SCRIPT &&
 		echo -n -e "\nSouhaitez vous démonter la partition cryptée ? (O/n) : " &&
 		read REPONSE_UTILISATEUR &&
 
