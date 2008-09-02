@@ -16,9 +16,9 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.jdhp.opencal.OpenCAL;
+import org.jdhp.opencal.card.Card;
+import org.jdhp.opencal.card.CardManipulator;
 import org.jdhp.opencal.gui.images.SharedImages;
-import org.jdhp.opencal.usecase.Card;
-import org.jdhp.opencal.usecase.CardManipulator;
 
 /**
  * 

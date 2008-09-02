@@ -3,12 +3,12 @@
  * Copyright (c) 2007,2008 Jérémie Decock
  */
 
-package org.jdhp.opencal.usecase;
+package org.jdhp.opencal.card;
 
 import java.util.ArrayList;
 
-import org.jdhp.opencal.usecase.CardManipulator;
-import org.jdhp.opencal.usecase.Manipulable;
+import org.jdhp.opencal.card.CardManipulator;
+import org.jdhp.opencal.card.Manipulable;
 
 /**
  * 

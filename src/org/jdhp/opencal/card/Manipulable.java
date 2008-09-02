@@ -3,7 +3,7 @@
  * Copyright (c) 2007,2008 Jérémie Decock
  */
 
-package org.jdhp.opencal.usecase;
+package org.jdhp.opencal.card;
 
 /**
  * 

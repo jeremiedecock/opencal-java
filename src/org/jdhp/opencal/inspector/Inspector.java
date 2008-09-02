@@ -5,7 +5,7 @@
 
 package org.jdhp.opencal.inspector;
 
-import org.jdhp.opencal.usecase.Card;
+import org.jdhp.opencal.card.Card;
 
 /**
  * 

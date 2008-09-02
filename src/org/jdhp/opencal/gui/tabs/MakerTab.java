@@ -16,8 +16,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
 import org.jdhp.opencal.OpenCAL;
+import org.jdhp.opencal.card.Card;
 import org.jdhp.opencal.gui.images.SharedImages;
-import org.jdhp.opencal.usecase.Card;
 
 /**
  * 

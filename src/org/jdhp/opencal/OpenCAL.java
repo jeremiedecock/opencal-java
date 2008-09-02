@@ -21,14 +21,14 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.jdhp.opencal.card.lists.AllCardList;
+import org.jdhp.opencal.card.lists.NewCardList;
+import org.jdhp.opencal.card.lists.PlannedCardList;
+import org.jdhp.opencal.card.lists.ReviewedCardList;
+import org.jdhp.opencal.card.lists.SuspendedCardList;
 import org.jdhp.opencal.gui.MainWindow;
 import org.jdhp.opencal.inspector.Inspector;
 import org.jdhp.opencal.inspector.InspectorBrian;
-import org.jdhp.opencal.usecase.lists.AllCardList;
-import org.jdhp.opencal.usecase.lists.NewCardList;
-import org.jdhp.opencal.usecase.lists.PlannedCardList;
-import org.jdhp.opencal.usecase.lists.ReviewedCardList;
-import org.jdhp.opencal.usecase.lists.SuspendedCardList;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
