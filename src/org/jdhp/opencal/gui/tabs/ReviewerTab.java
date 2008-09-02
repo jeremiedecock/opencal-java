@@ -31,7 +31,21 @@ public class ReviewerTab {
 	
 	final private StyledText reviewerText;
 	
-	final private CardManipulator manipulator = OpenCAL.plannedCardList.manipulator();
+	final Button rightAnswerButton;
+	
+	final Button wrongAnswerButton;
+	
+	final Button firstButton;
+	
+	final Button lastButton;
+	
+	final Button previousButton;
+	
+	final Button answerButton;
+	
+	final Button nextButton;
+	
+	final private CardManipulator manipulator;
 	
 	/**
 	 * 
@@ -43,6 +57,8 @@ public class ReviewerTab {
 		this.parentComposite.setLayout(new GridLayout(2, false));
 
 		Font monoFont = new Font(this.parentComposite.getDisplay(), "mono", 10, SWT.NORMAL);
+		
+		manipulator = OpenCAL.plannedCardList.manipulator();
 		
 		///////////////////////////////////////////////////////////////////////
 		// reviewerText ///////////////////////////////////////////////////////
@@ -71,8 +87,8 @@ public class ReviewerTab {
 		resultButtonCompositeGridLayout.verticalSpacing = 40;
 		resultButtonComposite.setLayout(resultButtonCompositeGridLayout);
 		
-		final Button goodButton = new Button(resultButtonComposite, SWT.PUSH);
-		final Button badButton = new Button(resultButtonComposite, SWT.PUSH);
+		rightAnswerButton = new Button(resultButtonComposite, SWT.PUSH);
+		wrongAnswerButton = new Button(resultButtonComposite, SWT.PUSH);
 		
 		///////////////////////////////////////////////////////////////////////
 		// navigationButtonComposite //////////////////////////////////////////
@@ -85,9 +101,9 @@ public class ReviewerTab {
 		navigationButtonCompositeGridData.horizontalSpan = 2;
 		navigationButtonComposite.setLayoutData(navigationButtonCompositeGridData);
 		
-		final Button firstButton = new Button(navigationButtonComposite, SWT.PUSH);
+		firstButton = new Button(navigationButtonComposite, SWT.PUSH);
 		Composite centralNavigationButtonComposite = new Composite(navigationButtonComposite, SWT.NONE);
-		final Button lastButton = new Button(navigationButtonComposite, SWT.PUSH);
+		lastButton = new Button(navigationButtonComposite, SWT.PUSH);
 		
 		///////////////////////////////////////////////////////////////////////
 		// centralNavigationButtonComposite ///////////////////////////////////
@@ -99,22 +115,22 @@ public class ReviewerTab {
 		
 		centralNavigationButtonComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		
-		final Button previousButton = new Button(centralNavigationButtonComposite, SWT.PUSH);
-		final Button answerButton = new Button(centralNavigationButtonComposite, SWT.PUSH);
-		final Button nextButton = new Button(centralNavigationButtonComposite, SWT.PUSH);
+		previousButton = new Button(centralNavigationButtonComposite, SWT.PUSH);
+		answerButton = new Button(centralNavigationButtonComposite, SWT.PUSH);
+		nextButton = new Button(centralNavigationButtonComposite, SWT.PUSH);
 		
 		///////////////////////////////////////////////////////////////////////
 		// resultButtons //////////////////////////////////////////////////////
 		///////////////////////////////////////////////////////////////////////
 		
 		// rightAnswerButton /////////////
-		goodButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		goodButton.setEnabled(false);
-		goodButton.setText("Correct");
-		goodButton.setImage(SharedImages.getImage(SharedImages.FACE_SMILE));
-		goodButton.setToolTipText("Right answer");
+		rightAnswerButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		rightAnswerButton.setEnabled(false);
+		rightAnswerButton.setText("Correct");
+		rightAnswerButton.setImage(SharedImages.getImage(SharedImages.FACE_SMILE));
+		rightAnswerButton.setToolTipText("Right answer");
 		
-		goodButton.addSelectionListener(new SelectionAdapter() {
+		rightAnswerButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				manipulator.pop().putReview(OpenCAL.RIGHT_ANSWER_STRING);
 				manipulator.remove();
@@ -134,8 +150,8 @@ public class ReviewerTab {
 					lastButton.setEnabled(false);
 				}
 				answerButton.setEnabled(true);
-				goodButton.setEnabled(false);
-				badButton.setEnabled(false);
+				rightAnswerButton.setEnabled(false);
+				wrongAnswerButton.setEnabled(false);
 				
 				Card card = manipulator.pop();
 				reviewerText.setText("QUESTION\n\n" + card.getQuestion());
@@ -147,13 +163,13 @@ public class ReviewerTab {
 		});
 		
 		// wrongAnswerButton /////////////
-		badButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		badButton.setEnabled(false);
-		badButton.setText("Wrong");
-		badButton.setImage(SharedImages.getImage(SharedImages.FACE_SAD));
-		badButton.setToolTipText("Wrong answer");
+		wrongAnswerButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		wrongAnswerButton.setEnabled(false);
+		wrongAnswerButton.setText("Wrong");
+		wrongAnswerButton.setImage(SharedImages.getImage(SharedImages.FACE_SAD));
+		wrongAnswerButton.setToolTipText("Wrong answer");
 		
-		badButton.addSelectionListener(new SelectionAdapter() {
+		wrongAnswerButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				manipulator.pop().putReview(OpenCAL.WRONG_ANSWER_STRING);
 				manipulator.remove();
@@ -173,8 +189,8 @@ public class ReviewerTab {
 					lastButton.setEnabled(false);
 				}
 				answerButton.setEnabled(true);
-				goodButton.setEnabled(false);
-				badButton.setEnabled(false);
+				rightAnswerButton.setEnabled(false);
+				wrongAnswerButton.setEnabled(false);
 
 				Card card = manipulator.pop();
 				reviewerText.setText("QUESTION\n\n" + card.getQuestion());
@@ -266,8 +282,8 @@ public class ReviewerTab {
 				nextButton.setEnabled(false);
 				answerButton.setEnabled(false);
 				previousButton.setEnabled(false);
-				goodButton.setEnabled(true);
-				badButton.setEnabled(true);
+				rightAnswerButton.setEnabled(true);
+				wrongAnswerButton.setEnabled(true);
 				
 //				reviewerText.setText("QUESTION\n\n" + OpenCAL.card.getQuestion() + "\n\nANSWER\n\n" + OpenCAL.card.getAnswer());
 				int textLength = reviewerText.getCharCount();
