@@ -41,9 +41,9 @@ public class ExplorerTab {
 	
 	final private String[] displayModes = {"All Cards", "Reviewed Cards", "New Cards", "Suspended Cards"};
 	
-	final List cardsList;
+	final private List cardsList;
 	
-	final Combo displayModeCombo;
+	final private Combo displayModeCombo;
 	
 	/**
 	 * 

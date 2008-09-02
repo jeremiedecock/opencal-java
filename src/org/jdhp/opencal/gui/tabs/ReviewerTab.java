@@ -31,19 +31,19 @@ public class ReviewerTab {
 	
 	final private StyledText reviewerText;
 	
-	final Button rightAnswerButton;
+	final private Button rightAnswerButton;
 	
-	final Button wrongAnswerButton;
+	final private Button wrongAnswerButton;
 	
-	final Button firstButton;
+	final private Button firstButton;
 	
-	final Button lastButton;
+	final private Button lastButton;
 	
-	final Button previousButton;
+	final private Button previousButton;
 	
-	final Button answerButton;
+	final private Button answerButton;
 	
-	final Button nextButton;
+	final private Button nextButton;
 	
 	final private CardManipulator manipulator;
 	
