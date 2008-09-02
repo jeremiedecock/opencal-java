@@ -22,8 +22,8 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.jdhp.opencal.gui.MainWindow;
-import org.jdhp.opencal.usecase.inspector.Inspector;
-import org.jdhp.opencal.usecase.inspector.InspectorBrian;
+import org.jdhp.opencal.inspector.Inspector;
+import org.jdhp.opencal.inspector.InspectorBrian;
 import org.jdhp.opencal.usecase.lists.AllCardList;
 import org.jdhp.opencal.usecase.lists.NewCardList;
 import org.jdhp.opencal.usecase.lists.PlannedCardList;

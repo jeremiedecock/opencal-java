@@ -21,7 +21,7 @@ import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.jdhp.opencal.OpenCAL;
-import org.jdhp.opencal.usecase.statistics.Statistics;
+import org.jdhp.opencal.statistics.Statistics;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;

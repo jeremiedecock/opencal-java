@@ -3,7 +3,7 @@
  * Copyright (c) 2007,2008 Jérémie Decock
  */
 
-package org.jdhp.opencal.usecase.inspector;
+package org.jdhp.opencal.inspector;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
