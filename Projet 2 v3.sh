@@ -18,7 +18,7 @@ else
 	{
 		$MOUNT_SCRIPT &&
 		$OPENCAL_SCRIPT &&
-		echo -n -e "\nSouhaitez vous démonter la partition cryptée ? (o/N) : " &&
+		echo -n -e "\nSouhaitez vous démonter la partition cryptée ? (O/n) : " &&
 		read REPONSE_UTILISATEUR &&
 
 		if [ "$REPONSE_UTILISATEUR" = "o" ] || [ "$REPONSE_UTILISATEUR" = "O" ]; then
