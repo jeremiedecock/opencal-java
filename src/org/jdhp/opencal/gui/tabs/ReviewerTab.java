@@ -361,7 +361,7 @@ public class ReviewerTab {
 	public void update() {
 		OpenCAL.mainWindow.setStatusLabel1("", "");
 		Card card = manipulator.pop();
-		if(card != null) OpenCAL.mainWindow.setStatusLabel2("L : " + card.getGrade(), "Card level " + card.getGrade());
+		if(card != null) OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
 		else OpenCAL.mainWindow.setStatusLabel2("", "");
 		OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
 		OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");

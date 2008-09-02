@@ -124,38 +124,37 @@ public class StatsTab {
 		OpenCAL.mainWindow.setStatusLabel2("", "");
 		OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
 		OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
+
+		//
+		TimeSeries s1 = new TimeSeries("Card created per day", Day.class);
+		TreeMap<Date, Integer> cardCreationStats = Statistics.getCardCreationStats();
+		Set entries = cardCreationStats.entrySet();
+		Iterator<Set> it = entries.iterator();
+		while(it.hasNext()) {
+			Map.Entry entry = (Map.Entry) it.next();
+			Date date = (Date) entry.getKey();
+			Integer value = (Integer) entry.getValue();
+			s1.add(new Day(date), value);
+		}
+
+		TimeSeries s2 = new TimeSeries("Revision per day", Day.class);
+		TreeMap<Date, Integer> revisionStats = Statistics.getRevisionStats();
+		entries = revisionStats.entrySet();
+		it = entries.iterator();
+		while(it.hasNext()) {
+			Map.Entry entry = (Map.Entry) it.next();
+			Date date = (Date) entry.getKey();
+			Integer value = (Integer) entry.getValue();
+			s2.add(new Day(date), value);
+		}
+
+		this.dataset.removeAllSeries();
+		this.dataset.addSeries(s1);
+		this.dataset.addSeries(s2);
+
+		// ********** //
+		
+		this.chart.setNotify(true);
 	}
-	
-//	public void updateChart() {
-//		TimeSeries s1 = new TimeSeries("Card created per day", Day.class);
-//		TreeMap<Date, Integer> cardCreationStats = Statistics.getCardCreationStats();
-//		Set entries = cardCreationStats.entrySet();
-//		Iterator<Set> it = entries.iterator();
-//		while(it.hasNext()) {
-//			Map.Entry entry = (Map.Entry) it.next();
-//			Date date = (Date) entry.getKey();
-//			Integer value = (Integer) entry.getValue();
-//			s1.add(new Day(date), value);
-//		}
-//
-//		TimeSeries s2 = new TimeSeries("Revision per day", Day.class);
-//		TreeMap<Date, Integer> revisionStats = Statistics.getRevisionStats();
-//		entries = revisionStats.entrySet();
-//		it = entries.iterator();
-//		while(it.hasNext()) {
-//			Map.Entry entry = (Map.Entry) it.next();
-//			Date date = (Date) entry.getKey();
-//			Integer value = (Integer) entry.getValue();
-//			s2.add(new Day(date), value);
-//		}
-//
-//		this.dataset.removeAllSeries();
-//		this.dataset.addSeries(s1);
-//		this.dataset.addSeries(s2);
-//
-//		// ********** //
-//		
-//		this.chart.setNotify(true);
-//	}
 	
 }
