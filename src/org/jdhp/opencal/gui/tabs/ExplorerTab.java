@@ -6,6 +6,8 @@
 package org.jdhp.opencal.gui.tabs;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Font;
@@ -45,6 +47,16 @@ public class ExplorerTab {
 	
 	final private Combo displayModeCombo;
 	
+	final private Button saveButton;
+	
+	final private Button cancelButton;
+	
+	final private Text questionText;
+	
+	final private Text answerText;
+	
+	final private Text tagsText;
+	
 	/**
 	 * 
 	 * @param parentComposite
@@ -52,10 +64,6 @@ public class ExplorerTab {
 	public ExplorerTab(Composite parentComposite) {
 		this.parentComposite = parentComposite;
 		this.parentComposite.setLayout(new GridLayout(2, false));
-		
-		final Text questionText;
-		final Text answerText;
-		final Text tagsText;
 		
 		ExplorerTab.currentDisplayMode = ExplorerTab.REVIEWED_CARDS;
 
@@ -100,6 +108,13 @@ public class ExplorerTab {
 		questionText.setLayoutData(new GridData(GridData.FILL_BOTH));
 		questionText.setFont(monoFont);
 		questionText.setTabs(3);
+
+		questionText.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				saveButton.setEnabled(true);
+				cancelButton.setEnabled(true);
+			}
+		});
 		
 		// Answer //////////
 		Group answerGroup = new Group(editionCardComposite, SWT.NONE);
@@ -112,6 +127,13 @@ public class ExplorerTab {
 		answerText.setFont(monoFont);
 		answerText.setTabs(3);
 		
+		answerText.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				saveButton.setEnabled(true);
+				cancelButton.setEnabled(true);
+			}
+		});
+		
 		// Tags ////////////
 		Group tagGroup = new Group(editionCardComposite, SWT.NONE);
 		tagGroup.setLayoutData(new GridData(GridData.FILL_BOTH));
@@ -122,6 +144,13 @@ public class ExplorerTab {
 		tagsText.setLayoutData(new GridData(GridData.FILL_BOTH));
 		tagsText.setFont(monoFont);
 		tagsText.setTabs(3);
+		
+		tagsText.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				saveButton.setEnabled(true);
+				cancelButton.setEnabled(true);
+			}
+		});
 
 		///////////////////////////////////////////////////////////////////////
 		// FileButtonComposite ////////////////////////////////////////////////
@@ -133,7 +162,7 @@ public class ExplorerTab {
 		fileButtonComposite.setLayout(new GridLayout(2, true));
 		
 		// SaveButton /////////
-		Button saveButton = new Button(fileButtonComposite, SWT.PUSH);
+		saveButton = new Button(fileButtonComposite, SWT.PUSH);
 		saveButton.setEnabled(false);
 		saveButton.setText("Save");
 		saveButton.setImage(SharedImages.getImage(SharedImages.MEDIA_FLOPPY));
@@ -141,12 +170,36 @@ public class ExplorerTab {
 		
 		saveButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
+				switch (displayModeCombo.getSelectionIndex()) {
+					case ExplorerTab.ALL_CARDS :
+						OpenCAL.allCardList.get(cardsList.getSelectionIndex()).setQuestion(questionText.getText());
+						OpenCAL.allCardList.get(cardsList.getSelectionIndex()).setAnswer(answerText.getText());
+						OpenCAL.allCardList.get(cardsList.getSelectionIndex()).setTags(tagsText.getText().split("\n"));
+						break;
+					case ExplorerTab.REVIEWED_CARDS :
+						OpenCAL.reviewedCardList.get(cardsList.getSelectionIndex()).setQuestion(questionText.getText());
+						OpenCAL.reviewedCardList.get(cardsList.getSelectionIndex()).setAnswer(answerText.getText());
+						OpenCAL.reviewedCardList.get(cardsList.getSelectionIndex()).setTags(tagsText.getText().split("\n"));
+						break;
+					case ExplorerTab.NEW_CARDS :
+						OpenCAL.newCardList.get(cardsList.getSelectionIndex()).setQuestion(questionText.getText());
+						OpenCAL.newCardList.get(cardsList.getSelectionIndex()).setAnswer(answerText.getText());
+						OpenCAL.newCardList.get(cardsList.getSelectionIndex()).setTags(tagsText.getText().split("\n"));
+						break;
+					case ExplorerTab.SUSPENDED_CARDS :
+						OpenCAL.suspendedCardList.get(cardsList.getSelectionIndex()).setQuestion(questionText.getText());
+						OpenCAL.suspendedCardList.get(cardsList.getSelectionIndex()).setAnswer(answerText.getText());
+						OpenCAL.suspendedCardList.get(cardsList.getSelectionIndex()).setTags(tagsText.getText().split("\n"));
+						break;
+				}
 				
+				saveButton.setEnabled(false);
+				cancelButton.setEnabled(false);
 			}
 		});
 		
 		// CancelButton /////////
-		Button cancelButton = new Button(fileButtonComposite, SWT.PUSH);
+		cancelButton = new Button(fileButtonComposite, SWT.PUSH);
 		cancelButton.setLayoutData(new GridData(GridData.FILL_VERTICAL));
 		cancelButton.setEnabled(false);
 		cancelButton.setText("Cancel");
@@ -154,7 +207,31 @@ public class ExplorerTab {
 		
 		cancelButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
+				switch (displayModeCombo.getSelectionIndex()) {
+					case ExplorerTab.ALL_CARDS :
+						questionText.setText(OpenCAL.allCardList.get(cardsList.getSelectionIndex()).getQuestion());
+						answerText.setText(OpenCAL.allCardList.get(cardsList.getSelectionIndex()).getAnswer());
+						tagsText.setText(OpenCAL.allCardList.get(cardsList.getSelectionIndex()).getTagsString());
+						break;
+					case ExplorerTab.REVIEWED_CARDS :
+						questionText.setText(OpenCAL.reviewedCardList.get(cardsList.getSelectionIndex()).getQuestion());
+						answerText.setText(OpenCAL.reviewedCardList.get(cardsList.getSelectionIndex()).getAnswer());
+						tagsText.setText(OpenCAL.reviewedCardList.get(cardsList.getSelectionIndex()).getTagsString());
+						break;
+					case ExplorerTab.NEW_CARDS :
+						questionText.setText(OpenCAL.newCardList.get(cardsList.getSelectionIndex()).getQuestion());
+						answerText.setText(OpenCAL.newCardList.get(cardsList.getSelectionIndex()).getAnswer());
+						tagsText.setText(OpenCAL.newCardList.get(cardsList.getSelectionIndex()).getTagsString());
+						break;
+					case ExplorerTab.SUSPENDED_CARDS :
+						questionText.setText(OpenCAL.suspendedCardList.get(cardsList.getSelectionIndex()).getQuestion());
+						answerText.setText(OpenCAL.suspendedCardList.get(cardsList.getSelectionIndex()).getAnswer());
+						tagsText.setText(OpenCAL.suspendedCardList.get(cardsList.getSelectionIndex()).getTagsString());
+						break;
+				}
 				
+				saveButton.setEnabled(false);
+				cancelButton.setEnabled(false);
 			}
 		});
 		
@@ -207,6 +284,9 @@ public class ExplorerTab {
 						tagsText.setText(OpenCAL.suspendedCardList.get(cardsList.getSelectionIndex()).getTagsString());
 						break;
 				}
+				
+				saveButton.setEnabled(false);
+				cancelButton.setEnabled(false);
 			}
 		});
 	}
