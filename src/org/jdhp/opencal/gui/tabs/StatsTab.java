@@ -125,7 +125,7 @@ public class StatsTab {
 		OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
 		OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
 
-		//
+		// Update graph
 		TimeSeries s1 = new TimeSeries("Card created per day", Day.class);
 		TreeMap<Date, Integer> cardCreationStats = Statistics.getCardCreationStats();
 		Set entries = cardCreationStats.entrySet();

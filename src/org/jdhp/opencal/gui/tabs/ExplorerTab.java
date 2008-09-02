@@ -27,19 +27,19 @@ import org.jdhp.opencal.gui.images.SharedImages;
  */
 public class ExplorerTab {
 
+	final private String[] displayModes = {"All Cards", "Reviewed Cards", "New Cards", "Suspended Cards"};
+	
 	final private static int ALL_CARDS = 0;
 	
 	final private static int REVIEWED_CARDS = 1;
 	
-	final private static int MADE_CARDS = 2;
+	final private static int NEW_CARDS = 2;
 	
-	final private static int DISABLED_CARDS = 3;
+	final private static int SUSPENDED_CARDS = 3;
 	
 	private static int currentDisplayMode; // pas très propre de mettre ça en static ?
 	
 	final private Composite parentComposite;
-	
-	final private String[] displayModes = {"All Cards", "Reviewed Cards", "New Cards", "Suspended Cards"};
 	
 	final private List cardsList;
 	
@@ -57,7 +57,7 @@ public class ExplorerTab {
 		final Text answerText;
 		final Text tagsText;
 		
-		ExplorerTab.currentDisplayMode = ExplorerTab.ALL_CARDS;
+		ExplorerTab.currentDisplayMode = ExplorerTab.REVIEWED_CARDS;
 
 		///////////////////////////////////////////////////////////////////////
 		// CardSelectionComposite /////////////////////////////////////////////
@@ -75,7 +75,6 @@ public class ExplorerTab {
 		displayModeCombo.select(ExplorerTab.currentDisplayMode);
 		
 		// cardsList ////////////
-//		final List cardsList = new List(cardSelectionComposite, SWT.BORDER | SWT.V_SCROLL);
 		cardsList = new List(cardSelectionComposite, SWT.BORDER | SWT.V_SCROLL);
 		cardsList.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
@@ -167,16 +166,16 @@ public class ExplorerTab {
 		displayModeCombo.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				switch(displayModeCombo.getSelectionIndex()) {
-					case 0 :
+					case ExplorerTab.ALL_CARDS :
 						cardsList.setItems(OpenCAL.allCardList.getQuestionStrings());
 						break;
-					case 1 : 
+					case ExplorerTab.REVIEWED_CARDS : 
 						cardsList.setItems(OpenCAL.reviewedCardList.getQuestionStrings());
 						break;
-					case 2 :
+					case ExplorerTab.NEW_CARDS :
 						cardsList.setItems(OpenCAL.newCardList.getQuestionStrings());
 						break;
-					case 3 :
+					case ExplorerTab.SUSPENDED_CARDS :
 						cardsList.setItems(OpenCAL.suspendedCardList.getQuestionStrings());
 						break;
 				}
@@ -187,22 +186,22 @@ public class ExplorerTab {
 		cardsList.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				switch (displayModeCombo.getSelectionIndex()) {
-					case 0:
+					case ExplorerTab.ALL_CARDS :
 						questionText.setText(OpenCAL.allCardList.get(cardsList.getSelectionIndex()).getQuestion());
 						answerText.setText(OpenCAL.allCardList.get(cardsList.getSelectionIndex()).getAnswer());
 						tagsText.setText(OpenCAL.allCardList.get(cardsList.getSelectionIndex()).getTagsString());
 						break;
-					case 1:
+					case ExplorerTab.REVIEWED_CARDS :
 						questionText.setText(OpenCAL.reviewedCardList.get(cardsList.getSelectionIndex()).getQuestion());
 						answerText.setText(OpenCAL.reviewedCardList.get(cardsList.getSelectionIndex()).getAnswer());
 						tagsText.setText(OpenCAL.reviewedCardList.get(cardsList.getSelectionIndex()).getTagsString());
 						break;
-					case 2:
+					case ExplorerTab.NEW_CARDS :
 						questionText.setText(OpenCAL.newCardList.get(cardsList.getSelectionIndex()).getQuestion());
 						answerText.setText(OpenCAL.newCardList.get(cardsList.getSelectionIndex()).getAnswer());
 						tagsText.setText(OpenCAL.newCardList.get(cardsList.getSelectionIndex()).getTagsString());
 						break;
-					case 3:
+					case ExplorerTab.SUSPENDED_CARDS :
 						questionText.setText(OpenCAL.suspendedCardList.get(cardsList.getSelectionIndex()).getQuestion());
 						answerText.setText(OpenCAL.suspendedCardList.get(cardsList.getSelectionIndex()).getAnswer());
 						tagsText.setText(OpenCAL.suspendedCardList.get(cardsList.getSelectionIndex()).getTagsString());
@@ -222,16 +221,16 @@ public class ExplorerTab {
 		OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
 		
 		switch(displayModeCombo.getSelectionIndex()) {
-			case 0 :
+			case ExplorerTab.ALL_CARDS :
 				cardsList.setItems(OpenCAL.allCardList.getQuestionStrings());
 				break;
-			case 1 : 
+			case ExplorerTab.REVIEWED_CARDS : 
 				cardsList.setItems(OpenCAL.reviewedCardList.getQuestionStrings());
 				break;
-			case 2 :
+			case ExplorerTab.NEW_CARDS :
 				cardsList.setItems(OpenCAL.newCardList.getQuestionStrings());
 				break;
-			case 3 :
+			case ExplorerTab.SUSPENDED_CARDS :
 				cardsList.setItems(OpenCAL.suspendedCardList.getQuestionStrings());
 				break;
 		}
