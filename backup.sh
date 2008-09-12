@@ -1,7 +1,7 @@
 #!/bin/sh
 
 PKB_SRC="/home/gremy/gremy.pkb"
-PKB_DEST="/media/data/gremy/developpement_logiciel/workspaces/svn/opencal/gremy.pkb"
+PKB_DEST="/media/data/gremy/developpement_logiciel/workspaces/svn/pkb_file/gremy.pkb"
 
 echo "Sauvegarde de la base de connaissances"
 rm $PKB_DEST &&
