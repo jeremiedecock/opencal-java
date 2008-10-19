@@ -45,7 +45,6 @@ public class Card {
 			// Add the new "card" element to the DOM tree
 			this.element = OpenCAL.getDomDocument().createElement("card");
 			this.element.setAttribute("cdate", OpenCAL.iso8601Formatter.format(new Date()));
-			this.element.setAttribute("id", "c0"); // TODO : l'attribut id ne sert à rien... il faut le supprimer du model
 			
 			Element questionElement = OpenCAL.getDomDocument().createElement("question");
 			this.element.appendChild(questionElement);

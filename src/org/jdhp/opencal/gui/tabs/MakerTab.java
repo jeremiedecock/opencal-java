@@ -90,7 +90,15 @@ public class MakerTab {
 					questionText.setText("");
 					answerText.setText("");
 					tagsText.setText("");
-					OpenCAL.mainWindow.setStatusLabel1("Card #" + newCard.getId() + " recorded", "Card #" + newCard.getId() + " recorded");
+//					OpenCAL.mainWindow.setStatusLabel1("Card recorded", "Card recorded");
+//					
+//					// TODO : faire quelque chose de plus joli pour les 6 lignes suivantes (avec un thread dédié, ...)
+//					try {
+//						Thread.sleep(500);
+//					} catch (InterruptedException e2) {
+//						
+//					}
+//					OpenCAL.mainWindow.setStatusLabel1("", "");
 				}
 			
 				// Set focus to the question field
