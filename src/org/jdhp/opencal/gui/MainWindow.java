@@ -73,7 +73,7 @@ public class MainWindow {
 		this.shell = new Shell(MainWindow.DISPLAY);
 		this.shell.setLayout(new GridLayout(1, false));
 		
-		this.shell.setText(OpenCAL.PROGRAM_NAME + " " + OpenCAL.PROGRAM_VERSION);
+		this.shell.setText(OpenCAL.PROGRAM_NAME + " " + OpenCAL.PROGRAM_VERSION + " - " + OpenCAL.getPkbFile().getAbsolutePath());
 		this.shell.setMinimumSize(400, 350);
 		this.shell.setSize (640, 480);
 		
@@ -92,36 +92,122 @@ public class MainWindow {
         MenuItem fileItem = new MenuItem(menu, SWT.CASCADE);
         fileItem.setText("File");
         
+        MenuItem editItem = new MenuItem(menu, SWT.CASCADE);
+        editItem.setText("Edit");
+        
         MenuItem helpItem = new MenuItem(menu, SWT.CASCADE);
-        helpItem.setText("About");
+        helpItem.setText("Help");
         
         Menu fileMenu = new Menu(shell, SWT.DROP_DOWN);
         fileItem.setMenu(fileMenu);
         
-        Menu aboutMenu = new Menu(shell, SWT.DROP_DOWN);
-        helpItem.setMenu(aboutMenu);
+        Menu editMenu = new Menu(shell, SWT.DROP_DOWN);
+        editItem.setMenu(editMenu);
         
-        MenuItem quitItem = new MenuItem(fileMenu, SWT.PUSH);
-        quitItem.setImage(SharedImages.getImage(SharedImages.EXIT));
-        quitItem.setText("Quit");
+        Menu helpMenu = new Menu(shell, SWT.DROP_DOWN);
+        helpItem.setMenu(helpMenu);
         
-        quitItem.addListener(SWT.Selection, new Listener() {
-        	public void handleEvent(Event e) {
-        		OpenCAL.exit(0);
-        	}
-        });
-        
-        MenuItem aboutItem = new MenuItem(aboutMenu, SWT.PUSH);
-        aboutItem.setText("About OpenCAL");
-        
-        aboutItem.addListener(SWT.Selection, new Listener() {
-        	public void handleEvent(Event e) {
-        		MessageBox mb = new MessageBox(shell, SWT.APPLICATION_MODAL | SWT.ICON_INFORMATION | SWT.OK);
-        		mb.setText("About OpenCAL");
-        		mb.setMessage(OpenCAL.PROGRAM_NAME + " " + OpenCAL.PROGRAM_VERSION + "\nCopyright (c) 2007,2008 Jérémie DECOCK");
-        		mb.open();
-        	}
-        });
+        // File items //
+		MenuItem newItem = new MenuItem(fileMenu, SWT.PUSH);
+		newItem.setImage(SharedImages.getImage(SharedImages.FILE_NEW));
+		newItem.setText("New...");
+
+		MenuItem openItem = new MenuItem(fileMenu, SWT.PUSH);
+		openItem.setImage(SharedImages.getImage(SharedImages.FILE_OPEN));
+		openItem.setText("Open...");
+
+		MenuItem closeItem = new MenuItem(fileMenu, SWT.PUSH);
+		closeItem.setText("Close");
+
+		closeItem.addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event e) {
+				OpenCAL.closePkbFile();
+			}
+		});
+
+		new MenuItem(fileMenu, SWT.SEPARATOR);
+
+		MenuItem importItem = new MenuItem(fileMenu, SWT.PUSH);
+		importItem.setText("Import Card Set...");
+		importItem.setEnabled(false);
+
+		MenuItem exportItem = new MenuItem(fileMenu, SWT.PUSH);
+		exportItem.setText("Export Card Set...");
+		exportItem.setEnabled(false);
+
+		new MenuItem(fileMenu, SWT.SEPARATOR);
+
+		MenuItem pdfItem = new MenuItem(fileMenu, SWT.PUSH);
+		pdfItem.setImage(SharedImages.getImage(SharedImages.FILE_PDF));
+		pdfItem.setText("Export Review File...");
+		
+		MenuItem printItem = new MenuItem(fileMenu, SWT.PUSH);
+		printItem.setImage(SharedImages.getImage(SharedImages.FILE_PRINT));
+		printItem.setText("Print Review File...");
+
+		new MenuItem(fileMenu, SWT.SEPARATOR);
+
+		MenuItem quitItem = new MenuItem(fileMenu, SWT.PUSH);
+		quitItem.setImage(SharedImages.getImage(SharedImages.EXIT));
+		quitItem.setText("Quit");
+
+		quitItem.addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event e) {
+				OpenCAL.exit(0);
+			}
+		});
+
+		// Edit items //
+		MenuItem undoItem = new MenuItem(editMenu, SWT.PUSH);
+		undoItem.setImage(SharedImages.getImage(SharedImages.EDIT_UNDO));
+		undoItem.setText("Undo Typing");
+		undoItem.setEnabled(false);
+
+		MenuItem redoItem = new MenuItem(editMenu, SWT.PUSH);
+		redoItem.setImage(SharedImages.getImage(SharedImages.EDIT_REDO));
+		redoItem.setText("Redo");
+		redoItem.setEnabled(false);
+
+		new MenuItem(editMenu, SWT.SEPARATOR);
+
+		MenuItem copyItem = new MenuItem(editMenu, SWT.PUSH);
+		copyItem.setImage(SharedImages.getImage(SharedImages.EDIT_COPY));
+		copyItem.setText("Copy");
+		copyItem.setEnabled(false);
+
+		MenuItem cutItem = new MenuItem(editMenu, SWT.PUSH);
+		cutItem.setImage(SharedImages.getImage(SharedImages.EDIT_CUT));
+		cutItem.setText("Cut");
+		cutItem.setEnabled(false);
+
+		MenuItem pastItem = new MenuItem(editMenu, SWT.PUSH);
+		pastItem.setImage(SharedImages.getImage(SharedImages.EDIT_PASTE));
+		pastItem.setText("Past");
+		pastItem.setEnabled(false);
+
+		new MenuItem(editMenu, SWT.SEPARATOR);
+
+		MenuItem preferencesItem = new MenuItem(editMenu, SWT.PUSH);
+		preferencesItem.setImage(SharedImages
+				.getImage(SharedImages.PREFERENCES_SYSTEM));
+		preferencesItem.setText("Preferences...");
+
+		// Help items //
+		MenuItem aboutItem = new MenuItem(helpMenu, SWT.PUSH);
+		aboutItem.setImage(SharedImages.getImage(SharedImages.HELP_BROWSER));
+		aboutItem.setText("About OpenCAL...");
+
+		aboutItem.addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event e) {
+				MessageBox mb = new MessageBox(shell, SWT.APPLICATION_MODAL
+						| SWT.ICON_INFORMATION | SWT.OK);
+				mb.setText("About OpenCAL");
+				mb.setMessage(OpenCAL.PROGRAM_NAME + " "
+						+ OpenCAL.PROGRAM_VERSION
+						+ "\nCopyright (c) 2007,2008 Jérémie DECOCK");
+				mb.open();
+			}
+		});
         
         // Create the tabfolder
 		final TabFolder tabFolder = new TabFolder(this.shell, SWT.NONE);

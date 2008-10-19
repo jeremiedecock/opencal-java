@@ -31,7 +31,7 @@ public class Card {
 	 */
 	public Card(Element element) {
 		this.element = element;
-		this.grade = OpenCAL.inspector.assess(this);
+		this.grade = OpenCAL.getInspector().assess(this);
 	}
 	
 	/**
@@ -43,34 +43,34 @@ public class Card {
 	public Card(String questionString, String answerString, String[] tagStrings) {
 		if(questionString != null && !questionString.equals("")) {
 			// Add the new "card" element to the DOM tree
-			this.element = OpenCAL.domDocument.createElement("card");
+			this.element = OpenCAL.getDomDocument().createElement("card");
 			this.element.setAttribute("cdate", OpenCAL.iso8601Formatter.format(new Date()));
 			this.element.setAttribute("id", "c0"); // TODO : l'attribut id ne sert à rien... il faut le supprimer du model
 			
-			Element questionElement = OpenCAL.domDocument.createElement("question");
+			Element questionElement = OpenCAL.getDomDocument().createElement("question");
 			this.element.appendChild(questionElement);
-			questionElement.appendChild(OpenCAL.domDocument.createCDATASection(questionString));
+			questionElement.appendChild(OpenCAL.getDomDocument().createCDATASection(questionString));
 			
-			Element answerElement = OpenCAL.domDocument.createElement("answer");
+			Element answerElement = OpenCAL.getDomDocument().createElement("answer");
 			this.element.appendChild(answerElement);
-			answerElement.appendChild(OpenCAL.domDocument.createCDATASection(answerString));
+			answerElement.appendChild(OpenCAL.getDomDocument().createCDATASection(answerString));
 			
 			for(int i=0 ; i<tagStrings.length ; i++) {
 				if(!tagStrings[i].equals("")) {
-					Element tagElement = OpenCAL.domDocument.createElement("tag");
+					Element tagElement = OpenCAL.getDomDocument().createElement("tag");
 					this.element.appendChild(tagElement);
-					tagElement.appendChild(OpenCAL.domDocument.createTextNode(tagStrings[i]));
+					tagElement.appendChild(OpenCAL.getDomDocument().createTextNode(tagStrings[i]));
 				}
 			}
 			
-			NodeList nodeList = OpenCAL.domDocument.getElementsByTagName("pkb");
+			NodeList nodeList = OpenCAL.getDomDocument().getElementsByTagName("pkb");
 			Element pkbElement = (Element) nodeList.item(0);
 			pkbElement.appendChild(this.element);
 			
 			// Add the new "card" to the XML file
-			OpenCAL.updateXmlFile();
+			OpenCAL.updatePkbFile();
 			
-			this.grade = OpenCAL.inspector.assess(this);
+			this.grade = OpenCAL.getInspector().assess(this);
 		}
 	}
 	
@@ -184,16 +184,16 @@ public class Card {
 	 */
 	public void putReview(String result) {
 		// Add the new "review" element to the DOM tree
-		Element reviewElement = OpenCAL.domDocument.createElement("review");
+		Element reviewElement = OpenCAL.getDomDocument().createElement("review");
 		reviewElement.setAttribute("rdate", OpenCAL.iso8601Formatter.format(new Date()));
 		reviewElement.setAttribute("result", result);
 		this.element.appendChild(reviewElement);
 		
 		// Update grade
-		this.grade = OpenCAL.inspector.assess(this);
+		this.grade = OpenCAL.getInspector().assess(this);
 		
 		// Serialize DOM tree
-		OpenCAL.updateXmlFile();
+		OpenCAL.updatePkbFile();
 		
 //		OpenCAL.plannedCardList.remove(this);  // TODO : pb, le manipulator n'est pas au courrant...
 		OpenCAL.reviewedCardList.add(this);
@@ -209,7 +209,7 @@ public class Card {
 		((CDATASection) questionElement.getFirstChild()).setTextContent(newQuestion);
 		
 		// Serialize DOM tree
-		OpenCAL.updateXmlFile();
+		OpenCAL.updatePkbFile();
 	}
 	
 	/**
@@ -222,7 +222,7 @@ public class Card {
 		((CDATASection) answerElement.getFirstChild()).setTextContent(newAnswer);
 		
 		// Serialize DOM tree
-		OpenCAL.updateXmlFile();
+		OpenCAL.updatePkbFile();
 	}
 	
 	/**
@@ -245,14 +245,14 @@ public class Card {
 		Element tagElement;
 		for(int i=0 ; i<newTags.length ; i++) {
 			if(!newTags[i].equals("")) {
-				tagElement = OpenCAL.domDocument.createElement("tag");
+				tagElement = OpenCAL.getDomDocument().createElement("tag");
 				this.element.appendChild(tagElement);
-				tagElement.appendChild(OpenCAL.domDocument.createTextNode(newTags[i]));
+				tagElement.appendChild(OpenCAL.getDomDocument().createTextNode(newTags[i]));
 			}
 		}
 		
 		// Serialize DOM tree
-		OpenCAL.updateXmlFile();
+		OpenCAL.updatePkbFile();
 		
 		// Update plannedCardList and suspendedCardList if necessary
 		boolean isSuspended = false;

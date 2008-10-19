@@ -23,7 +23,7 @@ public class NewCardList extends CardList {
 	public NewCardList() {
 		super();
 		
-		NodeList nodeCards = OpenCAL.domDocument.getElementsByTagName("card");
+		NodeList nodeCards = OpenCAL.getDomDocument().getElementsByTagName("card");
 		for(int i=0 ; i<nodeCards.getLength() ; i++) {
 			Card card = new Card((Element) nodeCards.item(i));
 			

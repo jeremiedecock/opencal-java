@@ -27,7 +27,7 @@ public class Statistics {
 	public static TreeMap<Date, Integer> getCardCreationStats() {
 		TreeMap<Date, Integer> cardCreationStats = new TreeMap<Date, Integer>();
 		
-		NodeList nodeCards = OpenCAL.domDocument.getElementsByTagName("card");
+		NodeList nodeCards = OpenCAL.getDomDocument().getElementsByTagName("card");
 		for(int i=0 ; i<nodeCards.getLength() ; i++) {
 			Element card = (Element) nodeCards.item(i);
 			
@@ -65,7 +65,7 @@ public class Statistics {
 	public static TreeMap<Date, Integer> getRevisionStats() {
 		TreeMap<Date, Integer> revisionStats = new TreeMap<Date, Integer>();
 		
-		NodeList nodeCards = OpenCAL.domDocument.getElementsByTagName("review");
+		NodeList nodeCards = OpenCAL.getDomDocument().getElementsByTagName("review");
 		for(int i=0 ; i<nodeCards.getLength() ; i++) {
 			Element review = (Element) nodeCards.item(i);
 			

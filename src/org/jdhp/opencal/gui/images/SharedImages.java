@@ -5,9 +5,23 @@ import org.jdhp.opencal.gui.MainWindow;
 
 public class SharedImages {
 
-	// 22x22 images
-	public static final String EXIT = "x22/exit.png";
-	public static final String PRINT = "x22/print.png";
+	// 16x16 images
+	public static final String FILE_NEW = "x16/document-new.png";
+	public static final String FILE_OPEN = "x16/document-open.png";
+	public static final String FILE_PDF = "x16/pdf.png";
+	public static final String FILE_PRINT = "x16/document-print.png";
+	public static final String EDIT_COPY = "x16/edit-copy.png";
+	public static final String EDIT_CUT = "x16/edit-cut.png";
+	public static final String EDIT_PASTE = "x16/edit-paste.png";
+	public static final String EDIT_REDO = "x16/edit-redo.png";
+	public static final String EDIT_SELECT_ALL = "x16/edit-select-all.png";
+	public static final String EDIT_UNDO = "x16/edit-undo.png";
+	public static final String HELP_BROWSER = "x16/help-browser.png";
+	public static final String INTERNET_WEB_BROWSER = "x16/internet-web-browser.png";
+	public static final String PREFERENCES_DESKTOP = "x16/preferences-desktop.png";
+	public static final String PREFERENCES_SYSTEM = "x16/preferences-system.png";
+	public static final String EXIT = "x16/system-log-out.png";
+	
 	
 	// 24x24 images
 	public static final String EDIT_FIND = "x24/edit-find.png";
