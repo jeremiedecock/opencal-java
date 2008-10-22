@@ -6,11 +6,10 @@
 package org.jdhp.opencal.gui.tabs;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.StyleRange;
-import org.eclipse.swt.custom.StyledText;
+//import org.eclipse.swt.SWTError;
+import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -29,7 +28,7 @@ public class ReviewerTab {
 
 	final private Composite parentComposite;
 	
-	final private StyledText reviewerText;
+	final private Browser browser;
 	
 	final private Button rightAnswerButton;
 	
@@ -47,6 +46,8 @@ public class ReviewerTab {
 	
 	final private CardManipulator manipulator;
 	
+	final private static String CSS = "<style type=\"text/css\" media=\"all\">*{font-family : monospace, fixed; font-size : 13px; white-space : -moz-pre-wrap;} h1{font-size : 14px; font-family : verdana, sans-serif;}</style>";
+	
 	/**
 	 * 
 	 * @param parentComposite
@@ -56,26 +57,25 @@ public class ReviewerTab {
 		this.parentComposite = parentComposite;
 		this.parentComposite.setLayout(new GridLayout(2, false));
 
-		Font monoFont = new Font(this.parentComposite.getDisplay(), "mono", 10, SWT.NORMAL);
-		
 		manipulator = OpenCAL.plannedCardList.manipulator();
 		
 		///////////////////////////////////////////////////////////////////////
 		// reviewerText ///////////////////////////////////////////////////////
 		///////////////////////////////////////////////////////////////////////
 		
-		this.reviewerText = new StyledText(this.parentComposite, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.READ_ONLY | SWT.BORDER);
-		this.reviewerText.setLayoutData(new GridData(GridData.FILL_BOTH));
-		this.reviewerText.setFont(monoFont);
-		this.reviewerText.setTabs(3);
-		
+//		try {
+		this.browser = new Browser(this.parentComposite, SWT.BORDER);
+		this.browser.setLayoutData(new GridData(GridData.FILL_BOTH));
+//		} catch (SWTError e) {
+//			System.out.println("Could not instantiate Browser : " + e.getMessage());
+//			OpenCAL.exit(1);
+//		}
+	
 		Card card = manipulator.pop();
 		if(card != null) {
-			this.reviewerText.setText("QUESTION\n\n" + card.getQuestion());
-			this.reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
+			this.browser.setText("<html>" + ReviewerTab.CSS + "<body><h1>Question</h1>" + card.getQuestion() + "</body></html>");
 		} else {
-			this.reviewerText.setText("Review done");
-			this.reviewerText.setStyleRange(new StyleRange(0, 11, null, null, SWT.BOLD));
+			this.browser.setText("<html>" + ReviewerTab.CSS + "<body><center>Review done</center></body></html>");
 		}
 		
 		///////////////////////////////////////////////////////////////////////
@@ -135,7 +135,7 @@ public class ReviewerTab {
 				manipulator.pop().putReview(OpenCAL.RIGHT_ANSWER_STRING);
 				manipulator.remove();
 				
-				if(manipulator.hasPreview()) {
+				if(manipulator.hasPrevious()) {
 					previousButton.setEnabled(true);
 					firstButton.setEnabled(true);
 				} else {
@@ -154,8 +154,7 @@ public class ReviewerTab {
 				wrongAnswerButton.setEnabled(false);
 				
 				Card card = manipulator.pop();
-				reviewerText.setText("QUESTION\n\n" + card.getQuestion());
-				reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
+				browser.setText("<html>" + ReviewerTab.CSS + "<body><h1>Question</h1>" + card.getQuestion() + "</body></html>");
 				OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
 				OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
 				OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
@@ -174,7 +173,7 @@ public class ReviewerTab {
 				manipulator.pop().putReview(OpenCAL.WRONG_ANSWER_STRING);
 				manipulator.remove();
 				
-				if(manipulator.hasPreview()) {
+				if(manipulator.hasPrevious()) {
 					previousButton.setEnabled(true);
 					firstButton.setEnabled(true);
 				} else {
@@ -193,8 +192,7 @@ public class ReviewerTab {
 				wrongAnswerButton.setEnabled(false);
 
 				Card card = manipulator.pop();
-				reviewerText.setText("QUESTION\n\n" + card.getQuestion());
-				reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
+				browser.setText("<html>" + ReviewerTab.CSS + "<body><h1>Question</h1>" + card.getQuestion() + "</body></html>");
 				OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
 				OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
 				OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
@@ -214,13 +212,12 @@ public class ReviewerTab {
 			public void widgetSelected(SelectionEvent e) {
 				manipulator.first();
 				Card card = manipulator.pop();
-				reviewerText.setText("QUESTION\n\n" + card.getQuestion());
-				reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
+				browser.setText("<html>" + ReviewerTab.CSS + "<body><h1>Question</h1>" + card.getQuestion() + "</body></html>");
 				OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
 				OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
 				OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
 				
-				if(manipulator.hasPreview()) {
+				if(manipulator.hasPrevious()) {
 					previousButton.setEnabled(true);
 					firstButton.setEnabled(true);
 				} else {
@@ -246,15 +243,14 @@ public class ReviewerTab {
 		
 		previousButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				manipulator.preview();
+				manipulator.previous();
 				Card card = manipulator.pop();
-				reviewerText.setText("QUESTION\n\n" + card.getQuestion());
-				reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
+				browser.setText("<html>" + ReviewerTab.CSS + "<body><h1>Question</h1>" + card.getQuestion() + "</body></html>");
 				OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
 				OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
 				OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
 				
-				if(manipulator.hasPreview()) {
+				if(manipulator.hasPrevious()) {
 					previousButton.setEnabled(true);
 					firstButton.setEnabled(true);
 				} else {
@@ -282,15 +278,13 @@ public class ReviewerTab {
 				nextButton.setEnabled(false);
 				answerButton.setEnabled(false);
 				previousButton.setEnabled(false);
+				firstButton.setEnabled(false);
+				lastButton.setEnabled(false);
 				rightAnswerButton.setEnabled(true);
 				wrongAnswerButton.setEnabled(true);
 				
-//				reviewerText.setText("QUESTION\n\n" + OpenCAL.card.getQuestion() + "\n\nANSWER\n\n" + OpenCAL.card.getAnswer());
-				int textLength = reviewerText.getCharCount();
-				
 				Card card = manipulator.pop();
-				if(card != null) reviewerText.append("\n\nANSWER\n\n" + card.getAnswer());
-				reviewerText.setStyleRange(new StyleRange(textLength + 2, 6, null, null, SWT.BOLD));
+				browser.setText("<html>" + ReviewerTab.CSS + "<body><h1>Question</h1>" + card.getQuestion() + "<hr /><h1>Answer</h1>" + card.getAnswer() + "</body></html>");
 				if(card != null) OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
 				OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
 				OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
@@ -315,13 +309,12 @@ public class ReviewerTab {
 			public void widgetSelected(SelectionEvent e) {
 				manipulator.next();
 				Card card = manipulator.pop();
-				reviewerText.setText("QUESTION\n\n" + card.getQuestion());
-				reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
+				browser.setText("<html>" + ReviewerTab.CSS + "<body><h1>Question</h1>" + card.getQuestion() + "</body></html>");
 				OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
 				OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
 				OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
 				
-				if(manipulator.hasPreview()) {
+				if(manipulator.hasPrevious()) {
 					previousButton.setEnabled(true);
 					firstButton.setEnabled(true);
 				} else {
@@ -347,13 +340,12 @@ public class ReviewerTab {
 			public void widgetSelected(SelectionEvent e) {
 				manipulator.last();
 				Card card = manipulator.pop();
-				reviewerText.setText("QUESTION\n\n" + card.getQuestion());
-				reviewerText.setStyleRange(new StyleRange(0, 8, null, null, SWT.BOLD));
+				browser.setText("<html>" + ReviewerTab.CSS + "<body><h1>Question</h1>" + card.getQuestion() + "</body></html>");
 				OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
 				OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
 				OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
 				
-				if(manipulator.hasPreview()) {
+				if(manipulator.hasPrevious()) {
 					previousButton.setEnabled(true);
 					firstButton.setEnabled(true);
 				} else {
@@ -382,7 +374,7 @@ public class ReviewerTab {
 		OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
 		OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
 		
-//		if(manipulator.hasPreview()) {
+//		if(manipulator.hasPrevious()) {
 //			previousButton.setEnabled(true);
 //			firstButton.setEnabled(true);
 //		} else {

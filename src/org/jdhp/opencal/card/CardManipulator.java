@@ -52,8 +52,8 @@ public class CardManipulator {
 	/**
 	 * 
 	 */
-	public void preview() {
-		if(this.hasPreview()) this.cursor--;
+	public void previous() {
+		if(this.hasPrevious()) this.cursor--;
 	}
 
 
@@ -70,7 +70,7 @@ public class CardManipulator {
 	 * 
 	 * @return
 	 */
-	public boolean hasPreview() {
+	public boolean hasPrevious() {
 		if(this.cursor > 0) return true;
 		else return false;
 	}
@@ -103,14 +103,14 @@ public class CardManipulator {
 	 * 
 	 */
 	public void remove() {
-		if(this.hasNext() && this.hasPreview()) {
+		if(this.hasNext() && this.hasPrevious()) {
 			this.cardList.remove(this.cursor);
-		} else if(!this.hasNext() && this.hasPreview()) {
+		} else if(!this.hasNext() && this.hasPrevious()) {
 			this.cardList.remove(this.cursor);
 			this.cursor--;
-		} else if(this.hasNext() && !this.hasPreview()) {
+		} else if(this.hasNext() && !this.hasPrevious()) {
 			this.cardList.remove(this.cursor);
-		} else if(!this.hasNext() && !this.hasPreview()) {
+		} else if(!this.hasNext() && !this.hasPrevious()) {
 			this.cardList.remove(this.cursor);
 		}
 	}
