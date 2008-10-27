@@ -42,9 +42,17 @@ variable from something like "us.utf8" to "us".
 	<property name="doc_dir" value="${basedir}/doc" />
 	<property name="dist_dir" value="${basedir}/dist" />
 	<property name="dist_project_dir" value="${dist_dir}/opencal" />
+	
 	<property name="jar_file" value="${dist_project_dir}/opencal.jar" />
 	<property name="dist_file" value="${dist_dir}/opencal.zip" />
-	<property name="classpath" value="${class_dir}:${lib_dir}/jcommon-1.0.12.jar:${lib_dir}/junit_3.8.2.jar:${lib_dir}/org.eclipse.swt.gtk.linux.x86_3.3.2.v3347.jar:${lib_dir}/jfreechart-1.0.9.jar:${lib_dir}/org.eclipse.swt_3.3.2.v3347.jar" />
+	
+	<property name="jcommon_lib" value="jcommon-1.0.12.jar" />
+	<property name="jfreechart_lib" value="jfreechart-1.0.9.jar" />
+	<property name="junit_lib" value="junit_3.8.2.jar" />
+	<property name="swt_lib" value="org.eclipse.swt_3.3.2.v3347.jar" />
+	<property name="swt_gtk_linux_lib" value="org.eclipse.swt.gtk.linux.x86_3.3.2.v3347.jar" />
+	
+	<property name="classpath" value="${class_dir}:${lib_dir}/${jcommon_lib}:${lib_dir}/${jfreechart_lib}:${lib_dir}/${junit_lib}:${lib_dir}/${swt_lib}:${lib_dir}/${swt_gtk_linux_lib}" />
 
 	<target name="init_dist" description="Generate the dist directories">
 		<echo>Generate the dist directories</echo>
@@ -75,7 +83,7 @@ variable from something like "us.utf8" to "us".
 		<jar destfile="${jar_file}" basedir="${class_dir}">
 			<manifest>
 				<attribute name="Main-Class" value="org.jdhp.opencal.OpenCAL" />
-				<attribute name="Class-Path" value="./ ./lib/jcommon-1.0.12.jar ./lib/junit_3.8.2.jar ./lib/org.eclipse.swt.gtk.linux.x86_3.3.2.v3347.jar ./lib/jfreechart-1.0.9.jar ./lib/org.eclipse.swt_3.3.2.v3347.jar" />
+				<attribute name="Class-Path" value="./ ./lib/${jcommon_lib} ./lib/${jfreechart_lib} ./lib/${junit_lib} ./lib/${swt_lib} ./lib/${swt_gtk_linux_lib}" />
 			</manifest>
 		</jar>
 	</target>
