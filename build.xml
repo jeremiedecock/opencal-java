@@ -46,11 +46,11 @@ variable from something like "us.utf8" to "us".
 	<property name="jar_file" value="${dist_project_dir}/opencal.jar" />
 	<property name="dist_file" value="${dist_dir}/opencal.zip" />
 	
-	<property name="jcommon_lib" value="jcommon-1.0.12.jar" />
-	<property name="jfreechart_lib" value="jfreechart-1.0.9.jar" />
+	<property name="jcommon_lib" value="jcommon-1.0.14.jar" />
+	<property name="jfreechart_lib" value="jfreechart-1.0.11.jar" />
 	<property name="junit_lib" value="junit_3.8.2.jar" />
-	<property name="swt_lib" value="org.eclipse.swt_3.3.2.v3347.jar" />
-	<property name="swt_gtk_linux_lib" value="org.eclipse.swt.gtk.linux.x86_3.3.2.v3347.jar" />
+	<property name="swt_lib" value="org.eclipse.swt_3.4.1.v3449c.jar" />
+	<property name="swt_gtk_linux_lib" value="org.eclipse.swt.gtk.linux.x86_3.4.1.v3449c.jar" />
 	
 	<property name="classpath" value="${class_dir}:${lib_dir}/${jcommon_lib}:${lib_dir}/${jfreechart_lib}:${lib_dir}/${junit_lib}:${lib_dir}/${swt_lib}:${lib_dir}/${swt_gtk_linux_lib}" />
 
