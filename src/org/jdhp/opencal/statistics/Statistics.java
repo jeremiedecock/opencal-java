@@ -49,6 +49,7 @@ public class Statistics {
 			Date date = (Date) cardCreationStats.firstKey().clone();
 			Date today = new Date();
 			
+			// TODO : le bug sur le passage à l'heure d'hivers vient d'ici !!!
 			while(date.before(today)) {
 				if(!cardCreationStats.containsKey(date)) cardCreationStats.put((Date) date.clone(), new Integer(0));
 				date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
@@ -87,6 +88,7 @@ public class Statistics {
 			Date date = (Date) revisionStats.firstKey().clone();
 			Date today = new Date();
 			
+			// TODO : le bug sur le passage à l'heure d'hivers vient d'ici !!!
 			while(date.before(today)) {
 				if(!revisionStats.containsKey(date)) revisionStats.put((Date) date.clone(), new Integer(0));
 				date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
