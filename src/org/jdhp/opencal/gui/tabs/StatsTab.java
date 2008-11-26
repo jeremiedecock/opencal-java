@@ -68,7 +68,7 @@ public class StatsTab {
 			Map.Entry entry = (Map.Entry) it.next();
 			Date date = (Date) entry.getKey();
 			Integer value = (Integer) entry.getValue();
-			s1.add(new Day(date), value);
+			s1.addOrUpdate(new Day(date), value);
 		}
 
 		TimeSeries s2 = new TimeSeries("Revision per day", Day.class);
@@ -79,7 +79,7 @@ public class StatsTab {
 			Map.Entry entry = (Map.Entry) it.next();
 			Date date = (Date) entry.getKey();
 			Integer value = (Integer) entry.getValue();
-			s2.add(new Day(date), value);
+			s2.addOrUpdate(new Day(date), value);
 		}
 
 		this.dataset = new TimeSeriesCollection();
@@ -134,7 +134,7 @@ public class StatsTab {
 			Map.Entry entry = (Map.Entry) it.next();
 			Date date = (Date) entry.getKey();
 			Integer value = (Integer) entry.getValue();
-			s1.add(new Day(date), value);
+			s1.addOrUpdate(new Day(date), value);
 		}
 
 		TimeSeries s2 = new TimeSeries("Revision per day", Day.class);
@@ -145,7 +145,7 @@ public class StatsTab {
 			Map.Entry entry = (Map.Entry) it.next();
 			Date date = (Date) entry.getKey();
 			Integer value = (Integer) entry.getValue();
-			s2.add(new Day(date), value);
+			s2.addOrUpdate(new Day(date), value);
 		}
 
 		this.dataset.removeAllSeries();
