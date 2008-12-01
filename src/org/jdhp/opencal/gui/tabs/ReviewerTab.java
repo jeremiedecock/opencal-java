@@ -406,7 +406,7 @@ public class ReviewerTab {
 		html = html.replaceAll(">", "&gt;");
 		
 		// Rétabli l'interprétation pour les balises images
-		String pattern = "&lt;(img src=\"file:///home/gremy/Desktop/opencal_materials/[0-9abcdef]{32}.png\" /)&gt;";
+		String pattern = "&lt;(img src=\"file:///home/gremy/Desktop/opencal_materials/[0-9abcdef]{32}.(png|jpg|jpeg)\" /)&gt;";
 		Pattern regPat = Pattern.compile(pattern);
 		Matcher matcher = regPat.matcher(html);
 		html = matcher.replaceAll("<$1>");
