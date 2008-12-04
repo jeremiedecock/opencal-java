@@ -29,7 +29,7 @@ import org.jdhp.opencal.gui.images.SharedImages;
  */
 public class ExplorerTab {
 
-	final private String[] displayModes = {"All Cards", "Reviewed Cards", "New Cards", "Suspended Cards"};
+	final private String[] displayModes = {"All Cards", "Reviewed Cards", "New Cards", "Suspended Cards", "Cards By Tag"};
 	
 	final private static int ALL_CARDS = 0;
 	
@@ -39,11 +39,15 @@ public class ExplorerTab {
 	
 	final private static int SUSPENDED_CARDS = 3;
 	
+	final private static int CARDS_BY_TAG = 4;
+	
 	private static int currentDisplayMode; // pas très propre de mettre ça en static ?
 	
 	final private Composite parentComposite;
 	
 	final private List cardsList;
+	
+	final private Combo tagSelectionCombo;
 	
 	final private Combo displayModeCombo;
 	
@@ -87,6 +91,14 @@ public class ExplorerTab {
 		cardsList.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
 		cardsList.setItems(new String[0]);
+		
+		// tagSelectionCombo ////////////
+		tagSelectionCombo = new Combo(cardSelectionComposite, SWT.BORDER | SWT.READ_ONLY);
+		tagSelectionCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		
+		tagSelectionCombo.setItems(OpenCAL.cardByTagList.tagList());
+		tagSelectionCombo.select(0); // TODO
+		tagSelectionCombo.setEnabled(false);
 		
 		///////////////////////////////////////////////////////////////////////
 		// EditionCardComposite ///////////////////////////////////////////////
@@ -191,10 +203,17 @@ public class ExplorerTab {
 						OpenCAL.suspendedCardList.get(cardsList.getSelectionIndex()).setAnswer(answerText.getText());
 						OpenCAL.suspendedCardList.get(cardsList.getSelectionIndex()).setTags(tagsText.getText().split("\n"));
 						break;
+					case ExplorerTab.CARDS_BY_TAG :
+						OpenCAL.cardByTagList.get(cardsList.getSelectionIndex()).setQuestion(questionText.getText());
+						OpenCAL.cardByTagList.get(cardsList.getSelectionIndex()).setAnswer(answerText.getText());
+						OpenCAL.cardByTagList.get(cardsList.getSelectionIndex()).setTags(tagsText.getText().split("\n"));
+						break;
 				}
 				
 				saveButton.setEnabled(false);
 				cancelButton.setEnabled(false);
+				
+				update();
 			}
 		});
 		
@@ -228,6 +247,11 @@ public class ExplorerTab {
 						answerText.setText(OpenCAL.suspendedCardList.get(cardsList.getSelectionIndex()).getAnswer());
 						tagsText.setText(OpenCAL.suspendedCardList.get(cardsList.getSelectionIndex()).getTagsString());
 						break;
+					case ExplorerTab.CARDS_BY_TAG :
+						questionText.setText(OpenCAL.cardByTagList.get(cardsList.getSelectionIndex()).getQuestion());
+						answerText.setText(OpenCAL.cardByTagList.get(cardsList.getSelectionIndex()).getAnswer());
+						tagsText.setText(OpenCAL.cardByTagList.get(cardsList.getSelectionIndex()).getTagsString());
+						break;
 				}
 				
 				saveButton.setEnabled(false);
@@ -245,15 +269,25 @@ public class ExplorerTab {
 				switch(displayModeCombo.getSelectionIndex()) {
 					case ExplorerTab.ALL_CARDS :
 						cardsList.setItems(OpenCAL.allCardList.getQuestionStrings());
+						tagSelectionCombo.setEnabled(false);
 						break;
 					case ExplorerTab.REVIEWED_CARDS : 
 						cardsList.setItems(OpenCAL.reviewedCardList.getQuestionStrings());
+						tagSelectionCombo.setEnabled(false);
 						break;
 					case ExplorerTab.NEW_CARDS :
 						cardsList.setItems(OpenCAL.newCardList.getQuestionStrings());
+						tagSelectionCombo.setEnabled(false);
 						break;
 					case ExplorerTab.SUSPENDED_CARDS :
 						cardsList.setItems(OpenCAL.suspendedCardList.getQuestionStrings());
+						tagSelectionCombo.setEnabled(false);
+						break;
+					case ExplorerTab.CARDS_BY_TAG :
+						cardsList.setItems(OpenCAL.cardByTagList.getQuestionStrings());
+						tagSelectionCombo.setItems(OpenCAL.cardByTagList.tagList());
+						tagSelectionCombo.select(0); // TODO
+						tagSelectionCombo.setEnabled(true);
 						break;
 				}
 			}
@@ -283,10 +317,23 @@ public class ExplorerTab {
 						answerText.setText(OpenCAL.suspendedCardList.get(cardsList.getSelectionIndex()).getAnswer());
 						tagsText.setText(OpenCAL.suspendedCardList.get(cardsList.getSelectionIndex()).getTagsString());
 						break;
+					case ExplorerTab.CARDS_BY_TAG :
+						questionText.setText(OpenCAL.cardByTagList.get(cardsList.getSelectionIndex()).getQuestion());
+						answerText.setText(OpenCAL.cardByTagList.get(cardsList.getSelectionIndex()).getAnswer());
+						tagsText.setText(OpenCAL.cardByTagList.get(cardsList.getSelectionIndex()).getTagsString());
+						break;
 				}
 				
 				saveButton.setEnabled(false);
 				cancelButton.setEnabled(false);
+			}
+		});
+		
+		// tagSelectionComboListener ////////////
+		tagSelectionCombo.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				OpenCAL.cardByTagList.setCurrentTag(tagSelectionCombo.getText());
+				update();
 			}
 		});
 	}
@@ -294,7 +341,7 @@ public class ExplorerTab {
 	/**
 	 * 
 	 */
-	public void update() {
+	final public void update() {
 		OpenCAL.mainWindow.setStatusLabel1("", "");
 		OpenCAL.mainWindow.setStatusLabel2("", "");
 		OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
@@ -312,6 +359,11 @@ public class ExplorerTab {
 				break;
 			case ExplorerTab.SUSPENDED_CARDS :
 				cardsList.setItems(OpenCAL.suspendedCardList.getQuestionStrings());
+				break;
+			case ExplorerTab.CARDS_BY_TAG :
+				cardsList.setItems(OpenCAL.cardByTagList.getQuestionStrings());
+				tagSelectionCombo.setItems(OpenCAL.cardByTagList.tagList());
+				tagSelectionCombo.select(0); // TODO
 				break;
 		}
 	}

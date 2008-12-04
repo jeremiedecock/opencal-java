@@ -24,6 +24,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.jdhp.opencal.card.lists.AllCardList;
+import org.jdhp.opencal.card.lists.CardByTagList;
 import org.jdhp.opencal.card.lists.NewCardList;
 import org.jdhp.opencal.card.lists.PlannedCardList;
 import org.jdhp.opencal.card.lists.ReviewedCardList;
@@ -72,6 +73,8 @@ public class OpenCAL {
 	public static NewCardList newCardList;
 	
 	public static SuspendedCardList suspendedCardList;
+	
+	public static CardByTagList cardByTagList;
 	
 	private static Inspector inspector;
 	
@@ -187,6 +190,7 @@ public class OpenCAL {
 			OpenCAL.reviewedCardList = new ReviewedCardList();
 			OpenCAL.newCardList = new NewCardList();
 			OpenCAL.suspendedCardList = new SuspendedCardList();
+			OpenCAL.cardByTagList = new CardByTagList();
 			
 		} catch(SAXException e) {
 			OpenCAL.mainWindow.printError(OpenCAL.getDefaultPkbFilePath() + " n'est pas valide (SAXException)");
