@@ -369,6 +369,19 @@ public class MainWindow {
 	}
 	
 	/**
+	 * TODO : charger le fichier CSS depuis "css/source"
+	 * 
+	 * @param source
+	 * @return
+	 */
+	public static String loadCSS(String source) {
+		//String css = MainWindow.class.getResourceAsStream("css/" + source);
+		String css = "<style type=\"text/css\" media=\"all\">*{font-family : monospace, fixed; font-size : 13px; white-space : -moz-pre-wrap;} h1{font-size : 14px; font-family : verdana, sans-serif;}</style>";
+		
+		return css;
+	}
+	
+	/**
 	 * 
 	 */
 	public void run() {

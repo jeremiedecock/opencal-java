@@ -1,0 +1,10 @@
+* {
+	font-family : monospace,fixed;
+	font-size : 13px;
+	white-space : -moz-pre-wrap;
+}
+
+h1 {
+	font-size : 14px;
+	font-family : verdana, sans-serif;
+}
