@@ -5,6 +5,9 @@
 
 package org.jdhp.opencal.gui.tabs;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -268,23 +271,23 @@ public class ExplorerTab {
 			public void widgetSelected(SelectionEvent e) {
 				switch(displayModeCombo.getSelectionIndex()) {
 					case ExplorerTab.ALL_CARDS :
-						cardsList.setItems(OpenCAL.allCardList.getQuestionStrings());
+						cardsList.setItems(filter(OpenCAL.allCardList.getQuestionStrings()));
 						tagSelectionCombo.setEnabled(false);
 						break;
 					case ExplorerTab.REVIEWED_CARDS : 
-						cardsList.setItems(OpenCAL.reviewedCardList.getQuestionStrings());
+						cardsList.setItems(filter(OpenCAL.reviewedCardList.getQuestionStrings()));
 						tagSelectionCombo.setEnabled(false);
 						break;
 					case ExplorerTab.NEW_CARDS :
-						cardsList.setItems(OpenCAL.newCardList.getQuestionStrings());
+						cardsList.setItems(filter(OpenCAL.newCardList.getQuestionStrings()));
 						tagSelectionCombo.setEnabled(false);
 						break;
 					case ExplorerTab.SUSPENDED_CARDS :
-						cardsList.setItems(OpenCAL.suspendedCardList.getQuestionStrings());
+						cardsList.setItems(filter(OpenCAL.suspendedCardList.getQuestionStrings()));
 						tagSelectionCombo.setEnabled(false);
 						break;
 					case ExplorerTab.CARDS_BY_TAG :
-						cardsList.setItems(OpenCAL.cardByTagList.getQuestionStrings());
+						cardsList.setItems(filter(OpenCAL.cardByTagList.getQuestionStrings()));
 						tagSelectionCombo.setItems(OpenCAL.cardByTagList.tagList());
 						tagSelectionCombo.select(0); // TODO
 						tagSelectionCombo.setEnabled(true);
@@ -340,6 +343,26 @@ public class ExplorerTab {
 	
 	/**
 	 * 
+	 * @param text
+	 * @return
+	 */
+	final private String[] filter(String[] text) {
+		for(int i=0 ; i<text.length ; i++) {
+			// Supprime les balises images
+			String pattern = "<img src=\"file:///home/gremy/Desktop/opencal_materials/[0-9abcdef]{32}.(png|jpg|jpeg)\" />";
+			Pattern regPat = Pattern.compile(pattern);
+			Matcher matcher = regPat.matcher(text[i]);
+			text[i] = matcher.replaceAll("[img]");
+			
+			// Ne conserve que la première ligne
+			text[i] = text[i].split("\n")[0];
+		}
+		
+		return text;
+	}
+	
+	/**
+	 * 
 	 */
 	final public void update() {
 		OpenCAL.mainWindow.setStatusLabel1("", "");
@@ -349,19 +372,19 @@ public class ExplorerTab {
 		
 		switch(displayModeCombo.getSelectionIndex()) {
 			case ExplorerTab.ALL_CARDS :
-				cardsList.setItems(OpenCAL.allCardList.getQuestionStrings());
+				cardsList.setItems(filter(OpenCAL.allCardList.getQuestionStrings()));
 				break;
 			case ExplorerTab.REVIEWED_CARDS : 
-				cardsList.setItems(OpenCAL.reviewedCardList.getQuestionStrings());
+				cardsList.setItems(filter(OpenCAL.reviewedCardList.getQuestionStrings()));
 				break;
 			case ExplorerTab.NEW_CARDS :
-				cardsList.setItems(OpenCAL.newCardList.getQuestionStrings());
+				cardsList.setItems(filter(OpenCAL.newCardList.getQuestionStrings()));
 				break;
 			case ExplorerTab.SUSPENDED_CARDS :
-				cardsList.setItems(OpenCAL.suspendedCardList.getQuestionStrings());
+				cardsList.setItems(filter(OpenCAL.suspendedCardList.getQuestionStrings()));
 				break;
 			case ExplorerTab.CARDS_BY_TAG :
-				cardsList.setItems(OpenCAL.cardByTagList.getQuestionStrings());
+				cardsList.setItems(filter(OpenCAL.cardByTagList.getQuestionStrings()));
 				tagSelectionCombo.setItems(OpenCAL.cardByTagList.tagList());
 				tagSelectionCombo.select(0); // TODO
 				break;
