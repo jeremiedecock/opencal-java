@@ -225,6 +225,7 @@ public class ExplorerTab {
 		cancelButton.setLayoutData(new GridData(GridData.FILL_VERTICAL));
 		cancelButton.setEnabled(false);
 		cancelButton.setText("Cancel");
+		cancelButton.setImage(SharedImages.getImage(SharedImages.EDIT_CLEAR));
 		cancelButton.setToolTipText("Cancel modification for this card");
 		
 		cancelButton.addSelectionListener(new SelectionAdapter() {

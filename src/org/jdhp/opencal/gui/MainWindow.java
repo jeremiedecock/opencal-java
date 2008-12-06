@@ -220,15 +220,15 @@ public class MainWindow {
 		this.tabItemExplore = new TabItem(tabFolder, SWT.NONE);
 		this.tabItemStat = new TabItem(tabFolder, SWT.NONE);
 		
-		tabItemMake.setText("Make");
-		tabItemReview.setText("Review");
+		tabItemMake.setText("Add");
+		tabItemReview.setText("Check");
 		tabItemExplore.setText("Explore");
-		tabItemStat.setText("Statistics");
+		tabItemStat.setText("Monitor");
 		
-		tabItemMake.setToolTipText("Make Cards");
-		tabItemReview.setToolTipText("Review Cards");
+		tabItemMake.setToolTipText("Add Knowledge");
+		tabItemReview.setToolTipText("Check Knowledge");
 		tabItemExplore.setToolTipText("Explore Knowledge Base");
-		tabItemStat.setToolTipText("Look Use Statistics");
+		tabItemStat.setToolTipText("Statistics");
 		
 		Composite makeCardComposite = new Composite(tabFolder, SWT.NONE);
 		Composite reviewerComposite = new Composite(tabFolder, SWT.NONE);

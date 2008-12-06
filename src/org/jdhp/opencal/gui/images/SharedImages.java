@@ -24,6 +24,7 @@ public class SharedImages {
 	
 	
 	// 24x24 images
+	public static final String EDIT_CLEAR = "x24/edit-clear.png";
 	public static final String EDIT_FIND = "x24/edit-find.png";
 	public static final String FACE_SAD = "x24/face-sad.png";
 	public static final String FACE_SMILE = "x24/face-smile.png";

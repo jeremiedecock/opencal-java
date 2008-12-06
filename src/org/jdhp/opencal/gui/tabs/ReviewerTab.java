@@ -128,7 +128,7 @@ public class ReviewerTab {
 		// rightAnswerButton /////////////
 		rightAnswerButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		rightAnswerButton.setEnabled(false);
-		rightAnswerButton.setText("Correct");
+		rightAnswerButton.setText("Right");
 		rightAnswerButton.setImage(SharedImages.getImage(SharedImages.FACE_SMILE));
 		rightAnswerButton.setToolTipText("Right answer");
 		
