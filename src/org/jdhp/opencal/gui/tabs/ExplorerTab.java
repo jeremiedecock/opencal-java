@@ -88,12 +88,6 @@ public class ExplorerTab {
 		displayModeCombo.setItems(displayModes);
 		displayModeCombo.select(ExplorerTab.DEFAULT_DISPLAY_MODE);
 		
-		// cardsList ////////////
-		cardsList = new List(cardSelectionComposite, SWT.BORDER | SWT.V_SCROLL);
-		cardsList.setLayoutData(new GridData(GridData.FILL_BOTH));
-		
-		cardsList.setItems(new String[0]);
-		
 		// tagSelectionCombo ////////////
 		tagSelectionCombo = new Combo(cardSelectionComposite, SWT.BORDER | SWT.READ_ONLY);
 		tagSelectionCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -101,6 +95,12 @@ public class ExplorerTab {
 		tagSelectionCombo.setItems(OpenCAL.cardByTagList.tagList());
 		tagSelectionCombo.select(0); // TODO
 		tagSelectionCombo.setEnabled(false);
+		
+		// cardsList ////////////
+		cardsList = new List(cardSelectionComposite, SWT.BORDER | SWT.V_SCROLL);
+		cardsList.setLayoutData(new GridData(GridData.FILL_BOTH));
+		
+		cardsList.setItems(new String[0]);
 		
 		///////////////////////////////////////////////////////////////////////
 		// EditionCardComposite ///////////////////////////////////////////////
