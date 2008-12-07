@@ -24,7 +24,6 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Text;
 import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.card.Card;
-import org.jdhp.opencal.card.CardList;
 import org.jdhp.opencal.gui.images.SharedImages;
 
 /**
@@ -193,7 +192,7 @@ public class ExplorerTab {
 				cancelButton.setEnabled(false);
 				
 				updateTagCombo();
-				updateCardList();
+				updateCardList(false);
 			}
 		});
 		
@@ -226,18 +225,14 @@ public class ExplorerTab {
 						tagSelectionCombo.setEnabled(false);
 				}
 				
-				updateCardList();
-				initListIndex();
-				updateTextAreaStatus();
+				updateCardList(true);
 			}
 		});
 		
 		// cardsListListener ////////////
 		cardsList.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				System.out.println("SELECT");
 				updateTextArea();
-				updateTextAreaStatus();
 			}
 		});
 		
@@ -246,9 +241,7 @@ public class ExplorerTab {
 			public void widgetSelected(SelectionEvent e) {
 				OpenCAL.cardByTagList.setCurrentTag(tagSelectionCombo.getText());
 				
-				updateCardList();
-				initListIndex();
-				updateTextAreaStatus();
+				updateCardList(true);
 			}
 		});
 	}
@@ -286,15 +279,6 @@ public class ExplorerTab {
 	 */
 	final private int getCurrentMode() {
 		return displayModeCombo.getSelectionIndex();
-	}
-	
-	
-	
-	
-	final private void initListIndex() {
-		System.out.println("Call initListIndex");
-		if(cardsList.getItemCount() > 0) cardsList.select(0);
-		updateTextArea();
 	}
 	
 	
@@ -346,7 +330,7 @@ public class ExplorerTab {
 	 * TODO : Mieux gérer l'ajout et la supression de tags !
 	 */
 	final private void updateTagCombo() {
-		System.out.println("Call updateTagCombo");
+//		System.out.println("Call updateTagCombo");
 		int previousIndex = tagSelectionCombo.getSelectionIndex();
 		
 		tagSelectionCombo.setItems(OpenCAL.cardByTagList.tagList());
@@ -363,9 +347,12 @@ public class ExplorerTab {
 	 * 
 	 * TODO : Mieux gérer l'ajout et la supression de d'items !
 	 */
-	final private void updateCardList() {
-		System.out.println("Call updateCardList");
-		int previousIndex = cardsList.getSelectionIndex();
+	final private void updateCardList(Boolean init) {
+//		System.out.println("Call updateCardList");
+		
+		int previousIndex = 0;
+			
+		if(!init) previousIndex = cardsList.getSelectionIndex();
 		
 		switch(getCurrentMode()) {
 			case ExplorerTab.ALL_CARDS :
@@ -385,11 +372,14 @@ public class ExplorerTab {
 				break;
 		}
 		
-		if(cardsList.getItemCount() > previousIndex) cardsList.select(previousIndex);
-		else if(cardsList.getItemCount() > 0) cardsList.select(cardsList.getItemCount() - 1);
+		if(init) {
+			if(cardsList.getItemCount() > 0) cardsList.select(0);
+		} else {
+			if(cardsList.getItemCount() > previousIndex) cardsList.select(previousIndex);
+			else if(cardsList.getItemCount() > 0) cardsList.select(cardsList.getItemCount() - 1);
+		}
 		
 		updateTextArea();
-		updateTextAreaStatus();
 	}
 	
 	
@@ -399,7 +389,7 @@ public class ExplorerTab {
 	 * 
 	 */
 	final private void updateTextArea() {
-		System.out.println("Call updateTextArea");
+//		System.out.println("Call updateTextArea");
 		Card selectedCard = getSelectedCard();
 		
 		if(selectedCard != null) {
@@ -414,6 +404,8 @@ public class ExplorerTab {
 		
 		saveButton.setEnabled(false);
 		cancelButton.setEnabled(false);
+		
+		updateTextAreaStatus();
 	}
 	
 	
@@ -423,7 +415,7 @@ public class ExplorerTab {
 	 * Si la liste est vide, les textArea ne sont plus éditables
 	 */
 	final private void updateTextAreaStatus() {
-		System.out.println("Call updateTextAreaStatus");
+//		System.out.println("Call updateTextAreaStatus");
 		if(getSelectedCard() != null) {
 //			System.out.println("Not null");
 			questionText.setEditable(true);
@@ -444,13 +436,13 @@ public class ExplorerTab {
 	 * La mise à jours faite lors de la sélection du tab "ExplorerTab"
 	 */
 	final public void update() {
-		System.out.println("Call update");
+//		System.out.println("Call update");
 		OpenCAL.mainWindow.setStatusLabel1("", "");
 		OpenCAL.mainWindow.setStatusLabel2("", "");
 		OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
 		OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
 		
 		updateTagCombo();
-		updateCardList();
+		updateCardList(false);
 	}
 }
