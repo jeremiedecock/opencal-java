@@ -5,7 +5,6 @@
 
 package org.jdhp.opencal.card.lists;
 
-import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.jdhp.opencal.OpenCAL;
@@ -26,6 +25,9 @@ public class CardByTagList extends CardList {
 	
 	private String currentTag;
 
+	/**
+	 * 
+	 */
 	public CardByTagList() {
 		super();
 		
@@ -38,6 +40,10 @@ public class CardByTagList extends CardList {
 		}
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public String[] tagList() {
 		TreeSet<String> tagSet = new TreeSet<String>();
 		
@@ -52,15 +58,26 @@ public class CardByTagList extends CardList {
 		return tagSet.toArray(tagsArray);
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public String getCurrentTag() {
 		return this.currentTag;
 	}
 	
+	/**
+	 * 
+	 * @param tagName
+	 */
 	public void setCurrentTag(String tagName) {
 		this.currentTag = tagName;
 		this.updateList();
 	}
 	
+	/**
+	 * 
+	 */
 	private void updateList() {
 		this.clear();
 		

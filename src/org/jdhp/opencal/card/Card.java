@@ -102,9 +102,15 @@ public class Card {
 	 * @return
 	 */
 	public String getQuestion() {
+		String question = "";
+		
 		NodeList nodeCards = this.element.getElementsByTagName("question");
-		Element questionElement = (Element) nodeCards.item(0);
-		return questionElement.getTextContent(); // TODO : ???
+		if(nodeCards.getLength() != 0) {
+			Element questionElement = (Element) nodeCards.item(0);
+			question = questionElement.getTextContent();
+		}
+		
+		return question;
 	}
 	
 	/**
@@ -112,9 +118,15 @@ public class Card {
 	 * @return
 	 */
 	public String getAnswer() {
+		String answer = "";
+		
 		NodeList nodeCards = this.element.getElementsByTagName("answer");
-		Element answerElement = (Element) nodeCards.item(0);
-		return answerElement.getTextContent(); // TODO : ???
+		if(nodeCards.getLength() != 0) {
+			Element answerElement = (Element) nodeCards.item(0);
+			answer = answerElement.getTextContent();
+		}
+		
+		return answer;
 	}
 	
 	/**
