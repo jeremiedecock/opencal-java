@@ -49,7 +49,14 @@ public class Statistics {
 			Date date = (Date) cardCreationStats.firstKey().clone();
 			Date today = new Date();
 			
+			GregorianCalendar buggyDay = new GregorianCalendar(2008, GregorianCalendar.OCTOBER, 26);
+			
 			// TODO : le bug sur le passage à l'heure d'hivers vient d'ici !!!
+			while(date.before(buggyDay.getTime())) {
+				if(!cardCreationStats.containsKey(date)) cardCreationStats.put((Date) date.clone(), new Integer(0));
+				date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+			}
+			date.setTime(date.getTime() + (60 * 60 * 1000)); // décale date d'une heure pour contourner le bug...
 			while(date.before(today)) {
 				if(!cardCreationStats.containsKey(date)) cardCreationStats.put((Date) date.clone(), new Integer(0));
 				date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
@@ -88,7 +95,14 @@ public class Statistics {
 			Date date = (Date) revisionStats.firstKey().clone();
 			Date today = new Date();
 			
+			GregorianCalendar buggyDay = new GregorianCalendar(2008, GregorianCalendar.OCTOBER, 26);
+				
 			// TODO : le bug sur le passage à l'heure d'hivers vient d'ici !!!
+			while(date.before(buggyDay.getTime())) {
+				if(!revisionStats.containsKey(date)) revisionStats.put((Date) date.clone(), new Integer(0));
+				date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
+			}
+			date.setTime(date.getTime() + (60 * 60 * 1000)); // décale date d'une heure pour contourner le bug...
 			while(date.before(today)) {
 				if(!revisionStats.containsKey(date)) revisionStats.put((Date) date.clone(), new Integer(0));
 				date.setTime(date.getTime() + (24 * 60 * 60 * 1000));
