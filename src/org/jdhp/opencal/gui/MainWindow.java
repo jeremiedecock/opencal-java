@@ -75,7 +75,7 @@ public class MainWindow {
 		
 		this.shell.setText(OpenCAL.PROGRAM_NAME + " " + OpenCAL.PROGRAM_VERSION + " - " + OpenCAL.getPkbFile().getAbsolutePath());
 		this.shell.setMinimumSize(400, 350);
-		this.shell.setSize (640, 480);
+		this.shell.setSize(640, 480);
 		
 		// Center the main shell on the primary monitor
         Monitor primary = MainWindow.DISPLAY.getPrimaryMonitor();
@@ -390,6 +390,7 @@ public class MainWindow {
 		
 		// Main loop
 		this.shell.open();
+//		this.shell.setMaximized(true);
 		
 		while(!this.shell.isDisposed()) {
 			if(!MainWindow.DISPLAY.readAndDispatch()) MainWindow.DISPLAY.sleep();
