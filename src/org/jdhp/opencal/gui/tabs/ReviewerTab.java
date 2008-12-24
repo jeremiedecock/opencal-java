@@ -20,6 +20,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.card.Card;
 import org.jdhp.opencal.card.CardManipulator;
+import org.jdhp.opencal.gui.CheckPanelHotKeys;
 import org.jdhp.opencal.gui.MainWindow;
 import org.jdhp.opencal.gui.images.SharedImages;
 
@@ -134,32 +135,34 @@ public class ReviewerTab {
 		
 		rightAnswerButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				manipulator.pop().putReview(OpenCAL.RIGHT_ANSWER_STRING);
-				manipulator.remove();
-				
-				if(manipulator.hasPrevious()) {
-					previousButton.setEnabled(true);
-					firstButton.setEnabled(true);
-				} else {
-					previousButton.setEnabled(false);
-					firstButton.setEnabled(false);
+				if(rightAnswerButton.getEnabled()) {
+					manipulator.pop().putReview(OpenCAL.RIGHT_ANSWER_STRING);
+					manipulator.remove();
+					
+					if(manipulator.hasPrevious()) {
+						previousButton.setEnabled(true);
+						firstButton.setEnabled(true);
+					} else {
+						previousButton.setEnabled(false);
+						firstButton.setEnabled(false);
+					}
+					if(manipulator.hasNext()) {
+						nextButton.setEnabled(true);
+						lastButton.setEnabled(true);
+					} else {
+						nextButton.setEnabled(false);
+						lastButton.setEnabled(false);
+					}
+					answerButton.setEnabled(true);
+					rightAnswerButton.setEnabled(false);
+					wrongAnswerButton.setEnabled(false);
+					
+					Card card = manipulator.pop();
+					browser.setText(htmlOut(card.getQuestion(), null));
+					OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
+					OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
+					OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
 				}
-				if(manipulator.hasNext()) {
-					nextButton.setEnabled(true);
-					lastButton.setEnabled(true);
-				} else {
-					nextButton.setEnabled(false);
-					lastButton.setEnabled(false);
-				}
-				answerButton.setEnabled(true);
-				rightAnswerButton.setEnabled(false);
-				wrongAnswerButton.setEnabled(false);
-				
-				Card card = manipulator.pop();
-				browser.setText(htmlOut(card.getQuestion(), null));
-				OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
-				OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
-				OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
 			}
 		});
 		
@@ -172,32 +175,34 @@ public class ReviewerTab {
 		
 		wrongAnswerButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				manipulator.pop().putReview(OpenCAL.WRONG_ANSWER_STRING);
-				manipulator.remove();
-				
-				if(manipulator.hasPrevious()) {
-					previousButton.setEnabled(true);
-					firstButton.setEnabled(true);
-				} else {
-					previousButton.setEnabled(false);
-					firstButton.setEnabled(false);
+				if(wrongAnswerButton.getEnabled()) {
+					manipulator.pop().putReview(OpenCAL.WRONG_ANSWER_STRING);
+					manipulator.remove();
+					
+					if(manipulator.hasPrevious()) {
+						previousButton.setEnabled(true);
+						firstButton.setEnabled(true);
+					} else {
+						previousButton.setEnabled(false);
+						firstButton.setEnabled(false);
+					}
+					if(manipulator.hasNext()) {
+						nextButton.setEnabled(true);
+						lastButton.setEnabled(true);
+					} else {
+						nextButton.setEnabled(false);
+						lastButton.setEnabled(false);
+					}
+					answerButton.setEnabled(true);
+					rightAnswerButton.setEnabled(false);
+					wrongAnswerButton.setEnabled(false);
+	
+					Card card = manipulator.pop();
+					browser.setText(htmlOut(card.getQuestion(), null));
+					OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
+					OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
+					OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
 				}
-				if(manipulator.hasNext()) {
-					nextButton.setEnabled(true);
-					lastButton.setEnabled(true);
-				} else {
-					nextButton.setEnabled(false);
-					lastButton.setEnabled(false);
-				}
-				answerButton.setEnabled(true);
-				rightAnswerButton.setEnabled(false);
-				wrongAnswerButton.setEnabled(false);
-
-				Card card = manipulator.pop();
-				browser.setText(htmlOut(card.getQuestion(), null));
-				OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
-				OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
-				OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
 			}
 		});
 		
@@ -212,26 +217,28 @@ public class ReviewerTab {
 		
 		firstButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				manipulator.first();
-				Card card = manipulator.pop();
-				browser.setText(htmlOut(card.getQuestion(), null));
-				OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
-				OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
-				OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
-				
-				if(manipulator.hasPrevious()) {
-					previousButton.setEnabled(true);
-					firstButton.setEnabled(true);
-				} else {
-					previousButton.setEnabled(false);
-					firstButton.setEnabled(false);
-				}
-				if(manipulator.hasNext()) {
-					nextButton.setEnabled(true);
-					lastButton.setEnabled(true);
-				} else {
-					nextButton.setEnabled(false);
-					lastButton.setEnabled(false);
+				if(firstButton.getEnabled()) {
+					manipulator.first();
+					Card card = manipulator.pop();
+					browser.setText(htmlOut(card.getQuestion(), null));
+					OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
+					OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
+					OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
+					
+					if(manipulator.hasPrevious()) {
+						previousButton.setEnabled(true);
+						firstButton.setEnabled(true);
+					} else {
+						previousButton.setEnabled(false);
+						firstButton.setEnabled(false);
+					}
+					if(manipulator.hasNext()) {
+						nextButton.setEnabled(true);
+						lastButton.setEnabled(true);
+					} else {
+						nextButton.setEnabled(false);
+						lastButton.setEnabled(false);
+					}
 				}
 			}
 		});
@@ -245,26 +252,28 @@ public class ReviewerTab {
 		
 		previousButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				manipulator.previous();
-				Card card = manipulator.pop();
-				browser.setText(htmlOut(card.getQuestion(), null));
-				OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
-				OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
-				OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
-				
-				if(manipulator.hasPrevious()) {
-					previousButton.setEnabled(true);
-					firstButton.setEnabled(true);
-				} else {
-					previousButton.setEnabled(false);
-					firstButton.setEnabled(false);
-				}
-				if(manipulator.hasNext()) {
-					nextButton.setEnabled(true);
-					lastButton.setEnabled(true);
-				} else {
-					nextButton.setEnabled(false);
-					lastButton.setEnabled(false);
+				if(previousButton.getEnabled()) {
+					manipulator.previous();
+					Card card = manipulator.pop();
+					browser.setText(htmlOut(card.getQuestion(), null));
+					OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
+					OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
+					OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
+					
+					if(manipulator.hasPrevious()) {
+						previousButton.setEnabled(true);
+						firstButton.setEnabled(true);
+					} else {
+						previousButton.setEnabled(false);
+						firstButton.setEnabled(false);
+					}
+					if(manipulator.hasNext()) {
+						nextButton.setEnabled(true);
+						lastButton.setEnabled(true);
+					} else {
+						nextButton.setEnabled(false);
+						lastButton.setEnabled(false);
+					}
 				}
 			}
 		});
@@ -277,19 +286,21 @@ public class ReviewerTab {
 		
 		answerButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				nextButton.setEnabled(false);
-				answerButton.setEnabled(false);
-				previousButton.setEnabled(false);
-				firstButton.setEnabled(false);
-				lastButton.setEnabled(false);
-				rightAnswerButton.setEnabled(true);
-				wrongAnswerButton.setEnabled(true);
-				
-				Card card = manipulator.pop();
-				browser.setText(htmlOut(card.getQuestion(), card.getAnswer()));
-				if(card != null) OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
-				OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
-				OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
+				if(answerButton.getEnabled()) {
+					nextButton.setEnabled(false);
+					answerButton.setEnabled(false);
+					previousButton.setEnabled(false);
+					firstButton.setEnabled(false);
+					lastButton.setEnabled(false);
+					rightAnswerButton.setEnabled(true);
+					wrongAnswerButton.setEnabled(true);
+					
+					Card card = manipulator.pop();
+					browser.setText(htmlOut(card.getQuestion(), card.getAnswer()));
+					if(card != null) OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
+					OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
+					OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
+				}
 			}
 		});
 		
@@ -309,26 +320,28 @@ public class ReviewerTab {
 		
 		nextButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				manipulator.next();
-				Card card = manipulator.pop();
-				browser.setText(htmlOut(card.getQuestion(), null));
-				OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
-				OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
-				OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
-				
-				if(manipulator.hasPrevious()) {
-					previousButton.setEnabled(true);
-					firstButton.setEnabled(true);
-				} else {
-					previousButton.setEnabled(false);
-					firstButton.setEnabled(false);
-				}
-				if(manipulator.hasNext()) {
-					nextButton.setEnabled(true);
-					lastButton.setEnabled(true);
-				} else {
-					nextButton.setEnabled(false);
-					lastButton.setEnabled(false);
+				if(nextButton.getEnabled()) {
+					manipulator.next();
+					Card card = manipulator.pop();
+					browser.setText(htmlOut(card.getQuestion(), null));
+					OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
+					OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
+					OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
+					
+					if(manipulator.hasPrevious()) {
+						previousButton.setEnabled(true);
+						firstButton.setEnabled(true);
+					} else {
+						previousButton.setEnabled(false);
+						firstButton.setEnabled(false);
+					}
+					if(manipulator.hasNext()) {
+						nextButton.setEnabled(true);
+						lastButton.setEnabled(true);
+					} else {
+						nextButton.setEnabled(false);
+						lastButton.setEnabled(false);
+					}
 				}
 			}
 		});
@@ -340,29 +353,42 @@ public class ReviewerTab {
 		
 		lastButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				manipulator.last();
-				Card card = manipulator.pop();
-				browser.setText(htmlOut(card.getQuestion(), null));
-				OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
-				OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
-				OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
-				
-				if(manipulator.hasPrevious()) {
-					previousButton.setEnabled(true);
-					firstButton.setEnabled(true);
-				} else {
-					previousButton.setEnabled(false);
-					firstButton.setEnabled(false);
-				}
-				if(manipulator.hasNext()) {
-					nextButton.setEnabled(true);
-					lastButton.setEnabled(true);
-				} else {
-					nextButton.setEnabled(false);
-					lastButton.setEnabled(false);
+				if(lastButton.getEnabled()) {
+					manipulator.last();
+					Card card = manipulator.pop();
+					browser.setText(htmlOut(card.getQuestion(), null));
+					OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
+					OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
+					OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
+					
+					if(manipulator.hasPrevious()) {
+						previousButton.setEnabled(true);
+						firstButton.setEnabled(true);
+					} else {
+						previousButton.setEnabled(false);
+						firstButton.setEnabled(false);
+					}
+					if(manipulator.hasNext()) {
+						nextButton.setEnabled(true);
+						lastButton.setEnabled(true);
+					} else {
+						nextButton.setEnabled(false);
+						lastButton.setEnabled(false);
+					}
 				}
 			}
 		});
+		
+		// Add Hot Keys
+		CheckPanelHotKeys keyboardListener = new CheckPanelHotKeys(browser, firstButton, previousButton, answerButton, nextButton, lastButton, rightAnswerButton, wrongAnswerButton);
+		browser.addKeyListener(keyboardListener);
+		firstButton.addKeyListener(keyboardListener);
+		previousButton.addKeyListener(keyboardListener);
+		answerButton.addKeyListener(keyboardListener);
+		nextButton.addKeyListener(keyboardListener);
+		lastButton.addKeyListener(keyboardListener);
+		rightAnswerButton.addKeyListener(keyboardListener);
+		wrongAnswerButton.addKeyListener(keyboardListener);
 	}
 	
 	/**
@@ -375,6 +401,8 @@ public class ReviewerTab {
 		else OpenCAL.mainWindow.setStatusLabel2("", "");
 		OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
 		OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
+		
+		browser.setFocus();
 		
 //		if(manipulator.hasPrevious()) {
 //			previousButton.setEnabled(true);
