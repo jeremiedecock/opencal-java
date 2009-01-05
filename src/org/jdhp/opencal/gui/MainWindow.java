@@ -90,13 +90,13 @@ public class MainWindow {
         this.shell.setMenuBar(menu);
         
         MenuItem fileItem = new MenuItem(menu, SWT.CASCADE);
-        fileItem.setText("File");
+        fileItem.setText("&File");
         
         MenuItem editItem = new MenuItem(menu, SWT.CASCADE);
-        editItem.setText("Edit");
+        editItem.setText("&Edit");
         
         MenuItem helpItem = new MenuItem(menu, SWT.CASCADE);
-        helpItem.setText("Help");
+        helpItem.setText("&Help");
         
         Menu fileMenu = new Menu(shell, SWT.DROP_DOWN);
         fileItem.setMenu(fileMenu);

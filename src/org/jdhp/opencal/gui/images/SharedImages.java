@@ -5,6 +5,10 @@ import org.jdhp.opencal.gui.MainWindow;
 
 public class SharedImages {
 
+	// 12x12 images
+	public static final String MINIMALIZE = "x12/minimalize.png";
+	public static final String SWITCH = "x12/switch.png";
+	
 	// 16x16 images
 	public static final String FILE_NEW = "x16/document-new.png";
 	public static final String FILE_OPEN = "x16/document-open.png";

@@ -25,6 +25,7 @@ import org.eclipse.swt.widgets.Text;
 import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.card.Card;
 import org.jdhp.opencal.gui.images.SharedImages;
+import org.jdhp.opencal.gui.widgets.EditableBrowser;
 
 /**
  * 
@@ -59,11 +60,11 @@ public class ExplorerTab {
 	
 	final private Button cancelButton;
 	
-	final private Text questionText;
-	
-	final private Text answerText;
-	
 	final private Text tagsText;
+	
+	final private EditableBrowser questionArea;
+	
+	final private EditableBrowser answerArea;
 	
 	/**
 	 * 
@@ -113,17 +114,11 @@ public class ExplorerTab {
 		Font monoFont = new Font(this.parentComposite.getDisplay(), "mono", 10, SWT.NORMAL);
 		
 		// Question ////////
-		Group questionGroup = new Group(editionCardComposite, SWT.NONE);
-		questionGroup.setLayoutData(new GridData(GridData.FILL_BOTH));
-		questionGroup.setLayout(new GridLayout(1, false));
-		questionGroup.setText("Question");
-		
-		questionText = new Text(questionGroup, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
-		questionText.setLayoutData(new GridData(GridData.FILL_BOTH));
-		questionText.setFont(monoFont);
-		questionText.setTabs(3);
+		questionArea = new EditableBrowser(editionCardComposite);
+		questionArea.label.setText("Question");
+		questionArea.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		questionText.addModifyListener(new ModifyListener() {
+		questionArea.editableText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				saveButton.setEnabled(true);
 				cancelButton.setEnabled(true);
@@ -131,17 +126,11 @@ public class ExplorerTab {
 		});
 		
 		// Answer //////////
-		Group answerGroup = new Group(editionCardComposite, SWT.NONE);
-		answerGroup.setLayoutData(new GridData(GridData.FILL_BOTH));
-		answerGroup.setLayout(new GridLayout(1, false));
-		answerGroup.setText("Answer");
+		answerArea = new EditableBrowser(editionCardComposite);
+		answerArea.label.setText("Answer");
+		answerArea.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
-		answerText = new Text(answerGroup, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
-		answerText.setLayoutData(new GridData(GridData.FILL_BOTH));
-		answerText.setFont(monoFont);
-		answerText.setTabs(3);
-		
-		answerText.addModifyListener(new ModifyListener() {
+		answerArea.editableText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				saveButton.setEnabled(true);
 				cancelButton.setEnabled(true);
@@ -184,8 +173,8 @@ public class ExplorerTab {
 		
 		saveButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				getSelectedCard().setQuestion(questionText.getText());
-				getSelectedCard().setAnswer(answerText.getText());
+				getSelectedCard().setQuestion(questionArea.editableText.getText());
+				getSelectedCard().setAnswer(answerArea.editableText.getText());
 				getSelectedCard().setTags(tagsText.getText().split("\n"));
 				
 				saveButton.setEnabled(false);
@@ -393,12 +382,12 @@ public class ExplorerTab {
 		Card selectedCard = getSelectedCard();
 		
 		if(selectedCard != null) {
-			questionText.setText(selectedCard.getQuestion());
-			answerText.setText(selectedCard.getAnswer());
+			questionArea.editableText.setText(selectedCard.getQuestion());
+			answerArea.editableText.setText(selectedCard.getAnswer());
 			tagsText.setText(selectedCard.getTagsString());
 		} else {
-			questionText.setText("");
-			answerText.setText("");
+			questionArea.editableText.setText("");
+			answerArea.editableText.setText("");
 			tagsText.setText("");
 		}
 		
@@ -418,13 +407,13 @@ public class ExplorerTab {
 //		System.out.println("Call updateTextAreaStatus");
 		if(getSelectedCard() != null) {
 //			System.out.println("Not null");
-			questionText.setEditable(true);
-			answerText.setEditable(true);
+			questionArea.editableText.setEditable(true);
+			answerArea.editableText.setEditable(true);
 			tagsText.setEditable(true);
 		} else {
 //			System.out.println("Null");
-			questionText.setEditable(false);
-			answerText.setEditable(false);
+			questionArea.editableText.setEditable(false);
+			answerArea.editableText.setEditable(false);
 			tagsText.setEditable(false);
 		}
 	}

@@ -18,6 +18,7 @@ import org.eclipse.swt.widgets.Text;
 import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.card.Card;
 import org.jdhp.opencal.gui.images.SharedImages;
+import org.jdhp.opencal.gui.widgets.EditableBrowser;
 
 /**
  * 
@@ -40,26 +41,14 @@ public class MakerTab {
 		Font monoFont = new Font(this.parentComposite.getDisplay(), "mono", 10, SWT.NORMAL);
 		
 		// Question ////////
-		Group questionGroup = new Group(this.parentComposite, SWT.NONE);
-		questionGroup.setLayoutData(new GridData(GridData.FILL_BOTH));
-		questionGroup.setLayout(new GridLayout(1, false));
-		questionGroup.setText("Question");
-		
-		final Text questionText = new Text(questionGroup, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
-		questionText.setLayoutData(new GridData(GridData.FILL_BOTH));
-		questionText.setFont(monoFont);
-		questionText.setTabs(3);
+		final EditableBrowser questionArea = new EditableBrowser(this.parentComposite);
+		questionArea.label.setText("Question");
+		questionArea.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
 		// Answer //////////
-		Group answerGroup = new Group(this.parentComposite, SWT.NONE);
-		answerGroup.setLayoutData(new GridData(GridData.FILL_BOTH));
-		answerGroup.setLayout(new GridLayout(1, false));
-		answerGroup.setText("Answer");
-		
-		final Text answerText = new Text(answerGroup, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
-		answerText.setLayoutData(new GridData(GridData.FILL_BOTH));
-		answerText.setFont(monoFont);
-		answerText.setTabs(3);
+		final EditableBrowser answerArea = new EditableBrowser(this.parentComposite);
+		answerArea.label.setText("Answer");
+		answerArea.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		// Tags ////////////
 		Group tagGroup = new Group(this.parentComposite, SWT.NONE);
@@ -81,14 +70,14 @@ public class MakerTab {
 		
 		addButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				if(questionText.getText().equals("")) {
+				if(questionArea.editableText.getText().equals("")) {
 					OpenCAL.mainWindow.printAlert("La question ne doit pas être vide !");
 				} else {
-					Card newCard = new Card(questionText.getText(), answerText.getText(), tagsText.getText().split("\n"));
+					Card newCard = new Card(questionArea.editableText.getText(), answerArea.editableText.getText(), tagsText.getText().split("\n"));
 					OpenCAL.newCardList.add(newCard);
 					OpenCAL.allCardList.add(newCard);
-					questionText.setText("");
-					answerText.setText("");
+					questionArea.editableText.setText("");
+					answerArea.editableText.setText("");
 					tagsText.setText("");
 //					OpenCAL.mainWindow.setStatusLabel1("Card recorded", "Card recorded");
 //					
@@ -102,7 +91,7 @@ public class MakerTab {
 				}
 			
 				// Set focus to the question field
-				questionText.setFocus();
+				questionArea.editableText.setFocus();
 			}
 		});
 	}
