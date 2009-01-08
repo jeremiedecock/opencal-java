@@ -1,4 +1,4 @@
-package org.jdhp.opencal.toolkit;
+package org.jdhp.opencal.toolkit.sandbox;
 
 import java.text.DateFormat;
 import java.text.ParseException;

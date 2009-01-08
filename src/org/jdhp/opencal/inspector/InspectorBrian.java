@@ -1,15 +1,16 @@
 /*
  * OpenCAL version 3.0
- * Copyright (c) 2007,2008 Jérémie Decock
+ * Copyright (c) 2007,2008,2009 Jérémie Decock
  */
 
 package org.jdhp.opencal.inspector;
 
-import java.util.Date;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.card.Card;
+import org.jdhp.opencal.toolkit.CalendarToolKit;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -24,26 +25,21 @@ public class InspectorBrian implements Inspector {
 	
 	/**
 	 * Brian is a little more professional than Alan.
-	 * He don't validate reviews when it's too early...
-	 * but he doesn't care about lates.
+	 * He doesn't validate reviews when it's too early...
+	 * but he doesn't care about late.
 	 * 
 	 * @return
 	 */
 	public int assess(Card card) {
 		int grade = 0;
 		
-		String[] date = card.getElement().getAttribute("cdate").split("-",3);
-		// TODO : s'assurer que le tableau date a bien 3 entrées (pour pas planter le programme en modifiant manuellement le fichier XML)
-		Date lastRevisionDate = (new GregorianCalendar(Integer.parseInt(date[0]), Integer.parseInt(date[1]) - 1, Integer.parseInt(date[2]))).getTime();
-		
-		Date expectedRevisionDate = getExpectedRevisionDate(lastRevisionDate, grade);
+		GregorianCalendar lastRevisionDate = CalendarToolKit.iso8601ToCalendar(card.getElement().getAttribute("cdate"));
+		GregorianCalendar expectedRevisionDate = getExpectedRevisionDate(lastRevisionDate, grade);
 		
 		// TODO : vérifier que les noeuds "review" sont bien classés par date croissante
 		NodeList reviewList = card.getElement().getElementsByTagName("review");
 		for(int i=0 ; i < reviewList.getLength() ; i++) {
-			String[] rdateString = ((Element) reviewList.item(i)).getAttribute("rdate").split("-",3);
-			// TODO : s'assurer que le tableau date a bien 3 entrées (pour pas planter le programme en modifiant manuellement le fichier XML)
-			Date rdate = (new GregorianCalendar(Integer.parseInt(rdateString[0]), Integer.parseInt(rdateString[1]) - 1, Integer.parseInt(rdateString[2]))).getTime();
+			GregorianCalendar rdate = CalendarToolKit.iso8601ToCalendar(((Element) reviewList.item(i)).getAttribute("rdate"));
 			
 			if(((Element) reviewList.item(i)).getAttribute("result").equals(OpenCAL.RIGHT_ANSWER_STRING)) {
 				grade++;
@@ -56,37 +52,12 @@ public class InspectorBrian implements Inspector {
 			}
 		}
 		
-		if(isTooEarly(expectedRevisionDate, new Date())) {
+		if(isTooEarly(expectedRevisionDate, new GregorianCalendar())) {
 			// It's too early to review this card. The card will be hide.
 			grade = -1;
 		}
 		
 		return grade;
-		
-/*
-	lastRevisionDate = date(*strptime(cardNode.getAttribute('cdate') ,"%Y-%m-%d")[0:3])
-	expectedRevisionDate = lastRevisionDate + timedelta(days=REVISION_DATES[grade])
-
-	for reviewNode in cardNode.getElementsByTagName("review"):
-		rdate = date(*strptime(reviewNode.getAttribute('rdate') ,"%Y-%m-%d")[0:3])
-		if reviewNode.getAttribute('result') == 'good':
-			if rdate >= expectedRevisionDate:
-				# That's ok, we're not in advance.
-				grade += 1
-				lastRevisionDate = rdate
-				expectedRevisionDate = lastRevisionDate + timedelta(days=REVISION_DATES[grade]) 
-		else:
-			grade = 0
-			lastRevisionDate = rdate
-			expectedRevisionDate = lastRevisionDate + timedelta(days=REVISION_DATES[grade]) 
-
-	if date.today() >= expectedRevisionDate:
-		# That's ok, we're not in advance.
-		return grade
-	else:
-		# It's too early to review this card. The card will be hide.
-		return -1
-*/
 	}
 	
 	/**
@@ -94,8 +65,9 @@ public class InspectorBrian implements Inspector {
 	 * @param oldestRevisionItem
 	 * @return
 	 */
-	private boolean isTooEarly(Date expectedRevisionDate, Date revisionDate) {
+	private boolean isTooEarly(GregorianCalendar expectedRevisionDate, GregorianCalendar revisionDate) {
 		boolean isTooEarly;
+		
 		if(expectedRevisionDate == null) {
 			isTooEarly = false;
 		} else {
@@ -105,6 +77,7 @@ public class InspectorBrian implements Inspector {
 				isTooEarly = false;
 			}
 		}
+		
 		return isTooEarly;
 	}
 	
@@ -114,14 +87,14 @@ public class InspectorBrian implements Inspector {
 	 * @param grade
 	 * @return
 	 */
-	private Date getExpectedRevisionDate(Date previousRevisionDate, int grade) {
-		Date expectedRevisionDate;
-		if(previousRevisionDate == null) {
-			expectedRevisionDate = null;
-		} else {
-			expectedRevisionDate = new Date(previousRevisionDate.getTime() + (((long) this.revisionDates[grade]) * 24 * 60 * 60 * 1000));
+	private GregorianCalendar getExpectedRevisionDate(GregorianCalendar previousRevisionDate, int grade) {
+		GregorianCalendar expectedRevisionDate = null;
+		
+		if(previousRevisionDate != null) {
+			expectedRevisionDate = (GregorianCalendar) previousRevisionDate.clone();
+			expectedRevisionDate.add(Calendar.DAY_OF_MONTH, this.revisionDates[grade]);
 		}
+		
 		return expectedRevisionDate;
 	}
-
 }

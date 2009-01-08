@@ -11,7 +11,7 @@ public class DOMTreeExplorer {
 	 * Example usage :
 	 * DOMTreeExplorer.printNodeTree(
 	 * 			this.element,
-	 * 			"Before removing old "tag" elements\n\n",
+	 * 			"Before removing old 'tag' elements\n\n",
 	 * 			"\n************************\n\n");
 	 * 
 	 * @param node The node to inspect
