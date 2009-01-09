@@ -30,7 +30,15 @@ public class CalendarToolKit {
 	 * @return
 	 */
 	public static String calendarToIso8601(GregorianCalendar calendar) {
-		return "" + calendar.get(Calendar.YEAR) + "-" + calendar.get(Calendar.MONTH + 1) + "-" + calendar.get(Calendar.DAY_OF_MONTH);
+		String yearField = String.valueOf(calendar.get(Calendar.YEAR));
+		
+		String monthField = String.valueOf(calendar.get(Calendar.MONTH)+1);
+		if(calendar.get(Calendar.MONTH)+1 < 10) monthField = "0" + monthField;
+		
+		String dayField = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
+		if(calendar.get(Calendar.DAY_OF_MONTH) < 10) dayField = "0" + dayField;
+		
+		return yearField + "-" + monthField + "-" + dayField;
 	}
 	
 }

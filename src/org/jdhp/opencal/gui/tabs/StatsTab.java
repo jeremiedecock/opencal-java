@@ -10,7 +10,8 @@ import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -61,25 +62,25 @@ public class StatsTab {
 		// ********** //
 		
 		TimeSeries s1 = new TimeSeries("Card created per day", Day.class);
-		TreeMap<Date, Integer> cardCreationStats = Statistics.getCardCreationStats();
+		TreeMap<GregorianCalendar, Integer> cardCreationStats = Statistics.getCardCreationStats();
 		Set entries = cardCreationStats.entrySet();
 		Iterator<Set> it = entries.iterator();
 		while(it.hasNext()) {
 			Map.Entry entry = (Map.Entry) it.next();
-			Date date = (Date) entry.getKey();
+			GregorianCalendar date = (GregorianCalendar) entry.getKey();
 			Integer value = (Integer) entry.getValue();
-			s1.addOrUpdate(new Day(date), value);
+			s1.addOrUpdate(new Day(date.get(Calendar.DAY_OF_MONTH), date.get(Calendar.MONTH) + 1, date.get(Calendar.YEAR)), value);
 		}
 
 		TimeSeries s2 = new TimeSeries("Revision per day", Day.class);
-		TreeMap<Date, Integer> revisionStats = Statistics.getRevisionStats();
+		TreeMap<GregorianCalendar, Integer> revisionStats = Statistics.getRevisionStats();
 		entries = revisionStats.entrySet();
 		it = entries.iterator();
 		while(it.hasNext()) {
 			Map.Entry entry = (Map.Entry) it.next();
-			Date date = (Date) entry.getKey();
+			GregorianCalendar date = (GregorianCalendar) entry.getKey();
 			Integer value = (Integer) entry.getValue();
-			s2.addOrUpdate(new Day(date), value);
+			s2.addOrUpdate(new Day(date.get(Calendar.DAY_OF_MONTH), date.get(Calendar.MONTH) + 1, date.get(Calendar.YEAR)), value);
 		}
 
 		this.dataset = new TimeSeriesCollection();
@@ -127,25 +128,25 @@ public class StatsTab {
 
 		// Update graph
 		TimeSeries s1 = new TimeSeries("Card created per day", Day.class);
-		TreeMap<Date, Integer> cardCreationStats = Statistics.getCardCreationStats();
+		TreeMap<GregorianCalendar, Integer> cardCreationStats = Statistics.getCardCreationStats();
 		Set entries = cardCreationStats.entrySet();
 		Iterator<Set> it = entries.iterator();
 		while(it.hasNext()) {
 			Map.Entry entry = (Map.Entry) it.next();
-			Date date = (Date) entry.getKey();
+			GregorianCalendar date = (GregorianCalendar) entry.getKey();
 			Integer value = (Integer) entry.getValue();
-			s1.addOrUpdate(new Day(date), value);
+			s1.addOrUpdate(new Day(date.get(Calendar.DAY_OF_MONTH), date.get(Calendar.MONTH) + 1, date.get(Calendar.YEAR)), value);
 		}
 
 		TimeSeries s2 = new TimeSeries("Revision per day", Day.class);
-		TreeMap<Date, Integer> revisionStats = Statistics.getRevisionStats();
+		TreeMap<GregorianCalendar, Integer> revisionStats = Statistics.getRevisionStats();
 		entries = revisionStats.entrySet();
 		it = entries.iterator();
 		while(it.hasNext()) {
 			Map.Entry entry = (Map.Entry) it.next();
-			Date date = (Date) entry.getKey();
+			GregorianCalendar date = (GregorianCalendar) entry.getKey();
 			Integer value = (Integer) entry.getValue();
-			s2.addOrUpdate(new Day(date), value);
+			s2.addOrUpdate(new Day(date.get(Calendar.DAY_OF_MONTH), date.get(Calendar.MONTH) + 1, date.get(Calendar.YEAR)), value);
 		}
 
 		this.dataset.removeAllSeries();
