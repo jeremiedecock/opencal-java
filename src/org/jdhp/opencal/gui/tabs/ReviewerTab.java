@@ -402,8 +402,6 @@ public class ReviewerTab {
 		OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
 		OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
 		
-		browser.setFocus();
-		
 //		if(manipulator.hasPrevious()) {
 //			previousButton.setEnabled(true);
 //			firstButton.setEnabled(true);
