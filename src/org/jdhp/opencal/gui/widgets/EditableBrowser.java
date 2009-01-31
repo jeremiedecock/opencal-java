@@ -201,8 +201,13 @@ public class EditableBrowser extends Composite {
 				if(stackLayout.topControl == editableText) {
 					stackLayout.topControl = browser;
 					browser.setText(htmlOut(editableText.getText()));
+					switchDisplayItem.setImage(SharedImages.getImage(SharedImages.EDIT_VIEW));
+					switchDisplayItem.setToolTipText("Switch to edit view");
 				} else {
 					stackLayout.topControl = editableText;
+					switchDisplayItem.setImage(SharedImages.getImage(SharedImages.BROWSER_VIEW));
+					switchDisplayItem.setToolTipText("Switch to browser view");
+//					editableText.setFocus(); // TODO : Marche pas ???
 				}
 				editableText.getParent().layout();
 			}
