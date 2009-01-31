@@ -6,13 +6,13 @@ import org.jdhp.opencal.gui.MainWindow;
 public class SharedImages {
 
 	// 12x12 images
-	public static final String MINIMALIZE = "x12/minimalize.png";
-	public static final String SWITCH = "x12/switch.png";
+//	public static final String MINIMALIZE = "x12/minimalize.png";
+//	public static final String BROWSER_VIEW = "x12/switch.png";
 	
 	// 16x16 images
 	public static final String FILE_NEW = "x16/document-new.png";
 	public static final String FILE_OPEN = "x16/document-open.png";
-	public static final String FILE_PDF = "x16/pdf.png";
+	public static final String FILE_PDF = "x16/text.png";
 	public static final String FILE_PRINT = "x16/document-print.png";
 	public static final String EDIT_COPY = "x16/edit-copy.png";
 	public static final String EDIT_CUT = "x16/edit-cut.png";
@@ -25,6 +25,11 @@ public class SharedImages {
 	public static final String PREFERENCES_DESKTOP = "x16/preferences-desktop.png";
 	public static final String PREFERENCES_SYSTEM = "x16/preferences-system.png";
 	public static final String EXIT = "x16/system-log-out.png";
+	public static final String MINIMALIZE = "x16/minimalize.png";
+	public static final String MAXIMIZE = "x16/maximize.png";
+	public static final String RESTORE = "x16/restore.png";
+	public static final String BROWSER_VIEW = "x16/browser_view.png";
+	public static final String EDIT_VIEW = "x16/edit_view.png";
 	
 	
 	// 24x24 images

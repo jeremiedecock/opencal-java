@@ -60,11 +60,11 @@ public class ExplorerTab {
 	
 	final private Button cancelButton;
 	
-	final private Text tagsText;
-	
 	final private EditableBrowser questionArea;
 	
 	final private EditableBrowser answerArea;
+	
+	final private EditableBrowser tagsArea;
 	
 	/**
 	 * 
@@ -111,8 +111,6 @@ public class ExplorerTab {
 		editionCardComposite.setLayoutData(new GridData(GridData.FILL_BOTH));
 		editionCardComposite.setLayout(new GridLayout(1, false));
 		
-		Font monoFont = new Font(this.parentComposite.getDisplay(), "mono", 10, SWT.NORMAL);
-		
 		// Question ////////
 		questionArea = new EditableBrowser(editionCardComposite);
 		questionArea.label.setText("Question");
@@ -138,17 +136,11 @@ public class ExplorerTab {
 		});
 		
 		// Tags ////////////
-		Group tagGroup = new Group(editionCardComposite, SWT.NONE);
-		tagGroup.setLayoutData(new GridData(GridData.FILL_BOTH));
-		tagGroup.setLayout(new GridLayout(1, false));
-		tagGroup.setText("Tags");
+		tagsArea = new EditableBrowser(editionCardComposite);
+		tagsArea.label.setText("Tags");
+		tagsArea.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
-		tagsText = new Text(tagGroup, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
-		tagsText.setLayoutData(new GridData(GridData.FILL_BOTH));
-		tagsText.setFont(monoFont);
-		tagsText.setTabs(3);
-		
-		tagsText.addModifyListener(new ModifyListener() {
+		tagsArea.editableText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				saveButton.setEnabled(true);
 				cancelButton.setEnabled(true);
@@ -175,7 +167,7 @@ public class ExplorerTab {
 			public void widgetSelected(SelectionEvent e) {
 				getSelectedCard().setQuestion(questionArea.editableText.getText());
 				getSelectedCard().setAnswer(answerArea.editableText.getText());
-				getSelectedCard().setTags(tagsText.getText().split("\n"));
+				getSelectedCard().setTags(tagsArea.editableText.getText().split("\n"));
 				
 				saveButton.setEnabled(false);
 				cancelButton.setEnabled(false);
@@ -384,11 +376,11 @@ public class ExplorerTab {
 		if(selectedCard != null) {
 			questionArea.editableText.setText(selectedCard.getQuestion());
 			answerArea.editableText.setText(selectedCard.getAnswer());
-			tagsText.setText(selectedCard.getTagsString());
+			tagsArea.editableText.setText(selectedCard.getTagsString());
 		} else {
 			questionArea.editableText.setText("");
 			answerArea.editableText.setText("");
-			tagsText.setText("");
+			tagsArea.editableText.setText("");
 		}
 		
 		saveButton.setEnabled(false);
@@ -409,12 +401,12 @@ public class ExplorerTab {
 //			System.out.println("Not null");
 			questionArea.editableText.setEditable(true);
 			answerArea.editableText.setEditable(true);
-			tagsText.setEditable(true);
+			tagsArea.editableText.setEditable(true);
 		} else {
 //			System.out.println("Null");
 			questionArea.editableText.setEditable(false);
 			answerArea.editableText.setEditable(false);
-			tagsText.setEditable(false);
+			tagsArea.editableText.setEditable(false);
 		}
 	}
 	

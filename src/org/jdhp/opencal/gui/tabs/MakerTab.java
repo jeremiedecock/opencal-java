@@ -51,15 +51,9 @@ public class MakerTab {
 		answerArea.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		// Tags ////////////
-		Group tagGroup = new Group(this.parentComposite, SWT.NONE);
-		tagGroup.setLayoutData(new GridData(GridData.FILL_BOTH));
-		tagGroup.setLayout(new GridLayout(1, false));
-		tagGroup.setText("Tags");
-		
-		final Text tagsText = new Text(tagGroup, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
-		tagsText.setLayoutData(new GridData(GridData.FILL_BOTH));
-		tagsText.setFont(monoFont);
-		tagsText.setTabs(3);
+		final EditableBrowser tagsArea = new EditableBrowser(this.parentComposite);
+		tagsArea.label.setText("Tags");
+		tagsArea.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
 		// Button /////////
 		Button addButton = new Button(this.parentComposite, SWT.PUSH);
@@ -73,12 +67,12 @@ public class MakerTab {
 				if(questionArea.editableText.getText().equals("")) {
 					OpenCAL.mainWindow.printAlert("La question ne doit pas être vide !");
 				} else {
-					Card newCard = new Card(questionArea.editableText.getText(), answerArea.editableText.getText(), tagsText.getText().split("\n"));
+					Card newCard = new Card(questionArea.editableText.getText(), answerArea.editableText.getText(), tagsArea.editableText.getText().split("\n"));
 					OpenCAL.newCardList.add(newCard);
 					OpenCAL.allCardList.add(newCard);
 					questionArea.editableText.setText("");
 					answerArea.editableText.setText("");
-					tagsText.setText("");
+					tagsArea.editableText.setText("");
 //					OpenCAL.mainWindow.setStatusLabel1("Card recorded", "Card recorded");
 //					
 //					// TODO : faire quelque chose de plus joli pour les 6 lignes suivantes (avec un thread dédié, ...)

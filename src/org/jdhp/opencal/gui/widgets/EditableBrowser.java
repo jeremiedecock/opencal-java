@@ -194,7 +194,7 @@ public class EditableBrowser extends Composite {
 		
 		final ToolBar tbMenu = new ToolBar(this, SWT.FLAT);
 		final ToolItem switchDisplayItem = new ToolItem(tbMenu, SWT.PUSH);
-		switchDisplayItem.setImage(SharedImages.getImage(SharedImages.SWITCH));
+		switchDisplayItem.setImage(SharedImages.getImage(SharedImages.BROWSER_VIEW));
 		switchDisplayItem.setToolTipText("Switch display mode");
 		switchDisplayItem.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -210,9 +210,14 @@ public class EditableBrowser extends Composite {
 		this.setTopCenter(tbMenu);
 		
 		final ToolBar tbRight = new ToolBar(this, SWT.FLAT);
+		
 		final ToolItem minimizeItem = new ToolItem(tbRight, SWT.PUSH);
 		minimizeItem.setImage(SharedImages.getImage(SharedImages.MINIMALIZE));
 		minimizeItem.setToolTipText("Minimize");
+		
+		final ToolItem maximizeItem = new ToolItem(tbRight, SWT.PUSH);
+		maximizeItem.setImage(SharedImages.getImage(SharedImages.MAXIMIZE));
+		maximizeItem.setToolTipText("Maximize");
 		this.setTopRight(tbRight);
 	}
 
