@@ -84,7 +84,7 @@ public class OpenCAL {
 		// Create Inspector
 		OpenCAL.setInspector(OpenCAL.getInspectorName());
 		
-		// Open PKB File
+		// Open PKB File and create cards lists
 		OpenCAL.openPkbFile(OpenCAL.getDefaultPkbFilePath());
 		
 		// Make and run GUI

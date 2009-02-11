@@ -70,16 +70,6 @@ public class MakerTab {
 					tagsArea.editableText.setText("");
 					
 					OpenCAL.mainWindow.setStatusLabel2("A : " + OpenCAL.newCardList.size(), OpenCAL.newCardList.size() + " cards added today");
-
-					//					OpenCAL.mainWindow.setStatusLabel1("Card recorded", "Card recorded");
-//					
-//					// TODO : faire quelque chose de plus joli pour les 6 lignes suivantes (avec un thread dédié, ...)
-//					try {
-//						Thread.sleep(500);
-//					} catch (InterruptedException e2) {
-//						
-//					}
-//					OpenCAL.mainWindow.setStatusLabel1("", "");
 				}
 			
 				// Set focus to the question field
@@ -91,11 +81,6 @@ public class MakerTab {
 	/**
 	 * 
 	 */
-	public void update() {
-		OpenCAL.mainWindow.setStatusLabel1("", "");
-		OpenCAL.mainWindow.setStatusLabel2("A : " + OpenCAL.newCardList.size(), OpenCAL.newCardList.size() + " cards added today");
-		OpenCAL.mainWindow.setStatusLabel3("C : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " cards checked today");
-		OpenCAL.mainWindow.setStatusLabel4("L : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
-	}
+	public void update() { }
 	
 }

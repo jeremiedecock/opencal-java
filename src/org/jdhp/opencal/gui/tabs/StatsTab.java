@@ -46,6 +46,10 @@ public class StatsTab {
 	
 	final private JFreeChart chart;
 	
+	private static int ADDED_CARDS_CACHE = -1;
+	
+	private static int CHECKED_CARDS_CACHE = -1;
+	
 	/**
 	 * 
 	 * @param parentComposite
@@ -121,41 +125,41 @@ public class StatsTab {
 	 * 
 	 */
 	public void update() {
-		OpenCAL.mainWindow.setStatusLabel1("", "");
-		OpenCAL.mainWindow.setStatusLabel2("A : " + OpenCAL.newCardList.size(), OpenCAL.newCardList.size() + " cards added today");
-		OpenCAL.mainWindow.setStatusLabel3("C : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " cards checked today");
-		OpenCAL.mainWindow.setStatusLabel4("L : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
-
-		// Update graph
-		TimeSeries s1 = new TimeSeries("Card created per day", Day.class);
-		TreeMap<GregorianCalendar, Integer> cardCreationStats = Statistics.getCardCreationStats();
-		Set entries = cardCreationStats.entrySet();
-		Iterator<Set> it = entries.iterator();
-		while(it.hasNext()) {
-			Map.Entry entry = (Map.Entry) it.next();
-			GregorianCalendar date = (GregorianCalendar) entry.getKey();
-			Integer value = (Integer) entry.getValue();
-			s1.addOrUpdate(new Day(date.get(Calendar.DAY_OF_MONTH), date.get(Calendar.MONTH) + 1, date.get(Calendar.YEAR)), value);
+		if(StatsTab.ADDED_CARDS_CACHE != OpenCAL.newCardList.size() || StatsTab.CHECKED_CARDS_CACHE != OpenCAL.reviewedCardList.size()) {
+			// Update graph
+			TimeSeries s1 = new TimeSeries("Card created per day", Day.class);
+			TreeMap<GregorianCalendar, Integer> cardCreationStats = Statistics.getCardCreationStats();
+			Set entries = cardCreationStats.entrySet();
+			Iterator<Set> it = entries.iterator();
+			while(it.hasNext()) {
+				Map.Entry entry = (Map.Entry) it.next();
+				GregorianCalendar date = (GregorianCalendar) entry.getKey();
+				Integer value = (Integer) entry.getValue();
+				s1.addOrUpdate(new Day(date.get(Calendar.DAY_OF_MONTH), date.get(Calendar.MONTH) + 1, date.get(Calendar.YEAR)), value);
+			}
+	
+			TimeSeries s2 = new TimeSeries("Revision per day", Day.class);
+			TreeMap<GregorianCalendar, Integer> revisionStats = Statistics.getRevisionStats();
+			entries = revisionStats.entrySet();
+			it = entries.iterator();
+			while(it.hasNext()) {
+				Map.Entry entry = (Map.Entry) it.next();
+				GregorianCalendar date = (GregorianCalendar) entry.getKey();
+				Integer value = (Integer) entry.getValue();
+				s2.addOrUpdate(new Day(date.get(Calendar.DAY_OF_MONTH), date.get(Calendar.MONTH) + 1, date.get(Calendar.YEAR)), value);
+			}
+	
+			this.dataset.removeAllSeries();
+			this.dataset.addSeries(s1);
+			this.dataset.addSeries(s2);
+	
+			// ********** //
+			
+			this.chart.setNotify(true);
+			
+			StatsTab.ADDED_CARDS_CACHE = OpenCAL.newCardList.size();
+			StatsTab.CHECKED_CARDS_CACHE = OpenCAL.reviewedCardList.size();
 		}
-
-		TimeSeries s2 = new TimeSeries("Revision per day", Day.class);
-		TreeMap<GregorianCalendar, Integer> revisionStats = Statistics.getRevisionStats();
-		entries = revisionStats.entrySet();
-		it = entries.iterator();
-		while(it.hasNext()) {
-			Map.Entry entry = (Map.Entry) it.next();
-			GregorianCalendar date = (GregorianCalendar) entry.getKey();
-			Integer value = (Integer) entry.getValue();
-			s2.addOrUpdate(new Day(date.get(Calendar.DAY_OF_MONTH), date.get(Calendar.MONTH) + 1, date.get(Calendar.YEAR)), value);
-		}
-
-		this.dataset.removeAllSeries();
-		this.dataset.addSeries(s1);
-		this.dataset.addSeries(s2);
-
-		// ********** //
-		
-		this.chart.setNotify(true);
 	}
 	
 }
