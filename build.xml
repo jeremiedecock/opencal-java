@@ -68,12 +68,20 @@ variable from something like "us.utf8" to "us".
 
 	<target name="build" description="Build class files">
 		<echo>Generate class files</echo>
+		
 		<delete dir="${class_dir}" />
 		<mkdir dir="${class_dir}" />
+		
 		<mkdir dir="${class_dir}/org/jdhp/opencal/gui/images" />
 		<copy todir="${class_dir}/org/jdhp/opencal/gui/images">
 			<fileset dir="${src_dir}/org/jdhp/opencal/gui/images" excludes="**/*.java" />
 		</copy>
+		
+		<mkdir dir="${class_dir}/org/jdhp/opencal/gui/css" />
+		<copy todir="${class_dir}/org/jdhp/opencal/gui/css">
+			<fileset dir="${src_dir}/org/jdhp/opencal/gui/css" excludes="**/*.java" />
+		</copy>
+		
 		<javac srcdir="${src_dir}" destdir="${class_dir}" classpath="${classpath}" />
 	</target>
 
