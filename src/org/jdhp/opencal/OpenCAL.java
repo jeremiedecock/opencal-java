@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Properties;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -62,8 +61,6 @@ public class OpenCAL {
 	
 	public static MainWindow mainWindow;
 	
-	public static SimpleDateFormat iso8601Formatter;
-	
 	public static AllCardList allCardList;
 	
 	public static PlannedCardList plannedCardList;
@@ -83,7 +80,6 @@ public class OpenCAL {
 	 */
 	public static void main(String[] args) {
 		OpenCAL.userProperties = getUserProperties();
-		OpenCAL.iso8601Formatter = new SimpleDateFormat("yyyy-MM-dd");
 		
 		// Create Inspector
 		OpenCAL.setInspector(OpenCAL.getInspectorName());
