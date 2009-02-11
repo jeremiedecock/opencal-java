@@ -5,11 +5,12 @@
 
 package org.jdhp.opencal.card.lists;
 
-import java.util.Date;
+import java.util.GregorianCalendar;
 
 import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.card.Card;
 import org.jdhp.opencal.card.CardList;
+import org.jdhp.opencal.toolkit.CalendarToolKit;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -27,7 +28,7 @@ public class NewCardList extends CardList {
 		for(int i=0 ; i<nodeCards.getLength() ; i++) {
 			Card card = new Card((Element) nodeCards.item(i));
 			
-			if(card.getCreationDate().equals(OpenCAL.iso8601Formatter.format(new Date()))) this.add(card);
+			if(card.getCreationDate().equals(CalendarToolKit.calendarToIso8601(new GregorianCalendar()))) this.add(card);
 		}
 	}
 }

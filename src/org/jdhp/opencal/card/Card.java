@@ -7,8 +7,10 @@ package org.jdhp.opencal.card;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import org.jdhp.opencal.OpenCAL;
+import org.jdhp.opencal.toolkit.CalendarToolKit;
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -44,7 +46,7 @@ public class Card {
 		if(questionString != null && !questionString.equals("")) {
 			// Add the new "card" element to the DOM tree
 			this.element = OpenCAL.getDomDocument().createElement("card");
-			this.element.setAttribute("cdate", OpenCAL.iso8601Formatter.format(new Date()));
+			this.element.setAttribute("cdate", CalendarToolKit.calendarToIso8601(new GregorianCalendar()));
 			
 			Element questionElement = OpenCAL.getDomDocument().createElement("question");
 			this.element.appendChild(questionElement);
@@ -196,7 +198,7 @@ public class Card {
 	public void putReview(String result) {
 		// Add the new "review" element to the DOM tree
 		Element reviewElement = OpenCAL.getDomDocument().createElement("review");
-		reviewElement.setAttribute("rdate", OpenCAL.iso8601Formatter.format(new Date()));
+		reviewElement.setAttribute("rdate", CalendarToolKit.calendarToIso8601(new GregorianCalendar()));
 		reviewElement.setAttribute("result", result);
 		this.element.appendChild(reviewElement);
 		
