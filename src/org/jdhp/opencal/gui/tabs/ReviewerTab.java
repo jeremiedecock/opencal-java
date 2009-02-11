@@ -75,11 +75,7 @@ public class ReviewerTab {
 //		}
 	
 		Card card = manipulator.pop();
-		if(card != null) {
-			this.browser.setText(htmlOut(card.getQuestion(), null));
-		} else {
-			this.browser.setText(htmlOut(null, null));
-		}
+		this.browser.setText(htmlOut(card, false));
 		
 		///////////////////////////////////////////////////////////////////////
 		// resultButtonComposite //////////////////////////////////////////////
@@ -158,8 +154,7 @@ public class ReviewerTab {
 					wrongAnswerButton.setEnabled(false);
 					
 					Card card = manipulator.pop();
-					browser.setText(htmlOut(card.getQuestion(), null));
-					OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
+					browser.setText(htmlOut(card, false));
 					OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
 					OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
 				}
@@ -198,8 +193,7 @@ public class ReviewerTab {
 					wrongAnswerButton.setEnabled(false);
 	
 					Card card = manipulator.pop();
-					browser.setText(htmlOut(card.getQuestion(), null));
-					OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
+					browser.setText(htmlOut(card, false));
 					OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
 					OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
 				}
@@ -220,10 +214,7 @@ public class ReviewerTab {
 				if(firstButton.getEnabled()) {
 					manipulator.first();
 					Card card = manipulator.pop();
-					browser.setText(htmlOut(card.getQuestion(), null));
-					OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
-					OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
-					OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
+					browser.setText(htmlOut(card, false));
 					
 					if(manipulator.hasPrevious()) {
 						previousButton.setEnabled(true);
@@ -255,10 +246,7 @@ public class ReviewerTab {
 				if(previousButton.getEnabled()) {
 					manipulator.previous();
 					Card card = manipulator.pop();
-					browser.setText(htmlOut(card.getQuestion(), null));
-					OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
-					OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
-					OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
+					browser.setText(htmlOut(card, false));
 					
 					if(manipulator.hasPrevious()) {
 						previousButton.setEnabled(true);
@@ -296,10 +284,7 @@ public class ReviewerTab {
 					wrongAnswerButton.setEnabled(true);
 					
 					Card card = manipulator.pop();
-					browser.setText(htmlOut(card.getQuestion(), card.getAnswer()));
-					if(card != null) OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
-					OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
-					OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
+					browser.setText(htmlOut(card, true));
 				}
 			}
 		});
@@ -323,10 +308,7 @@ public class ReviewerTab {
 				if(nextButton.getEnabled()) {
 					manipulator.next();
 					Card card = manipulator.pop();
-					browser.setText(htmlOut(card.getQuestion(), null));
-					OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
-					OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
-					OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
+					browser.setText(htmlOut(card, false));
 					
 					if(manipulator.hasPrevious()) {
 						previousButton.setEnabled(true);
@@ -356,10 +338,7 @@ public class ReviewerTab {
 				if(lastButton.getEnabled()) {
 					manipulator.last();
 					Card card = manipulator.pop();
-					browser.setText(htmlOut(card.getQuestion(), null));
-					OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
-					OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
-					OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
+					browser.setText(htmlOut(card, false));
 					
 					if(manipulator.hasPrevious()) {
 						previousButton.setEnabled(true);
@@ -396,46 +375,52 @@ public class ReviewerTab {
 	 */
 	public void update() {
 		OpenCAL.mainWindow.setStatusLabel1("", "");
-		Card card = manipulator.pop();
-		if(card != null) OpenCAL.mainWindow.setStatusLabel2("G : " + card.getGrade(), "Card grade " + card.getGrade());
-		else OpenCAL.mainWindow.setStatusLabel2("", "");
-		OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
-		OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
-		
-//		if(manipulator.hasPrevious()) {
-//			previousButton.setEnabled(true);
-//			firstButton.setEnabled(true);
-//		} else {
-//			previousButton.setEnabled(false);
-//			firstButton.setEnabled(false);
-//		}
-//		if(manipulator.hasNext()) {
-//			nextButton.setEnabled(true);
-//			lastButton.setEnabled(true);
-//		} else {
-//			nextButton.setEnabled(false);
-//			lastButton.setEnabled(false);
-//		}
+		OpenCAL.mainWindow.setStatusLabel2("A : " + OpenCAL.newCardList.size(), OpenCAL.newCardList.size() + " cards added today");
+		OpenCAL.mainWindow.setStatusLabel3("C : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " cards checked today");
+		OpenCAL.mainWindow.setStatusLabel4("L : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
 	}
 	
 	/**
 	 * TODO : Utiliser un StringBuffer pour la variable "html".
 	 * 
-	 * @param question
+	 * @param card
 	 * @param answer
 	 * @return
 	 */
-	final private String htmlOut(String question, String answer) {
-		String css = MainWindow.loadCSS("review.css");
-		String html = "<html>" + css + "<body>";
+	final private String htmlOut(Card card, boolean printAnswer) {
+		StringBuffer html = new StringBuffer();
 		
-		if(question == null) html += "<center>Review done</center>";
-		else if(answer == null) html += "<h1>Question</h1>" + filter(question);
-		else html += "<h1>Question</h1>" + filter(question) + "<hr /><h1>Answer</h1>" + filter(answer);
+		html.append("<html><head><style type=\"text/css\" media=\"all\">");
+		html.append(MainWindow.REVIEW_CSS);
+		html.append("</style><head><body>");
 		
-		html += "</body></html>";
+		if(card == null) {
+			html.append("<center>Review done</center>");
+		} else {
+			String cssLevelClass = "level_red"; // default class (if level<3)
+			if(card.getGrade() >= 5) cssLevelClass = "level_green";
+			else if(card.getGrade() >= 3) cssLevelClass = "level_orange";
+			
+			html.append("<div class=\"");
+			html.append(cssLevelClass);
+			html.append("\"><span title=\"Level ");
+			html.append(card.getGrade());
+			html.append("\">");
+			html.append(card.getGrade());
+			html.append("</span></div>");
+			
+			html.append("<h1>Question</h1>");
+			html.append(filter(card.getQuestion()));
+			
+			if(printAnswer) {
+				html.append("<hr /><h1>Answer</h1>");
+				html.append(filter(card.getAnswer()));
+			}
+		}
 		
-		return html;
+		html.append("</body></html>");
+		
+		return html.toString();
 	}
 	
 	/**

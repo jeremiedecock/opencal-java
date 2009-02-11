@@ -537,12 +537,17 @@ public class EditableBrowser extends Composite {
 	}
 	
 	final private String htmlOut(String src) {
-		String css = MainWindow.loadCSS("editable_browser.css");
-		String html = "<html>" + css + "<body>";
-		html += filter(src);
-		html += "</body></html>";
+		StringBuffer html = new StringBuffer();
 		
-		return html;
+		html.append("<html><head><style type=\"text/css\" media=\"all\">");
+		html.append(MainWindow.EDITABLE_BROWSER_CSS);
+		html.append("</style><head><body>");
+		
+		html.append(filter(src));
+		
+		html.append("</body></html>");
+		
+		return html.toString();
 	}
 	
 	final private String filter(String text) {

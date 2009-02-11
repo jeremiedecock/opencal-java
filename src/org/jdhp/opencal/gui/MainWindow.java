@@ -5,6 +5,12 @@
 
 package org.jdhp.opencal.gui;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -38,6 +44,10 @@ import org.jdhp.opencal.gui.tabs.StatsTab;
 public class MainWindow {
 	
 	final public static Display DISPLAY = new Display();
+	
+	final public static String REVIEW_CSS = MainWindow.loadCSS("review.css");
+	
+	final public static String EDITABLE_BROWSER_CSS = MainWindow.loadCSS("editable_browser.css");
 	
 	final private Shell shell;
 	
@@ -374,11 +384,28 @@ public class MainWindow {
 	 * @param source
 	 * @return
 	 */
-	public static String loadCSS(String source) {
-		//String css = MainWindow.class.getResourceAsStream("css/" + source);
-		String css = "<style type=\"text/css\" media=\"all\">*{font-family : monospace, fixed; font-size : 13px; white-space : -moz-pre-wrap;} h1{font-size : 14px; font-family : verdana, sans-serif;}</style>";
+	private static String loadCSS(String source) {
+//		String css = "<style type=\"text/css\" media=\"all\">*{font-family : monospace, fixed; font-size : 13px; white-space : -moz-pre-wrap;} h1{font-size : 14px; font-family : verdana, sans-serif;}</style>";
+
+		StringBuffer css = new StringBuffer();
 		
-		return css;
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader(MainWindow.class.getResource("css/" + source).getFile()));
+			
+			String line;
+			do {
+				line = reader.readLine();
+				if(line != null) {
+					css.append(line);
+				}
+			} while(line != null);
+		} catch(FileNotFoundException e) {
+			System.out.println(e);
+		} catch(IOException e) {
+			System.out.println(e);
+		}
+		
+		return css.toString();
 	}
 	
 	/**

@@ -414,11 +414,10 @@ public class ExplorerTab {
 	 * La mise à jours faite lors de la sélection du tab "ExplorerTab"
 	 */
 	final public void update() {
-//		System.out.println("Call update");
 		OpenCAL.mainWindow.setStatusLabel1("", "");
-		OpenCAL.mainWindow.setStatusLabel2("", "");
-		OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
-		OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
+		OpenCAL.mainWindow.setStatusLabel2("A : " + OpenCAL.newCardList.size(), OpenCAL.newCardList.size() + " cards added today");
+		OpenCAL.mainWindow.setStatusLabel3("C : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " cards checked today");
+		OpenCAL.mainWindow.setStatusLabel4("L : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
 		
 		updateTagCombo();
 		updateCardList(false);
