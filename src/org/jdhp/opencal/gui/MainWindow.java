@@ -6,10 +6,9 @@
 package org.jdhp.opencal.gui;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -385,12 +384,10 @@ public class MainWindow {
 	 * @return
 	 */
 	private static String loadCSS(String source) {
-//		String css = "<style type=\"text/css\" media=\"all\">*{font-family : monospace, fixed; font-size : 13px; white-space : -moz-pre-wrap;} h1{font-size : 14px; font-family : verdana, sans-serif;}</style>";
-
 		StringBuffer css = new StringBuffer();
 		
 		try {
-			BufferedReader reader = new BufferedReader(new FileReader(MainWindow.class.getResource("css/" + source).getFile()));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(MainWindow.class.getResourceAsStream("css/" + source)));
 			
 			String line;
 			do {
