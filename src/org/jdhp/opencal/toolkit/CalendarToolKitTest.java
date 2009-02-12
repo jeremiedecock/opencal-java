@@ -1,6 +1,5 @@
 package org.jdhp.opencal.toolkit;
 
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import junit.framework.TestCase;

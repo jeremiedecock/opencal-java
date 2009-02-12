@@ -16,13 +16,15 @@ import org.w3c.dom.NodeList;
  *
  */
 public class InspectorAlan implements Inspector {
+	
+	public final String NAME = "Alan";
 
 	/**
 	 * Alan is a lazy guy. He doesn't care about too late or too early reviews.
 	 * 
 	 * @return
 	 */
-	public int assess(Card card) {
+	public float assess(Card card) {
 		int grade = 0;
 		
 		// TODO : vérifier que les noeuds "review" sont bien classés par date croissante
@@ -36,6 +38,13 @@ public class InspectorAlan implements Inspector {
 		}
 		
 		return grade;
+	}
+	
+	/**
+	 * 
+	 */
+	public String getName() {
+		return this.NAME;
 	}
 	
 }

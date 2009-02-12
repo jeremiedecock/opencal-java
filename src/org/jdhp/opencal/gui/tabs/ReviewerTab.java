@@ -1,6 +1,6 @@
 /*
  * OpenCAL version 3.0
- * Copyright (c) 2007,2008 Jérémie Decock
+ * Copyright (c) 2007,2008,2009 Jérémie Decock
  */
 
 package org.jdhp.opencal.gui.tabs;
@@ -392,9 +392,9 @@ public class ReviewerTab {
 		if(card == null) {
 			html.append("<center>Review done</center>");
 		} else {
-			String cssLevelClass = "level_red"; // default class (if level<3)
-			if(card.getGrade() >= 5) cssLevelClass = "level_green";
-			else if(card.getGrade() >= 3) cssLevelClass = "level_orange";
+			String cssLevelClass = "level_red"; // default class (if level<3.0)
+			if(card.getGrade() >= 5.) cssLevelClass = "level_green";
+			else if(card.getGrade() >= 3.) cssLevelClass = "level_orange";
 			
 			html.append("<div class=\"");
 			html.append(cssLevelClass);

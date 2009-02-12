@@ -3,14 +3,14 @@
  * Copyright (c) 2007,2008 Jérémie Decock
  */
 
-package org.jdhp.opencal.reviewfile;
+package org.jdhp.opencal.export;
 
 /**
  * 
  * @author Jérémie Decock
  *
  */
-public class ReviewFile {
+public class PDF {
 	
 	public static void createPdfFile() {
 		// TODO

@@ -1,6 +1,6 @@
 /*
  * OpenCAL version 3.0
- * Copyright (c) 2007,2008 Jérémie Decock
+ * Copyright (c) 2007,2008,2009 Jérémie Decock
  */
 
 package org.jdhp.opencal.inspector;
@@ -14,6 +14,8 @@ import org.jdhp.opencal.card.Card;
  */
 public interface Inspector {
 	
-	public int assess(Card card);
+	public String getName();
+	
+	public float assess(Card card);
 	
 }

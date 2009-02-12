@@ -1,6 +1,6 @@
 /*
  * OpenCAL version 3.0
- * Copyright (c) 2007,2008 Jérémie Decock
+ * Copyright (c) 2007,2008,2009 Jérémie Decock
  */
 
 package org.jdhp.opencal;
@@ -32,6 +32,7 @@ import org.jdhp.opencal.gui.MainWindow;
 import org.jdhp.opencal.inspector.Inspector;
 import org.jdhp.opencal.inspector.InspectorAlan;
 import org.jdhp.opencal.inspector.InspectorBrian;
+import org.jdhp.opencal.inspector.InspectorCharlie;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -256,6 +257,7 @@ public class OpenCAL {
 			OpenCAL.exit(1);
 		} else if(inspectorName.equals("Alan")) OpenCAL.inspector = new InspectorAlan();
 		else if(inspectorName.equals("Brian")) OpenCAL.inspector = new InspectorBrian();
+		else if(inspectorName.equals("Charlie")) OpenCAL.inspector = new InspectorCharlie();
 		else {
 			// TODO : set a default inspector and manage errors
 			System.out.println("No inspector set.");

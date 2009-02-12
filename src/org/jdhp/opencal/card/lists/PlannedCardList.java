@@ -31,13 +31,15 @@ public class PlannedCardList extends CardList {
 				if(tags[j].equals(OpenCAL.SUSPENDED_CARD_STRING)) isSuspended = true;
 			}
 			
-			if(card.getGrade() >= 0 && !isSuspended) this.add(card);
+			if(card.getGrade() >= 0. && !isSuspended) this.add(card);
 		}
 		
 		this.sortCards();
 	}
 	
 	/**
+	 * TODO : remplacer ce bricolage par quelque chose de plus serieux...
+	 * 
 	 * Tri le tableau par "grade" décroissant
 	 */
 	private void sortCards() {

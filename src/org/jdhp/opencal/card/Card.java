@@ -1,12 +1,11 @@
 /*
  * OpenCAL version 3.0
- * Copyright (c) 2007,2008 Jérémie Decock
+ * Copyright (c) 2007,2008,2009 Jérémie Decock
  */
 
 package org.jdhp.opencal.card;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 import org.jdhp.opencal.OpenCAL;
@@ -23,11 +22,12 @@ import org.w3c.dom.NodeList;
  */
 public class Card {
 
-	protected Element element;
+	private Element element;
 	
-	private int grade;
+	private float grade;
 	
 	/**
+	 * Constructeur utilisé lors de la création des cartes contenues dans le fichier XML.
 	 * 
 	 * @param element
 	 */
@@ -37,6 +37,7 @@ public class Card {
 	}
 	
 	/**
+	 * Constructeur utilisé lors de la création de cartes depuis l'interface utilisateur.
 	 * 
 	 * @param questionString
 	 * @param answerString
@@ -81,14 +82,6 @@ public class Card {
 	 */
 	public Element getElement() {
 		return this.element;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public String getId() {
-		return this.element.getAttribute("id");
 	}
 	
 	/**
@@ -187,7 +180,7 @@ public class Card {
 	 * 
 	 * @return
 	 */
-	public int getGrade() {
+	public float getGrade() {
 		return this.grade;
 	}
 	
