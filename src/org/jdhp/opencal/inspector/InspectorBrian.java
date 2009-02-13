@@ -38,6 +38,8 @@ public class InspectorBrian implements Inspector {
 		
 		// TODO : vérifier que les noeuds "review" sont bien classés par date croissante
 		NodeList reviewList = card.getElement().getElementsByTagName("review");
+		if(!isSorted(reviewList)) System.out.println("Unsorted card detected : " + card);
+		
 		for(int i=0 ; i < reviewList.getLength() ; i++) {
 			GregorianCalendar rdate = CalendarToolKit.iso8601ToCalendar(((Element) reviewList.item(i)).getAttribute("rdate"));
 			String result = ((Element) reviewList.item(i)).getAttribute("result"); 
@@ -60,6 +62,31 @@ public class InspectorBrian implements Inspector {
 		}
 		
 		return grade;
+	}
+	
+	/**
+	 * 
+	 * @param reviewList
+	 * @return
+	 */
+	public static boolean isSorted(NodeList reviewList) {
+		boolean isSorted = true;
+		
+		if(reviewList.getLength()>1) {
+			GregorianCalendar lastDate = CalendarToolKit.iso8601ToCalendar(((Element) reviewList.item(0)).getAttribute("rdate"));
+			
+			int i = 1;
+			while(i < reviewList.getLength() && isSorted) {
+				GregorianCalendar rdate = CalendarToolKit.iso8601ToCalendar(((Element) reviewList.item(i)).getAttribute("rdate"));
+				
+				if(rdate.before(lastDate)) isSorted = false;
+				
+				lastDate = rdate;
+				i++;
+			}
+		}
+		
+		return isSorted;
 	}
 	
 	/**

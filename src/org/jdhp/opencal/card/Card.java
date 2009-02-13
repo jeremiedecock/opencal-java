@@ -5,8 +5,17 @@
 
 package org.jdhp.opencal.card;
 
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.toolkit.CalendarToolKit;
@@ -272,6 +281,34 @@ public class Card {
 			OpenCAL.plannedCardList.remove(this);  // TODO : pb, le manipulator n'est pas au courrant...
 			OpenCAL.suspendedCardList.add(this);
 		}
+	}
+	
+	/**
+	 * Return the XML value
+	 */
+	public String toString() {
+		StringWriter stringWriter = new StringWriter();
+		
+		try {
+			// Make DOM source
+			Source domSource = new DOMSource(this.element);
+		
+			// Make output file
+			Result streamResult = new StreamResult(stringWriter);
+		
+			// Setup transformer
+			TransformerFactory factory = TransformerFactory.newInstance();
+			Transformer transformer = factory.newTransformer();
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+		
+			// Transformation
+			transformer.transform(domSource, streamResult);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return stringWriter.toString();
 	}
 	
 }
