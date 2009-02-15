@@ -392,24 +392,39 @@ public class ReviewerTab {
 		if(card == null) {
 			html.append("<center>Review done</center>");
 		} else {
-			String cssLevelClass = "level_red"; // default class (if level<3.0)
-			if(card.getGrade() >= 5.) cssLevelClass = "level_green";
-			else if(card.getGrade() >= 3.) cssLevelClass = "level_orange";
-			
-			html.append("<div class=\"");
-			html.append(cssLevelClass);
-			html.append("\"><span title=\"Level ");
-			html.append(card.getGrade());
-			html.append("\">");
+			// Informations
+			html.append("<div id=\"informations\">Created on <span class=\"information\">");
+			html.append(card.getCreationDate());
+			html.append("</span> | Checked <span class=\"information\">");
+			html.append(card.getReviews().length);
+			// TODO : Late ... days
+			html.append("</span> times | Level <span class=\"information\">");
 			html.append(card.getGrade());
 			html.append("</span></div>");
 			
+			// Tags
+			html.append("<div id=\"tags\">");
+			String tags[] = card.getTags();
+			for(int i=0 ; i<tags.length ; i++) {
+				html.append("<span class=\"tag\">");
+				html.append(tags[i]);
+				html.append("</span>");
+			}
+			html.append("</div>");
+			
+			// Question
+			html.append("<div id=\"question\">");
 			html.append("<h1>Question</h1>");
 			html.append(filter(card.getQuestion()));
+			html.append("</div>");
 			
+			// Answer
 			if(printAnswer) {
-				html.append("<hr /><h1>Answer</h1>");
+				html.append("<hr />");
+				html.append("<div id=\"answer\">");
+				html.append("<h1>Answer</h1>");
 				html.append(filter(card.getAnswer()));
+				html.append("</div>");
 			}
 		}
 		
