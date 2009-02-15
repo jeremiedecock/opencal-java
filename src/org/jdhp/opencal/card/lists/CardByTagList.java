@@ -33,10 +33,8 @@ public class CardByTagList extends CardList {
 		
 		this.currentTag = CardByTagList.ALL_TAGS;
 		
-		NodeList nodeCards = OpenCAL.getDomDocument().getElementsByTagName("card");
-		for(int i=0 ; i<nodeCards.getLength() ; i++) {
-			Card card = new Card((Element) nodeCards.item(i));
-			this.add(card);
+		for(int i=0 ; i<OpenCAL.allCardList.size() ; i++) {
+			this.add(OpenCAL.allCardList.get(i));
 		}
 	}
 	
@@ -81,9 +79,8 @@ public class CardByTagList extends CardList {
 	private void updateList() {
 		this.clear();
 		
-		NodeList nodeCards = OpenCAL.getDomDocument().getElementsByTagName("card");
-		for(int i=0 ; i<nodeCards.getLength() ; i++) {
-			Card card = new Card((Element) nodeCards.item(i));
+		for(int i=0 ; i<OpenCAL.allCardList.size() ; i++) {
+			Card card = OpenCAL.allCardList.get(i);
 			
 			if(this.currentTag.equals(CardByTagList.ALL_TAGS)) {
 				this.add(card);
