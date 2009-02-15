@@ -20,6 +20,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.card.Card;
 import org.jdhp.opencal.card.CardManipulator;
+import org.jdhp.opencal.card.Review;
 import org.jdhp.opencal.gui.CheckPanelHotKeys;
 import org.jdhp.opencal.gui.MainWindow;
 import org.jdhp.opencal.gui.images.SharedImages;
@@ -395,10 +396,18 @@ public class ReviewerTab {
 			// Informations
 			html.append("<div id=\"informations\">Created on <span class=\"information\">");
 			html.append(card.getCreationDate());
-			html.append("</span> | Checked <span class=\"information\">");
+			html.append("</span> | <span title=\"");
+			Review reviews[] = card.getReviews();
+			for(int i=0 ; i<reviews.length ; i++) {
+				html.append(reviews[i].getReviewDate());
+				html.append(" : ");
+				html.append(reviews[i].getResult());
+				html.append("\n");
+			}
+			html.append("\">Checked <span class=\"information\">");
 			html.append(card.getReviews().length);
 			// TODO : Late ... days
-			html.append("</span> times | Level <span class=\"information\">");
+			html.append("</span> times</span> | Level <span class=\"information\">");
 			html.append(card.getGrade());
 			html.append("</span></div>");
 			

@@ -18,6 +18,10 @@ div#informations span.information {
 	font-size : 11px;
 }
 
+div#informations span {
+	font-size : 11px;
+}
+
 div#tags {
 	margin : 6px 10px 0px 10px;
 }
@@ -37,7 +41,7 @@ div#question {
 }
 
 div#question img {
-	max-width : 80%;
+	max-width : 100%;
 }
 
 div#answer {
