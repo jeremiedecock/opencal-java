@@ -80,7 +80,7 @@ public class OpenCAL {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		OpenCAL.userProperties = getUserProperties();
+		OpenCAL.userProperties = OpenCAL.getUserProperties();
 		
 		// Create Inspector
 		OpenCAL.setInspector(OpenCAL.getInspectorName());
