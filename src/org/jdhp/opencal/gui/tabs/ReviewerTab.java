@@ -11,10 +11,12 @@ import java.util.regex.Pattern;
 import org.eclipse.swt.SWT;
 //import org.eclipse.swt.SWTError;
 import org.eclipse.swt.browser.Browser;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.jdhp.opencal.OpenCAL;
@@ -33,6 +35,12 @@ import org.jdhp.opencal.gui.images.SharedImages;
 public class ReviewerTab {
 
 	final private Composite parentComposite;
+	
+	final private Composite controlComposite;
+
+	final private Composite resultButtonComposite;
+
+	final private Composite navigationButtonComposite;
 	
 	final private Browser browser;
 	
@@ -57,14 +65,14 @@ public class ReviewerTab {
 	 * @param parentComposite
 	 */
 	public ReviewerTab(Composite parentComposite) {
-		
-		this.parentComposite = parentComposite;
-		this.parentComposite.setLayout(new GridLayout(2, false));
 
 		manipulator = OpenCAL.plannedCardList.manipulator();
 		
+		this.parentComposite = parentComposite;
+		this.parentComposite.setLayout(new GridLayout(1, false));
+		
 		///////////////////////////////////////////////////////////////////////
-		// reviewerText ///////////////////////////////////////////////////////
+		// browser ////////////////////////////////////////////////////////////
 		///////////////////////////////////////////////////////////////////////
 		
 //		try {
@@ -79,13 +87,19 @@ public class ReviewerTab {
 		this.browser.setText(htmlOut(card, false));
 		
 		///////////////////////////////////////////////////////////////////////
+		// controlComposite ///////////////////////////////////////////////////
+		///////////////////////////////////////////////////////////////////////
+		
+		controlComposite = new Composite(this.parentComposite, SWT.NONE);
+		controlComposite.setLayout(new StackLayout());
+		controlComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		
+		///////////////////////////////////////////////////////////////////////
 		// resultButtonComposite //////////////////////////////////////////////
 		///////////////////////////////////////////////////////////////////////
 		
-		Composite resultButtonComposite = new Composite(this.parentComposite, SWT.NONE);
-		GridLayout resultButtonCompositeGridLayout = new GridLayout(1, false);
-		resultButtonCompositeGridLayout.verticalSpacing = 40;
-		resultButtonComposite.setLayout(resultButtonCompositeGridLayout);
+		resultButtonComposite = new Composite(controlComposite, SWT.NONE);
+		resultButtonComposite.setLayout(new GridLayout(2, true));
 		
 		rightAnswerButton = new Button(resultButtonComposite, SWT.PUSH);
 		wrongAnswerButton = new Button(resultButtonComposite, SWT.PUSH);
@@ -94,16 +108,14 @@ public class ReviewerTab {
 		// navigationButtonComposite //////////////////////////////////////////
 		///////////////////////////////////////////////////////////////////////
 		
-		Composite navigationButtonComposite = new Composite(this.parentComposite, SWT.NONE);
+		navigationButtonComposite = new Composite(controlComposite, SWT.NONE);
 		navigationButtonComposite.setLayout(new GridLayout(3, false));
-		
-		GridData navigationButtonCompositeGridData = new GridData(GridData.FILL_HORIZONTAL);
-		navigationButtonCompositeGridData.horizontalSpan = 2;
-		navigationButtonComposite.setLayoutData(navigationButtonCompositeGridData);
 		
 		firstButton = new Button(navigationButtonComposite, SWT.PUSH);
 		Composite centralNavigationButtonComposite = new Composite(navigationButtonComposite, SWT.NONE);
 		lastButton = new Button(navigationButtonComposite, SWT.PUSH);
+
+        ((StackLayout) controlComposite.getLayout()).topControl = navigationButtonComposite;
 		
 		///////////////////////////////////////////////////////////////////////
 		// centralNavigationButtonComposite ///////////////////////////////////
@@ -125,7 +137,6 @@ public class ReviewerTab {
 		
 		// rightAnswerButton /////////////
 		rightAnswerButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		rightAnswerButton.setEnabled(false);
 		rightAnswerButton.setText("Right");
 		rightAnswerButton.setImage(SharedImages.getImage(SharedImages.FACE_SMILE));
 		rightAnswerButton.setToolTipText("Right answer");
@@ -150,12 +161,13 @@ public class ReviewerTab {
 						nextButton.setEnabled(false);
 						lastButton.setEnabled(false);
 					}
-					answerButton.setEnabled(true);
-					rightAnswerButton.setEnabled(false);
-					wrongAnswerButton.setEnabled(false);
-					
+
+                    ((StackLayout) controlComposite.getLayout()).topControl = navigationButtonComposite;
+					controlComposite.layout();
+
 					Card card = manipulator.pop();
 					browser.setText(htmlOut(card, false));
+
 					OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
 					OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
 				}
@@ -164,7 +176,6 @@ public class ReviewerTab {
 		
 		// wrongAnswerButton /////////////
 		wrongAnswerButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		wrongAnswerButton.setEnabled(false);
 		wrongAnswerButton.setText("Wrong");
 		wrongAnswerButton.setImage(SharedImages.getImage(SharedImages.FACE_SAD));
 		wrongAnswerButton.setToolTipText("Wrong answer");
@@ -189,12 +200,13 @@ public class ReviewerTab {
 						nextButton.setEnabled(false);
 						lastButton.setEnabled(false);
 					}
-					answerButton.setEnabled(true);
-					rightAnswerButton.setEnabled(false);
-					wrongAnswerButton.setEnabled(false);
+
+                    ((StackLayout) controlComposite.getLayout()).topControl = navigationButtonComposite;
+					controlComposite.layout();
 	
 					Card card = manipulator.pop();
 					browser.setText(htmlOut(card, false));
+
 					OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
 					OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
 				}
@@ -276,13 +288,8 @@ public class ReviewerTab {
 		answerButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				if(answerButton.getEnabled()) {
-					nextButton.setEnabled(false);
-					answerButton.setEnabled(false);
-					previousButton.setEnabled(false);
-					firstButton.setEnabled(false);
-					lastButton.setEnabled(false);
-					rightAnswerButton.setEnabled(true);
-					wrongAnswerButton.setEnabled(true);
+                    ((StackLayout) controlComposite.getLayout()).topControl = resultButtonComposite;
+					controlComposite.layout();
 					
 					Card card = manipulator.pop();
 					browser.setText(htmlOut(card, true));
@@ -359,7 +366,7 @@ public class ReviewerTab {
 			}
 		});
 		
-		// Add Hot Keys
+		// Add Hot Keys (TODO : clean that...)
 		CheckPanelHotKeys keyboardListener = new CheckPanelHotKeys(browser, firstButton, previousButton, answerButton, nextButton, lastButton, rightAnswerButton, wrongAnswerButton);
 		browser.addKeyListener(keyboardListener);
 		firstButton.addKeyListener(keyboardListener);
