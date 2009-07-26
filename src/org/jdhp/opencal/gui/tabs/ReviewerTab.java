@@ -111,28 +111,16 @@ public class ReviewerTab {
 		///////////////////////////////////////////////////////////////////////
 		
 		navigationButtonComposite = new Composite(controlComposite, SWT.NONE);
-		navigationButtonComposite.setLayout(new GridLayout(3, false));
+		navigationButtonComposite.setLayout(new GridLayout(5, false));
 		
         scale = new Scale(navigationButtonComposite, SWT.HORIZONTAL);
 		firstButton = new Button(navigationButtonComposite, SWT.PUSH);
-		Composite centralNavigationButtonComposite = new Composite(navigationButtonComposite, SWT.NONE);
+		previousButton = new Button(navigationButtonComposite, SWT.PUSH);
+		answerButton = new Button(navigationButtonComposite, SWT.PUSH);
+		nextButton = new Button(navigationButtonComposite, SWT.PUSH);
 		lastButton = new Button(navigationButtonComposite, SWT.PUSH);
 
         ((StackLayout) controlComposite.getLayout()).topControl = navigationButtonComposite;
-		
-		///////////////////////////////////////////////////////////////////////
-		// centralNavigationButtonComposite ///////////////////////////////////
-		///////////////////////////////////////////////////////////////////////
-		
-		GridLayout centralNavigationButtonCompositeGridLayout = new GridLayout(3, true);
-		centralNavigationButtonCompositeGridLayout.marginWidth = 0;
-		centralNavigationButtonComposite.setLayout(centralNavigationButtonCompositeGridLayout);
-		
-		centralNavigationButtonComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		
-		previousButton = new Button(centralNavigationButtonComposite, SWT.PUSH);
-		answerButton = new Button(centralNavigationButtonComposite, SWT.PUSH);
-		nextButton = new Button(centralNavigationButtonComposite, SWT.PUSH);
 		
 		///////////////////////////////////////////////////////////////////////
 		// resultButtons //////////////////////////////////////////////////////
@@ -222,7 +210,7 @@ public class ReviewerTab {
 		
         // Scale ///////////////
 		GridData scaleGridData = new GridData(GridData.FILL_HORIZONTAL);
-        scaleGridData.horizontalSpan = 3;
+        scaleGridData.horizontalSpan = 5;
 		scale.setLayoutData(scaleGridData);
 
 		// FirstButton /////////
@@ -288,7 +276,7 @@ public class ReviewerTab {
 		});
 		
 		// AnswerButton //////////
-		answerButton.setLayoutData(new GridData(GridData.FILL_BOTH));
+		answerButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		answerButton.setText("Answer");
 		answerButton.setImage(SharedImages.getImage(SharedImages.EDIT_FIND));
 		answerButton.setToolTipText("Show the answer for this card (review this card)");
