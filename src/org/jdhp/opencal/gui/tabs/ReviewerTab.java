@@ -11,14 +11,14 @@ import java.util.regex.Pattern;
 import org.eclipse.swt.SWT;
 //import org.eclipse.swt.SWTError;
 import org.eclipse.swt.browser.Browser;
-import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Scale;
 import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.card.Card;
 import org.jdhp.opencal.card.CardManipulator;
@@ -57,6 +57,8 @@ public class ReviewerTab {
 	final private Button answerButton;
 	
 	final private Button nextButton;
+
+    final private Scale scale;
 	
 	final private CardManipulator manipulator;
 	
@@ -111,6 +113,7 @@ public class ReviewerTab {
 		navigationButtonComposite = new Composite(controlComposite, SWT.NONE);
 		navigationButtonComposite.setLayout(new GridLayout(3, false));
 		
+        scale = new Scale(navigationButtonComposite, SWT.HORIZONTAL);
 		firstButton = new Button(navigationButtonComposite, SWT.PUSH);
 		Composite centralNavigationButtonComposite = new Composite(navigationButtonComposite, SWT.NONE);
 		lastButton = new Button(navigationButtonComposite, SWT.PUSH);
@@ -136,7 +139,7 @@ public class ReviewerTab {
 		///////////////////////////////////////////////////////////////////////
 		
 		// rightAnswerButton /////////////
-		rightAnswerButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		rightAnswerButton.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, true));
 		rightAnswerButton.setText("Right");
 		rightAnswerButton.setImage(SharedImages.getImage(SharedImages.FACE_SMILE));
 		rightAnswerButton.setToolTipText("Right answer");
@@ -168,14 +171,14 @@ public class ReviewerTab {
 					Card card = manipulator.pop();
 					browser.setText(htmlOut(card, false));
 
-					OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
-					OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
+					OpenCAL.mainWindow.setStatusLabel3("C : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " cards checked today");
+					OpenCAL.mainWindow.setStatusLabel4("L : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
 				}
 			}
 		});
 		
 		// wrongAnswerButton /////////////
-		wrongAnswerButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		wrongAnswerButton.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, true));
 		wrongAnswerButton.setText("Wrong");
 		wrongAnswerButton.setImage(SharedImages.getImage(SharedImages.FACE_SAD));
 		wrongAnswerButton.setToolTipText("Wrong answer");
@@ -207,8 +210,8 @@ public class ReviewerTab {
 					Card card = manipulator.pop();
 					browser.setText(htmlOut(card, false));
 
-					OpenCAL.mainWindow.setStatusLabel3("D : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " review done today");
-					OpenCAL.mainWindow.setStatusLabel4("R : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
+					OpenCAL.mainWindow.setStatusLabel3("C : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " cards checked today");
+					OpenCAL.mainWindow.setStatusLabel4("L : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
 				}
 			}
 		});
@@ -217,6 +220,11 @@ public class ReviewerTab {
 		// navigationButtonComposite //////////////////////////////////////////
 		///////////////////////////////////////////////////////////////////////
 		
+        // Scale ///////////////
+		GridData scaleGridData = new GridData(GridData.FILL_HORIZONTAL);
+        scaleGridData.horizontalSpan = 3;
+		scale.setLayoutData(scaleGridData);
+
 		// FirstButton /////////
 		firstButton.setEnabled(false);
 		firstButton.setImage(SharedImages.getImage(SharedImages.GO_FIRST));
