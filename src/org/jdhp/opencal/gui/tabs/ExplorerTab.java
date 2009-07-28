@@ -93,7 +93,9 @@ public class ExplorerTab {
 		
 		tagSelectionCombo.setItems(OpenCAL.cardByTagList.tagList());
 		tagSelectionCombo.select(0); // TODO
-		tagSelectionCombo.setEnabled(false);
+		tagSelectionCombo.setVisible(false);
+        ((GridData) tagSelectionCombo.getLayoutData()).exclude = true;
+        tagSelectionCombo.getParent().layout();
 		
 		// cardsList ////////////
 		cardsList = new List(cardSelectionComposite, SWT.BORDER | SWT.V_SCROLL);
@@ -206,10 +208,14 @@ public class ExplorerTab {
 			public void widgetSelected(SelectionEvent e) {
 				switch(getCurrentMode()) {
 					case ExplorerTab.CARDS_BY_TAG :
-						tagSelectionCombo.setEnabled(true);
+						tagSelectionCombo.setVisible(true);
+                        ((GridData) tagSelectionCombo.getLayoutData()).exclude = false;
+                        tagSelectionCombo.getParent().layout();
 						break;
 					default :
-						tagSelectionCombo.setEnabled(false);
+						tagSelectionCombo.setVisible(false);
+                        ((GridData) tagSelectionCombo.getLayoutData()).exclude = true;
+                        tagSelectionCombo.getParent().layout();
 				}
 				
 				updateCardList(true);
