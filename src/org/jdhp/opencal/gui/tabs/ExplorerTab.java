@@ -13,6 +13,7 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -153,8 +154,9 @@ public class ExplorerTab {
 		
 		fileButtonComposite.setLayout(new GridLayout(2, true));
 		
-		// SaveButton /////////
+		// SaveButton /////////////
 		saveButton = new Button(fileButtonComposite, SWT.PUSH);
+		saveButton.setLayoutData(new GridData(GridData.END, GridData.CENTER, true, true));
 		saveButton.setEnabled(false);
 		saveButton.setText("Save");
 		saveButton.setImage(SharedImages.getImage(SharedImages.MEDIA_FLOPPY));
@@ -174,9 +176,9 @@ public class ExplorerTab {
 			}
 		});
 		
-		// CancelButton /////////
+		// CancelButton ///////////
 		cancelButton = new Button(fileButtonComposite, SWT.PUSH);
-		cancelButton.setLayoutData(new GridData(GridData.FILL_VERTICAL));
+		cancelButton.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, true, true));
 		cancelButton.setEnabled(false);
 		cancelButton.setText("Cancel");
 		cancelButton.setImage(SharedImages.getImage(SharedImages.EDIT_CLEAR));
@@ -187,6 +189,13 @@ public class ExplorerTab {
 				updateTextArea();
 			}
 		});
+
+        // Equalize buttons size (buttons size may change in others languages...) //
+        Point cancelButtonPoint = cancelButton.computeSize(SWT.DEFAULT, SWT.DEFAULT, false);
+        Point saveButtonPoint = saveButton.computeSize(SWT.DEFAULT, SWT.DEFAULT, false);
+
+        if(cancelButtonPoint.x > saveButtonPoint.x) ((GridData) saveButton.getLayoutData()).widthHint = cancelButtonPoint.x;
+        else ((GridData) cancelButton.getLayoutData()).widthHint = saveButtonPoint.x;
 		
 		///////////////////////////////////////////////////////////////////////
 		// CardSelectionListeners /////////////////////////////////////////////

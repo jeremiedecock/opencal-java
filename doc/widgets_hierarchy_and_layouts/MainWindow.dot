@@ -1,0 +1,30 @@
+digraph MainWindow {
+    rankdir = BT;
+
+    node [shape = record];
+
+    sh [ label = "{Shell shell|GridLayout(1, false)|}" ];
+    me [ shape = Mrecord, label = "{Menu menu||}" ];
+    tf [ shape = Mrecord, label = "{TabFolder tabFolder||GridData(GridData.FILL_BOTH)}" ];
+    cs [ label = "{Composite statusBar|GridLayout(9, true)|GridData(GridData.FILL_HORIZONTAL)}" ];
+    c1 [ label = "{Composite makeCardComposite||}" ];
+    c2 [ label = "{Composite reviewerComposite||}" ];
+    c3 [ label = "{Composite explorerComposite||}" ];
+    c4 [ label = "{Composite statsComposite||}" ];
+    l1 [ shape = Mrecord, label = "{Label statusLabel1||GridData(GridData.FILL_HORIZONTAL)}" ];
+    l2 [ shape = Mrecord, label = "{Label statusLabel2||GridData(GridData.FILL_HORIZONTAL)}" ];
+    l3 [ shape = Mrecord, label = "{Label statusLabel3||GridData(GridData.FILL_HORIZONTAL)}" ];
+    l4 [ shape = Mrecord, label = "{Label statusLabel4||GridData(GridData.FILL_HORIZONTAL)}" ];
+
+    me -> sh;
+    tf -> sh;
+    cs -> sh;
+    c1 -> tf;
+    c2 -> tf;
+    c3 -> tf;
+    c4 -> tf;
+    l1 -> cs;
+    l2 -> cs;
+    l3 -> cs;
+    l4 -> cs;
+}

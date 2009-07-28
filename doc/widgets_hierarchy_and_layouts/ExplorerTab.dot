@@ -1,0 +1,30 @@
+digraph ReviewerTab {
+    rankdir = BT;
+
+    node [shape = record];
+
+    pc [ label = "{Composite parentComposite|GridLayout(2, false)|}" ];
+    cs [ label = "{Composite cardSelectionComposite|GridLayout(1, false)|GridData(GridData.FILL_VERTICAL)}" ];
+    ce [ label = "{Composite editionCardComposite|GridLayout(1, false)|GridData(GridData.FILL_BOTH)}" ];
+    cm [ shape = Mrecord, label = "{Combo displayModeCombo||GridData(GridData.FILL_HORIZONTAL)}" ];
+    ct [ shape = Mrecord, label = "{Combo tagSelectionCombo||GridData(GridData.FILL_HORIZONTAL)}" ];
+    lc [ shape = Mrecord, label = "{List cardsList||GridData(GridData.FILL_BOTH)}" ];
+    aq [ shape = Mrecord, label = "{EditableBrowser questionArea||GridData(GridData.FILL_BOTH)}" ];
+    aa [ shape = Mrecord, label = "{EditableBrowser answerArea||GridData(GridData.FILL_BOTH)}" ];
+    at [ shape = Mrecord, label = "{EditableBrowser tagsArea||GridData(GridData.FILL_BOTH)}" ];
+    cf [ label = "{Composite fileButtonComposite|GridLayout(2, true)|GridData(GridData.FILL_HORIZONTAL)}" ];
+    bs [ shape = Mrecord, label = "{Button saveButton||GridData(GridData.END, GridData.CENTER, true, true)}" ];
+    bc [ shape = Mrecord, label = "{Button cancelButton||GridData(GridData.BEGINNING, GridData.CENTER, true, true)}" ];
+
+    cs -> pc;
+    ce -> pc;
+    cm -> cs;
+    ct -> cs;
+    lc -> cs;
+    aq -> ce;
+    aa -> ce;
+    at -> ce;
+    cf -> ce;
+    bs -> cf;
+    bc -> cf;
+}

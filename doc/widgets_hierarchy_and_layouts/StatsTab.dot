@@ -1,0 +1,10 @@
+digraph ReviewerTab {
+    rankdir = BT;
+
+    node [shape = record];
+
+    pc [ label = "{Composite parentComposite|FillLayout(SWT.VERTICAL)|}" ];
+    ca [ label = "{Composite awtComp||}" ];
+
+    ca -> pc;
+}

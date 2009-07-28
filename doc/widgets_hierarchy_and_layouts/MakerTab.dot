@@ -1,0 +1,16 @@
+digraph ReviewerTab {
+    rankdir = BT;
+
+    node [shape = record];
+
+    pc [ label = "{Composite parentComposite|GridLayout(1, false)|}" ];
+    aq [ shape = Mrecord, label = "{EditableBrowser questionArea||GridData(GridData.FILL_BOTH)}" ];
+    aa [ shape = Mrecord, label = "{EditableBrowser answerArea||GridData(GridData.FILL_BOTH)}" ];
+    at [ shape = Mrecord, label = "{EditableBrowser tagsArea||GridData(GridData.FILL_BOTH)}" ];
+    ba [ shape = Mrecord, label = "{Button addButton||GridData(GridData.HORIZONTAL_ALIGN_CENTER)}" ];
+
+    aq -> pc;
+    aa -> pc;
+    at -> pc;
+    ba -> pc;
+}

@@ -221,8 +221,7 @@ public class MainWindow {
         // Create the tabfolder
 		final TabFolder tabFolder = new TabFolder(this.shell, SWT.NONE);
 		
-		GridData tabFolderGridData = new GridData(GridData.FILL_BOTH);
-		tabFolder.setLayoutData(tabFolderGridData);
+		tabFolder.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
 		this.tabItemMake = new TabItem(tabFolder, SWT.NONE);
 		this.tabItemReview = new TabItem(tabFolder, SWT.NONE);
@@ -276,8 +275,7 @@ public class MainWindow {
 		
 		// Create the Status Bar
 		Composite statusBar = new Composite(this.shell, SWT.NONE);
-		GridData statusBarGridData = new GridData(GridData.FILL_HORIZONTAL);
-		statusBar.setLayoutData(statusBarGridData);
+		statusBar.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		GridLayout statusBarGridLayout = new GridLayout(9, true);
 		statusBarGridLayout.marginWidth = 0;
 		statusBarGridLayout.marginHeight = 0;
@@ -295,16 +293,13 @@ public class MainWindow {
 		this.statusLabel1.setLayoutData(statusLabel1GridData);
 		
 		this.statusLabel2 = new Label(statusBar, SWT.CENTER);
-		GridData statusLabel2GridData = new GridData(GridData.FILL_HORIZONTAL);
-		this.statusLabel2.setLayoutData(statusLabel2GridData);
+		this.statusLabel2.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		
 		this.statusLabel3 = new Label(statusBar, SWT.CENTER);
-		GridData statusLabel3GridData = new GridData(GridData.FILL_HORIZONTAL);
-		this.statusLabel3.setLayoutData(statusLabel3GridData);
+		this.statusLabel3.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		
 		this.statusLabel4 = new Label(statusBar, SWT.CENTER);
-		GridData statusLabel4GridData = new GridData(GridData.FILL_HORIZONTAL);
-		this.statusLabel4.setLayoutData(statusLabel4GridData);
+		this.statusLabel4.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 	}
 	
 	/**

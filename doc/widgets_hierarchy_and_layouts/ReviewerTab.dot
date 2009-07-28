@@ -1,0 +1,32 @@
+digraph ReviewerTab {
+    rankdir = BT;
+
+    node [shape = record];
+
+    pc [ label = "{Composite parentComposite|GridLayout(1, false)|}" ];
+    bo [ shape = Mrecord, label = "{Browser browser||GridData(GridData.FILL_BOTH)}" ];
+    cc [ label = "{Composite controlComposite|StackLayout()|GridData(GridData.FILL_HORIZONTAL)}" ];
+    rc [ label = "{Composite resultButtonComposite|GridLayout(2, true)|}" ];
+    nc [ label = "{Composite navigationButtonComposite|GridLayout(5, false)|}" ];
+    sc [ shape = Mrecord, label = "{Scale scale||GridData.FILL_HORIZONTAL}" ];
+    bf [ shape = Mrecord, label = "{Button firstButton||}" ];
+    bp [ shape = Mrecord, label = "{Button previousButton||GridData(GridData.FILL_HORIZONTAL)}" ];
+    ba [ shape = Mrecord, label = "{Button answerButton||GridData(GridData.FILL_HORIZONTAL)}" ];
+    bn [ shape = Mrecord, label = "{Button nextButton||GridData(GridData.FILL_HORIZONTAL)}" ];
+    bl [ shape = Mrecord, label = "{Button lastButton||}" ];
+    br [ shape = Mrecord, label = "{Button rightAnswerButton||GridData(GridData.FILL, GridData.CENTER, true, true)}" ];
+    bw [ shape = Mrecord, label = "{Button wrongAnswerButton||GridData(GridData.FILL, GridData.CENTER, true, true)}" ];
+
+    bo -> pc;
+    cc -> pc;
+    rc -> cc;
+    nc -> cc;
+    sc -> nc;
+    bf -> nc;
+    bp -> nc;
+    ba -> nc;
+    bn -> nc;
+    bl -> nc;
+    br -> rc;
+    bw -> rc;
+}
