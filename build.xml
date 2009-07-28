@@ -39,7 +39,7 @@ variable from something like "us.utf8" to "us".
 	<property name="src_dir" value="${basedir}/src" />
 	<property name="class_dir" value="${basedir}/bin" />
 	<property name="lib_dir" value="${basedir}/ext/lib" />
-	<property name="doc_dir" value="${basedir}/doc" />
+	<property name="doc_dir" value="${basedir}/doc/javadoc" />
 	<property name="dist_dir" value="${basedir}/dist" />
 	<property name="dist_project_dir" value="${dist_dir}/opencal" />
 	
