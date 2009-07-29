@@ -9,6 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -69,15 +70,22 @@ public class ExplorerTab {
 	 * @param parentComposite
 	 */
 	public ExplorerTab(Composite parentComposite) {
+
 		this.parentComposite = parentComposite;
-		this.parentComposite.setLayout(new GridLayout(2, false));
+		this.parentComposite.setLayout(new GridLayout(1, false));
+		
+		///////////////////////////////////////////////////////////////////////
+		// SasheForm //////////////////////////////////////////////////////////
+		///////////////////////////////////////////////////////////////////////
+
+        SashForm sashForm = new SashForm(this.parentComposite, SWT.HORIZONTAL);
+		sashForm.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
 		///////////////////////////////////////////////////////////////////////
 		// CardSelectionComposite /////////////////////////////////////////////
 		///////////////////////////////////////////////////////////////////////
 		
-		Composite cardSelectionComposite = new Composite(this.parentComposite, SWT.NONE);
-		cardSelectionComposite.setLayoutData(new GridData(GridData.FILL_VERTICAL));
+		Composite cardSelectionComposite = new Composite(sashForm, SWT.NONE);
 		cardSelectionComposite.setLayout(new GridLayout(1, false));
 		
 		// displayModeCombo ////////////
@@ -107,12 +115,11 @@ public class ExplorerTab {
 		// EditionCardComposite ///////////////////////////////////////////////
 		///////////////////////////////////////////////////////////////////////
 		
-		Composite editionCardComposite = new Composite(this.parentComposite, SWT.NONE);
-		editionCardComposite.setLayoutData(new GridData(GridData.FILL_BOTH));
-		editionCardComposite.setLayout(new GridLayout(1, false));
+		Composite cardEditionComposite = new Composite(sashForm, SWT.NONE);
+		cardEditionComposite.setLayout(new GridLayout(1, false));
 		
 		// Question ////////
-		questionArea = new EditableBrowser(editionCardComposite);
+		questionArea = new EditableBrowser(cardEditionComposite);
 		questionArea.label.setText("Question");
 		questionArea.setLayoutData(new GridData(GridData.FILL_BOTH));
 
@@ -124,7 +131,7 @@ public class ExplorerTab {
 		});
 		
 		// Answer //////////
-		answerArea = new EditableBrowser(editionCardComposite);
+		answerArea = new EditableBrowser(cardEditionComposite);
 		answerArea.label.setText("Answer");
 		answerArea.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
@@ -136,7 +143,7 @@ public class ExplorerTab {
 		});
 		
 		// Tags ////////////
-		tagsArea = new EditableBrowser(editionCardComposite);
+		tagsArea = new EditableBrowser(cardEditionComposite);
 		tagsArea.label.setText("Tags");
 		tagsArea.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
@@ -151,7 +158,7 @@ public class ExplorerTab {
 		// FileButtonComposite ////////////////////////////////////////////////
 		///////////////////////////////////////////////////////////////////////
 		
-		Composite fileButtonComposite = new Composite(editionCardComposite, SWT.NONE);
+		Composite fileButtonComposite = new Composite(cardEditionComposite, SWT.NONE);
 		fileButtonComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		
 		fileButtonComposite.setLayout(new GridLayout(2, true));
