@@ -4,13 +4,15 @@ digraph ReviewerTab {
     node [shape = record];
 
     pc [ label = "{Composite parentComposite|GridLayout(1, false)|}" ];
-    aq [ shape = Mrecord, label = "{EditableBrowser questionArea||GridData(GridData.FILL_BOTH)}" ];
-    aa [ shape = Mrecord, label = "{EditableBrowser answerArea||GridData(GridData.FILL_BOTH)}" ];
-    at [ shape = Mrecord, label = "{EditableBrowser tagsArea||GridData(GridData.FILL_BOTH)}" ];
+    sv [ label = "{SashForm verticalSashForm||GridData(GridData.FILL_BOTH)}" ];
+    aq [ shape = Mrecord, label = "{EditableBrowser questionArea||}" ];
+    aa [ shape = Mrecord, label = "{EditableBrowser answerArea||}" ];
+    at [ shape = Mrecord, label = "{EditableBrowser tagsArea||}" ];
     ba [ shape = Mrecord, label = "{Button addButton||GridData(GridData.HORIZONTAL_ALIGN_CENTER)}" ];
 
-    aq -> pc;
-    aa -> pc;
-    at -> pc;
+    sv -> pc;
+    aq -> sv;
+    aa -> sv;
+    at -> sv;
     ba -> pc;
 }

@@ -27,9 +27,11 @@ public class CheckPanelHotKeys implements KeyListener {
 	
 	private Button wrongAnswerButton;
 	
-	private final static int PREVIOUS_KEY = SWT.ARROW_LEFT;
+	//private final static int PREVIOUS_KEY = SWT.ARROW_LEFT;
+	private final static int PREVIOUS_KEY = 'h';
 	
-	private final static int NEXT_KEY = SWT.ARROW_RIGHT;
+	//private final static int NEXT_KEY = SWT.ARROW_RIGHT;
+	private final static int NEXT_KEY = 'l';
 	
 	private final static char ANSWER_KEY = 'a';
 	

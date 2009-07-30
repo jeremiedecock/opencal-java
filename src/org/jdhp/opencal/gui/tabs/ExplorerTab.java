@@ -78,14 +78,14 @@ public class ExplorerTab {
 		// SasheForm //////////////////////////////////////////////////////////
 		///////////////////////////////////////////////////////////////////////
 
-        SashForm sashForm = new SashForm(this.parentComposite, SWT.HORIZONTAL);
-		sashForm.setLayoutData(new GridData(GridData.FILL_BOTH));
+        SashForm horizontalSashForm = new SashForm(this.parentComposite, SWT.HORIZONTAL);
+		horizontalSashForm.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
 		///////////////////////////////////////////////////////////////////////
 		// CardSelectionComposite /////////////////////////////////////////////
 		///////////////////////////////////////////////////////////////////////
 		
-		Composite cardSelectionComposite = new Composite(sashForm, SWT.NONE);
+		Composite cardSelectionComposite = new Composite(horizontalSashForm, SWT.NONE);
 		cardSelectionComposite.setLayout(new GridLayout(1, false));
 		
 		// displayModeCombo ////////////
@@ -115,13 +115,19 @@ public class ExplorerTab {
 		// EditionCardComposite ///////////////////////////////////////////////
 		///////////////////////////////////////////////////////////////////////
 		
-		Composite cardEditionComposite = new Composite(sashForm, SWT.NONE);
+		Composite cardEditionComposite = new Composite(horizontalSashForm, SWT.NONE);
 		cardEditionComposite.setLayout(new GridLayout(1, false));
 		
-		// Question ////////
-		questionArea = new EditableBrowser(cardEditionComposite);
+		///////////////////////////
+		// SasheForm //////////////
+		///////////////////////////
+
+        SashForm verticalSashForm = new SashForm(cardEditionComposite, SWT.VERTICAL);
+		verticalSashForm.setLayoutData(new GridData(GridData.FILL_BOTH));
+		
+		// Question ///////////////
+		questionArea = new EditableBrowser(verticalSashForm);
 		questionArea.label.setText("Question");
-		questionArea.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		questionArea.editableText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
@@ -130,10 +136,9 @@ public class ExplorerTab {
 			}
 		});
 		
-		// Answer //////////
-		answerArea = new EditableBrowser(cardEditionComposite);
+		// Answer /////////////////
+		answerArea = new EditableBrowser(verticalSashForm);
 		answerArea.label.setText("Answer");
-		answerArea.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
 		answerArea.editableText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
@@ -142,10 +147,9 @@ public class ExplorerTab {
 			}
 		});
 		
-		// Tags ////////////
-		tagsArea = new EditableBrowser(cardEditionComposite);
+		// Tags ///////////////////
+		tagsArea = new EditableBrowser(verticalSashForm);
 		tagsArea.label.setText("Tags");
-		tagsArea.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
 		tagsArea.editableText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
@@ -154,9 +158,9 @@ public class ExplorerTab {
 			}
 		});
 
-		///////////////////////////////////////////////////////////////////////
-		// FileButtonComposite ////////////////////////////////////////////////
-		///////////////////////////////////////////////////////////////////////
+		///////////////////////////
+		// FileButtonComposite ////
+		///////////////////////////
 		
 		Composite fileButtonComposite = new Composite(cardEditionComposite, SWT.NONE);
 		fileButtonComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));

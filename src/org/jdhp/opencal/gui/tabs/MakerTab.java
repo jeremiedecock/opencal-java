@@ -6,6 +6,7 @@
 package org.jdhp.opencal.gui.tabs;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -34,23 +35,30 @@ public class MakerTab {
 		
 		this.parentComposite = parentComposite;
 		this.parentComposite.setLayout(new GridLayout(1, false));
+
+		///////////////////////////
+		// SasheForm //////////////
+		///////////////////////////
+
+        SashForm verticalSashForm = new SashForm(this.parentComposite, SWT.VERTICAL);
+		verticalSashForm.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
 		// Question ////////
-		final EditableBrowser questionArea = new EditableBrowser(this.parentComposite);
+		final EditableBrowser questionArea = new EditableBrowser(verticalSashForm);
 		questionArea.label.setText("Question");
-		questionArea.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
 		// Answer //////////
-		final EditableBrowser answerArea = new EditableBrowser(this.parentComposite);
+		final EditableBrowser answerArea = new EditableBrowser(verticalSashForm);
 		answerArea.label.setText("Answer");
-		answerArea.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		// Tags ////////////
-		final EditableBrowser tagsArea = new EditableBrowser(this.parentComposite);
+		final EditableBrowser tagsArea = new EditableBrowser(verticalSashForm);
 		tagsArea.label.setText("Tags");
-		tagsArea.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
-		// Button /////////
+		///////////////////////////
+		// Add Button /////////////
+		///////////////////////////
+
 		Button addButton = new Button(this.parentComposite, SWT.PUSH);
 		addButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_CENTER));
 		addButton.setText("Add this card");
