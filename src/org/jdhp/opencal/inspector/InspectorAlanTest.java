@@ -1,4 +1,4 @@
-package org.jdhp.opencal.inspector;
+package org.jdhp.opencal.professor;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -11,7 +11,7 @@ import org.w3c.dom.Element;
 
 import junit.framework.TestCase;
 
-public class InspectorAlanTest extends TestCase {
+public class ProfessorAlanTest extends TestCase {
 
 	private Document document;
 	
@@ -19,7 +19,7 @@ public class InspectorAlanTest extends TestCase {
 	 * 
 	 * @param name
 	 */
-	public InspectorAlanTest(String name) {
+	public ProfessorAlanTest(String name) {
 		super(name);
 		
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -38,7 +38,7 @@ public class InspectorAlanTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		
-		OpenCAL.setInspector("Alan");
+		OpenCAL.setProfessor("Alan");
 	}
 
 	/**
@@ -47,7 +47,7 @@ public class InspectorAlanTest extends TestCase {
 	protected void tearDown() throws Exception {
 		super.tearDown();
 		
-//		OpenCAL.setInspector(OpenCAL.getInspectorName());
+//		OpenCAL.setProfessor(OpenCAL.getProfessorName());
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * Copyright (c) 2007,2008,2009 Jérémie Decock
  */
 
-package org.jdhp.opencal.inspector;
+package org.jdhp.opencal.professor;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -19,12 +19,12 @@ import org.w3c.dom.NodeList;
  * @author Jérémie Decock
  *
  */
-public class InspectorBrian implements Inspector {
+public class ProfessorBen implements Professor {
 
-	public final String NAME = "Brian";
+	public final String NAME = "Ben";
 	
 	/**
-	 * Brian is a little more professional than Alan.
+	 * Ben is a little more professional than Alan.
 	 * He doesn't validate reviews when it's too early...
 	 * but he doesn't care about late.
 	 * 

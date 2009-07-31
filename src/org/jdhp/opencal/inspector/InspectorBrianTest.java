@@ -1,4 +1,4 @@
-package org.jdhp.opencal.inspector;
+package org.jdhp.opencal.professor;
 
 import java.util.GregorianCalendar;
 
@@ -14,7 +14,7 @@ import org.w3c.dom.Element;
 
 import junit.framework.TestCase;
 
-public class InspectorBrianTest extends TestCase {
+public class ProfessorBenTest extends TestCase {
 
 	private Document document;
 	
@@ -22,7 +22,7 @@ public class InspectorBrianTest extends TestCase {
 	 * 
 	 * @param name
 	 */
-	public InspectorBrianTest(String name) {
+	public ProfessorBenTest(String name) {
 		super(name);
 
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -41,7 +41,7 @@ public class InspectorBrianTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		
-		OpenCAL.setInspector("Brian");
+		OpenCAL.setProfessor("Ben");
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class InspectorBrianTest extends TestCase {
 	protected void tearDown() throws Exception {
 		super.tearDown();
 
-//		OpenCAL.setInspector(OpenCAL.getInspectorName());
+//		OpenCAL.setProfessor(OpenCAL.getProfessorName());
 	}
 
 	/**
@@ -91,7 +91,7 @@ public class InspectorBrianTest extends TestCase {
 			GregorianCalendar lastRevisionDate = CalendarToolKit.iso8601ToCalendar(testArray[i][0]);
 			int grade = Integer.parseInt(testArray[i][1]);
 			
-			String expectedRevisionDate = CalendarToolKit.calendarToIso8601(InspectorBrian.getExpectedRevisionDate(lastRevisionDate, grade));
+			String expectedRevisionDate = CalendarToolKit.calendarToIso8601(ProfessorBen.getExpectedRevisionDate(lastRevisionDate, grade));
 			String expectedExpectedRevisionDate = testArray[i][2];
 			
 			assertEquals(expectedExpectedRevisionDate, expectedRevisionDate);
@@ -112,7 +112,7 @@ public class InspectorBrianTest extends TestCase {
 				{2, 4}};
 		
 		for(int i=0 ; i<testArray.length ; i++) {
-			assertEquals(testArray[i][1], InspectorBrian.deltaDays(testArray[i][0]));
+			assertEquals(testArray[i][1], ProfessorBen.deltaDays(testArray[i][0]));
 		}
 	}
 	

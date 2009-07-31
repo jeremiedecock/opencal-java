@@ -42,7 +42,7 @@ public class Card {
 	 */
 	public Card(Element element) {
 		this.element = element;
-		this.grade = OpenCAL.getInspector().assess(this);
+		this.grade = OpenCAL.getProfessor().assess(this);
 	}
 	
 	/**
@@ -81,7 +81,7 @@ public class Card {
 			// Add the new "card" to the XML file
 			OpenCAL.updatePkbFile();
 			
-			this.grade = OpenCAL.getInspector().assess(this);
+			this.grade = OpenCAL.getProfessor().assess(this);
 		}
 	}
 	
@@ -205,7 +205,7 @@ public class Card {
 		this.element.appendChild(reviewElement);
 		
 		// Update grade
-		this.grade = OpenCAL.getInspector().assess(this);
+		this.grade = OpenCAL.getProfessor().assess(this);
 		
 		// Serialize DOM tree
 		OpenCAL.updatePkbFile();

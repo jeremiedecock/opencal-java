@@ -3,7 +3,7 @@
  * Copyright (c) 2007,2008,2009 Jérémie Decock
  */
 
-package org.jdhp.opencal.inspector;
+package org.jdhp.opencal.professor;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -19,7 +19,7 @@ import org.w3c.dom.NodeList;
  * @author Jérémie Decock
  *
  */
-public class InspectorCharlie implements Inspector {
+public class ProfessorCharlie implements Professor {
 
 	public final String NAME = "Charlie";
 	

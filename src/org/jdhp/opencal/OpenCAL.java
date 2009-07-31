@@ -29,10 +29,10 @@ import org.jdhp.opencal.card.lists.PlannedCardList;
 import org.jdhp.opencal.card.lists.ReviewedCardList;
 import org.jdhp.opencal.card.lists.SuspendedCardList;
 import org.jdhp.opencal.gui.MainWindow;
-import org.jdhp.opencal.inspector.Inspector;
-import org.jdhp.opencal.inspector.InspectorAlan;
-import org.jdhp.opencal.inspector.InspectorBrian;
-import org.jdhp.opencal.inspector.InspectorCharlie;
+import org.jdhp.opencal.professor.Professor;
+import org.jdhp.opencal.professor.ProfessorAlan;
+import org.jdhp.opencal.professor.ProfessorBen;
+import org.jdhp.opencal.professor.ProfessorCharlie;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -74,7 +74,7 @@ public class OpenCAL {
 	
 	public static CardByTagList cardByTagList;
 	
-	private static Inspector inspector;
+	private static Professor professor;
 	
 	/**
 	 * @param args
@@ -82,8 +82,8 @@ public class OpenCAL {
 	public static void main(String[] args) {
 		OpenCAL.userProperties = OpenCAL.getUserProperties();
 		
-		// Create Inspector
-		OpenCAL.setInspector(OpenCAL.getInspectorName());
+		// Create Professor
+		OpenCAL.setProfessor(OpenCAL.getProfessorName());
 		
 		// Open PKB File and create cards lists
 		OpenCAL.openPkbFile(OpenCAL.getDefaultPkbFilePath());
@@ -156,8 +156,8 @@ public class OpenCAL {
 	 * 
 	 * @return
 	 */
-	public static String getInspectorName() {
-		return OpenCAL.userProperties.getProperty("inspector.name");
+	public static String getProfessorName() {
+		return OpenCAL.userProperties.getProperty("professor.name");
 	}
 	
 	/**
@@ -242,25 +242,25 @@ public class OpenCAL {
 	 * 
 	 * @return
 	 */
-	public static Inspector getInspector() {
-		return OpenCAL.inspector;
+	public static Professor getProfessor() {
+		return OpenCAL.professor;
 	}
 	
 	/**
 	 * 
 	 * @return
 	 */
-	public static void setInspector(String inspectorName) {
-		if(inspectorName == null) {
-			// TODO : set a default inspector and manage errors
-			System.out.println("No inspector set.");
+	public static void setProfessor(String professorName) {
+		if(professorName == null) {
+			// TODO : set a default professor and manage errors
+			System.out.println("No professor set.");
 			OpenCAL.exit(1);
-		} else if(inspectorName.equals("Alan")) OpenCAL.inspector = new InspectorAlan();
-		else if(inspectorName.equals("Brian")) OpenCAL.inspector = new InspectorBrian();
-		else if(inspectorName.equals("Charlie")) OpenCAL.inspector = new InspectorCharlie();
+		} else if(professorName.equals("Alan")) OpenCAL.professor = new ProfessorAlan();
+		else if(professorName.equals("Ben")) OpenCAL.professor = new ProfessorBen();
+		else if(professorName.equals("Charlie")) OpenCAL.professor = new ProfessorCharlie();
 		else {
-			// TODO : set a default inspector and manage errors
-			System.out.println("No inspector set.");
+			// TODO : set a default professor and manage errors
+			System.out.println("No professor set.");
 			OpenCAL.exit(1);
 		}
 	}
