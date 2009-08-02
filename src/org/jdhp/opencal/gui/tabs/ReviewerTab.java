@@ -138,27 +138,14 @@ public class ReviewerTab {
 				if(rightAnswerButton.getEnabled()) {
 					manipulator.pop().putReview(OpenCAL.RIGHT_ANSWER_STRING);
 					manipulator.remove();
-					
-					if(manipulator.hasPrevious()) {
-						previousButton.setEnabled(true);
-						firstButton.setEnabled(true);
-					} else {
-						previousButton.setEnabled(false);
-						firstButton.setEnabled(false);
-					}
-					if(manipulator.hasNext()) {
-						nextButton.setEnabled(true);
-						lastButton.setEnabled(true);
-					} else {
-						nextButton.setEnabled(false);
-						lastButton.setEnabled(false);
-					}
-
-                    ((StackLayout) controlComposite.getLayout()).topControl = navigationButtonComposite;
-					controlComposite.layout();
 
 					Card card = manipulator.pop();
 					browser.setText(htmlOut(card, false));
+
+                    ((StackLayout) controlComposite.getLayout()).topControl = navigationButtonComposite;
+					controlComposite.layout();
+					
+					updateControls();
 
 					OpenCAL.mainWindow.setStatusLabel3("C : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " cards checked today");
 					OpenCAL.mainWindow.setStatusLabel4("L : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
@@ -177,27 +164,14 @@ public class ReviewerTab {
 				if(wrongAnswerButton.getEnabled()) {
 					manipulator.pop().putReview(OpenCAL.WRONG_ANSWER_STRING);
 					manipulator.remove();
-					
-					if(manipulator.hasPrevious()) {
-						previousButton.setEnabled(true);
-						firstButton.setEnabled(true);
-					} else {
-						previousButton.setEnabled(false);
-						firstButton.setEnabled(false);
-					}
-					if(manipulator.hasNext()) {
-						nextButton.setEnabled(true);
-						lastButton.setEnabled(true);
-					} else {
-						nextButton.setEnabled(false);
-						lastButton.setEnabled(false);
-					}
 
+					Card card = manipulator.pop();
+					browser.setText(htmlOut(card, false));
+					
                     ((StackLayout) controlComposite.getLayout()).topControl = navigationButtonComposite;
 					controlComposite.layout();
 	
-					Card card = manipulator.pop();
-					browser.setText(htmlOut(card, false));
+					updateControls();
 
 					OpenCAL.mainWindow.setStatusLabel3("C : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " cards checked today");
 					OpenCAL.mainWindow.setStatusLabel4("L : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
@@ -215,7 +189,6 @@ public class ReviewerTab {
 		scale.setLayoutData(scaleGridData);
 
 		// FirstButton /////////
-		firstButton.setEnabled(false);
 		firstButton.setImage(SharedImages.getImage(SharedImages.GO_FIRST));
 		firstButton.setToolTipText("Goto the first card");
 		
@@ -226,27 +199,13 @@ public class ReviewerTab {
 					Card card = manipulator.pop();
 					browser.setText(htmlOut(card, false));
 					
-					if(manipulator.hasPrevious()) {
-						previousButton.setEnabled(true);
-						firstButton.setEnabled(true);
-					} else {
-						previousButton.setEnabled(false);
-						firstButton.setEnabled(false);
-					}
-					if(manipulator.hasNext()) {
-						nextButton.setEnabled(true);
-						lastButton.setEnabled(true);
-					} else {
-						nextButton.setEnabled(false);
-						lastButton.setEnabled(false);
-					}
+					updateControls();
 				}
 			}
 		});
 		
 		// PreviousButton /////////
 		previousButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		previousButton.setEnabled(false);
 		previousButton.setText("Previous");
 		previousButton.setImage(SharedImages.getImage(SharedImages.GO_PREVIOUS));
 		previousButton.setToolTipText("Goto the previous card");
@@ -258,20 +217,7 @@ public class ReviewerTab {
 					Card card = manipulator.pop();
 					browser.setText(htmlOut(card, false));
 					
-					if(manipulator.hasPrevious()) {
-						previousButton.setEnabled(true);
-						firstButton.setEnabled(true);
-					} else {
-						previousButton.setEnabled(false);
-						firstButton.setEnabled(false);
-					}
-					if(manipulator.hasNext()) {
-						nextButton.setEnabled(true);
-						lastButton.setEnabled(true);
-					} else {
-						nextButton.setEnabled(false);
-						lastButton.setEnabled(false);
-					}
+					updateControls();
 				}
 			}
 		});
@@ -290,6 +236,8 @@ public class ReviewerTab {
 					
 					Card card = manipulator.pop();
 					browser.setText(htmlOut(card, true));
+					
+					updateControls();
 				}
 			}
 		});
@@ -300,14 +248,6 @@ public class ReviewerTab {
 		nextButton.setImage(SharedImages.getImage(SharedImages.GO_NEXT));
 		nextButton.setToolTipText("Goto the next card");
 		
-		if(manipulator.hasNext()) {
-			nextButton.setEnabled(true);
-			lastButton.setEnabled(true);
-		} else {
-			nextButton.setEnabled(false);
-			lastButton.setEnabled(false);
-		}
-		
 		nextButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				if(nextButton.getEnabled()) {
@@ -315,26 +255,12 @@ public class ReviewerTab {
 					Card card = manipulator.pop();
 					browser.setText(htmlOut(card, false));
 					
-					if(manipulator.hasPrevious()) {
-						previousButton.setEnabled(true);
-						firstButton.setEnabled(true);
-					} else {
-						previousButton.setEnabled(false);
-						firstButton.setEnabled(false);
-					}
-					if(manipulator.hasNext()) {
-						nextButton.setEnabled(true);
-						lastButton.setEnabled(true);
-					} else {
-						nextButton.setEnabled(false);
-						lastButton.setEnabled(false);
-					}
+					updateControls();
 				}
 			}
 		});
 		
 		// LastButton /////////
-		lastButton.setEnabled(true);
 		lastButton.setImage(SharedImages.getImage(SharedImages.GO_LAST));
 		lastButton.setToolTipText("Goto the last card");
 		
@@ -344,25 +270,15 @@ public class ReviewerTab {
 					manipulator.last();
 					Card card = manipulator.pop();
 					browser.setText(htmlOut(card, false));
-					
-					if(manipulator.hasPrevious()) {
-						previousButton.setEnabled(true);
-						firstButton.setEnabled(true);
-					} else {
-						previousButton.setEnabled(false);
-						firstButton.setEnabled(false);
-					}
-					if(manipulator.hasNext()) {
-						nextButton.setEnabled(true);
-						lastButton.setEnabled(true);
-					} else {
-						nextButton.setEnabled(false);
-						lastButton.setEnabled(false);
-					}
+
+					updateControls();
 				}
 			}
 		});
 		
+        // Init controls state
+	    updateControls();
+        
 		// Add Hot Keys (TODO : clean that...)
 		CheckPanelHotKeys keyboardListener = new CheckPanelHotKeys(browser, firstButton, previousButton, answerButton, nextButton, lastButton, rightAnswerButton, wrongAnswerButton);
 		browser.addKeyListener(keyboardListener);
@@ -379,6 +295,47 @@ public class ReviewerTab {
 	 * 
 	 */
 	public void update() {	}
+
+	/**
+	 * 
+	 */
+	public void updateControls() {
+        if(((StackLayout) controlComposite.getLayout()).topControl == resultButtonComposite) {
+            // Result buttons /////////
+            rightAnswerButton.setEnabled(true);
+            wrongAnswerButton.setEnabled(true);
+
+            // Navigation buttons /////
+            firstButton.setEnabled(false);
+            previousButton.setEnabled(false);
+            answerButton.setEnabled(false);
+            nextButton.setEnabled(false);
+            lastButton.setEnabled(false);
+        } else {
+            // Result buttons /////////
+            rightAnswerButton.setEnabled(false);
+            wrongAnswerButton.setEnabled(false);
+
+            // Navigation buttons /////
+            answerButton.setEnabled(true);
+
+            if(manipulator.hasPrevious()) {
+                previousButton.setEnabled(true);
+                firstButton.setEnabled(true);
+            } else {
+                previousButton.setEnabled(false);
+                firstButton.setEnabled(false);
+            }
+
+            if(manipulator.hasNext()) {
+                nextButton.setEnabled(true);
+                lastButton.setEnabled(true);
+            } else {
+                nextButton.setEnabled(false);
+                lastButton.setEnabled(false);
+            }
+        }
+    }
 	
 	/**
 	 * TODO : Utiliser un StringBuffer pour la variable "html".
