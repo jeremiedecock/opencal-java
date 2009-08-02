@@ -183,6 +183,19 @@ public class ReviewerTab {
 		GridData scaleGridData = new GridData(GridData.FILL_HORIZONTAL);
         scaleGridData.horizontalSpan = 5;
 		scale.setLayoutData(scaleGridData);
+        
+        scale.setMinimum(0);
+        scale.setIncrement(1);
+        scale.setPageIncrement(1);
+		
+		scale.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+                manipulator.setIndex(scale.getSelection());
+				
+                updateBrowser();
+				updateButtons();
+			}
+		});
 
 		// FirstButton /////////
 		firstButton.setImage(SharedImages.getImage(SharedImages.GO_FIRST));
@@ -327,8 +340,6 @@ public class ReviewerTab {
             wrongAnswerButton.setEnabled(false);
 
             // Navigation buttons /////
-            answerButton.setEnabled(true);
-
             if(manipulator.hasPrevious()) {
                 previousButton.setEnabled(true);
                 firstButton.setEnabled(true);
@@ -343,6 +354,12 @@ public class ReviewerTab {
             } else {
                 nextButton.setEnabled(false);
                 lastButton.setEnabled(false);
+            }
+
+            if(manipulator.pop() != null) {
+                answerButton.setEnabled(true);
+            } else {
+                answerButton.setEnabled(false);
             }
         }
     }
@@ -359,7 +376,13 @@ public class ReviewerTab {
 	 * 
 	 */
 	final private void updateScale() {
-
+        if(manipulator.pop() != null) {
+            scale.setEnabled(true);
+            scale.setSelection(manipulator.getIndex());
+            scale.setMaximum(OpenCAL.plannedCardList.size() - 1); // TODO : +0, +1 ou -1 ?
+        } else {
+            scale.setEnabled(false);
+        }
     }
 
 	/**
@@ -452,6 +475,10 @@ public class ReviewerTab {
 	/**
 	 * 
 	 */
-	public void update() {	}
+	public void update() {
+        updateBrowser();
+	    updateButtons();
+        updateScale();
+	}
 	
 }

@@ -18,14 +18,14 @@ public class CardManipulator {
 	
 	private ArrayList<Card> cardList;
 	
-	private int cursor;
+	private int index;
 	
 	/**
 	 * 
 	 * @param PKB_FILE_PATH
 	 */
 	public CardManipulator(ArrayList<Card> cardList) {
-		this.cursor = 0;
+		this.index = 0;
 		this.cardList = cardList;
 	}
 	
@@ -35,9 +35,8 @@ public class CardManipulator {
 	 */
 	public Card pop() {
 		if(!this.cardList.isEmpty()) {
-			return (Card) this.cardList.get(this.cursor);
+			return (Card) this.cardList.get(this.index);
 		} else {
-			OpenCAL.mainWindow.printAlert("Review terminated");
 			return null;
 		}
 	}
@@ -46,14 +45,14 @@ public class CardManipulator {
 	 * 
 	 */
 	public void next() {
-		if(this.hasNext()) this.cursor++;
+		if(this.hasNext()) this.index++;
 	}
 	
 	/**
 	 * 
 	 */
 	public void previous() {
-		if(this.hasPrevious()) this.cursor--;
+		if(this.hasPrevious()) this.index--;
 	}
 
 
@@ -62,7 +61,7 @@ public class CardManipulator {
 	 * @return
 	 */
 	public boolean hasNext() {
-		if(this.cursor < this.cardList.size() - 1) return true;
+		if(this.index < this.cardList.size() - 1) return true;
 		else return false;
 	}
 
@@ -71,24 +70,44 @@ public class CardManipulator {
 	 * @return
 	 */
 	public boolean hasPrevious() {
-		if(this.cursor > 0) return true;
+		if(this.index > 0) return true;
 		else return false;
 	}
 	
 	/**
 	 * 
-	 * @return
 	 */
 	public void first() {
-		this.cursor = 0;
+		this.index = 0;
 	}
 	
 	/**
 	 * 
-	 * @return
 	 */
 	public void last() {
-		this.cursor = this.cardList.size() - 1;
+		this.index = this.cardList.size() - 1;
+	}
+
+	/**
+	 * 
+     * @return 
+	 */
+	public int getIndex() {
+        return this.index;
+	}
+
+	/**
+	 * 
+	 * @param index
+     * @return 
+	 */
+	public boolean setIndex(int newIndex) {
+        if(newIndex >= 0 && newIndex < this.cardList.size()) {
+            this.index = newIndex;
+            return true;
+        } else {
+            return false;
+        }
 	}
 	
 	/**
@@ -104,14 +123,14 @@ public class CardManipulator {
 	 */
 	public void remove() {
 		if(this.hasNext() && this.hasPrevious()) {
-			this.cardList.remove(this.cursor);
+			this.cardList.remove(this.index);
 		} else if(!this.hasNext() && this.hasPrevious()) {
-			this.cardList.remove(this.cursor);
-			this.cursor--;
+			this.cardList.remove(this.index);
+			this.index--;
 		} else if(this.hasNext() && !this.hasPrevious()) {
-			this.cardList.remove(this.cursor);
+			this.cardList.remove(this.index);
 		} else if(!this.hasNext() && !this.hasPrevious()) {
-			this.cardList.remove(this.cursor);
+			this.cardList.remove(this.index);
 		}
 	}
 	
