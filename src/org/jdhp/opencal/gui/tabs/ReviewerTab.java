@@ -34,6 +34,10 @@ import org.jdhp.opencal.gui.images.SharedImages;
  */
 public class ReviewerTab {
 
+    final public static int RESULT_MODE = 1;
+
+    final public static int NAVIGATION_MODE = 2;
+
 	final private Composite parentComposite;
 	
 	final private Composite controlComposite;
@@ -61,6 +65,8 @@ public class ReviewerTab {
     final private Scale scale;
 	
 	final private CardManipulator manipulator;
+
+    private int mode;
 	
 	/**
 	 * 
@@ -84,9 +90,6 @@ public class ReviewerTab {
 //			System.out.println("Could not instantiate Browser : " + e.getMessage());
 //			OpenCAL.exit(1);
 //		}
-	
-		Card card = manipulator.pop();
-		this.browser.setText(htmlOut(card, false));
 		
 		///////////////////////////////////////////////////////////////////////
 		// controlComposite ///////////////////////////////////////////////////
@@ -119,9 +122,6 @@ public class ReviewerTab {
 		answerButton = new Button(navigationButtonComposite, SWT.PUSH);
 		nextButton = new Button(navigationButtonComposite, SWT.PUSH);
 		lastButton = new Button(navigationButtonComposite, SWT.PUSH);
-
-        ((StackLayout) controlComposite.getLayout()).topControl = navigationButtonComposite;
-        controlComposite.layout();
 		
 		///////////////////////////////////////////////////////////////////////
 		// resultButtons //////////////////////////////////////////////////////
@@ -139,13 +139,11 @@ public class ReviewerTab {
 					manipulator.pop().putReview(OpenCAL.RIGHT_ANSWER_STRING);
 					manipulator.remove();
 
-					Card card = manipulator.pop();
-					browser.setText(htmlOut(card, false));
-
-                    ((StackLayout) controlComposite.getLayout()).topControl = navigationButtonComposite;
-					controlComposite.layout();
+                    setMode(ReviewerTab.NAVIGATION_MODE);
 					
-					updateControls();
+                    updateBrowser();
+					updateButtons();
+                    updateScale();
 
 					OpenCAL.mainWindow.setStatusLabel3("C : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " cards checked today");
 					OpenCAL.mainWindow.setStatusLabel4("L : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
@@ -165,13 +163,11 @@ public class ReviewerTab {
 					manipulator.pop().putReview(OpenCAL.WRONG_ANSWER_STRING);
 					manipulator.remove();
 
-					Card card = manipulator.pop();
-					browser.setText(htmlOut(card, false));
-					
-                    ((StackLayout) controlComposite.getLayout()).topControl = navigationButtonComposite;
-					controlComposite.layout();
+                    setMode(ReviewerTab.NAVIGATION_MODE);
 	
-					updateControls();
+                    updateBrowser();
+					updateButtons();
+                    updateScale();
 
 					OpenCAL.mainWindow.setStatusLabel3("C : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " cards checked today");
 					OpenCAL.mainWindow.setStatusLabel4("L : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
@@ -196,10 +192,10 @@ public class ReviewerTab {
 			public void widgetSelected(SelectionEvent e) {
 				if(firstButton.getEnabled()) {
 					manipulator.first();
-					Card card = manipulator.pop();
-					browser.setText(htmlOut(card, false));
 					
-					updateControls();
+                    updateBrowser();
+					updateButtons();
+                    updateScale();
 				}
 			}
 		});
@@ -214,10 +210,10 @@ public class ReviewerTab {
 			public void widgetSelected(SelectionEvent e) {
 				if(previousButton.getEnabled()) {
 					manipulator.previous();
-					Card card = manipulator.pop();
-					browser.setText(htmlOut(card, false));
 					
-					updateControls();
+                    updateBrowser();
+					updateButtons();
+                    updateScale();
 				}
 			}
 		});
@@ -231,13 +227,9 @@ public class ReviewerTab {
 		answerButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				if(answerButton.getEnabled()) {
-                    ((StackLayout) controlComposite.getLayout()).topControl = resultButtonComposite;
-					controlComposite.layout();
-					
-					Card card = manipulator.pop();
-					browser.setText(htmlOut(card, true));
-					
-					updateControls();
+                    setMode(ReviewerTab.RESULT_MODE);
+                    updateBrowser();
+					updateButtons();
 				}
 			}
 		});
@@ -252,10 +244,10 @@ public class ReviewerTab {
 			public void widgetSelected(SelectionEvent e) {
 				if(nextButton.getEnabled()) {
 					manipulator.next();
-					Card card = manipulator.pop();
-					browser.setText(htmlOut(card, false));
 					
-					updateControls();
+                    updateBrowser();
+					updateButtons();
+                    updateScale();
 				}
 			}
 		});
@@ -268,16 +260,21 @@ public class ReviewerTab {
 			public void widgetSelected(SelectionEvent e) {
 				if(lastButton.getEnabled()) {
 					manipulator.last();
-					Card card = manipulator.pop();
-					browser.setText(htmlOut(card, false));
 
-					updateControls();
+                    updateBrowser();
+					updateButtons();
+                    updateScale();
 				}
 			}
 		});
 		
-        // Init controls state
-	    updateControls();
+        // Init composites
+        setMode(ReviewerTab.NAVIGATION_MODE);
+
+        // Init controls
+        updateBrowser();
+	    updateButtons();
+        updateScale();
         
 		// Add Hot Keys (TODO : clean that...)
 		CheckPanelHotKeys keyboardListener = new CheckPanelHotKeys(browser, firstButton, previousButton, answerButton, nextButton, lastButton, rightAnswerButton, wrongAnswerButton);
@@ -294,13 +291,26 @@ public class ReviewerTab {
 	/**
 	 * 
 	 */
-	public void update() {	}
+	final private int getMode() {
+        if(((StackLayout) controlComposite.getLayout()).topControl == resultButtonComposite) return ReviewerTab.RESULT_MODE;
+        else return ReviewerTab.NAVIGATION_MODE;
+    }
+	
+	/**
+	 * 
+	 */
+	final private void setMode(int mode) {
+        if(mode == ReviewerTab.RESULT_MODE) ((StackLayout) controlComposite.getLayout()).topControl = resultButtonComposite;
+        else ((StackLayout) controlComposite.getLayout()).topControl = navigationButtonComposite;
+
+        controlComposite.layout();
+    }
 
 	/**
 	 * 
 	 */
-	public void updateControls() {
-        if(((StackLayout) controlComposite.getLayout()).topControl == resultButtonComposite) {
+	final private void updateButtons() {
+        if(getMode() == ReviewerTab.RESULT_MODE) {
             // Result buttons /////////
             rightAnswerButton.setEnabled(true);
             wrongAnswerButton.setEnabled(true);
@@ -336,7 +346,22 @@ public class ReviewerTab {
             }
         }
     }
+
+	/**
+	 * 
+	 */
+	final private void updateBrowser() {
+        Card card = manipulator.pop();
+        browser.setText(htmlOut(card));
+    }
 	
+	/**
+	 * 
+	 */
+	final private void updateScale() {
+
+    }
+
 	/**
 	 * TODO : Utiliser un StringBuffer pour la variable "html".
 	 * 
@@ -344,7 +369,7 @@ public class ReviewerTab {
 	 * @param answer
 	 * @return
 	 */
-	final private String htmlOut(Card card, boolean printAnswer) {
+	final private String htmlOut(Card card) {
 		StringBuffer html = new StringBuffer();
 		
 		html.append("<html><head><style type=\"text/css\" media=\"all\">");
@@ -389,7 +414,7 @@ public class ReviewerTab {
 			html.append("</div>");
 			
 			// Answer
-			if(printAnswer) {
+            if(getMode() == ReviewerTab.RESULT_MODE) {
 				html.append("<hr />");
 				html.append("<div id=\"answer\">");
 				html.append("<h1>Answer</h1>");
@@ -423,5 +448,10 @@ public class ReviewerTab {
 		
 		return html;
 	}
+	
+	/**
+	 * 
+	 */
+	public void update() {	}
 	
 }
