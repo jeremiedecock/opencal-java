@@ -48,9 +48,9 @@ public class ReviewerTab {
 	
 	final private Browser browser;
 	
-	final private Button rightAnswerButton;
-	
 	final private Button wrongAnswerButton;
+	
+	final private Button rightAnswerButton;
 	
 	final private Button firstButton;
 	
@@ -127,30 +127,6 @@ public class ReviewerTab {
 		// resultButtons //////////////////////////////////////////////////////
 		///////////////////////////////////////////////////////////////////////
 		
-		// rightAnswerButton /////////////
-		rightAnswerButton.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, true));
-		rightAnswerButton.setText("Right");
-		rightAnswerButton.setImage(SharedImages.getImage(SharedImages.FACE_SMILE));
-		rightAnswerButton.setToolTipText("Right answer");
-		
-		rightAnswerButton.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				if(rightAnswerButton.getEnabled()) {
-					manipulator.pop().putReview(OpenCAL.RIGHT_ANSWER_STRING);
-					manipulator.remove();
-
-                    setMode(ReviewerTab.NAVIGATION_MODE);
-					
-                    updateBrowser();
-					updateButtons();
-                    updateScale();
-
-					OpenCAL.mainWindow.setStatusLabel3("C : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " cards checked today");
-					OpenCAL.mainWindow.setStatusLabel4("L : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
-				}
-			}
-		});
-		
 		// wrongAnswerButton /////////////
 		wrongAnswerButton.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, true));
 		wrongAnswerButton.setText("Wrong");
@@ -165,6 +141,30 @@ public class ReviewerTab {
 
                     setMode(ReviewerTab.NAVIGATION_MODE);
 	
+                    updateBrowser();
+					updateButtons();
+                    updateScale();
+
+					OpenCAL.mainWindow.setStatusLabel3("C : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " cards checked today");
+					OpenCAL.mainWindow.setStatusLabel4("L : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
+				}
+			}
+		});
+		
+		// rightAnswerButton /////////////
+		rightAnswerButton.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, true));
+		rightAnswerButton.setText("Right");
+		rightAnswerButton.setImage(SharedImages.getImage(SharedImages.FACE_SMILE));
+		rightAnswerButton.setToolTipText("Right answer");
+		
+		rightAnswerButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				if(rightAnswerButton.getEnabled()) {
+					manipulator.pop().putReview(OpenCAL.RIGHT_ANSWER_STRING);
+					manipulator.remove();
+
+                    setMode(ReviewerTab.NAVIGATION_MODE);
+					
                     updateBrowser();
 					updateButtons();
                     updateScale();
@@ -290,15 +290,15 @@ public class ReviewerTab {
         updateScale();
         
 		// Add Hot Keys (TODO : clean that...)
-		CheckPanelHotKeys keyboardListener = new CheckPanelHotKeys(browser, firstButton, previousButton, answerButton, nextButton, lastButton, rightAnswerButton, wrongAnswerButton);
+		CheckPanelHotKeys keyboardListener = new CheckPanelHotKeys(browser, firstButton, previousButton, answerButton, nextButton, lastButton, wrongAnswerButton, rightAnswerButton);
 		browser.addKeyListener(keyboardListener);
 		firstButton.addKeyListener(keyboardListener);
 		previousButton.addKeyListener(keyboardListener);
 		answerButton.addKeyListener(keyboardListener);
 		nextButton.addKeyListener(keyboardListener);
 		lastButton.addKeyListener(keyboardListener);
-		rightAnswerButton.addKeyListener(keyboardListener);
 		wrongAnswerButton.addKeyListener(keyboardListener);
+		rightAnswerButton.addKeyListener(keyboardListener);
 	}
 	
 	/**
@@ -325,8 +325,8 @@ public class ReviewerTab {
 	final private void updateButtons() {
         if(getMode() == ReviewerTab.RESULT_MODE) {
             // Result buttons /////////
-            rightAnswerButton.setEnabled(true);
             wrongAnswerButton.setEnabled(true);
+            rightAnswerButton.setEnabled(true);
 
             // Navigation buttons /////
             firstButton.setEnabled(false);
@@ -336,8 +336,8 @@ public class ReviewerTab {
             lastButton.setEnabled(false);
         } else {
             // Result buttons /////////
-            rightAnswerButton.setEnabled(false);
             wrongAnswerButton.setEnabled(false);
+            rightAnswerButton.setEnabled(false);
 
             // Navigation buttons /////
             if(manipulator.hasPrevious()) {
