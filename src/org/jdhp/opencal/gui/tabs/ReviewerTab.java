@@ -106,8 +106,8 @@ public class ReviewerTab {
 		resultButtonComposite = new Composite(controlComposite, SWT.NONE);
 		resultButtonComposite.setLayout(new GridLayout(2, true));
 		
-		rightAnswerButton = new Button(resultButtonComposite, SWT.PUSH);
 		wrongAnswerButton = new Button(resultButtonComposite, SWT.PUSH);
+		rightAnswerButton = new Button(resultButtonComposite, SWT.PUSH);
 		
 		///////////////////////////////////////////////////////////////////////
 		// navigationButtonComposite //////////////////////////////////////////
