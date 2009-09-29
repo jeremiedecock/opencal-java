@@ -192,6 +192,15 @@ public class Card {
 	public float getGrade() {
 		return this.grade;
 	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isSuspended() {
+        String attrString = this.element.getAttribute("hidden");
+		return attrString.equals("true") ? true : false;
+    }
 	
 	/**
 	 * 
@@ -268,20 +277,28 @@ public class Card {
 		
 		// Serialize DOM tree
 		OpenCAL.updatePkbFile();
+	}
+
+	/**
+	 * 
+	 * @param suspendedValue
+	 */
+	public void setSuspended(boolean suspendedValue) {
+        // Update XML element
+        this.element.setAttribute("hidden", suspendedValue ? "true" : "false");
 		
 		// Update plannedCardList and suspendedCardList if necessary
-		boolean isSuspended = false;
-		int i = 0;
-		while(!isSuspended && i<newTags.length) { 
-			if(newTags[i].equals(OpenCAL.SUSPENDED_CARD_STRING)) isSuspended = true;
-			i++;
-		}
+        if(suspendedValue) {
+            OpenCAL.plannedCardList.remove(this);   // TODO : pb, le manipulator n'est pas au courrant...
+            OpenCAL.suspendedCardList.add(this);    // TODO
+        } else {
+            OpenCAL.plannedCardList.add(this);      // TODO : pb, le manipulator n'est pas au courrant...
+            OpenCAL.suspendedCardList.remove(this); // TODO
+        }
 		
-		if(isSuspended) {
-			OpenCAL.plannedCardList.remove(this);  // TODO : pb, le manipulator n'est pas au courrant...
-			OpenCAL.suspendedCardList.add(this);
-		}
-	}
+		// Serialize DOM tree
+		OpenCAL.updatePkbFile();
+    }
 	
 	/**
 	 * Return the XML value

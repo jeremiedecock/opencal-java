@@ -52,8 +52,6 @@ public class OpenCAL {
 	
 	public final static String WRONG_ANSWER_STRING = "bad";
 	
-	public final static String SUSPENDED_CARD_STRING = "Suspended";
-	
 	private static Properties userProperties;
 	
 	private static File pkbFile;

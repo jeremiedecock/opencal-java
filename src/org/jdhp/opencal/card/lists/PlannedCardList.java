@@ -20,15 +20,8 @@ public class PlannedCardList extends CardList {
 		super();
 		
 		for(int i=0 ; i<OpenCAL.allCardList.size() ; i++) {
-			Card card = OpenCAL.allCardList.get(i);
-			
-			boolean isSuspended = false;
-			String[] tags = card.getTags();
-			for(int j=0 ; j < tags.length ; j++) {
-				if(tags[j].equals(OpenCAL.SUSPENDED_CARD_STRING)) isSuspended = true;
-			}
-			
-			if(card.getGrade() >= 0. && !isSuspended) this.add(card);
+            Card card = OpenCAL.allCardList.get(i);
+			if(card.getGrade() >= 0. && !card.isSuspended()) this.add(card);
 		}
 		
 		this.sortCards();
