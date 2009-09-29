@@ -14,14 +14,14 @@ import org.jdhp.opencal.card.CardList;
  * @author Jérémie Decock
  *
  */
-public class SuspendedCardList extends CardList {
+public class HiddenCardList extends CardList {
 
-	public SuspendedCardList() {
+	public HiddenCardList() {
 		super();
 		
 		for(int i=0 ; i<OpenCAL.allCardList.size() ; i++) {
             Card card = OpenCAL.allCardList.get(i);
-			if(card.isSuspended()) this.add(card);
+			if(card.isHidden()) this.add(card);
 		}
 	}
 }

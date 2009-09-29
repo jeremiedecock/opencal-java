@@ -197,7 +197,7 @@ public class Card {
 	 * 
 	 * @return
 	 */
-	public boolean isSuspended() {
+	public boolean isHidden() {
         String attrString = this.element.getAttribute("hidden");
 		return attrString.equals("true") ? true : false;
     }
@@ -281,19 +281,19 @@ public class Card {
 
 	/**
 	 * 
-	 * @param suspendedValue
+	 * @param isHidden
 	 */
-	public void setSuspended(boolean suspendedValue) {
+	public void setHidden(boolean isHidden) {
         // Update XML element
-        this.element.setAttribute("hidden", suspendedValue ? "true" : "false");
+        this.element.setAttribute("hidden", isHidden ? "true" : "false");
 		
-		// Update plannedCardList and suspendedCardList if necessary
-        if(suspendedValue) {
+		// Update plannedCardList and hiddenCardList if necessary
+        if(isHidden) {
             OpenCAL.plannedCardList.remove(this);   // TODO : pb, le manipulator n'est pas au courrant...
-            OpenCAL.suspendedCardList.add(this);    // TODO
+            OpenCAL.hiddenCardList.add(this);    // TODO
         } else {
             OpenCAL.plannedCardList.add(this);      // TODO : pb, le manipulator n'est pas au courrant...
-            OpenCAL.suspendedCardList.remove(this); // TODO
+            OpenCAL.hiddenCardList.remove(this); // TODO
         }
 		
 		// Serialize DOM tree

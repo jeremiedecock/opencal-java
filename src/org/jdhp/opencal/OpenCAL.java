@@ -27,7 +27,7 @@ import org.jdhp.opencal.card.lists.CardByTagList;
 import org.jdhp.opencal.card.lists.NewCardList;
 import org.jdhp.opencal.card.lists.PlannedCardList;
 import org.jdhp.opencal.card.lists.ReviewedCardList;
-import org.jdhp.opencal.card.lists.SuspendedCardList;
+import org.jdhp.opencal.card.lists.HiddenCardList;
 import org.jdhp.opencal.gui.MainWindow;
 import org.jdhp.opencal.professor.Professor;
 import org.jdhp.opencal.professor.ProfessorAlan;
@@ -68,7 +68,7 @@ public class OpenCAL {
 	
 	public static NewCardList newCardList;
 	
-	public static SuspendedCardList suspendedCardList;
+	public static HiddenCardList hiddenCardList;
 	
 	public static CardByTagList cardByTagList;
 	
@@ -184,7 +184,7 @@ public class OpenCAL {
 			OpenCAL.plannedCardList = new PlannedCardList();
 			OpenCAL.reviewedCardList = new ReviewedCardList();
 			OpenCAL.newCardList = new NewCardList();
-			OpenCAL.suspendedCardList = new SuspendedCardList();
+			OpenCAL.hiddenCardList = new HiddenCardList();
 			OpenCAL.cardByTagList = new CardByTagList();
 			
 		} catch(SAXException e) {
@@ -214,7 +214,7 @@ public class OpenCAL {
 //		OpenCAL.plannedCardList = null;
 //		OpenCAL.reviewedCardList = null;
 //		OpenCAL.newCardList = null;
-//		OpenCAL.suspendedCardList = null;
+//		OpenCAL.hiddenCardList = null;
 //		
 //		OpenCAL.domDocument = null;
 //		OpenCAL.pkbFile = null;

@@ -21,7 +21,7 @@ public class PlannedCardList extends CardList {
 		
 		for(int i=0 ; i<OpenCAL.allCardList.size() ; i++) {
             Card card = OpenCAL.allCardList.get(i);
-			if(card.getGrade() >= 0. && !card.isSuspended()) this.add(card);
+			if(card.getGrade() >= 0. && !card.isHidden()) this.add(card);
 		}
 		
 		this.sortCards();

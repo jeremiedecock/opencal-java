@@ -33,7 +33,7 @@ import org.jdhp.opencal.gui.widgets.EditableBrowser;
  */
 public class ExplorerTab {
 
-	final private String[] displayModes = {"All Cards", "Reviewed Cards", "New Cards", "Suspended Cards", "Cards By Tag"};
+	final private String[] displayModes = {"All Cards", "Reviewed Cards", "New Cards", "Hidden Cards", "Cards By Tag"};
 	
 	final private static int DEFAULT_DISPLAY_MODE = 1;
 	
@@ -43,7 +43,7 @@ public class ExplorerTab {
 	
 	final private static int NEW_CARDS = 2;
 	
-	final private static int SUSPENDED_CARDS = 3;
+	final private static int HIDDEN_CARDS = 3;
 	
 	final private static int CARDS_BY_TAG = 4;
 	
@@ -311,8 +311,8 @@ public class ExplorerTab {
 				case ExplorerTab.NEW_CARDS :
 					selectedCard = OpenCAL.newCardList.get(selectionIndex);
 					break;
-				case ExplorerTab.SUSPENDED_CARDS :
-					selectedCard = OpenCAL.suspendedCardList.get(selectionIndex);
+				case ExplorerTab.HIDDEN_CARDS :
+					selectedCard = OpenCAL.hiddenCardList.get(selectionIndex);
 					break;
 				case ExplorerTab.CARDS_BY_TAG :
 					selectedCard = OpenCAL.cardByTagList.get(selectionIndex);
@@ -368,8 +368,8 @@ public class ExplorerTab {
 			case ExplorerTab.NEW_CARDS :
 				cardsList.setItems(itemFilter(OpenCAL.newCardList.getQuestionStrings()));
 				break;
-			case ExplorerTab.SUSPENDED_CARDS :
-				cardsList.setItems(itemFilter(OpenCAL.suspendedCardList.getQuestionStrings()));
+			case ExplorerTab.HIDDEN_CARDS :
+				cardsList.setItems(itemFilter(OpenCAL.hiddenCardList.getQuestionStrings()));
 				break;
 			case ExplorerTab.CARDS_BY_TAG :
 				cardsList.setItems(itemFilter(OpenCAL.cardByTagList.getQuestionStrings()));
