@@ -52,6 +52,8 @@ public class ExplorerTab {
 	final private List cardsList;
 	
 	final private Combo tagSelectionCombo;
+
+	final private Button showHiddenCardsCheckbox;
 	
 	final private Combo displayModeCombo;
 	
@@ -88,14 +90,14 @@ public class ExplorerTab {
 		Composite cardSelectionComposite = new Composite(horizontalSashForm, SWT.NONE);
 		cardSelectionComposite.setLayout(new GridLayout(1, false));
 		
-		// displayModeCombo ////////////
+		// displayModeCombo ///////////
 		displayModeCombo = new Combo(cardSelectionComposite, SWT.BORDER | SWT.READ_ONLY);
 		displayModeCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		
 		displayModeCombo.setItems(displayModes);
 		displayModeCombo.select(ExplorerTab.DEFAULT_DISPLAY_MODE);
 		
-		// tagSelectionCombo ////////////
+		// tagSelectionCombo //////////
 		tagSelectionCombo = new Combo(cardSelectionComposite, SWT.BORDER | SWT.READ_ONLY);
 		tagSelectionCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		
@@ -105,7 +107,13 @@ public class ExplorerTab {
         ((GridData) tagSelectionCombo.getLayoutData()).exclude = true;
         tagSelectionCombo.getParent().layout();
 		
-		// cardsList ////////////
+		// showHiddenCardsCheckbox ////
+        showHiddenCardsCheckbox = new Button(cardSelectionComposite, SWT.CHECK);
+        showHiddenCardsCheckbox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+
+        showHiddenCardsCheckbox.setText("Show hidden cards");
+
+		// cardsList //////////////////
 		cardsList = new List(cardSelectionComposite, SWT.BORDER | SWT.V_SCROLL);
 		cardsList.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
