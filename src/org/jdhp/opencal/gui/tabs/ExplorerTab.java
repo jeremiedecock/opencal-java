@@ -103,15 +103,14 @@ public class ExplorerTab {
 		
 		tagSelectionCombo.setItems(OpenCAL.cardByTagList.tagList());
 		tagSelectionCombo.select(0); // TODO
-		tagSelectionCombo.setVisible(false);
-        ((GridData) tagSelectionCombo.getLayoutData()).exclude = true;
-        tagSelectionCombo.getParent().layout();
+        setTagSelectionComboVisible(false);
 		
 		// showHiddenCardsCheckbox ////
         showHiddenCardsCheckbox = new Button(cardSelectionComposite, SWT.CHECK);
         showHiddenCardsCheckbox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
         showHiddenCardsCheckbox.setText("Show hidden cards");
+        setShowHiddenCardsCheckboxVisible(true);
 
 		// cardsList //////////////////
 		cardsList = new List(cardSelectionComposite, SWT.BORDER | SWT.V_SCROLL);
@@ -226,15 +225,17 @@ public class ExplorerTab {
 		displayModeCombo.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				switch(getCurrentMode()) {
+					case ExplorerTab.ALL_CARDS :
+                        setShowHiddenCardsCheckboxVisible(true);
+                        setTagSelectionComboVisible(false);
+						break;
 					case ExplorerTab.CARDS_BY_TAG :
-						tagSelectionCombo.setVisible(true);
-                        ((GridData) tagSelectionCombo.getLayoutData()).exclude = false;
-                        tagSelectionCombo.getParent().layout();
+                        setShowHiddenCardsCheckboxVisible(true);
+                        setTagSelectionComboVisible(true);
 						break;
 					default :
-						tagSelectionCombo.setVisible(false);
-                        ((GridData) tagSelectionCombo.getLayoutData()).exclude = true;
-                        tagSelectionCombo.getParent().layout();
+                        setShowHiddenCardsCheckboxVisible(false);
+                        setTagSelectionComboVisible(false);
 				}
 				
 				updateCardList(true);
@@ -332,9 +333,45 @@ public class ExplorerTab {
 		
 		return selectedCard;
 	}
+
+
+
 	
+	/**
+     *
+     */
+    final private void setShowHiddenCardsCheckboxVisible(boolean visible) {
+        if(visible) {
+            showHiddenCardsCheckbox.setVisible(true);
+            ((GridData) showHiddenCardsCheckbox.getLayoutData()).exclude = false;
+            showHiddenCardsCheckbox.getParent().layout();
+        } else {
+            showHiddenCardsCheckbox.setVisible(false);
+            ((GridData) showHiddenCardsCheckbox.getLayoutData()).exclude = true;
+            showHiddenCardsCheckbox.getParent().layout();
+        }
+    }
+
+
+
 	
-	
+	/**
+     *
+     */
+    final private void setTagSelectionComboVisible(boolean visible) {
+        if(visible) {
+            tagSelectionCombo.setVisible(true);
+            ((GridData) tagSelectionCombo.getLayoutData()).exclude = false;
+            tagSelectionCombo.getParent().layout();
+        } else {
+            tagSelectionCombo.setVisible(false);
+            ((GridData) tagSelectionCombo.getLayoutData()).exclude = true;
+            tagSelectionCombo.getParent().layout();
+        }
+    }
+
+
+
 	
 	/**
 	 * Met à jour la liste des items dans le combo "TagSelection"
