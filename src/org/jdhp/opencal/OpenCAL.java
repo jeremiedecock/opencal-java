@@ -51,6 +51,8 @@ public class OpenCAL {
 	public final static String RIGHT_ANSWER_STRING = "good";
 	
 	public final static String WRONG_ANSWER_STRING = "bad";
+
+    final public static String IMG_PATH = "file:///home/gremy/Desktop/opencal_materials/";
 	
 	private static Properties userProperties;
 	

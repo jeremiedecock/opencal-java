@@ -21,6 +21,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
 import org.eclipse.swt.*;
+import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.gui.MainWindow;
 import org.jdhp.opencal.gui.images.SharedImages;
 
@@ -556,10 +557,10 @@ public class EditableBrowser extends Composite {
 		html = html.replaceAll(">", "&gt;");
 		
 		// Rétabli l'interprétation pour les balises images
-		String pattern = "&lt;(img src=\"file:///home/gremy/Desktop/opencal_materials/[0-9abcdef]{32}.(png|jpg|jpeg)\" /)&gt;";
+		String pattern = "&lt;img file=\"([0-9abcdef]{32}.(png|jpg|jpeg))\" /&gt;";
 		Pattern regPat = Pattern.compile(pattern);
 		Matcher matcher = regPat.matcher(html);
-		html = matcher.replaceAll("<$1>");
+		html = matcher.replaceAll("<img src=\"" + OpenCAL.IMG_PATH + "$1\" />");
 		
 		return html;
 	}

@@ -271,7 +271,7 @@ public class ExplorerTab {
 	final private String[] itemFilter(String[] text) {
 		for(int i=0 ; i<text.length ; i++) {
 			// Supprime les balises images
-			String pattern = "<img src=\"file:///home/gremy/Desktop/opencal_materials/[0-9abcdef]{32}.(png|jpg|jpeg)\" />";
+			String pattern = "<img file=\"[0-9abcdef]{32}.(png|jpg|jpeg)\" />";
 			Pattern regPat = Pattern.compile(pattern);
 			Matcher matcher = regPat.matcher(text[i]);
 			text[i] = matcher.replaceAll("[img]");
