@@ -45,7 +45,7 @@ public class FixDatesBug {
 		// Get properties
 		Properties userProperties = new Properties();
 		try {
-			FileInputStream userPropertiesFile = new FileInputStream("/home/gremy/.opencal.properties");
+			FileInputStream userPropertiesFile = new FileInputStream("/home/gremy/.opencal/opencal.properties");
 			userProperties.load(userPropertiesFile);
 			userPropertiesFile.close();
 		} catch(Exception e) {

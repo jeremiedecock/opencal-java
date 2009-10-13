@@ -92,7 +92,7 @@ public class OpenCAL {
 	}
 	
 	/**
-	 * Get the user properties path (for example : "/home/foo/.opencal.properties").
+	 * Get the user properties path (for example : "/home/foo/.opencal/opencal.properties").
 	 * 
 	 * @return
 	 */
@@ -103,7 +103,7 @@ public class OpenCAL {
 		String fileSeparator = System.getProperty("file.separator"); // TODO : ça ne devrait pas être déclaré ici...
 		
 		if(userHome != null && fileSeparator != null) {
-			userPropertiesPath = userHome + fileSeparator + ".opencal.properties";
+			userPropertiesPath = userHome + fileSeparator + ".opencal" + fileSeparator + "opencal.properties";
 		} else {
 			System.out.println("Unexpected error : your system or your JVM can't run this program.");
 			System.exit(1);
