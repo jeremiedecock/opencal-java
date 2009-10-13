@@ -110,7 +110,7 @@ public class ExplorerTab {
         showHiddenCardsCheckbox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
         showHiddenCardsCheckbox.setText("Show hidden cards");
-        setShowHiddenCardsCheckboxVisible(true);
+        setShowHiddenCardsCheckboxVisible(false);
 
 		// cardsList //////////////////
 		cardsList = new List(cardSelectionComposite, SWT.BORDER | SWT.V_SCROLL);
