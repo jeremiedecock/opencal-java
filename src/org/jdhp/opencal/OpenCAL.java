@@ -52,8 +52,6 @@ public class OpenCAL {
 	
 	public final static String WRONG_ANSWER_STRING = "bad";
 
-    final public static String IMG_PATH = "file:///home/gremy/Desktop/opencal_materials/";
-	
 	private static Properties userProperties;
 	
 	private static File pkbFile;
@@ -158,6 +156,14 @@ public class OpenCAL {
 	 */
 	public static String getProfessorName() {
 		return OpenCAL.userProperties.getProperty("professor.name");
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static String getImgPath() {
+		return OpenCAL.userProperties.getProperty("img.path");
 	}
 	
 	/**

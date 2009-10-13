@@ -467,7 +467,7 @@ public class ReviewerTab {
 		String pattern = "&lt;img file=\"([0-9abcdef]{32}.(png|jpg|jpeg))\" /&gt;";
 		Pattern regPat = Pattern.compile(pattern);
 		Matcher matcher = regPat.matcher(html);
-		html = matcher.replaceAll("<img src=\"" + OpenCAL.IMG_PATH + "$1\" />");
+		html = matcher.replaceAll("<img src=\"" + OpenCAL.getImgPath() + "$1\" />");
 		
 		return html;
 	}
