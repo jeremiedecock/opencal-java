@@ -22,6 +22,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.jdhp.opencal.card.Card;
 import org.jdhp.opencal.card.lists.AllCardList;
 import org.jdhp.opencal.card.lists.CardByTagList;
 import org.jdhp.opencal.card.lists.NewCardList;
@@ -85,7 +86,8 @@ public class OpenCAL {
 		
 		// Open PKB File and create cards lists
 		OpenCAL.openPkbFile(OpenCAL.getDefaultPkbFilePath());
-		
+        Card.initCardList();
+
 		// Make and run GUI
 		OpenCAL.mainWindow = new MainWindow();
 		OpenCAL.mainWindow.run();
