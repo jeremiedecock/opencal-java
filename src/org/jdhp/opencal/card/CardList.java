@@ -20,7 +20,6 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.jdhp.opencal.card.CardManipulator;
-import org.jdhp.opencal.card.Manipulable;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -29,7 +28,7 @@ import org.w3c.dom.Element;
  * @author Jérémie Decock
  *
  */
-public class CardList extends ArrayList<Card> implements Manipulable {
+public class CardList extends ArrayList<Card> {
 
 	/**
 	 * 
