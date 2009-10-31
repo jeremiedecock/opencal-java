@@ -21,8 +21,10 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.List;
+
 import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.card.Card;
+import org.jdhp.opencal.gui.MainWindow;
 import org.jdhp.opencal.gui.images.SharedImages;
 import org.jdhp.opencal.gui.widgets.EditableBrowser;
 
@@ -405,19 +407,19 @@ public class ExplorerTab {
 		
 		switch(getCurrentMode()) {
 			case ExplorerTab.ALL_CARDS :
-				cardsList.setItems(itemFilter(OpenCAL.allCardList.getQuestionStrings()));
+				cardsList.setItems(itemFilter(MainWindow.getQuestionStrings(OpenCAL.allCardList, false)));
 				break;
 			case ExplorerTab.REVIEWED_CARDS : 
-				cardsList.setItems(itemFilter(OpenCAL.reviewedCardList.getQuestionStrings()));
+				cardsList.setItems(itemFilter(MainWindow.getQuestionStrings(OpenCAL.reviewedCardList, true)));
 				break;
 			case ExplorerTab.NEW_CARDS :
-				cardsList.setItems(itemFilter(OpenCAL.newCardList.getQuestionStrings()));
+				cardsList.setItems(itemFilter(MainWindow.getQuestionStrings(OpenCAL.newCardList, false)));
 				break;
 			case ExplorerTab.HIDDEN_CARDS :
-				cardsList.setItems(itemFilter(OpenCAL.hiddenCardList.getQuestionStrings()));
+				cardsList.setItems(itemFilter(MainWindow.getQuestionStrings(OpenCAL.hiddenCardList, false)));
 				break;
 			case ExplorerTab.CARDS_BY_TAG :
-				cardsList.setItems(itemFilter(OpenCAL.cardByTagList.getQuestionStrings()));
+				cardsList.setItems(itemFilter(MainWindow.getQuestionStrings(OpenCAL.cardByTagList, false)));
 				break;
 		}
 		

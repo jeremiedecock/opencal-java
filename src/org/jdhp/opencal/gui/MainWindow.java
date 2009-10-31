@@ -9,6 +9,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -28,12 +30,16 @@ import org.eclipse.swt.widgets.Monitor;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
+
 import org.jdhp.opencal.OpenCAL;
+import org.jdhp.opencal.card.CardList;
+import org.jdhp.opencal.card.Review;
 import org.jdhp.opencal.gui.images.SharedImages;
 import org.jdhp.opencal.gui.tabs.ExplorerTab;
 import org.jdhp.opencal.gui.tabs.MakerTab;
 import org.jdhp.opencal.gui.tabs.ReviewerTab;
 import org.jdhp.opencal.gui.tabs.StatsTab;
+import org.jdhp.opencal.toolkit.CalendarToolKit;
 
 /**
  * 
@@ -398,6 +404,36 @@ public class MainWindow {
 		}
 		
 		return css.toString();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static String[] getQuestionStrings(CardList cardList, boolean displayErrors) {
+		ArrayList<String> questionStrings = new ArrayList<String>();
+		
+        if(displayErrors) {
+            boolean wrongAnswer;
+            Review[] reviews;
+            for(int i=0 ; i<cardList.size() ; i++) {
+                wrongAnswer = false;
+                reviews = cardList.get(i).getReviews();
+                
+                for(int j=0 ; j<reviews.length ; j++) {
+                    if(reviews[j].getReviewDate().equals(CalendarToolKit.calendarToIso8601(new GregorianCalendar())) && reviews[j].getResult().equals(OpenCAL.WRONG_ANSWER_STRING)) wrongAnswer = true;
+                }
+                
+                if(wrongAnswer) questionStrings.add("▶ " + cardList.get(i).getQuestion());
+                else questionStrings.add(cardList.get(i).getQuestion());
+            }
+        } else {
+            for(int i=0 ; i<cardList.size() ; i++) {
+                questionStrings.add(cardList.get(i).getQuestion());
+            }
+        }
+		
+		return questionStrings.toArray(new String[0]);
 	}
 	
 	/**
