@@ -74,7 +74,7 @@ public class ReviewerTab {
 	 */
 	public ReviewerTab(Composite parentComposite) {
 
-		manipulator = OpenCAL.plannedCardList.manipulator();
+		manipulator = new CardManipulator(OpenCAL.plannedCardList);
 		
 		this.parentComposite = parentComposite;
 		this.parentComposite.setLayout(new GridLayout(1, false));

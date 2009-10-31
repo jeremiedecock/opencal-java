@@ -19,7 +19,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.jdhp.opencal.card.CardManipulator;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -35,13 +34,6 @@ public class CardList extends ArrayList<Card> {
 	 */
 	public CardList() {
 		super();
-	}
-	
-	/**
-	 * 
-	 */
-	public CardManipulator manipulator() {
-		return new CardManipulator(this);
 	}
 	
 	/**
