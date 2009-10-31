@@ -5,8 +5,7 @@
 
 package org.jdhp.opencal.card;
 
-import java.util.ArrayList;
-
+import org.jdhp.opencal.card.CardList;
 import org.jdhp.opencal.OpenCAL;
 
 /**
@@ -16,7 +15,7 @@ import org.jdhp.opencal.OpenCAL;
  */
 public class CardManipulator {
 	
-	private ArrayList<Card> cardList;
+	private CardList cardList;
 	
 	private int index;
 	
@@ -24,7 +23,7 @@ public class CardManipulator {
 	 * 
 	 * @param PKB_FILE_PATH
 	 */
-	public CardManipulator(ArrayList<Card> cardList) {
+	public CardManipulator(CardList cardList) {
 		this.index = 0;
 		this.cardList = cardList;
 	}
