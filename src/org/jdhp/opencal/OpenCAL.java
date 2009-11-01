@@ -6,6 +6,7 @@
 package org.jdhp.opencal;
 
 import org.jdhp.opencal.card.Card;
+import org.jdhp.opencal.card.CardList;
 import org.jdhp.opencal.card.lists.AllCardList;
 import org.jdhp.opencal.card.lists.CardByTagList;
 import org.jdhp.opencal.card.lists.NewCardList;
@@ -65,7 +66,7 @@ public class OpenCAL {
 		PersonalKnowledgeBase.openPkbFile(UserProperties.getDefaultPkbFilePath());
         
         // Make lists
-        Card.initCardList();
+        CardList.initMainCardList();
 
         OpenCAL.allCardList = new AllCardList();
         OpenCAL.plannedCardList = new PlannedCardList();

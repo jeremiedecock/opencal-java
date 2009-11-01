@@ -33,28 +33,10 @@ import org.w3c.dom.NodeList;
  */
 public class Card {
 
-    public static ArrayList<Card> cardList = new ArrayList<Card>();
-
 	private Element element;
 	
 	private float grade;
 
-    /**
-     *
-     */
-    public static void initCardList() {
-        try {
-            NodeList nodeCards = PersonalKnowledgeBase.getDomDocument().getElementsByTagName("card");
-            for(int i=0 ; i<nodeCards.getLength() ; i++) {
-                Card card = new Card((Element) nodeCards.item(i));
-                Card.cardList.add(card);
-            }
-        } catch(NullPointerException e) {
-            System.out.println("Error : DOM tree called but not yet loaded.");
-            System.exit(1);
-        }
-    }
-	
 	/**
 	 * Constructeur utilisé lors de la création des cartes contenues dans le fichier XML.
 	 * 
