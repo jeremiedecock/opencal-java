@@ -1,3 +1,8 @@
+/*
+ * OpenCAL version 3.0
+ * Copyright (c) 2007,2008,2009 Jérémie Decock
+ */
+
 package org.jdhp.opencal.toolkit;
 
 import org.w3c.dom.Node;
@@ -40,5 +45,4 @@ public class DOMTreeExplorer {
 			DOMTreeExplorer.printNodeTree(nodes.item(i), header + "   ");
 		}
 	}
-	
 }

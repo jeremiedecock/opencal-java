@@ -34,7 +34,6 @@ import org.jdhp.opencal.professor.Professor;
 import org.jdhp.opencal.professor.ProfessorAlan;
 import org.jdhp.opencal.professor.ProfessorBen;
 import org.jdhp.opencal.professor.ProfessorCharlie;
-import org.jdhp.opencal.toolkit.Sensor;
 
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -81,33 +80,18 @@ public class OpenCAL {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-	    //Sensor.setOutputMethod(Sensor.PRINT_METHOD);
-	    Sensor.setOutputMethod(Sensor.CSV_METHOD);
-
-        Sensor.measure("Before getting user properties");
 		OpenCAL.userProperties = OpenCAL.getUserProperties();
-        Sensor.measure("After getting user properties");
 		
 		// Create Professor
-        Sensor.measure("Before setting professor");
 		OpenCAL.setProfessor(OpenCAL.getProfessorName());
-        Sensor.measure("After setting professor");
 		
 		// Open PKB File and create cards lists
-        Sensor.measure("Before opening PKB file and creating lists");
 		OpenCAL.openPkbFile(OpenCAL.getDefaultPkbFilePath());
-        Sensor.measure("After opening PKB file and creating lists");
-        Sensor.measure("Before creating main lists");
         Card.initCardList();
-        Sensor.measure("After creating main lists");
 
 		// Make and run GUI
-        Sensor.measure("Before creating main window");
 		OpenCAL.mainWindow = new MainWindow();
-        Sensor.measure("After creating main window");
-        Sensor.measure("Before running SWT");
 		OpenCAL.mainWindow.run();
-        Sensor.measure("After running SWT");
 	}
 	
 	/**
@@ -213,7 +197,7 @@ public class OpenCAL {
 			OpenCAL.newCardList = new NewCardList();
 			OpenCAL.hiddenCardList = new HiddenCardList();
 			OpenCAL.cardByTagList = new CardByTagList();
-			
+
 		} catch(SAXException e) {
 			OpenCAL.mainWindow.printError(OpenCAL.getDefaultPkbFilePath() + " n'est pas valide (SAXException)");
 			OpenCAL.exit(2);
