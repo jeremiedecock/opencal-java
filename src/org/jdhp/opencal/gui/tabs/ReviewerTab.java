@@ -19,13 +19,15 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Scale;
-import org.jdhp.opencal.OpenCAL;
+
 import org.jdhp.opencal.card.Card;
+import org.jdhp.opencal.card.CardList;
 import org.jdhp.opencal.card.CardManipulator;
 import org.jdhp.opencal.card.Review;
 import org.jdhp.opencal.gui.CheckPanelHotKeys;
 import org.jdhp.opencal.gui.MainWindow;
 import org.jdhp.opencal.gui.images.SharedImages;
+import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.UserProperties;
 
 /**
@@ -482,4 +484,25 @@ public class ReviewerTab {
         updateScale();
 	}
 	
+	/**
+	 * TODO : remplacer ce bricolage par quelque chose de plus serieux...
+     *        java.util.ArrayList.toArray()
+     *        java.util.Arrays.sort() + Interface Comparable -> tri par fusion
+     *        java.util.Arrays.asList()
+	 * 
+	 * Tri le tableau par "grade" décroissant
+	 */
+	public static void sortCards(CardList cardList) {
+		// Tri bulle
+		for(int i=cardList.size()-1 ; i>0 ; i--) {
+			for(int j=0 ; j<i ; j++) {
+				if((cardList.get(j+1)).getGrade() < (cardList.get(j)).getGrade()) {
+					Card tmp = cardList.get(j+1);
+					cardList.set(j+1, cardList.get(j));
+					cardList.set(j, tmp);
+				}
+			}
+		}
+	}
+
 }
