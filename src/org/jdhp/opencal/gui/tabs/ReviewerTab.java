@@ -26,6 +26,7 @@ import org.jdhp.opencal.card.Review;
 import org.jdhp.opencal.gui.CheckPanelHotKeys;
 import org.jdhp.opencal.gui.MainWindow;
 import org.jdhp.opencal.gui.images.SharedImages;
+import org.jdhp.opencal.UserProperties;
 
 /**
  * 
@@ -467,7 +468,7 @@ public class ReviewerTab {
 		String pattern = "&lt;img file=\"([0-9abcdef]{32}.(png|jpg|jpeg))\" /&gt;";
 		Pattern regPat = Pattern.compile(pattern);
 		Matcher matcher = regPat.matcher(html);
-		html = matcher.replaceAll("<img src=\"" + OpenCAL.getImgPath() + "$1\" />");
+		html = matcher.replaceAll("<img src=\"" + UserProperties.getImgPath() + "$1\" />");
 		
 		return html;
 	}

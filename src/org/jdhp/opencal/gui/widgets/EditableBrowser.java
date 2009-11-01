@@ -21,9 +21,11 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
 import org.eclipse.swt.*;
+
 import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.gui.MainWindow;
 import org.jdhp.opencal.gui.images.SharedImages;
+import org.jdhp.opencal.UserProperties;
 
 /**
  * Instances of this class implement a Composite that positions and sizes
@@ -560,7 +562,7 @@ public class EditableBrowser extends Composite {
 		String pattern = "&lt;img file=\"([0-9abcdef]{32}.(png|jpg|jpeg))\" /&gt;";
 		Pattern regPat = Pattern.compile(pattern);
 		Matcher matcher = regPat.matcher(html);
-		html = matcher.replaceAll("<img src=\"" + OpenCAL.getImgPath() + "$1\" />");
+		html = matcher.replaceAll("<img src=\"" + UserProperties.getImgPath() + "$1\" />");
 		
 		return html;
 	}

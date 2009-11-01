@@ -6,10 +6,8 @@
 package org.jdhp.opencal;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Properties;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -34,6 +32,7 @@ import org.jdhp.opencal.professor.Professor;
 import org.jdhp.opencal.professor.ProfessorAlan;
 import org.jdhp.opencal.professor.ProfessorBen;
 import org.jdhp.opencal.professor.ProfessorCharlie;
+import org.jdhp.opencal.UserProperties;
 
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -54,8 +53,6 @@ public class OpenCAL {
 	
 	public final static String WRONG_ANSWER_STRING = "bad";
 
-	private static Properties userProperties;
-	
 	private static File pkbFile;
 	
 	private static Document domDocument;
@@ -80,93 +77,18 @@ public class OpenCAL {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		OpenCAL.userProperties = OpenCAL.getUserProperties();
+		UserProperties.loadUserProperties();
 		
 		// Create Professor
-		OpenCAL.setProfessor(OpenCAL.getProfessorName());
+		OpenCAL.setProfessor(UserProperties.getProfessorName());
 		
 		// Open PKB File and create cards lists
-		OpenCAL.openPkbFile(OpenCAL.getDefaultPkbFilePath());
+		OpenCAL.openPkbFile(UserProperties.getDefaultPkbFilePath());
         Card.initCardList();
 
 		// Make and run GUI
 		OpenCAL.mainWindow = new MainWindow();
 		OpenCAL.mainWindow.run();
-	}
-	
-	/**
-	 * Get the user properties path (for example : "/home/foo/.opencal/opencal.properties").
-	 * 
-	 * @return
-	 */
-	public static String getUserPropertiesPath() {
-		String userPropertiesPath = null;
-		
-		String userHome = System.getProperty("user.home");
-		String fileSeparator = System.getProperty("file.separator"); // TODO : ça ne devrait pas être déclaré ici...
-		
-		if(userHome != null && fileSeparator != null) {
-			userPropertiesPath = userHome + fileSeparator + ".opencal" + fileSeparator + "opencal.properties";
-		} else {
-			System.out.println("Unexpected error : your system or your JVM can't run this program.");
-			System.exit(1);
-		}
-		
-		return userPropertiesPath;
-	}
-	
-	/**
-	 * Set user properties object.
-	 * 
-	 * @return
-	 */
-	public static Properties getUserProperties() {
-		Properties userProperties = new Properties();
-		
-		try {
-			FileInputStream userPropertiesFile = new FileInputStream(OpenCAL.getUserPropertiesPath());
-			userProperties.load(userPropertiesFile);
-			userPropertiesFile.close();
-		} catch(FileNotFoundException e) {
-			OpenCAL.createUserPropertiesFile();
-		} catch(IOException e) {
-			// TODO : error...
-		}
-		
-		return userProperties;
-	}
-	
-	/**
-	 * Create a user properties file when it doesn't exist.
-	 */
-	public static void createUserPropertiesFile() {
-		System.out.println(OpenCAL.getUserPropertiesPath() + " is unreachable.");
-		// TODO : call wizard (gui)...
-		System.exit(1);
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public static String getDefaultPkbFilePath() {
-		return OpenCAL.userProperties.getProperty("pkb.path");
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public static String getProfessorName() {
-		return OpenCAL.userProperties.getProperty("professor.name");
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public static String getImgPath() {
-		return OpenCAL.userProperties.getProperty("img.path");
 	}
 	
 	/**
@@ -199,13 +121,13 @@ public class OpenCAL {
 			OpenCAL.cardByTagList = new CardByTagList();
 
 		} catch(SAXException e) {
-			OpenCAL.mainWindow.printError(OpenCAL.getDefaultPkbFilePath() + " n'est pas valide (SAXException)");
+			OpenCAL.mainWindow.printError(UserProperties.getDefaultPkbFilePath() + " n'est pas valide (SAXException)");
 			OpenCAL.exit(2);
 		} catch(FileNotFoundException e) {
-			OpenCAL.mainWindow.print(OpenCAL.getDefaultPkbFilePath() + " est introuvable (FileNotFoundException)");
+			OpenCAL.mainWindow.print(UserProperties.getDefaultPkbFilePath() + " est introuvable (FileNotFoundException)");
 			OpenCAL.exit(2);
 		} catch(IOException e) {
-			OpenCAL.mainWindow.printError(OpenCAL.getDefaultPkbFilePath() + " est illisible (IOException)");
+			OpenCAL.mainWindow.printError(UserProperties.getDefaultPkbFilePath() + " est illisible (IOException)");
 			OpenCAL.exit(2);
 		} catch(ParserConfigurationException e) {
 			OpenCAL.mainWindow.printError("The XML parser was not configured (ParserConfigurationException)");

@@ -47,7 +47,7 @@ public class ProfessorAlanTest extends TestCase {
 	protected void tearDown() throws Exception {
 		super.tearDown();
 		
-//		OpenCAL.setProfessor(OpenCAL.getProfessorName());
+//		OpenCAL.setProfessor(UserProperties.getProfessorName());
 	}
 
 	/**
