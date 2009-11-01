@@ -9,8 +9,9 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TreeMap;
 
-import org.jdhp.opencal.OpenCAL;
+import org.jdhp.opencal.PersonalKnowledgeBase;
 import org.jdhp.opencal.toolkit.CalendarToolKit;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -28,7 +29,7 @@ public class Statistics {
 	public static TreeMap<GregorianCalendar, Integer> getCardCreationStats() {
 		TreeMap<GregorianCalendar, Integer> cardCreationStats = new TreeMap<GregorianCalendar, Integer>();
 		
-		NodeList nodeCards = OpenCAL.getDomDocument().getElementsByTagName("card");
+		NodeList nodeCards = PersonalKnowledgeBase.getDomDocument().getElementsByTagName("card");
 		for(int i=0 ; i<nodeCards.getLength() ; i++) {
 			Element card = (Element) nodeCards.item(i);
 			
@@ -62,7 +63,7 @@ public class Statistics {
 	public static TreeMap<GregorianCalendar, Integer> getRevisionStats() {
 		TreeMap<GregorianCalendar, Integer> revisionStats = new TreeMap<GregorianCalendar, Integer>();
 		
-		NodeList nodeCards = OpenCAL.getDomDocument().getElementsByTagName("review");
+		NodeList nodeCards = PersonalKnowledgeBase.getDomDocument().getElementsByTagName("review");
 		for(int i=0 ; i<nodeCards.getLength() ; i++) {
 			Element review = (Element) nodeCards.item(i);
 			

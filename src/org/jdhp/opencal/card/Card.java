@@ -18,7 +18,9 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.jdhp.opencal.OpenCAL;
+import org.jdhp.opencal.PersonalKnowledgeBase;
 import org.jdhp.opencal.toolkit.CalendarToolKit;
+
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -42,7 +44,7 @@ public class Card {
      */
     public static void initCardList() {
         try {
-            NodeList nodeCards = OpenCAL.getDomDocument().getElementsByTagName("card");
+            NodeList nodeCards = PersonalKnowledgeBase.getDomDocument().getElementsByTagName("card");
             for(int i=0 ; i<nodeCards.getLength() ; i++) {
                 Card card = new Card((Element) nodeCards.item(i));
                 Card.cardList.add(card);
@@ -73,31 +75,31 @@ public class Card {
 	public Card(String questionString, String answerString, String[] tagStrings) {
 		if(questionString != null && !questionString.equals("")) {
 			// Add the new "card" element to the DOM tree
-			this.element = OpenCAL.getDomDocument().createElement("card");
+			this.element = PersonalKnowledgeBase.getDomDocument().createElement("card");
 			this.element.setAttribute("cdate", CalendarToolKit.calendarToIso8601(new GregorianCalendar()));
 			
-			Element questionElement = OpenCAL.getDomDocument().createElement("question");
+			Element questionElement = PersonalKnowledgeBase.getDomDocument().createElement("question");
 			this.element.appendChild(questionElement);
-			questionElement.appendChild(OpenCAL.getDomDocument().createCDATASection(questionString));
+			questionElement.appendChild(PersonalKnowledgeBase.getDomDocument().createCDATASection(questionString));
 			
-			Element answerElement = OpenCAL.getDomDocument().createElement("answer");
+			Element answerElement = PersonalKnowledgeBase.getDomDocument().createElement("answer");
 			this.element.appendChild(answerElement);
-			answerElement.appendChild(OpenCAL.getDomDocument().createCDATASection(answerString));
+			answerElement.appendChild(PersonalKnowledgeBase.getDomDocument().createCDATASection(answerString));
 			
 			for(int i=0 ; i<tagStrings.length ; i++) {
 				if(!tagStrings[i].equals("")) {
-					Element tagElement = OpenCAL.getDomDocument().createElement("tag");
+					Element tagElement = PersonalKnowledgeBase.getDomDocument().createElement("tag");
 					this.element.appendChild(tagElement);
-					tagElement.appendChild(OpenCAL.getDomDocument().createTextNode(tagStrings[i]));
+					tagElement.appendChild(PersonalKnowledgeBase.getDomDocument().createTextNode(tagStrings[i]));
 				}
 			}
 			
-			NodeList nodeList = OpenCAL.getDomDocument().getElementsByTagName("pkb");
+			NodeList nodeList = PersonalKnowledgeBase.getDomDocument().getElementsByTagName("pkb");
 			Element pkbElement = (Element) nodeList.item(0);
 			pkbElement.appendChild(this.element);
 			
 			// Add the new "card" to the XML file
-			OpenCAL.updatePkbFile();
+			PersonalKnowledgeBase.updatePkbFile();
 			
 			this.grade = OpenCAL.getProfessor().assess(this);
 		}
@@ -226,7 +228,7 @@ public class Card {
 	 */
 	public void putReview(String result) {
 		// Add the new "review" element to the DOM tree
-		Element reviewElement = OpenCAL.getDomDocument().createElement("review");
+		Element reviewElement = PersonalKnowledgeBase.getDomDocument().createElement("review");
 		reviewElement.setAttribute("rdate", CalendarToolKit.calendarToIso8601(new GregorianCalendar()));
 		reviewElement.setAttribute("result", result);
 		this.element.appendChild(reviewElement);
@@ -235,7 +237,7 @@ public class Card {
 		this.grade = OpenCAL.getProfessor().assess(this);
 		
 		// Serialize DOM tree
-		OpenCAL.updatePkbFile();
+		PersonalKnowledgeBase.updatePkbFile();
 		
 //		OpenCAL.plannedCardList.remove(this);  // TODO : pb, le manipulator n'est pas au courrant...
 		OpenCAL.reviewedCardList.add(this);
@@ -251,7 +253,7 @@ public class Card {
 		((CDATASection) questionElement.getFirstChild()).setTextContent(newQuestion);
 		
 		// Serialize DOM tree
-		OpenCAL.updatePkbFile();
+		PersonalKnowledgeBase.updatePkbFile();
 	}
 	
 	/**
@@ -264,7 +266,7 @@ public class Card {
 		((CDATASection) answerElement.getFirstChild()).setTextContent(newAnswer);
 		
 		// Serialize DOM tree
-		OpenCAL.updatePkbFile();
+		PersonalKnowledgeBase.updatePkbFile();
 	}
 	
 	/**
@@ -287,14 +289,14 @@ public class Card {
 		Element tagElement;
 		for(int i=0 ; i<newTags.length ; i++) {
 			if(!newTags[i].equals("")) {
-				tagElement = OpenCAL.getDomDocument().createElement("tag");
+				tagElement = PersonalKnowledgeBase.getDomDocument().createElement("tag");
 				this.element.appendChild(tagElement);
-				tagElement.appendChild(OpenCAL.getDomDocument().createTextNode(newTags[i]));
+				tagElement.appendChild(PersonalKnowledgeBase.getDomDocument().createTextNode(newTags[i]));
 			}
 		}
 		
 		// Serialize DOM tree
-		OpenCAL.updatePkbFile();
+		PersonalKnowledgeBase.updatePkbFile();
 	}
 
 	/**
@@ -315,7 +317,7 @@ public class Card {
         }
 		
 		// Serialize DOM tree
-		OpenCAL.updatePkbFile();
+		PersonalKnowledgeBase.updatePkbFile();
     }
 	
 	/**

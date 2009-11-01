@@ -31,7 +31,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
-import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.card.CardList;
 import org.jdhp.opencal.card.Review;
 import org.jdhp.opencal.gui.images.SharedImages;
@@ -39,6 +38,8 @@ import org.jdhp.opencal.gui.tabs.ExplorerTab;
 import org.jdhp.opencal.gui.tabs.MakerTab;
 import org.jdhp.opencal.gui.tabs.ReviewerTab;
 import org.jdhp.opencal.gui.tabs.StatsTab;
+import org.jdhp.opencal.OpenCAL;
+import org.jdhp.opencal.PersonalKnowledgeBase;
 import org.jdhp.opencal.toolkit.CalendarToolKit;
 
 /**
@@ -88,7 +89,7 @@ public class MainWindow {
 		this.shell = new Shell(MainWindow.DISPLAY);
 		this.shell.setLayout(new GridLayout(1, false));
 		
-		this.shell.setText(OpenCAL.PROGRAM_NAME + " " + OpenCAL.PROGRAM_VERSION + " - " + OpenCAL.getPkbFile().getAbsolutePath());
+		this.shell.setText(OpenCAL.PROGRAM_NAME + " " + OpenCAL.PROGRAM_VERSION + " - " + PersonalKnowledgeBase.getPkbFile().getAbsolutePath());
 		this.shell.setMinimumSize(400, 350);
 		this.shell.setSize(640, 480);
 		
@@ -136,7 +137,7 @@ public class MainWindow {
 
 		closeItem.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
-				OpenCAL.closePkbFile();
+				PersonalKnowledgeBase.closePkbFile();
 			}
 		});
 

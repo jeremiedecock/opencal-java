@@ -7,9 +7,11 @@ package org.jdhp.opencal.card.lists;
 
 import java.util.TreeSet;
 
-import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.card.Card;
 import org.jdhp.opencal.card.CardList;
+import org.jdhp.opencal.OpenCAL;
+import org.jdhp.opencal.PersonalKnowledgeBase;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
@@ -45,7 +47,7 @@ public class CardByTagList extends CardList {
 	public String[] tagList() {
 		TreeSet<String> tagSet = new TreeSet<String>();
 		
-		NodeList nodeTags = OpenCAL.getDomDocument().getElementsByTagName("tag");
+		NodeList nodeTags = PersonalKnowledgeBase.getDomDocument().getElementsByTagName("tag");
 		for(int i=0 ; i<nodeTags.getLength() ; i++) {
 			Element tagElement = (Element) nodeTags.item(i);
 			String tagText = ((Text) tagElement.getFirstChild()).getData();
