@@ -8,7 +8,6 @@ package org.jdhp.opencal.card.lists;
 import org.jdhp.opencal.card.Card;
 import org.jdhp.opencal.card.CardList;
 import org.jdhp.opencal.gui.tabs.ReviewerTab;
-import org.jdhp.opencal.OpenCAL;
 
 /**
  * 
@@ -20,8 +19,8 @@ public class PlannedCardList extends CardList {
 	public PlannedCardList() {
 		super();
 		
-		for(int i=0 ; i<OpenCAL.allCardList.size() ; i++) {
-            Card card = OpenCAL.allCardList.get(i);
+		for(int i=0 ; i<CardList.mainCardList.size() ; i++) {
+            Card card = CardList.mainCardList.get(i);
 			if(card.getGrade() >= 0. && !card.isHidden()) this.add(card);
 		}
 		

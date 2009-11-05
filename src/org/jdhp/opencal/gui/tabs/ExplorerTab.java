@@ -1,12 +1,14 @@
 /*
  * OpenCAL version 3.0
- * Copyright (c) 2007,2008 Jérémie Decock
+ * Copyright (c) 2007,2008,2009 Jérémie Decock
  */
 
 package org.jdhp.opencal.gui.tabs;
 
+import java.util.GregorianCalendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.TreeSet;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
@@ -22,11 +24,18 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.List;
 
-import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.card.Card;
+import org.jdhp.opencal.card.CardList;
+import org.jdhp.opencal.card.Review;
 import org.jdhp.opencal.gui.MainWindow;
 import org.jdhp.opencal.gui.images.SharedImages;
 import org.jdhp.opencal.gui.widgets.EditableBrowser;
+import org.jdhp.opencal.PersonalKnowledgeBase;
+import org.jdhp.opencal.toolkit.CalendarToolKit;
+
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
 
 /**
  * 
@@ -38,6 +47,8 @@ public class ExplorerTab {
 	final private String[] displayModes = {"All Cards", "Reviewed Cards", "New Cards", "Hidden Cards", "Cards By Tag"};
 	
 	final private static int DEFAULT_DISPLAY_MODE = 1;
+
+	final private static String ALL_TAGS = "*";
 	
 	final private static int ALL_CARDS = 0;
 	
@@ -49,9 +60,11 @@ public class ExplorerTab {
 	
 	final private static int CARDS_BY_TAG = 4;
 	
+	final private CardList cardListView;
+
 	final private Composite parentComposite;
 	
-	final private List cardsList;
+	final private List cardListWidget;
 	
 	final private Combo tagSelectionCombo;
 
@@ -74,6 +87,17 @@ public class ExplorerTab {
 	 * @param parentComposite
 	 */
 	public ExplorerTab(Composite parentComposite) {
+
+		///////////////////////////////////////////////////////////////////////
+		// Card List View /////////////////////////////////////////////////////
+		///////////////////////////////////////////////////////////////////////
+
+        cardListView = new CardList();
+        cardListView.addAll(CardList.mainCardList);
+
+		///////////////////////////////////////////////////////////////////////
+		// GUI ////////////////////////////////////////////////////////////////
+		///////////////////////////////////////////////////////////////////////
 
 		this.parentComposite = parentComposite;
 		this.parentComposite.setLayout(new GridLayout(1, false));
@@ -103,8 +127,7 @@ public class ExplorerTab {
 		tagSelectionCombo = new Combo(cardSelectionComposite, SWT.BORDER | SWT.READ_ONLY);
 		tagSelectionCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		
-		tagSelectionCombo.setItems(OpenCAL.cardByTagList.tagList());
-		tagSelectionCombo.select(0); // TODO
+        //updateTagCombo();
         setTagSelectionComboVisible(false);
 		
 		// showHiddenCardsCheckbox ////
@@ -114,11 +137,11 @@ public class ExplorerTab {
         showHiddenCardsCheckbox.setText("Show hidden cards");
         setShowHiddenCardsCheckboxVisible(false);
 
-		// cardsList //////////////////
-		cardsList = new List(cardSelectionComposite, SWT.BORDER | SWT.V_SCROLL);
-		cardsList.setLayoutData(new GridData(GridData.FILL_BOTH));
+		// cardListWidget /////////////
+		cardListWidget = new List(cardSelectionComposite, SWT.BORDER | SWT.V_SCROLL);
+		cardListWidget.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
-		cardsList.setItems(new String[0]);
+		//cardListWidget.setItems(new String[0]);
 		
 		///////////////////////////////////////////////////////////////////////
 		// EditionCardComposite ///////////////////////////////////////////////
@@ -244,8 +267,8 @@ public class ExplorerTab {
 			}
 		});
 		
-		// cardsListListener ////////////
-		cardsList.addSelectionListener(new SelectionAdapter() {
+		// cardListWidgetListener ////////////
+		cardListWidget.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				updateTextArea();
 			}
@@ -254,11 +277,15 @@ public class ExplorerTab {
 		// tagSelectionComboListener ////////////
 		tagSelectionCombo.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				OpenCAL.cardByTagList.setCurrentTag(tagSelectionCombo.getText());
-				
 				updateCardList(true);
 			}
 		});
+
+		///////////////////////////
+		// Init ///////////////////
+		///////////////////////////
+        
+        update();
 	}
 	
 	
@@ -309,30 +336,14 @@ public class ExplorerTab {
 	final private Card getSelectedCard() {
 		Card selectedCard = null;
 		
-		int selectionIndex = cardsList.getSelectionIndex();
-		
+		int selectionIndex = cardListWidget.getSelectionIndex();
+
 		try {
-			switch (getCurrentMode()) {
-				case ExplorerTab.ALL_CARDS :
-					selectedCard = OpenCAL.allCardList.get(selectionIndex);
-					break;
-				case ExplorerTab.REVIEWED_CARDS :
-					selectedCard = OpenCAL.reviewedCardList.get(selectionIndex);
-					break;
-				case ExplorerTab.NEW_CARDS :
-					selectedCard = OpenCAL.newCardList.get(selectionIndex);
-					break;
-				case ExplorerTab.HIDDEN_CARDS :
-					selectedCard = OpenCAL.hiddenCardList.get(selectionIndex);
-					break;
-				case ExplorerTab.CARDS_BY_TAG :
-					selectedCard = OpenCAL.cardByTagList.get(selectionIndex);
-					break;
-			}
+            selectedCard = cardListView.get(selectionIndex);
 		} catch(ArrayIndexOutOfBoundsException ex) {
 			selectedCard = null;
 		}
-		
+
 		return selectedCard;
 	}
 
@@ -373,7 +384,6 @@ public class ExplorerTab {
     }
 
 
-
 	
 	/**
 	 * Met à jour la liste des items dans le combo "TagSelection"
@@ -381,13 +391,24 @@ public class ExplorerTab {
 	 * TODO : Mieux gérer l'ajout et la supression de tags !
 	 */
 	final private void updateTagCombo() {
-//		System.out.println("Call updateTagCombo");
 		int previousIndex = tagSelectionCombo.getSelectionIndex();
+
+		TreeSet<String> tagSet = new TreeSet<String>();
 		
-		tagSelectionCombo.setItems(OpenCAL.cardByTagList.tagList());
+		NodeList nodeTags = PersonalKnowledgeBase.getDomDocument().getElementsByTagName("tag");
+		for(int i=0 ; i<nodeTags.getLength() ; i++) {
+			Element tagElement = (Element) nodeTags.item(i);
+			String tagText = ((Text) tagElement.getFirstChild()).getData();
+			tagSet.add(tagText);
+		}
 		
-		if(tagSelectionCombo.getItemCount() > previousIndex) tagSelectionCombo.select(previousIndex);
-		else tagSelectionCombo.select(tagSelectionCombo.getItemCount() - 1);
+		String[] tagsArray = new String[tagSet.size()];
+		tagSelectionCombo.setItems(tagSet.toArray(tagsArray));
+		tagSelectionCombo.add(ExplorerTab.ALL_TAGS, 0);
+		
+        if(previousIndex < 0) tagSelectionCombo.select(0);
+        else if(previousIndex > tagSelectionCombo.getItemCount() - 1) tagSelectionCombo.select(tagSelectionCombo.getItemCount() - 1);
+        else tagSelectionCombo.select(previousIndex);
 	}
 	
 	
@@ -399,37 +420,72 @@ public class ExplorerTab {
 	 * TODO : Mieux gérer l'ajout et la supression de d'items !
 	 */
 	final private void updateCardList(Boolean init) {
-//		System.out.println("Call updateCardList");
-		
 		int previousIndex = 0;
 			
-		if(!init) previousIndex = cardsList.getSelectionIndex();
+		if(!init) previousIndex = cardListWidget.getSelectionIndex();
 		
 		switch(getCurrentMode()) {
 			case ExplorerTab.ALL_CARDS :
-				cardsList.setItems(itemFilter(MainWindow.getQuestionStrings(OpenCAL.allCardList, false)));
+                cardListView.clear();
+                cardListView.addAll(CardList.mainCardList);
+                cardListWidget.setItems(itemFilter(MainWindow.getQuestionStrings(cardListView, false)));
 				break;
 			case ExplorerTab.REVIEWED_CARDS : 
-				cardsList.setItems(itemFilter(MainWindow.getQuestionStrings(OpenCAL.reviewedCardList, true)));
+                cardListView.clear();
+                for(int i=0 ; i<CardList.mainCardList.size() ; i++) {
+                    Card card = CardList.mainCardList.get(i);
+                    
+                    boolean hasBeenReviewed = false;
+                    Review[] reviews = card.getReviews();
+                    for(int j=0 ; j < reviews.length ; j++) {
+                        if(reviews[j].getReviewDate().equals(CalendarToolKit.calendarToIso8601(new GregorianCalendar()))) hasBeenReviewed = true;
+                    }
+                    
+                    if(hasBeenReviewed) cardListView.add(card);
+                }
+                cardListWidget.setItems(itemFilter(MainWindow.getQuestionStrings(cardListView, false)));
 				break;
 			case ExplorerTab.NEW_CARDS :
-				cardsList.setItems(itemFilter(MainWindow.getQuestionStrings(OpenCAL.newCardList, false)));
+                cardListView.clear();
+                for(int i=0 ; i<CardList.mainCardList.size() ; i++) {
+                    Card card = CardList.mainCardList.get(i);
+                    if(card.getCreationDate().equals(CalendarToolKit.calendarToIso8601(new GregorianCalendar()))) cardListView.add(card);
+                }
+                cardListWidget.setItems(itemFilter(MainWindow.getQuestionStrings(cardListView, false)));
 				break;
 			case ExplorerTab.HIDDEN_CARDS :
-				cardsList.setItems(itemFilter(MainWindow.getQuestionStrings(OpenCAL.hiddenCardList, false)));
+                cardListView.clear();
+                for(int i=0 ; i<CardList.mainCardList.size() ; i++) {
+                    Card card = CardList.mainCardList.get(i);
+                    if(card.isHidden()) cardListView.add(card);
+                }
+                cardListWidget.setItems(itemFilter(MainWindow.getQuestionStrings(cardListView, false)));
 				break;
 			case ExplorerTab.CARDS_BY_TAG :
-				cardsList.setItems(itemFilter(MainWindow.getQuestionStrings(OpenCAL.cardByTagList, false)));
+                cardListView.clear();
+                if(tagSelectionCombo.getItem(tagSelectionCombo.getSelectionIndex()).equals(ExplorerTab.ALL_TAGS)) {
+                    cardListView.addAll(CardList.mainCardList);
+                } else {
+                    for(int i=0 ; i<CardList.mainCardList.size() ; i++) {
+                        Card card = CardList.mainCardList.get(i);
+                        
+                        String[] tags = card.getTags();
+                        for(int j=0 ; j < tags.length ; j++) {
+                            if(tags[j].equals(tagSelectionCombo.getItem(tagSelectionCombo.getSelectionIndex()))) cardListView.add(card);
+                        }
+                    }
+                }
+                cardListWidget.setItems(itemFilter(MainWindow.getQuestionStrings(cardListView, false)));
 				break;
 		}
 		
 		if(init) {
-			if(cardsList.getItemCount() > 0) cardsList.select(0);
+			if(cardListWidget.getItemCount() > 0) cardListWidget.select(0);
 		} else {
-			if(cardsList.getItemCount() > previousIndex) cardsList.select(previousIndex);
-			else if(cardsList.getItemCount() > 0) cardsList.select(cardsList.getItemCount() - 1);
+			if(cardListWidget.getItemCount() > previousIndex) cardListWidget.select(previousIndex);
+			else if(cardListWidget.getItemCount() > 0) cardListWidget.select(cardListWidget.getItemCount() - 1);
 		}
-		
+
 		updateTextArea();
 	}
 	
@@ -440,7 +496,6 @@ public class ExplorerTab {
 	 * 
 	 */
 	final private void updateTextArea() {
-//		System.out.println("Call updateTextArea");
 		Card selectedCard = getSelectedCard();
 		
 		if(selectedCard != null) {
@@ -466,22 +521,18 @@ public class ExplorerTab {
 	 * Si la liste est vide, les textArea ne sont plus éditables
 	 */
 	final private void updateTextAreaStatus() {
-//		System.out.println("Call updateTextAreaStatus");
 		if(getSelectedCard() != null) {
-//			System.out.println("Not null");
 			questionArea.editableText.setEditable(true);
 			answerArea.editableText.setEditable(true);
 			tagsArea.editableText.setEditable(true);
 		} else {
-//			System.out.println("Null");
 			questionArea.editableText.setEditable(false);
 			answerArea.editableText.setEditable(false);
 			tagsArea.editableText.setEditable(false);
 		}
 	}
-	
-	
-	
+
+
 	
 	/**
 	 * La mise à jours faite lors de la sélection du tab "ExplorerTab"

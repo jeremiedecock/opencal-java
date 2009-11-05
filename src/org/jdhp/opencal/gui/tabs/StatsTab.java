@@ -21,7 +21,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.jdhp.opencal.OpenCAL;
+//import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.statistics.Statistics;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -46,9 +46,9 @@ public class StatsTab {
 	
 	final private JFreeChart chart;
 	
-	private static int ADDED_CARDS_CACHE = -1;
+	//private static int ADDED_CARDS_CACHE = -1;
 	
-	private static int CHECKED_CARDS_CACHE = -1;
+	//private static int CHECKED_CARDS_CACHE = -1;
 	
 	/**
 	 * 
@@ -125,7 +125,7 @@ public class StatsTab {
 	 * 
 	 */
 	public void update() {
-		if(StatsTab.ADDED_CARDS_CACHE != OpenCAL.newCardList.size() || StatsTab.CHECKED_CARDS_CACHE != OpenCAL.reviewedCardList.size()) {
+		//if(StatsTab.ADDED_CARDS_CACHE != OpenCAL.newCardList.size() || StatsTab.CHECKED_CARDS_CACHE != OpenCAL.reviewedCardList.size()) {
 			// Update graph
 			TimeSeries s1 = new TimeSeries("Card created per day", Day.class);
 			TreeMap<GregorianCalendar, Integer> cardCreationStats = Statistics.getCardCreationStats();
@@ -157,9 +157,9 @@ public class StatsTab {
 			
 			this.chart.setNotify(true);
 			
-			StatsTab.ADDED_CARDS_CACHE = OpenCAL.newCardList.size();
-			StatsTab.CHECKED_CARDS_CACHE = OpenCAL.reviewedCardList.size();
-		}
+			//StatsTab.ADDED_CARDS_CACHE = OpenCAL.newCardList.size();
+			//StatsTab.CHECKED_CARDS_CACHE = OpenCAL.reviewedCardList.size();
+		//}
 	}
 	
 }

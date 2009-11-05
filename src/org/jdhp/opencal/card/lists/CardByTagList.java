@@ -5,16 +5,16 @@
 
 package org.jdhp.opencal.card.lists;
 
-import java.util.TreeSet;
+//import java.util.TreeSet;
 
-import org.jdhp.opencal.card.Card;
+//import org.jdhp.opencal.card.Card;
 import org.jdhp.opencal.card.CardList;
-import org.jdhp.opencal.OpenCAL;
-import org.jdhp.opencal.PersonalKnowledgeBase;
-
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Text;
+//import org.jdhp.opencal.OpenCAL;
+//import org.jdhp.opencal.PersonalKnowledgeBase;
+//
+//import org.w3c.dom.Element;
+//import org.w3c.dom.NodeList;
+//import org.w3c.dom.Text;
 
 /**
  * 
@@ -23,9 +23,9 @@ import org.w3c.dom.Text;
  */
 public class CardByTagList extends CardList {
 	
-	private final static String ALL_TAGS = "*";
+	//private final static String ALL_TAGS = "*";
 	
-	private String currentTag;
+	//private String currentTag;
 
 	/**
 	 * 
@@ -33,17 +33,11 @@ public class CardByTagList extends CardList {
 	public CardByTagList() {
 		super();
 		
-		this.currentTag = CardByTagList.ALL_TAGS;
+		//this.currentTag = CardByTagList.ALL_TAGS;
 		
-		for(int i=0 ; i<OpenCAL.allCardList.size() ; i++) {
-			this.add(OpenCAL.allCardList.get(i));
-		}
+        //this.addAll(OpenCAL.allCardList);
 	}
-	
-	/**
-	 * 
-	 * @return
-	 */
+/*
 	public String[] tagList() {
 		TreeSet<String> tagSet = new TreeSet<String>();
 		
@@ -58,26 +52,15 @@ public class CardByTagList extends CardList {
 		return tagSet.toArray(tagsArray);
 	}
 	
-	/**
-	 * 
-	 * @return
-	 */
 	public String getCurrentTag() {
 		return this.currentTag;
 	}
 	
-	/**
-	 * 
-	 * @param tagName
-	 */
 	public void setCurrentTag(String tagName) {
 		this.currentTag = tagName;
 		this.updateList();
 	}
 	
-	/**
-	 * 
-	 */
 	private void updateList() {
 		this.clear();
 		
@@ -93,5 +76,5 @@ public class CardByTagList extends CardList {
 				}
 			}
 		}
-	}
+	}*/
 }

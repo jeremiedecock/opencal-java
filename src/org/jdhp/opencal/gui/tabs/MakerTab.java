@@ -15,6 +15,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.card.Card;
+import org.jdhp.opencal.card.CardList;
 import org.jdhp.opencal.gui.images.SharedImages;
 import org.jdhp.opencal.gui.widgets.EditableBrowser;
 
@@ -71,13 +72,15 @@ public class MakerTab {
 					OpenCAL.mainWindow.printAlert("La question ne doit pas être vide !");
 				} else {
 					Card newCard = new Card(questionArea.editableText.getText(), answerArea.editableText.getText(), tagsArea.editableText.getText().split("\n"));
-					OpenCAL.newCardList.add(newCard);
-					OpenCAL.allCardList.add(newCard);
+                    CardList.mainCardList.add(newCard);
+					//OpenCAL.newCardList.add(newCard);
+					//OpenCAL.allCardList.add(newCard);
 					questionArea.editableText.setText("");
 					answerArea.editableText.setText("");
 					tagsArea.editableText.setText("");
 					
-					OpenCAL.mainWindow.setStatusLabel2("A : " + OpenCAL.newCardList.size(), OpenCAL.newCardList.size() + " cards added today");
+					OpenCAL.mainWindow.updateStatus();
+					//OpenCAL.mainWindow.setStatusLabel2("A : " + OpenCAL.newCardList.size(), OpenCAL.newCardList.size() + " cards added today");
 				}
 			
 				// Set focus to the question field

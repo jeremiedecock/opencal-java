@@ -31,6 +31,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
+import org.jdhp.opencal.card.Card;
 import org.jdhp.opencal.card.CardList;
 import org.jdhp.opencal.card.Review;
 import org.jdhp.opencal.gui.images.SharedImages;
@@ -220,7 +221,7 @@ public class MainWindow {
 				mb.setText("About OpenCAL");
 				mb.setMessage(OpenCAL.PROGRAM_NAME + " "
 						+ OpenCAL.PROGRAM_VERSION
-						+ "\nCopyright (c) 2007,2008 Jérémie DECOCK");
+						+ "\nCopyright (c) 2007,2008,2009 Jérémie DECOCK");
 				mb.open();
 			}
 		});
@@ -307,46 +308,6 @@ public class MainWindow {
 		
 		this.statusLabel4 = new Label(statusBar, SWT.CENTER);
 		this.statusLabel4.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-	}
-	
-	/**
-	 * 
-	 * @param text
-	 * @param toolTipText
-	 */
-	public void setStatusLabel1(String text, String toolTipText) {
-		this.statusLabel1.setText(text);
-		this.statusLabel1.setToolTipText(toolTipText);
-	}
-	
-	/**
-	 * 
-	 * @param text
-	 * @param toolTipText
-	 */
-	public void setStatusLabel2(String text, String toolTipText) {
-		this.statusLabel2.setText(text);
-		this.statusLabel2.setToolTipText(toolTipText);
-	}
-	
-	/**
-	 * 
-	 * @param text
-	 * @param toolTipText
-	 */
-	public void setStatusLabel3(String text, String toolTipText) {
-		this.statusLabel3.setText(text);
-		this.statusLabel3.setToolTipText(toolTipText);
-	}
-	
-	/**
-	 * 
-	 * @param text
-	 * @param toolTipText
-	 */
-	public void setStatusLabel4(String text, String toolTipText) {
-		this.statusLabel4.setText(text);
-		this.statusLabel4.setToolTipText(toolTipText);
 	}
 	
 	/**
@@ -440,16 +401,51 @@ public class MainWindow {
 	/**
 	 * 
 	 */
+	public void updateStatus() {
+		this.statusLabel1.setText("");
+		this.statusLabel1.setToolTipText("");
+
+        // Cards Added /////////////////
+        int nbCardsAdded = 0;
+        for(int i=0 ; i<CardList.mainCardList.size() ; i++) {
+            Card card = CardList.mainCardList.get(i);
+            if(card.getCreationDate().equals(CalendarToolKit.calendarToIso8601(new GregorianCalendar()))) nbCardsAdded++;
+        }
+		this.statusLabel2.setText("A : " + nbCardsAdded);
+		this.statusLabel2.setToolTipText(nbCardsAdded + " cards added today");
+
+        // Cards Checked ///////////////
+        int nbCardsChecked = 0;
+        for(int i=0 ; i<CardList.mainCardList.size() ; i++) {
+            Card card = CardList.mainCardList.get(i);
+            
+            boolean hasBeenReviewed = false;
+            Review[] reviews = card.getReviews();
+            for(int j=0 ; j < reviews.length ; j++) {
+                if(reviews[j].getReviewDate().equals(CalendarToolKit.calendarToIso8601(new GregorianCalendar()))) hasBeenReviewed = true;
+            }
+            
+            if(hasBeenReviewed) nbCardsChecked++;
+        }
+		this.statusLabel3.setText("C : " + nbCardsChecked);
+		this.statusLabel3.setToolTipText(nbCardsChecked + " cards checked today");
+
+        // Cards Left //////////////////
+        int nbCardsLeft = 0;
+        // TODO...
+		this.statusLabel4.setText("L : " + nbCardsLeft);
+		this.statusLabel4.setToolTipText(nbCardsLeft + " cards left for today");
+	}
+	
+	/**
+	 * 
+	 */
 	public void run() {
-		// init statubar
-		OpenCAL.mainWindow.setStatusLabel1("", "");
-		OpenCAL.mainWindow.setStatusLabel2("A : " + OpenCAL.newCardList.size(), OpenCAL.newCardList.size() + " cards added today");
-		OpenCAL.mainWindow.setStatusLabel3("C : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " cards checked today");
-		OpenCAL.mainWindow.setStatusLabel4("L : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
+		// Init statubar
+        this.updateStatus();
 		
 		// Main loop
 		this.shell.open();
-//		this.shell.setMaximized(true);
 		
 		while(!this.shell.isDisposed()) {
 			if(!MainWindow.DISPLAY.readAndDispatch()) MainWindow.DISPLAY.sleep();
