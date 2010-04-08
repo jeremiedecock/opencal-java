@@ -5,7 +5,10 @@
 
 package org.jdhp.opencal;
 
-import org.jdhp.opencal.card.Card;
+//import org.jdhp.opencal.card.Card;
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import org.jdhp.opencal.card.CardList;
 //import org.jdhp.opencal.card.lists.AllCardList;
 //import org.jdhp.opencal.card.lists.CardByTagList;
@@ -63,7 +66,12 @@ public class OpenCAL {
 		OpenCAL.setProfessor(UserProperties.getProfessorName());
 		
 		// Open PKB File and create cards lists
-		PersonalKnowledgeBase.openPkbFile(UserProperties.getDefaultPkbFilePath());
+		try {
+			URI uri = new URI(UserProperties.getDefaultPkbFilePath());
+			PersonalKnowledgeBase.load(uri);
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
         
         // Make lists
         CardList.initMainCardList();

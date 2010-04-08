@@ -54,6 +54,7 @@ public class UserProperties {
 		} catch(FileNotFoundException e) {
 			UserProperties.createUserPropertiesFile();
 		} catch(IOException e) {
+			e.printStackTrace();
 			// TODO : error...
 		}
 	}

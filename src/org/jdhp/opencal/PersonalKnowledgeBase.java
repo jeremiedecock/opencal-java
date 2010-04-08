@@ -8,6 +8,7 @@ package org.jdhp.opencal;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URI;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -43,10 +44,10 @@ public class PersonalKnowledgeBase {
 	
 	/**
 	 * 
-	 * @param pkbFilePath
+	 * @param uri
 	 */
-	public static void openPkbFile(String pkbFilePath) {
-		PersonalKnowledgeBase.pkbFile = new File(pkbFilePath);
+	public static void load(URI uri) {
+		PersonalKnowledgeBase.pkbFile = new File(uri);
 
 		// Build the XML DOM tree
 		try {
