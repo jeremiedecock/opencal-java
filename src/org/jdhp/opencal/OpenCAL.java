@@ -65,7 +65,7 @@ public class OpenCAL {
 		// Create Professor
 		OpenCAL.setProfessor(UserProperties.getProfessorName());
 		
-		// Open PKB File and create cards lists
+		// Open default PKB File and create card set
 		try {
 			URI uri = new URI(UserProperties.getDefaultPkbFilePath());
 			PersonalKnowledgeBase.load(uri);
@@ -73,9 +73,7 @@ public class OpenCAL {
 			e.printStackTrace();
 		}
         
-        // Make lists
         CardList.initMainCardList();
-
         //OpenCAL.allCardList = new AllCardList();
         OpenCAL.plannedCardList = new PlannedCardList();
         //OpenCAL.reviewedCardList = new ReviewedCardList();

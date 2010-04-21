@@ -23,6 +23,8 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.List;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 
 import org.jdhp.opencal.card.Card;
 import org.jdhp.opencal.card.CardList;
@@ -44,11 +46,11 @@ import org.w3c.dom.Text;
  */
 public class ExplorerTab {
 
-	final private String[] displayModes = {"All Cards", "Reviewed Cards", "New Cards", "Hidden Cards", "Cards By Tag"};
+	final private static String[] LIST_LABELS = {"All Cards", "Reviewed Cards", "New Cards", "Hidden Cards", "Cards By Tag"};
 	
 	final private static int DEFAULT_DISPLAY_MODE = 1;
 
-	final private static String ALL_TAGS = "*";
+	final private static String ALL_TAGS_LABEL = "*";
 	
 	final private static int ALL_CARDS = 0;
 	
@@ -60,7 +62,7 @@ public class ExplorerTab {
 	
 	final private static int CARDS_BY_TAG = 4;
 	
-	final private CardList cardListView;
+	final private CardList cardList;
 
 	final private Composite parentComposite;
 	
@@ -92,8 +94,8 @@ public class ExplorerTab {
 		// Card List View /////////////////////////////////////////////////////
 		///////////////////////////////////////////////////////////////////////
 
-        cardListView = new CardList();
-        cardListView.addAll(CardList.mainCardList);
+        cardList = new CardList();
+        cardList.addAll(CardList.mainCardList);
 
 		///////////////////////////////////////////////////////////////////////
 		// GUI ////////////////////////////////////////////////////////////////
@@ -120,7 +122,7 @@ public class ExplorerTab {
 		displayModeCombo = new Combo(cardSelectionComposite, SWT.BORDER | SWT.READ_ONLY);
 		displayModeCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		
-		displayModeCombo.setItems(displayModes);
+		displayModeCombo.setItems(ExplorerTab.LIST_LABELS);
 		displayModeCombo.select(ExplorerTab.DEFAULT_DISPLAY_MODE);
 		
 		// tagSelectionCombo //////////
@@ -138,10 +140,16 @@ public class ExplorerTab {
         setShowHiddenCardsCheckboxVisible(false);
 
 		// cardListWidget /////////////
-		cardListWidget = new List(cardSelectionComposite, SWT.BORDER | SWT.V_SCROLL);
+		cardListWidget = new List(cardSelectionComposite, SWT.BORDER | SWT.V_SCROLL | SWT.MULTI);
 		cardListWidget.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
-		//cardListWidget.setItems(new String[0]);
+		Menu menu = new Menu(cardListWidget);
+		MenuItem hideItem = new MenuItem(menu, SWT.NONE);
+		hideItem.setText("Hide");
+		MenuItem unhideItem = new MenuItem(menu, SWT.NONE);
+		unhideItem.setText("Unhide");
+		
+		cardListWidget.setMenu(menu);
 		
 		///////////////////////////////////////////////////////////////////////
 		// EditionCardComposite ///////////////////////////////////////////////
@@ -274,6 +282,26 @@ public class ExplorerTab {
 			}
 		});
 		
+		hideItem.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				int selectionIndices[] = cardListWidget.getSelectionIndices();
+
+				for(int i=0 ; i<selectionIndices.length ; i++) {
+		            cardList.get(selectionIndices[i]).setHidden(true);
+				}
+			}
+		});
+		
+		unhideItem.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				int selectionIndices[] = cardListWidget.getSelectionIndices();
+
+				for(int i=0 ; i<selectionIndices.length ; i++) {
+		            cardList.get(selectionIndices[i]).setHidden(false);
+				}
+			}
+		});
+		
 		// tagSelectionComboListener ////////////
 		tagSelectionCombo.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -339,7 +367,7 @@ public class ExplorerTab {
 		int selectionIndex = cardListWidget.getSelectionIndex();
 
 		try {
-            selectedCard = cardListView.get(selectionIndex);
+            selectedCard = cardList.get(selectionIndex);
 		} catch(ArrayIndexOutOfBoundsException ex) {
 			selectedCard = null;
 		}
@@ -404,7 +432,7 @@ public class ExplorerTab {
 		
 		String[] tagsArray = new String[tagSet.size()];
 		tagSelectionCombo.setItems(tagSet.toArray(tagsArray));
-		tagSelectionCombo.add(ExplorerTab.ALL_TAGS, 0);
+		tagSelectionCombo.add(ExplorerTab.ALL_TAGS_LABEL, 0);
 		
         if(previousIndex < 0) tagSelectionCombo.select(0);
         else if(previousIndex > tagSelectionCombo.getItemCount() - 1) tagSelectionCombo.select(tagSelectionCombo.getItemCount() - 1);
@@ -426,12 +454,12 @@ public class ExplorerTab {
 		
 		switch(getCurrentMode()) {
 			case ExplorerTab.ALL_CARDS :
-                cardListView.clear();
-                cardListView.addAll(CardList.mainCardList);
-                cardListWidget.setItems(itemFilter(MainWindow.getQuestionStrings(cardListView, false)));
+                cardList.clear();
+                cardList.addAll(CardList.mainCardList);
+                cardListWidget.setItems(itemFilter(MainWindow.getQuestionStrings(cardList, false)));
 				break;
 			case ExplorerTab.REVIEWED_CARDS : 
-                cardListView.clear();
+                cardList.clear();
                 for(int i=0 ; i<CardList.mainCardList.size() ; i++) {
                     Card card = CardList.mainCardList.get(i);
                     
@@ -441,41 +469,41 @@ public class ExplorerTab {
                         if(reviews[j].getReviewDate().equals(CalendarToolKit.calendarToIso8601(new GregorianCalendar()))) hasBeenReviewed = true;
                     }
                     
-                    if(hasBeenReviewed) cardListView.add(card);
+                    if(hasBeenReviewed) cardList.add(card);
                 }
-                cardListWidget.setItems(itemFilter(MainWindow.getQuestionStrings(cardListView, false)));
+                cardListWidget.setItems(itemFilter(MainWindow.getQuestionStrings(cardList, false)));
 				break;
 			case ExplorerTab.NEW_CARDS :
-                cardListView.clear();
+                cardList.clear();
                 for(int i=0 ; i<CardList.mainCardList.size() ; i++) {
                     Card card = CardList.mainCardList.get(i);
-                    if(card.getCreationDate().equals(CalendarToolKit.calendarToIso8601(new GregorianCalendar()))) cardListView.add(card);
+                    if(card.getCreationDate().equals(CalendarToolKit.calendarToIso8601(new GregorianCalendar()))) cardList.add(card);
                 }
-                cardListWidget.setItems(itemFilter(MainWindow.getQuestionStrings(cardListView, false)));
+                cardListWidget.setItems(itemFilter(MainWindow.getQuestionStrings(cardList, false)));
 				break;
 			case ExplorerTab.HIDDEN_CARDS :
-                cardListView.clear();
+                cardList.clear();
                 for(int i=0 ; i<CardList.mainCardList.size() ; i++) {
                     Card card = CardList.mainCardList.get(i);
-                    if(card.isHidden()) cardListView.add(card);
+                    if(card.isHidden()) cardList.add(card);
                 }
-                cardListWidget.setItems(itemFilter(MainWindow.getQuestionStrings(cardListView, false)));
+                cardListWidget.setItems(itemFilter(MainWindow.getQuestionStrings(cardList, false)));
 				break;
 			case ExplorerTab.CARDS_BY_TAG :
-                cardListView.clear();
-                if(tagSelectionCombo.getItem(tagSelectionCombo.getSelectionIndex()).equals(ExplorerTab.ALL_TAGS)) {
-                    cardListView.addAll(CardList.mainCardList);
+                cardList.clear();
+                if(tagSelectionCombo.getItem(tagSelectionCombo.getSelectionIndex()).equals(ExplorerTab.ALL_TAGS_LABEL)) {
+                    cardList.addAll(CardList.mainCardList);
                 } else {
                     for(int i=0 ; i<CardList.mainCardList.size() ; i++) {
                         Card card = CardList.mainCardList.get(i);
                         
                         String[] tags = card.getTags();
                         for(int j=0 ; j < tags.length ; j++) {
-                            if(tags[j].equals(tagSelectionCombo.getItem(tagSelectionCombo.getSelectionIndex()))) cardListView.add(card);
+                            if(tags[j].equals(tagSelectionCombo.getItem(tagSelectionCombo.getSelectionIndex()))) cardList.add(card);
                         }
                     }
                 }
-                cardListWidget.setItems(itemFilter(MainWindow.getQuestionStrings(cardListView, false)));
+                cardListWidget.setItems(itemFilter(MainWindow.getQuestionStrings(cardList, false)));
 				break;
 		}
 		

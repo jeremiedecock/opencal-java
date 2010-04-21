@@ -136,8 +136,8 @@ public class MainWindow {
 		MenuItem closeItem = new MenuItem(fileMenu, SWT.PUSH);
 		closeItem.setText("Close");
 
-		closeItem.addListener(SWT.Selection, new Listener() {
-			public void handleEvent(Event e) {
+		closeItem.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
 				PersonalKnowledgeBase.closePkbFile();
 			}
 		});
