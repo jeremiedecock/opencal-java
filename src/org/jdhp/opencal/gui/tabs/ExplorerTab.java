@@ -275,6 +275,14 @@ public class ExplorerTab {
 			}
 		});
 		
+		// showHiddenCardsCheckboxListener ////////////
+		showHiddenCardsCheckbox.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				//System.out.println(showHiddenCardsCheckbox.getSelection());
+				updateCardList(false);
+			}
+		});
+		
 		// cardListWidgetListener ////////////
 		cardListWidget.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -289,6 +297,8 @@ public class ExplorerTab {
 				for(int i=0 ; i<selectionIndices.length ; i++) {
 		            cardList.get(selectionIndices[i]).setHidden(true);
 				}
+				
+				updateCardList(false);
 			}
 		});
 		
@@ -299,6 +309,8 @@ public class ExplorerTab {
 				for(int i=0 ; i<selectionIndices.length ; i++) {
 		            cardList.get(selectionIndices[i]).setHidden(false);
 				}
+				
+				updateCardList(false);
 			}
 		});
 		
@@ -449,17 +461,26 @@ public class ExplorerTab {
 	 */
 	final private void updateCardList(Boolean init) {
 		int previousIndex = 0;
-			
+		
 		if(!init) previousIndex = cardListWidget.getSelectionIndex();
 		
 		switch(getCurrentMode()) {
 			case ExplorerTab.ALL_CARDS :
                 cardList.clear();
-                cardList.addAll(CardList.mainCardList);
+                
+                for(int i=0 ; i<CardList.mainCardList.size() ; i++) {
+                    Card card = CardList.mainCardList.get(i);
+                    
+                    if(!card.isHidden() || showHiddenCardsCheckbox.getSelection()) {
+	                    cardList.add(card);
+                    }
+                }
+                
                 cardListWidget.setItems(itemFilter(MainWindow.getQuestionStrings(cardList, false)));
 				break;
 			case ExplorerTab.REVIEWED_CARDS : 
                 cardList.clear();
+                
                 for(int i=0 ; i<CardList.mainCardList.size() ; i++) {
                     Card card = CardList.mainCardList.get(i);
                     
@@ -471,38 +492,51 @@ public class ExplorerTab {
                     
                     if(hasBeenReviewed) cardList.add(card);
                 }
+                
                 cardListWidget.setItems(itemFilter(MainWindow.getQuestionStrings(cardList, false)));
 				break;
 			case ExplorerTab.NEW_CARDS :
                 cardList.clear();
+                
                 for(int i=0 ; i<CardList.mainCardList.size() ; i++) {
                     Card card = CardList.mainCardList.get(i);
                     if(card.getCreationDate().equals(CalendarToolKit.calendarToIso8601(new GregorianCalendar()))) cardList.add(card);
                 }
+                
                 cardListWidget.setItems(itemFilter(MainWindow.getQuestionStrings(cardList, false)));
 				break;
 			case ExplorerTab.HIDDEN_CARDS :
                 cardList.clear();
+                
                 for(int i=0 ; i<CardList.mainCardList.size() ; i++) {
                     Card card = CardList.mainCardList.get(i);
                     if(card.isHidden()) cardList.add(card);
                 }
+                
                 cardListWidget.setItems(itemFilter(MainWindow.getQuestionStrings(cardList, false)));
 				break;
 			case ExplorerTab.CARDS_BY_TAG :
                 cardList.clear();
-                if(tagSelectionCombo.getItem(tagSelectionCombo.getSelectionIndex()).equals(ExplorerTab.ALL_TAGS_LABEL)) {
-                    cardList.addAll(CardList.mainCardList);
-                } else {
-                    for(int i=0 ; i<CardList.mainCardList.size() ; i++) {
-                        Card card = CardList.mainCardList.get(i);
-                        
-                        String[] tags = card.getTags();
-                        for(int j=0 ; j < tags.length ; j++) {
-                            if(tags[j].equals(tagSelectionCombo.getItem(tagSelectionCombo.getSelectionIndex()))) cardList.add(card);
-                        }
+                
+                for(int i=0 ; i<CardList.mainCardList.size() ; i++) {
+                    Card card = CardList.mainCardList.get(i);
+                    
+                    if(!card.isHidden() || showHiddenCardsCheckbox.getSelection()) {
+	                    if(tagSelectionCombo.getItem(tagSelectionCombo.getSelectionIndex()).equals(ExplorerTab.ALL_TAGS_LABEL)) {
+	                    	cardList.add(card);
+	                    } else {
+	                        String[] tags = card.getTags();
+	                        
+	                        boolean addCard = false;
+	                        for(int j=0 ; j < tags.length ; j++) {
+	                            if(tags[j].equals(tagSelectionCombo.getItem(tagSelectionCombo.getSelectionIndex()))) addCard = true;
+	                        }
+	                        
+	                        if(addCard) cardList.add(card);
+	                    }
                     }
                 }
+                
                 cardListWidget.setItems(itemFilter(MainWindow.getQuestionStrings(cardList, false)));
 				break;
 		}
