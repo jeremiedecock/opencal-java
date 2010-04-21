@@ -32,12 +32,7 @@ import org.jdhp.opencal.card.Review;
 import org.jdhp.opencal.gui.MainWindow;
 import org.jdhp.opencal.gui.images.SharedImages;
 import org.jdhp.opencal.gui.widgets.EditableBrowser;
-import org.jdhp.opencal.PersonalKnowledgeBase;
 import org.jdhp.opencal.toolkit.CalendarToolKit;
-
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Text;
 
 /**
  * 
@@ -278,7 +273,7 @@ public class ExplorerTab {
 		// showHiddenCardsCheckboxListener ////////////
 		showHiddenCardsCheckbox.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				//System.out.println(showHiddenCardsCheckbox.getSelection());
+				updateTagCombo();
 				updateCardList(false);
 			}
 		});
@@ -298,6 +293,7 @@ public class ExplorerTab {
 		            cardList.get(selectionIndices[i]).setHidden(true);
 				}
 				
+				updateTagCombo();
 				updateCardList(false);
 			}
 		});
@@ -310,6 +306,7 @@ public class ExplorerTab {
 		            cardList.get(selectionIndices[i]).setHidden(false);
 				}
 				
+				updateTagCombo();
 				updateCardList(false);
 			}
 		});
@@ -435,12 +432,17 @@ public class ExplorerTab {
 
 		TreeSet<String> tagSet = new TreeSet<String>();
 		
-		NodeList nodeTags = PersonalKnowledgeBase.getDomDocument().getElementsByTagName("tag");
-		for(int i=0 ; i<nodeTags.getLength() ; i++) {
-			Element tagElement = (Element) nodeTags.item(i);
-			String tagText = ((Text) tagElement.getFirstChild()).getData();
-			tagSet.add(tagText);
-		}
+        for(int i=0 ; i<CardList.mainCardList.size() ; i++) {
+            Card card = CardList.mainCardList.get(i);
+            
+            if(!card.isHidden() || showHiddenCardsCheckbox.getSelection()) {
+                String[] tags = card.getTags();
+                
+                for(int j=0 ; j < tags.length ; j++) {
+                	tagSet.add(tags[j]);
+                }
+            }
+        }
 		
 		String[] tagsArray = new String[tagSet.size()];
 		tagSelectionCombo.setItems(tagSet.toArray(tagsArray));
