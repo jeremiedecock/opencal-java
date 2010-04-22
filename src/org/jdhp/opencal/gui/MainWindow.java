@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -372,7 +373,7 @@ public class MainWindow {
 	 * 
 	 * @return
 	 */
-	public static String[] getQuestionStrings(CardList cardList, boolean displayErrors) {
+	public static String[] getQuestionStrings(List<Card> cardList, boolean displayErrors) {
 		ArrayList<String> questionStrings = new ArrayList<String>();
 		
         if(displayErrors) {

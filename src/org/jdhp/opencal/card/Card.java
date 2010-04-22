@@ -220,9 +220,6 @@ public class Card {
 		
 		// Serialize DOM tree
 		PersonalKnowledgeBase.updatePkbFile();
-		
-		OpenCAL.plannedCardList.remove(this);  // TODO : pb, le manipulator n'est pas au courrant...
-		//OpenCAL.reviewedCardList.add(this);
 	}
 	
 	/**
@@ -289,18 +286,17 @@ public class Card {
         // Update XML element
         this.element.setAttribute("hidden", isHidden ? "true" : "false");
 		
-		// Update plannedCardList and hiddenCardList if necessary
-        if(isHidden) {
-            OpenCAL.plannedCardList.remove(this);   // TODO : pb, le manipulator n'est pas au courrant...
-            //OpenCAL.hiddenCardList.add(this);    // TODO
-        } else {
-            OpenCAL.plannedCardList.add(this);      // TODO : pb, le manipulator n'est pas au courrant...
-            //OpenCAL.hiddenCardList.remove(this); // TODO
-        }
-		
 		// Serialize DOM tree
 		PersonalKnowledgeBase.updatePkbFile();
     }
+	
+	/**
+	 * 
+	 * @param grade
+	 */
+	public void setGrade(float grade) {
+		this.grade = grade;
+	}
 	
 	/**
 	 * Return the XML value

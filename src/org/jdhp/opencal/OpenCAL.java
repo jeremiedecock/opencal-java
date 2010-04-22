@@ -10,12 +10,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import org.jdhp.opencal.card.CardList;
-//import org.jdhp.opencal.card.lists.AllCardList;
-//import org.jdhp.opencal.card.lists.CardByTagList;
-//import org.jdhp.opencal.card.lists.NewCardList;
-import org.jdhp.opencal.card.lists.PlannedCardList;
-//import org.jdhp.opencal.card.lists.ReviewedCardList;
-//import org.jdhp.opencal.card.lists.HiddenCardList;
 import org.jdhp.opencal.gui.MainWindow;
 import org.jdhp.opencal.PersonalKnowledgeBase;
 import org.jdhp.opencal.professor.Professor;
@@ -42,18 +36,6 @@ public class OpenCAL {
 	
 	public static MainWindow mainWindow;
 	
-	//public static AllCardList allCardList;
-	
-	public static PlannedCardList plannedCardList;
-	
-	//public static ReviewedCardList reviewedCardList;
-	
-	//public static NewCardList newCardList;
-	
-	//public static HiddenCardList hiddenCardList;
-	
-	//public static CardByTagList cardByTagList;
-	
 	private static Professor professor;
 	
 	/**
@@ -74,12 +56,6 @@ public class OpenCAL {
 		}
         
         CardList.initMainCardList();
-        //OpenCAL.allCardList = new AllCardList();
-        OpenCAL.plannedCardList = new PlannedCardList();
-        //OpenCAL.reviewedCardList = new ReviewedCardList();
-        //OpenCAL.newCardList = new NewCardList();
-        //OpenCAL.hiddenCardList = new HiddenCardList();
-        //OpenCAL.cardByTagList = new CardByTagList();
 
 		// Make and run GUI
 		OpenCAL.mainWindow = new MainWindow();

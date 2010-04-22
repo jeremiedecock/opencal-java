@@ -5,11 +5,13 @@
 
 package org.jdhp.opencal.gui.tabs;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.swt.SWT;
-//import org.eclipse.swt.SWTError;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -40,6 +42,9 @@ public class ReviewerTab {
     final public static int RESULT_STATE = 1;
 
     final public static int NAVIGATION_STATE = 2;
+    
+    
+    final private List<Card> cardList;
 
 	final private Composite parentComposite;
 	
@@ -74,8 +79,10 @@ public class ReviewerTab {
 	 * @param parentComposite
 	 */
 	public ReviewerTab(Composite parentComposite) {
+		
+		cardList = new ArrayList<Card>();
 
-		manipulator = new CardManipulator(OpenCAL.plannedCardList);
+		manipulator = new CardManipulator(cardList);
 		
 		this.parentComposite = parentComposite;
 		this.parentComposite.setLayout(new GridLayout(1, false));
@@ -138,17 +145,14 @@ public class ReviewerTab {
 			public void widgetSelected(SelectionEvent e) {
 				if(wrongAnswerButton.getEnabled()) {
 					manipulator.pop().putReview(OpenCAL.WRONG_ANSWER_STRING);
+					manipulator.pop().setGrade(0);
 					manipulator.remove();
 
                     setState(ReviewerTab.NAVIGATION_STATE);
 	
-                    updateBrowser();
-					updateButtons();
-                    updateScale();
+                    update();
 
 					OpenCAL.mainWindow.updateStatus();
-					//OpenCAL.mainWindow.setStatusLabel3("C : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " cards checked today");
-					//OpenCAL.mainWindow.setStatusLabel4("L : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
 				}
 			}
 		});
@@ -163,17 +167,14 @@ public class ReviewerTab {
 			public void widgetSelected(SelectionEvent e) {
 				if(rightAnswerButton.getEnabled()) {
 					manipulator.pop().putReview(OpenCAL.RIGHT_ANSWER_STRING);
+					manipulator.pop().setGrade(0);
 					manipulator.remove();
 
                     setState(ReviewerTab.NAVIGATION_STATE);
 					
-                    updateBrowser();
-					updateButtons();
-                    updateScale();
+                    update();
 
 					OpenCAL.mainWindow.updateStatus();
-					//OpenCAL.mainWindow.setStatusLabel3("C : " + OpenCAL.reviewedCardList.size(), OpenCAL.reviewedCardList.size() + " cards checked today");
-					//OpenCAL.mainWindow.setStatusLabel4("L : " + OpenCAL.plannedCardList.size(), OpenCAL.plannedCardList.size() + " cards left for today");
 				}
 			}
 		});
@@ -288,9 +289,7 @@ public class ReviewerTab {
         setState(ReviewerTab.NAVIGATION_STATE);
 
         // Init controls
-        updateBrowser();
-	    updateButtons();
-        updateScale();
+        update();
         
 		// Add Hot Keys (TODO : clean that...)
 		CheckPanelHotKeys keyboardListener = new CheckPanelHotKeys(browser, firstButton, previousButton, answerButton, nextButton, lastButton, wrongAnswerButton, rightAnswerButton);
@@ -321,6 +320,27 @@ public class ReviewerTab {
 
         controlComposite.layout();
     }
+	
+	/**
+	 * Met à jour la liste des cartes
+	 * 
+	 * TODO : le manipulator n'est pas mis à jour...
+	 */
+	final private void updateCardList() {
+		Iterator<Card> it;
+		it = CardList.mainCardList.iterator();
+		
+		cardList.clear();
+		
+		while(it.hasNext()) {
+            Card card = it.next();
+    		if(card.getGrade() >= 0. && !card.isHidden()) cardList.add(card);
+		}
+
+		ReviewerTab.sortCards(cardList);
+		
+		updateBrowser();
+	}
 
 	/**
 	 * 
@@ -382,7 +402,7 @@ public class ReviewerTab {
         if(manipulator.pop() != null) {
             scale.setEnabled(true);
             scale.setSelection(manipulator.getIndex());
-            scale.setMaximum(OpenCAL.plannedCardList.size() - 1); // TODO : +0, +1 ou -1 ?
+            scale.setMaximum(cardList.size() - 1); // TODO : +0, +1 ou -1 ?
         } else {
             scale.setEnabled(false);
         }
@@ -479,7 +499,7 @@ public class ReviewerTab {
 	 * 
 	 */
 	public void update() {
-        updateBrowser();
+		updateCardList();
 	    updateButtons();
         updateScale();
 	}
@@ -492,7 +512,7 @@ public class ReviewerTab {
 	 * 
 	 * Tri le tableau par "grade" décroissant
 	 */
-	public static void sortCards(CardList cardList) {
+	public static void sortCards(List<Card> cardList) {
 		// Tri bulle
 		for(int i=cardList.size()-1 ; i>0 ; i--) {
 			for(int j=0 ; j<i ; j++) {
