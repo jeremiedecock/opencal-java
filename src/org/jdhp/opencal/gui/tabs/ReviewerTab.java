@@ -145,7 +145,7 @@ public class ReviewerTab {
 			public void widgetSelected(SelectionEvent e) {
 				if(wrongAnswerButton.getEnabled()) {
 					manipulator.pop().putReview(OpenCAL.WRONG_ANSWER_STRING);
-					manipulator.pop().setGrade(0);
+					manipulator.pop().setGrade(-1);
 					manipulator.remove();
 
                     setState(ReviewerTab.NAVIGATION_STATE);
@@ -167,7 +167,7 @@ public class ReviewerTab {
 			public void widgetSelected(SelectionEvent e) {
 				if(rightAnswerButton.getEnabled()) {
 					manipulator.pop().putReview(OpenCAL.RIGHT_ANSWER_STRING);
-					manipulator.pop().setGrade(0);
+					manipulator.pop().setGrade(-1);
 					manipulator.remove();
 
                     setState(ReviewerTab.NAVIGATION_STATE);
