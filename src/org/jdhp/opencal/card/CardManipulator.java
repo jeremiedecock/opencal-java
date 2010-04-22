@@ -129,7 +129,7 @@ public class CardManipulator {
 		} else if(this.hasNext() && !this.hasPrevious()) {
 			this.cardList.remove(this.index);
 		} else if(!this.hasNext() && !this.hasPrevious()) {
-			this.cardList.remove(this.index);
+			this.cardList.clear();
 		}
 	}
 	

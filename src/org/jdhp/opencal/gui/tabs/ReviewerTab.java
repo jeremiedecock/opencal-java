@@ -37,9 +37,9 @@ import org.jdhp.opencal.UserProperties;
  */
 public class ReviewerTab {
 
-    final public static int RESULT_MODE = 1;
+    final public static int RESULT_STATE = 1;
 
-    final public static int NAVIGATION_MODE = 2;
+    final public static int NAVIGATION_STATE = 2;
 
 	final private Composite parentComposite;
 	
@@ -69,8 +69,6 @@ public class ReviewerTab {
 	
 	final private CardManipulator manipulator;
 
-    private int mode;
-	
 	/**
 	 * 
 	 * @param parentComposite
@@ -142,7 +140,7 @@ public class ReviewerTab {
 					manipulator.pop().putReview(OpenCAL.WRONG_ANSWER_STRING);
 					manipulator.remove();
 
-                    setMode(ReviewerTab.NAVIGATION_MODE);
+                    setState(ReviewerTab.NAVIGATION_STATE);
 	
                     updateBrowser();
 					updateButtons();
@@ -167,7 +165,7 @@ public class ReviewerTab {
 					manipulator.pop().putReview(OpenCAL.RIGHT_ANSWER_STRING);
 					manipulator.remove();
 
-                    setMode(ReviewerTab.NAVIGATION_MODE);
+                    setState(ReviewerTab.NAVIGATION_STATE);
 					
                     updateBrowser();
 					updateButtons();
@@ -245,7 +243,7 @@ public class ReviewerTab {
 		answerButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				if(answerButton.getEnabled()) {
-                    setMode(ReviewerTab.RESULT_MODE);
+                    setState(ReviewerTab.RESULT_STATE);
                     updateBrowser();
 					updateButtons();
 				}
@@ -287,7 +285,7 @@ public class ReviewerTab {
 		});
 		
         // Init composites
-        setMode(ReviewerTab.NAVIGATION_MODE);
+        setState(ReviewerTab.NAVIGATION_STATE);
 
         // Init controls
         updateBrowser();
@@ -309,16 +307,16 @@ public class ReviewerTab {
 	/**
 	 * 
 	 */
-	final private int getMode() {
-        if(((StackLayout) controlComposite.getLayout()).topControl == resultButtonComposite) return ReviewerTab.RESULT_MODE;
-        else return ReviewerTab.NAVIGATION_MODE;
+	final private int getState() {
+        if(((StackLayout) controlComposite.getLayout()).topControl == resultButtonComposite) return ReviewerTab.RESULT_STATE;
+        else return ReviewerTab.NAVIGATION_STATE;
     }
 	
 	/**
 	 * 
 	 */
-	final private void setMode(int mode) {
-        if(mode == ReviewerTab.RESULT_MODE) ((StackLayout) controlComposite.getLayout()).topControl = resultButtonComposite;
+	final private void setState(int mode) {
+        if(mode == ReviewerTab.RESULT_STATE) ((StackLayout) controlComposite.getLayout()).topControl = resultButtonComposite;
         else ((StackLayout) controlComposite.getLayout()).topControl = navigationButtonComposite;
 
         controlComposite.layout();
@@ -328,7 +326,7 @@ public class ReviewerTab {
 	 * 
 	 */
 	final private void updateButtons() {
-        if(getMode() == ReviewerTab.RESULT_MODE) {
+        if(getState() == ReviewerTab.RESULT_STATE) {
             // Result buttons /////////
             wrongAnswerButton.setEnabled(true);
             rightAnswerButton.setEnabled(true);
@@ -442,7 +440,7 @@ public class ReviewerTab {
 			html.append("</div>");
 			
 			// Answer
-            if(getMode() == ReviewerTab.RESULT_MODE) {
+            if(getState() == ReviewerTab.RESULT_STATE) {
 				html.append("<hr />");
 				html.append("<div id=\"answer\">");
 				html.append("<h1>Answer</h1>");
