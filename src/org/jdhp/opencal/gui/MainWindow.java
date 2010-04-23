@@ -9,6 +9,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
@@ -41,7 +43,7 @@ import org.jdhp.opencal.gui.tabs.MakerTab;
 import org.jdhp.opencal.gui.tabs.ReviewerTab;
 import org.jdhp.opencal.gui.tabs.StatsTab;
 import org.jdhp.opencal.OpenCAL;
-import org.jdhp.opencal.PersonalKnowledgeBase;
+import org.jdhp.opencal.UserProperties;
 import org.jdhp.opencal.toolkit.CalendarToolKit;
 
 /**
@@ -56,6 +58,7 @@ public class MainWindow {
 	final public static String REVIEW_CSS = MainWindow.loadCSS("review.css");
 	
 	final public static String EDITABLE_BROWSER_CSS = MainWindow.loadCSS("editable_browser.css");
+	
 	
 	final private Shell shell;
 	
@@ -83,15 +86,24 @@ public class MainWindow {
 	
 	final private StatsTab statsTab;
 	
+	private URI pkbURI;
+	
 	/**
 	 * 
 	 */
 	public MainWindow() {
-//		this.display = new Display();
+		
+		try {
+			this.pkbURI = new URI(UserProperties.getDefaultPkbFilePath());
+		} catch (URISyntaxException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		this.shell = new Shell(MainWindow.DISPLAY);
 		this.shell.setLayout(new GridLayout(1, false));
 		
-		this.shell.setText(OpenCAL.PROGRAM_NAME + " " + OpenCAL.PROGRAM_VERSION + " - " + PersonalKnowledgeBase.getPkbFile().getAbsolutePath());
+		this.shell.setText(OpenCAL.PROGRAM_NAME + " " + OpenCAL.PROGRAM_VERSION + " - " + this.pkbURI.getPath());
 		this.shell.setMinimumSize(400, 350);
 		this.shell.setSize(640, 480);
 		
@@ -139,7 +151,9 @@ public class MainWindow {
 
 		closeItem.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
-				PersonalKnowledgeBase.closePkbFile();
+				//OpenCAL.cardCollection.clear();
+				//pkbURI. = null;
+				//shell.setText(OpenCAL.PROGRAM_NAME + " " + OpenCAL.PROGRAM_VERSION);
 			}
 		});
 

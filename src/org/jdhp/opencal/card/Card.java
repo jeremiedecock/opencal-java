@@ -81,7 +81,7 @@ public class Card {
 			pkbElement.appendChild(this.element);
 			
 			// Add the new "card" to the XML file
-			PersonalKnowledgeBase.updatePkbFile();
+			PersonalKnowledgeBase.save(null);
 			
 			this.grade = OpenCAL.getProfessor().assess(this);
 		}
@@ -219,7 +219,7 @@ public class Card {
 		this.grade = OpenCAL.getProfessor().assess(this);
 		
 		// Serialize DOM tree
-		PersonalKnowledgeBase.updatePkbFile();
+		PersonalKnowledgeBase.save(null);
 	}
 	
 	/**
@@ -232,7 +232,7 @@ public class Card {
 		((CDATASection) questionElement.getFirstChild()).setTextContent(newQuestion);
 		
 		// Serialize DOM tree
-		PersonalKnowledgeBase.updatePkbFile();
+		PersonalKnowledgeBase.save(null);
 	}
 	
 	/**
@@ -245,7 +245,7 @@ public class Card {
 		((CDATASection) answerElement.getFirstChild()).setTextContent(newAnswer);
 		
 		// Serialize DOM tree
-		PersonalKnowledgeBase.updatePkbFile();
+		PersonalKnowledgeBase.save(null);
 	}
 	
 	/**
@@ -275,7 +275,7 @@ public class Card {
 		}
 		
 		// Serialize DOM tree
-		PersonalKnowledgeBase.updatePkbFile();
+		PersonalKnowledgeBase.save(null);
 	}
 
 	/**
@@ -287,7 +287,7 @@ public class Card {
         this.element.setAttribute("hidden", isHidden ? "true" : "false");
 		
 		// Serialize DOM tree
-		PersonalKnowledgeBase.updatePkbFile();
+		PersonalKnowledgeBase.save(null);
     }
 	
 	/**

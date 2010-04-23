@@ -21,7 +21,10 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.jdhp.opencal.card.Card;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
@@ -30,17 +33,10 @@ import org.xml.sax.SAXException;
  */
 public class PersonalKnowledgeBase {
 
-	private static File pkbFile;
+	private static File pkbFile;			// TODO : à supprimer
 	
-	private static Document domDocument;
+	private static Document domDocument;	// TODO : à supprimer
 
-	/**
-	 * 
-	 * @param pkbFilePath
-	 */
-	public static void createPkbFile(String pkbFilePath) {
-		// TODO ...
-	}
 	
 	/**
 	 * 
@@ -54,6 +50,12 @@ public class PersonalKnowledgeBase {
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			PersonalKnowledgeBase.domDocument = db.parse(PersonalKnowledgeBase.pkbFile);
+			
+			NodeList nodeCards = PersonalKnowledgeBase.domDocument.getElementsByTagName("card");
+            for(int i=0 ; i<nodeCards.getLength() ; i++) {
+                Card card = new Card((Element) nodeCards.item(i));
+                OpenCAL.cardCollection.add(card);
+            }
 		} catch(SAXException e) {
 			OpenCAL.mainWindow.printError(UserProperties.getDefaultPkbFilePath() + " n'est pas valide (SAXException)");
 			OpenCAL.exit(2);
@@ -69,45 +71,12 @@ public class PersonalKnowledgeBase {
 		}
 	}
 	
-	/**
-	 * 
-	 * @param pkbFilePath
-	 */
-	public static void closePkbFile() {
-		// TODO : save data and close streams.
-//		// PersonalKnowledgeBase.updatePkbFile()
-//		
-//		OpenCAL.allCardList = null;
-//		OpenCAL.plannedCardList = null;
-//		OpenCAL.reviewedCardList = null;
-//		OpenCAL.newCardList = null;
-//		OpenCAL.hiddenCardList = null;
-//		
-//		OpenCAL.domDocument = null;
-//		OpenCAL.pkbFile = null;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public static File getPkbFile() {
-		return PersonalKnowledgeBase.pkbFile;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public static Document getDomDocument() {
-		return PersonalKnowledgeBase.domDocument;
-	}
 
 	/**
 	 * 
 	 * @param document
 	 */
-	public static void updatePkbFile() {
+	public static void save(URI uri) {
 		try {
 			// Make DOM source
 			Source domSource = new DOMSource(PersonalKnowledgeBase.domDocument);
@@ -126,5 +95,14 @@ public class PersonalKnowledgeBase {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static Document getDomDocument() {
+		return PersonalKnowledgeBase.domDocument;
 	}
 }

@@ -19,8 +19,6 @@ import org.jdhp.opencal.professor.ProfessorAlan;
 import org.jdhp.opencal.professor.ProfessorBen;
 import org.jdhp.opencal.professor.ProfessorCharlie;
 import org.jdhp.opencal.UserProperties;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 /**
  * OpenCAL
@@ -61,18 +59,6 @@ public class OpenCAL {
 			e.printStackTrace();
 		}
         
-        // Init cardCollection
-        try {
-            NodeList nodeCards = PersonalKnowledgeBase.getDomDocument().getElementsByTagName("card");
-            for(int i=0 ; i<nodeCards.getLength() ; i++) {
-                Card card = new Card((Element) nodeCards.item(i));
-                OpenCAL.cardCollection.add(card);
-            }
-        } catch(NullPointerException e) {
-            System.out.println("Error : DOM tree called but not yet loaded.");
-            System.exit(1);
-        }
-
 		// Make and run GUI
 		OpenCAL.mainWindow = new MainWindow();
 		OpenCAL.mainWindow.run();
