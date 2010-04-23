@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
@@ -33,7 +34,6 @@ import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
 import org.jdhp.opencal.card.Card;
-import org.jdhp.opencal.card.CardList;
 import org.jdhp.opencal.card.Review;
 import org.jdhp.opencal.gui.images.SharedImages;
 import org.jdhp.opencal.gui.tabs.ExplorerTab;
@@ -405,29 +405,38 @@ public class MainWindow {
 	public void updateStatus() {
 		this.statusLabel1.setText("");
 		this.statusLabel1.setToolTipText("");
+		
+		Iterator<Card> it;
+		GregorianCalendar gc = new GregorianCalendar();
 
         // Cards Added /////////////////
         int nbCardsAdded = 0;
-        for(int i=0 ; i<CardList.mainCardList.size() ; i++) {
-            Card card = CardList.mainCardList.get(i);
-            if(card.getCreationDate().equals(CalendarToolKit.calendarToIso8601(new GregorianCalendar()))) nbCardsAdded++;
+        
+        it = OpenCAL.cardCollection.iterator();
+        while(it.hasNext()) {
+            Card card = it.next();
+            if(card.getCreationDate().equals(CalendarToolKit.calendarToIso8601(gc))) nbCardsAdded++;
         }
+        
 		this.statusLabel2.setText("A : " + nbCardsAdded);
 		this.statusLabel2.setToolTipText(nbCardsAdded + " cards added today");
 
         // Cards Checked ///////////////
         int nbCardsChecked = 0;
-        for(int i=0 ; i<CardList.mainCardList.size() ; i++) {
-            Card card = CardList.mainCardList.get(i);
+        
+        it = OpenCAL.cardCollection.iterator();
+        while(it.hasNext()) {
+            Card card = it.next();
             
             boolean hasBeenReviewed = false;
             Review[] reviews = card.getReviews();
             for(int j=0 ; j < reviews.length ; j++) {
-                if(reviews[j].getReviewDate().equals(CalendarToolKit.calendarToIso8601(new GregorianCalendar()))) hasBeenReviewed = true;
+                if(reviews[j].getReviewDate().equals(CalendarToolKit.calendarToIso8601(gc))) hasBeenReviewed = true;
             }
             
             if(hasBeenReviewed) nbCardsChecked++;
         }
+        
 		this.statusLabel3.setText("C : " + nbCardsChecked);
 		this.statusLabel3.setToolTipText(nbCardsChecked + " cards checked today");
 

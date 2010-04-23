@@ -8,8 +8,10 @@ package org.jdhp.opencal;
 //import org.jdhp.opencal.card.Card;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Collection;
+import java.util.HashSet;
 
-import org.jdhp.opencal.card.CardList;
+import org.jdhp.opencal.card.Card;
 import org.jdhp.opencal.gui.MainWindow;
 import org.jdhp.opencal.PersonalKnowledgeBase;
 import org.jdhp.opencal.professor.Professor;
@@ -17,6 +19,8 @@ import org.jdhp.opencal.professor.ProfessorAlan;
 import org.jdhp.opencal.professor.ProfessorBen;
 import org.jdhp.opencal.professor.ProfessorCharlie;
 import org.jdhp.opencal.UserProperties;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 /**
  * OpenCAL
@@ -33,6 +37,8 @@ public class OpenCAL {
 	public final static String RIGHT_ANSWER_STRING = "good";
 	
 	public final static String WRONG_ANSWER_STRING = "bad";
+	
+	public final static Collection<Card> cardCollection = new HashSet<Card>();
 	
 	public static MainWindow mainWindow;
 	
@@ -55,7 +61,17 @@ public class OpenCAL {
 			e.printStackTrace();
 		}
         
-        CardList.initMainCardList();
+        // Init cardCollection
+        try {
+            NodeList nodeCards = PersonalKnowledgeBase.getDomDocument().getElementsByTagName("card");
+            for(int i=0 ; i<nodeCards.getLength() ; i++) {
+                Card card = new Card((Element) nodeCards.item(i));
+                OpenCAL.cardCollection.add(card);
+            }
+        } catch(NullPointerException e) {
+            System.out.println("Error : DOM tree called but not yet loaded.");
+            System.exit(1);
+        }
 
 		// Make and run GUI
 		OpenCAL.mainWindow = new MainWindow();

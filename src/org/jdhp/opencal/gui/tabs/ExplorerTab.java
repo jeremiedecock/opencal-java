@@ -28,8 +28,8 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 
+import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.card.Card;
-import org.jdhp.opencal.card.CardList;
 import org.jdhp.opencal.card.Review;
 import org.jdhp.opencal.gui.MainWindow;
 import org.jdhp.opencal.gui.images.SharedImages;
@@ -93,7 +93,7 @@ public class ExplorerTab {
 		///////////////////////////////////////////////////////////////////////
 
         cardList = new ArrayList<Card>();
-        cardList.addAll(CardList.mainCardList);
+        cardList.addAll(OpenCAL.cardCollection);
 
 		///////////////////////////////////////////////////////////////////////
 		// GUI ////////////////////////////////////////////////////////////////
@@ -435,7 +435,7 @@ public class ExplorerTab {
 
 		TreeSet<String> tagSet = new TreeSet<String>();
 		
-		Iterator<Card> it = CardList.mainCardList.iterator();
+		Iterator<Card> it = OpenCAL.cardCollection.iterator();
         while(it.hasNext()) {
             Card card = it.next();
             
@@ -468,7 +468,7 @@ public class ExplorerTab {
 	final private void updateCardList(Boolean init) {
 		int formerIndex = 0;
 		Iterator<Card> it;
-		it = CardList.mainCardList.iterator();
+		it = OpenCAL.cardCollection.iterator();
 		
 		if(!init) formerIndex = cardListWidget.getSelectionIndex();
 		

@@ -6,6 +6,8 @@
 package org.jdhp.opencal.toolkit;
 
 import java.io.StringWriter;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -18,14 +20,13 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.jdhp.opencal.card.Card;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import org.jdhp.opencal.card.CardList;
-
 public class CardListToXML {
 
-	public static String cardListToXML(CardList cardList) {
+	public static String cardListToXML(List<Card> cardList) {
 
 		// Créer un document
 		Document document = null;
@@ -43,8 +44,10 @@ public class CardListToXML {
 		document.appendChild(rootElement);
 		
 		// Ajouter les elements de chaques cartes dans le rootElement
-		for(int i=0 ; i<cardList.size() ; i++) {
-			rootElement.appendChild(document.importNode(cardList.get(i).getElement(), true));
+		Iterator<Card> it = cardList.iterator();
+		while(it.hasNext()) {
+			Card card = it.next();
+			rootElement.appendChild(document.importNode(card.getElement(), true));
 		}
 		
 		// Convert the document

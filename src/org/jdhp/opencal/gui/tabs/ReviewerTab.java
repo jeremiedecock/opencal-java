@@ -23,7 +23,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Scale;
 
 import org.jdhp.opencal.card.Card;
-import org.jdhp.opencal.card.CardList;
 import org.jdhp.opencal.card.CardManipulator;
 import org.jdhp.opencal.card.Review;
 import org.jdhp.opencal.gui.CheckPanelHotKeys;
@@ -328,7 +327,7 @@ public class ReviewerTab {
 	 */
 	final private void updateCardList() {
 		Iterator<Card> it;
-		it = CardList.mainCardList.iterator();
+		it = OpenCAL.cardCollection.iterator();
 		
 		cardList.clear();
 		
