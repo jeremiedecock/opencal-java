@@ -11,6 +11,14 @@ package org.jdhp.opencal.gui.widgets;
  *     IBM Corporation - initial API and implementation
  *******************************************************************************/
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.security.DigestInputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,9 +30,9 @@ import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
 import org.eclipse.swt.*;
 
-import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.gui.MainWindow;
 import org.jdhp.opencal.gui.images.SharedImages;
+import org.jdhp.opencal.toolkit.DataToolKit;
 import org.jdhp.opencal.UserProperties;
 
 /**
@@ -112,6 +120,7 @@ public class EditableBrowser extends Composite {
 	/* *** BEGIN *** */
 	public Label label;
 	public final Text editableText;
+	public final FileDialog openPictureFileDialog;
 
 	/**
 	 * Constructs a new instance of this class given its parent and a style
@@ -195,8 +204,31 @@ public class EditableBrowser extends Composite {
 		
 		stackLayout.topControl = editableText;
 		
+		// FileDialog
+		openPictureFileDialog = new FileDialog(editableText.getShell(), SWT.OPEN);
+		
+		String userHome = System.getProperty("user.home");
+		openPictureFileDialog.setFilterPath(userHome);
+		
+		/*
+		// TODO : cf. dialog de Gimp pour des exemples
+		fileDialog.setFilterNames(new String[] {
+				"PNG Image (*.png)",
+				"JPEG Image (*.jpg)",
+				"JPEG Image (*.jpeg)",
+				"All Files (*.*)"
+		});
+		fileDialog.setFilterNames(new String[] {
+				"*.png", "*.jpg", "*.jpeg", "*.*"
+		});
+		*/
+		
+		/////////////////
 		final ToolBar tbMenu = new ToolBar(this, SWT.FLAT);
+		
 		final ToolItem switchDisplayItem = new ToolItem(tbMenu, SWT.PUSH);
+		final ToolItem insertPictureItem = new ToolItem(tbMenu, SWT.PUSH);
+		
 		switchDisplayItem.setImage(SharedImages.getImage(SharedImages.BROWSER_VIEW));
 		switchDisplayItem.setToolTipText("Switch display mode");
 		switchDisplayItem.addSelectionListener(new SelectionAdapter() {
@@ -206,17 +238,73 @@ public class EditableBrowser extends Composite {
 					browser.setText(htmlOut(editableText.getText()));
 					switchDisplayItem.setImage(SharedImages.getImage(SharedImages.EDIT_VIEW));
 					switchDisplayItem.setToolTipText("Switch to edit view");
+					insertPictureItem.setEnabled(false);
 				} else {
 					stackLayout.topControl = editableText;
 					switchDisplayItem.setImage(SharedImages.getImage(SharedImages.BROWSER_VIEW));
 					switchDisplayItem.setToolTipText("Switch to browser view");
 //					editableText.setFocus(); // TODO : Marche pas ???
+					insertPictureItem.setEnabled(true);
 				}
 				editableText.getParent().layout();
 			}
 		});
+		
+		insertPictureItem.setImage(SharedImages.getImage(SharedImages.INSERT_IMAGE));
+		insertPictureItem.setToolTipText("Insert picture");
+		insertPictureItem.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				if(!new File(openPictureFileDialog.getFilterPath()).exists()) {
+					// openPictureFileDialog.getFilterPath() don't exist"
+					//System.out.println(openPictureFileDialog.getFilterPath() + " don't exist");
+					String userHome = System.getProperty("user.home");	// TODO : et si le repertoire user.home n'existe pas non plus ? (est-ce que ça peut arriver ?)
+					openPictureFileDialog.setFilterPath(userHome);
+				}
+				
+				String filePath = openPictureFileDialog.open();
+				
+				if(filePath != null) {
+					try {
+						// Compute MD5SUM ///////
+						MessageDigest md5  = MessageDigest.getInstance("MD5");
+						
+						FileInputStream     fis = new FileInputStream(filePath);
+				        BufferedInputStream bis = new BufferedInputStream(fis);
+				        DigestInputStream   dis = new DigestInputStream(bis, md5);
+				        
+				        while (dis.read() != -1);			// Reads the file, and updates the message digest
+				        byte[] digest    = md5.digest();	// Completes the digest computation
+				        String hexDigest = DataToolKit.byteArray2Hex(digest);
+				        
+				        dis.close();	// Add fis.close() and bis.close() ? No, "dis.close()" is enough to close the stream (checked with "lsof" Unix command).
+						
+						// Copy file ////////////
+				        //File src = new File(filePath);
+						
+						// Insert element ///////
+				        String tag = "<img file=\"" + hexDigest + "\" />";	// TODO : source, auteur, licence
+						editableText.insert(tag);
+						
+					} catch(NoSuchAlgorithmException e) {
+						e.printStackTrace();
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+		
+		if(stackLayout.topControl == editableText) {
+			insertPictureItem.setEnabled(true);
+		} else {
+			insertPictureItem.setEnabled(false);
+		}
+		
 		this.setTopCenter(tbMenu);
 		
+		/////////////
 		final ToolBar tbRight = new ToolBar(this, SWT.FLAT);
 		
 		final ToolItem minimizeItem = new ToolItem(tbRight, SWT.PUSH);

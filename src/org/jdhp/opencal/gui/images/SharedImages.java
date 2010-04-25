@@ -21,6 +21,7 @@ public class SharedImages {
 	public static final String EDIT_SELECT_ALL = "x16/edit-select-all.png";
 	public static final String EDIT_UNDO = "x16/edit-undo.png";
 	public static final String HELP_BROWSER = "x16/help-browser.png";
+	public static final String INSERT_IMAGE = "x16/insert-image.png";
 	public static final String INTERNET_WEB_BROWSER = "x16/internet-web-browser.png";
 	public static final String PREFERENCES_DESKTOP = "x16/preferences-desktop.png";
 	public static final String PREFERENCES_SYSTEM = "x16/preferences-system.png";
