@@ -3,7 +3,7 @@
  * Copyright (c) 2007,2008,2009 Jérémie Decock
  */
 
-package org.jdhp.opencal.toolkit;
+package org.jdhp.opencal.util;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;

@@ -10,7 +10,7 @@ import java.util.GregorianCalendar;
 
 import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.card.Card;
-import org.jdhp.opencal.toolkit.CalendarToolKit;
+import org.jdhp.opencal.util.CalendarToolKit;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 

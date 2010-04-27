@@ -10,7 +10,7 @@ import java.util.GregorianCalendar;
 import java.util.TreeMap;
 
 import org.jdhp.opencal.PersonalKnowledgeBase;
-import org.jdhp.opencal.toolkit.CalendarToolKit;
+import org.jdhp.opencal.util.CalendarToolKit;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;

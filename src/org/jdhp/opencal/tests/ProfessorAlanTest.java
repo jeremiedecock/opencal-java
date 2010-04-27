@@ -1,4 +1,4 @@
-package org.jdhp.opencal.professor;
+package org.jdhp.opencal.tests;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;

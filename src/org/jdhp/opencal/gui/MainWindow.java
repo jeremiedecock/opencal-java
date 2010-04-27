@@ -44,7 +44,7 @@ import org.jdhp.opencal.gui.tabs.ReviewerTab;
 import org.jdhp.opencal.gui.tabs.StatsTab;
 import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.UserProperties;
-import org.jdhp.opencal.toolkit.CalendarToolKit;
+import org.jdhp.opencal.util.CalendarToolKit;
 
 /**
  * 
@@ -390,25 +390,28 @@ public class MainWindow {
 	public static String[] getQuestionStrings(List<Card> cardList, boolean displayErrors) {
 		ArrayList<String> questionStrings = new ArrayList<String>();
 		
-        if(displayErrors) {
-            boolean wrongAnswer;
-            Review[] reviews;
-            for(int i=0 ; i<cardList.size() ; i++) {
-                wrongAnswer = false;
-                reviews = cardList.get(i).getReviews();
-                
-                for(int j=0 ; j<reviews.length ; j++) {
-                    if(reviews[j].getReviewDate().equals(CalendarToolKit.calendarToIso8601(new GregorianCalendar())) && reviews[j].getResult().equals(OpenCAL.WRONG_ANSWER_STRING)) wrongAnswer = true;
-                }
-                
-                if(wrongAnswer) questionStrings.add("▶ " + cardList.get(i).getQuestion());
-                else questionStrings.add(cardList.get(i).getQuestion());
-            }
-        } else {
-            for(int i=0 ; i<cardList.size() ; i++) {
-                questionStrings.add(cardList.get(i).getQuestion());
-            }
-        }
+		Iterator<Card> it = cardList.iterator();
+		while(it.hasNext()) {
+			Card card = it.next();
+			
+			String prefix = "";
+			
+			if(card.isHidden()) {
+				prefix = "⬚ ";
+			} else {
+				if(displayErrors) {
+		            Review[] reviews = card.getReviews();
+		            
+		            for(int j=0 ; j<reviews.length ; j++) {
+		                if(reviews[j].getReviewDate().equals(CalendarToolKit.calendarToIso8601(new GregorianCalendar())))
+		                	if(reviews[j].getResult().equals(OpenCAL.WRONG_ANSWER_STRING)) prefix = "✖ ";
+		                	else prefix = "✔ ";
+		            }
+				}
+			}
+
+			questionStrings.add(prefix + card.getQuestion());
+		}
 		
 		return questionStrings.toArray(new String[0]);
 	}

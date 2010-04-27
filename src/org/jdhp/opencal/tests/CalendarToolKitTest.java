@@ -1,6 +1,8 @@
-package org.jdhp.opencal.toolkit;
+package org.jdhp.opencal.tests;
 
 import java.util.GregorianCalendar;
+
+import org.jdhp.opencal.util.CalendarToolKit;
 
 import junit.framework.TestCase;
 
@@ -26,7 +28,7 @@ public class CalendarToolKitTest extends TestCase {
 				"2004-10-10"};
 		
 		for(int i=0 ; i<testArray.length ; i++) {
-			calendar = CalendarToolKit.iso8601ToCalendar(testArray[i]);
+			calendar = CalendarToolKit.iso8601ToCalendar(testArray[i]);	// TODO
 			assertEquals(testArray[i], CalendarToolKit.calendarToIso8601(calendar));
 		}
 	}
@@ -39,7 +41,7 @@ public class CalendarToolKitTest extends TestCase {
 				"2004-10-10"};
 		
 		for(int i=0 ; i<testArray.length ; i++) {
-			calendar = CalendarToolKit.iso8601ToCalendar(testArray[i]);
+			calendar = CalendarToolKit.iso8601ToCalendar(testArray[i]);	// TODO
 			assertEquals(testArray[i], CalendarToolKit.calendarToIso8601(calendar));
 		}
 	}

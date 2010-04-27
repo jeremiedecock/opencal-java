@@ -8,3 +8,7 @@ h1 {
 	font-size : 14px;
 	font-family : verdana, sans-serif;
 }
+
+img {
+	max-width : 100%;
+}

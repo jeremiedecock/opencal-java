@@ -15,10 +15,12 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,7 +34,7 @@ import org.eclipse.swt.*;
 
 import org.jdhp.opencal.gui.MainWindow;
 import org.jdhp.opencal.gui.images.SharedImages;
-import org.jdhp.opencal.toolkit.DataToolKit;
+import org.jdhp.opencal.util.DataToolKit;
 import org.jdhp.opencal.UserProperties;
 
 /**
@@ -116,6 +118,7 @@ public class EditableBrowser extends Composite {
 	static final int OFFSCREEN = -200;
 	static final int BORDER1_COLOR = SWT.COLOR_WIDGET_NORMAL_SHADOW;
 	static final int SELECTION_BACKGROUND = SWT.COLOR_LIST_BACKGROUND;
+	static final String[] IMAGE_EXTENSION_LIST = {"png", "jpg", "jpeg"}; // les extensions doivent être en minuscule
 	
 	/* *** BEGIN *** */
 	public Label label;
@@ -264,33 +267,57 @@ public class EditableBrowser extends Composite {
 				String filePath = openPictureFileDialog.open();
 				
 				if(filePath != null) {
-					try {
-						// Compute MD5SUM ///////
-						MessageDigest md5  = MessageDigest.getInstance("MD5");
-						
-						FileInputStream     fis = new FileInputStream(filePath);
-				        BufferedInputStream bis = new BufferedInputStream(fis);
-				        DigestInputStream   dis = new DigestInputStream(bis, md5);
-				        
-				        while (dis.read() != -1);			// Reads the file, and updates the message digest
-				        byte[] digest    = md5.digest();	// Completes the digest computation
-				        String hexDigest = DataToolKit.byteArray2Hex(digest);
-				        
-				        dis.close();	// Add fis.close() and bis.close() ? No, "dis.close()" is enough to close the stream (checked with "lsof" Unix command).
-						
-						// Copy file ////////////
-				        //File src = new File(filePath);
-						
-						// Insert element ///////
-				        String tag = "<img file=\"" + hexDigest + "\" />";	// TODO : source, auteur, licence
-						editableText.insert(tag);
-						
-					} catch(NoSuchAlgorithmException e) {
-						e.printStackTrace();
-					} catch (FileNotFoundException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
-						e.printStackTrace();
+					String extension = EditableBrowser.extractExtension(filePath);	// TODO
+					
+					if(EditableBrowser.isAValidImageExtension(extension)) {				// TODO
+						try {
+							// Compute MD5SUM ///////
+							MessageDigest md5  = MessageDigest.getInstance("MD5");
+							
+							FileInputStream     fis = new FileInputStream(filePath);
+					        BufferedInputStream bis = new BufferedInputStream(fis);
+					        DigestInputStream   dis = new DigestInputStream(bis, md5);
+					        
+					        while (dis.read() != -1);			// Reads the file, and updates the message digest
+					        byte[] digest    = md5.digest();	// Completes the digest computation
+					        String hexDigest = DataToolKit.byteArray2Hex(digest);
+					        
+					        dis.close();						// Add fis.close() and bis.close() ? No, "dis.close()" is enough to close the stream (checked with "lsof" Unix command).
+							
+							// Copy file ////////////
+					        // TODO : vérifier l'emprunte MD5 du fichier, vérif que le fichier est bien fermé avec "lsof", ne pas copier le fichier si dest existe déjà, ...
+					        File src = new File(filePath);
+					        File dst = new File("/home/gremy/.opencal/materials/" + hexDigest + "." + extension); // TODO
+					        
+					        FileInputStream  srcStream = new FileInputStream(src);
+					        FileOutputStream dstStream = new FileOutputStream(dst);
+					        try {
+					            byte[] buf = new byte[1024];
+					            int i = 0;
+					            while ((i = srcStream.read(buf)) != -1) {
+					            	dstStream.write(buf, 0, i);
+					            }
+					        }
+					        finally {
+					            if (srcStream != null) srcStream.close();
+					            if (dstStream != null) dstStream.close();
+					        }
+
+							
+							// Insert element ///////
+					        String tag = "<img file=\"" + hexDigest + "." + extension + "\" />";	// TODO : source, auteur, licence
+							editableText.insert(tag);
+							
+						} catch(NoSuchAlgorithmException e) {
+							e.printStackTrace();
+						} catch (FileNotFoundException e) {
+							e.printStackTrace();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					} else {
+						System.out.println("Bad extension");
+						// TODO
 					}
 				}
 			}
@@ -627,6 +654,11 @@ public class EditableBrowser extends Composite {
 		layout(false);
 	}
 	
+	/**
+	 * 
+	 * @param src
+	 * @return
+	 */
 	final private String htmlOut(String src) {
 		StringBuffer html = new StringBuffer();
 		
@@ -641,6 +673,11 @@ public class EditableBrowser extends Composite {
 		return html.toString();
 	}
 	
+	/**
+	 * 
+	 * @param text
+	 * @return
+	 */
 	final private String filter(String text) {
 		// Empèche l'interprétation d'eventuelles fausses balises comprises dans les cartes 
 		String html = text.replaceAll("<", "&lt;");
@@ -653,5 +690,25 @@ public class EditableBrowser extends Composite {
 		html = matcher.replaceAll("<img src=\"" + UserProperties.getImgPath() + "$1\" />");
 		
 		return html;
+	}
+	
+	/**
+	 * 
+	 * @param filename
+	 * @return
+	 */
+	public static String extractExtension(String filename) {
+		String extension = filename.toLowerCase().substring(filename.lastIndexOf('.') + 1);
+		return extension;
+	}
+	
+	/**
+	 * 
+	 * @param extension
+	 * @return
+	 */
+	public static boolean isAValidImageExtension(String extension) {
+		Arrays.sort(IMAGE_EXTENSION_LIST); // ne pas supprimer, nécessaire pour "Arrays.binarySearch" (cf. /doc/openjdk-6-jre/api/java/util/Arrays.html
+		return (Arrays.binarySearch(EditableBrowser.IMAGE_EXTENSION_LIST, extension.toLowerCase()) >= 0);
 	}
 }

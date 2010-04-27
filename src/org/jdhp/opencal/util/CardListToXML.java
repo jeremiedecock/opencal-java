@@ -3,7 +3,7 @@
  * Copyright (c) 2009 Jérémie Decock
  */
 
-package org.jdhp.opencal.toolkit;
+package org.jdhp.opencal.util;
 
 import java.io.StringWriter;
 import java.util.Iterator;

@@ -34,7 +34,7 @@ import org.jdhp.opencal.card.Review;
 import org.jdhp.opencal.gui.MainWindow;
 import org.jdhp.opencal.gui.images.SharedImages;
 import org.jdhp.opencal.gui.widgets.EditableBrowser;
-import org.jdhp.opencal.toolkit.CalendarToolKit;
+import org.jdhp.opencal.util.CalendarToolKit;
 
 /**
  * 
@@ -431,7 +431,12 @@ public class ExplorerTab {
 	 * TODO : Mieux gérer l'ajout et la supression de tags !
 	 */
 	final private void updateTagCombo() {
-		int previousIndex = tagSelectionCombo.getSelectionIndex();
+		int formerIndex = tagSelectionCombo.getSelectionIndex();
+		
+		String formerLabel = ExplorerTab.ALL_TAGS_LABEL;
+		if((formerIndex >= 0) && (formerIndex < tagSelectionCombo.getItemCount())) {
+			formerLabel = tagSelectionCombo.getItem(formerIndex);
+		}
 
 		TreeSet<String> tagSet = new TreeSet<String>();
 		
@@ -452,9 +457,14 @@ public class ExplorerTab {
 		tagSelectionCombo.setItems(tagSet.toArray(tagsArray));
 		tagSelectionCombo.add(ExplorerTab.ALL_TAGS_LABEL, 0);
 		
-        if(previousIndex < 0) tagSelectionCombo.select(0);
-        else if(previousIndex > tagSelectionCombo.getItemCount() - 1) tagSelectionCombo.select(tagSelectionCombo.getItemCount() - 1);
-        else tagSelectionCombo.select(previousIndex);
+		int index = tagSelectionCombo.indexOf(formerLabel);
+		if((index >= 0) && (index < tagSelectionCombo.getItemCount())) {
+			tagSelectionCombo.select(index);
+		} else {
+	        if(formerIndex < 0) tagSelectionCombo.select(0);
+	        else if(formerIndex >= tagSelectionCombo.getItemCount()) tagSelectionCombo.select(tagSelectionCombo.getItemCount() - 1);
+	        else tagSelectionCombo.select(formerIndex);
+		}
 	}
 	
 	
@@ -542,7 +552,10 @@ public class ExplorerTab {
 				
 		}
 		
-		cardListWidget.setItems(itemFilter(MainWindow.getQuestionStrings(cardList, false)));
+		if(getCurrentMode() == ExplorerTab.REVIEWED_CARDS_LIST)
+			cardListWidget.setItems(itemFilter(MainWindow.getQuestionStrings(cardList, true)));
+		else
+			cardListWidget.setItems(itemFilter(MainWindow.getQuestionStrings(cardList, false)));
 		
 		if(init) {
 			if(cardListWidget.getItemCount() > 0) cardListWidget.select(0);

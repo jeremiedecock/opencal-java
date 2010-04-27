@@ -1,4 +1,4 @@
-package org.jdhp.opencal.professor;
+package org.jdhp.opencal.tests;
 
 import java.util.GregorianCalendar;
 
@@ -8,7 +8,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.card.Card;
-import org.jdhp.opencal.toolkit.CalendarToolKit;
+import org.jdhp.opencal.professor.ProfessorBen;
+import org.jdhp.opencal.util.CalendarToolKit;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

@@ -19,7 +19,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.PersonalKnowledgeBase;
-import org.jdhp.opencal.toolkit.CalendarToolKit;
+import org.jdhp.opencal.util.CalendarToolKit;
 
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Element;

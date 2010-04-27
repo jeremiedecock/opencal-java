@@ -1,4 +1,4 @@
-package org.jdhp.opencal.toolkit;
+package org.jdhp.opencal.util;
 
 import java.util.Formatter;
 
