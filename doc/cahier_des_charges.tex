@@ -1,0 +1,71 @@
+% Copyright (c) 2010 Jérémie DECOCK (http://www.jdhp.org)
+
+\documentclass[pdftex,a4paper,11pt]{article} 
+\usepackage[utf8]{inputenc}
+\usepackage[frenchb]{babel}
+\usepackage[pdftex]{graphicx}
+\usepackage{hyperref}
+
+\hypersetup{
+    pdftoolbar=true,                                          % show Acrobat’s toolbar ?
+    pdfmenubar=true,                                          % show Acrobat’s menu ?
+    pdffitwindow=true,                                        % page fit to window when opened
+    pdftitle={Cahier des charges},                            % title
+    pdfauthor={Jérémie DECOCK},                               % author
+    pdfsubject={Cahier des charges},                          % subject of the document
+    pdfnewwindow=true,                                        % links in new window
+    pdfkeywords={},                                           % list of keywords
+    colorlinks=true,                                          % false: boxed links; true: colored links
+    linkcolor=black,                                          % color of internal links
+    citecolor=black,                                          % color of links to bibliography
+    filecolor=black,                                          % color of file links
+    urlcolor=black                                            % color of external links
+}
+
+\begin{document}
+
+\title{OpenCAL - Java\\\medskip
+       Cahier des charges}
+\author{Jérémie \bsc{Decock}}
+\date{\today}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+L'utilisateur type du logiciel est une personne ayant besoin de mémoriser une grande quantité d'information sur le court et le long terme (étudiant, écoles, entreprises, perso). L'utilisateur peut également utiliser le logiciel comme une base de connaissance (entreprises)...
+
+Tout sera donc mis en oeuvre pour l'aider à optimiser le rapport temps d'apprentissage/mémorisation.
+
+\paragraph{}
+Pour atteindre ce but, l'application doit permettre à l'utilisateur de :
+\begin{itemize}
+    \item créer de nouvelles cartes;
+    \item modifier les cartes de sa base personnelle;
+    \item réviser un ensemble de cartes choisi;
+    \item tester régulièrement ses connaissances sur un ensemble de cartes "à tester";
+    \item rechercher et consulter une carte dans sa base (utilisation type "base de connaissances");
+    \item échanger des cartes avec les autres utilisateurs~:
+    \begin{itemize}
+        \item importer des cartes depuis un fichier ou un service web;
+        \item exporter un ensemble de cartes vers un fichier ou vers un service web;
+    \end{itemize}
+    \item contrôler sa progression et son assiduité sur les cartes testées;
+    \item créer des fiches de révision papier (export PDF, ODT, etc.) pour un ensemble de cartes choisi.
+    \item synchroniser sa base personnelle entre plusieurs "clients" (pour une utilisation conjointe sur un ordinateur personnel et un terminal mobile)
+\end{itemize}
+
+\paragraph{}
+L'application devra fonctionner au minimum sous Windows, Gnu/Linux et MacOSX ansi que sur les plate-formes mobiles Android, iPhone et Maemo.
+Son interface utilisateur sera disponible en français et en anglais, en fonction de la langue de l'utilisateur, avec la possibilité d'ajouter le support d'autres langues ultérieurement.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\clearpage
+
+\begin{center}
+    Copyright \textcopyright{} 2010 Jérémie \bsc{Decock}.\\
+    All right reserved.
+\end{center}
+
+\end{document}

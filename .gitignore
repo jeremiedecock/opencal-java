@@ -4,3 +4,10 @@ bin/
 .settings/
 *.swp
 tmp/
+*.log
+*.aux
+*.dvi
+*.toc
+*.lot
+*.lof
+*.out
