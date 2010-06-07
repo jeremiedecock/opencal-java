@@ -55,6 +55,8 @@ public class MakerTab {
 		final EditableBrowser tagsArea = new EditableBrowser(verticalSashForm);
 		tagsArea.label.setText("Tags");
 		
+		verticalSashForm.setWeights(new int[] {40, 40, 20});
+		
 		///////////////////////////
 		// Add Button /////////////
 		///////////////////////////

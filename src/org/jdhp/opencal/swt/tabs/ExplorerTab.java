@@ -247,6 +247,13 @@ public class ExplorerTab {
 
         if(cancelButtonPoint.x > saveButtonPoint.x) ((GridData) saveButton.getLayoutData()).widthHint = cancelButtonPoint.x;
         else ((GridData) cancelButton.getLayoutData()).widthHint = saveButtonPoint.x;
+
+		///////////////////////////
+		// SasheForm //////////////
+		///////////////////////////
+        
+        horizontalSashForm.setWeights(new int[] {25, 75});
+		verticalSashForm.setWeights(new int[] {40, 40, 20});
 		
 		///////////////////////////////////////////////////////////////////////
 		// CardSelectionListeners /////////////////////////////////////////////
