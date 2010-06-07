@@ -1,4 +1,4 @@
-package org.jdhp.opencal.gui;
+package org.jdhp.opencal.swt;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;

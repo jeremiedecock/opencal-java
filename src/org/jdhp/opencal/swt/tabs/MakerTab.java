@@ -3,7 +3,7 @@
  * Copyright (c) 2007,2008 Jérémie Decock
  */
 
-package org.jdhp.opencal.gui.tabs;
+package org.jdhp.opencal.swt.tabs;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
@@ -15,8 +15,8 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.card.Card;
-import org.jdhp.opencal.gui.images.SharedImages;
-import org.jdhp.opencal.gui.widgets.EditableBrowser;
+import org.jdhp.opencal.swt.images.SharedImages;
+import org.jdhp.opencal.swt.widgets.EditableBrowser;
 
 /**
  * 

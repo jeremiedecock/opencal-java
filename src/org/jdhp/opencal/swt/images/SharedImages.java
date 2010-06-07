@@ -1,7 +1,7 @@
-package org.jdhp.opencal.gui.images;
+package org.jdhp.opencal.swt.images;
 
 import org.eclipse.swt.graphics.Image;
-import org.jdhp.opencal.gui.MainWindow;
+import org.jdhp.opencal.swt.MainWindow;
 
 public class SharedImages {
 

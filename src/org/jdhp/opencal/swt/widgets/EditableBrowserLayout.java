@@ -1,4 +1,4 @@
-package org.jdhp.opencal.gui.widgets;
+package org.jdhp.opencal.swt.widgets;
 
 /*******************************************************************************
  * Copyright (c) 2000, 2005 IBM Corporation and others.

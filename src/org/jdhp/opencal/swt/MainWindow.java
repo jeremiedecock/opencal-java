@@ -3,7 +3,7 @@
  * Copyright (c) 2007,2008 Jérémie Decock
  */
 
-package org.jdhp.opencal.gui;
+package org.jdhp.opencal.swt;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -37,13 +37,13 @@ import org.eclipse.swt.widgets.TabItem;
 
 import org.jdhp.opencal.card.Card;
 import org.jdhp.opencal.card.Review;
-import org.jdhp.opencal.gui.images.SharedImages;
-import org.jdhp.opencal.gui.tabs.ExplorerTab;
-import org.jdhp.opencal.gui.tabs.MakerTab;
-import org.jdhp.opencal.gui.tabs.ReviewerTab;
-import org.jdhp.opencal.gui.tabs.StatsTab;
 import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.UserProperties;
+import org.jdhp.opencal.swt.images.SharedImages;
+import org.jdhp.opencal.swt.tabs.ExplorerTab;
+import org.jdhp.opencal.swt.tabs.MakerTab;
+import org.jdhp.opencal.swt.tabs.ReviewerTab;
+import org.jdhp.opencal.swt.tabs.StatsTab;
 import org.jdhp.opencal.util.CalendarToolKit;
 
 /**

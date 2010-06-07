@@ -12,12 +12,12 @@ import java.util.Collection;
 import java.util.HashSet;
 
 import org.jdhp.opencal.card.Card;
-import org.jdhp.opencal.gui.MainWindow;
 import org.jdhp.opencal.PersonalKnowledgeBase;
 import org.jdhp.opencal.professor.Professor;
 import org.jdhp.opencal.professor.ProfessorAlan;
 import org.jdhp.opencal.professor.ProfessorBen;
 import org.jdhp.opencal.professor.ProfessorCharlie;
+import org.jdhp.opencal.swt.MainWindow;
 import org.jdhp.opencal.UserProperties;
 
 /**

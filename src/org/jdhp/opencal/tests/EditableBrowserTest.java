@@ -1,6 +1,6 @@
 package org.jdhp.opencal.tests;
 
-import org.jdhp.opencal.gui.widgets.EditableBrowser;
+import org.jdhp.opencal.swt.widgets.EditableBrowser;
 
 import junit.framework.TestCase;
 

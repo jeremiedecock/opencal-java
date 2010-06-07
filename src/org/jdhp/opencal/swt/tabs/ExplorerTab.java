@@ -3,7 +3,7 @@
  * Copyright (c) 2007,2008,2009 Jérémie Decock
  */
 
-package org.jdhp.opencal.gui.tabs;
+package org.jdhp.opencal.swt.tabs;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -31,9 +31,9 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.card.Card;
 import org.jdhp.opencal.card.Review;
-import org.jdhp.opencal.gui.MainWindow;
-import org.jdhp.opencal.gui.images.SharedImages;
-import org.jdhp.opencal.gui.widgets.EditableBrowser;
+import org.jdhp.opencal.swt.MainWindow;
+import org.jdhp.opencal.swt.images.SharedImages;
+import org.jdhp.opencal.swt.widgets.EditableBrowser;
 import org.jdhp.opencal.util.CalendarToolKit;
 
 /**

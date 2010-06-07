@@ -1,4 +1,4 @@
-package org.jdhp.opencal.gui.widgets;
+package org.jdhp.opencal.swt.widgets;
 
 /*******************************************************************************
  * Copyright (c) 2000, 2008 IBM Corporation and others.
@@ -11,9 +11,31 @@ package org.jdhp.opencal.gui.widgets;
  *     IBM Corporation - initial API and implementation
  *******************************************************************************/
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.security.DigestInputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.eclipse.swt.browser.Browser;
+import org.eclipse.swt.custom.StackLayout;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.*;
 import org.eclipse.swt.*;
+
+import org.jdhp.opencal.swt.MainWindow;
+import org.jdhp.opencal.swt.images.SharedImages;
+import org.jdhp.opencal.util.DataToolKit;
+import org.jdhp.opencal.UserProperties;
 
 /**
  * Instances of this class implement a Composite that positions and sizes
@@ -39,7 +61,7 @@ import org.eclipse.swt.*;
  *      information</a>
  */
 
-public class EditableBrowserOriginal extends Composite {
+public class EditableBrowser extends Composite {
 
 	/**
 	 * marginWidth specifies the number of pixels of horizontal margin that will
@@ -96,6 +118,12 @@ public class EditableBrowserOriginal extends Composite {
 	static final int OFFSCREEN = -200;
 	static final int BORDER1_COLOR = SWT.COLOR_WIDGET_NORMAL_SHADOW;
 	static final int SELECTION_BACKGROUND = SWT.COLOR_LIST_BACKGROUND;
+	static final String[] IMAGE_EXTENSION_LIST = {"png", "jpg", "jpeg"}; // les extensions doivent être en minuscule
+	
+	/* *** BEGIN *** */
+	public Label label;
+	public final Text editableText;
+	public final FileDialog openPictureFileDialog;
 
 	/**
 	 * Constructs a new instance of this class given its parent and a style
@@ -129,11 +157,13 @@ public class EditableBrowserOriginal extends Composite {
 	 * @see SWT#FLAT
 	 * @see #getStyle()
 	 */
-	public EditableBrowserOriginal(Composite parent, int style) {
-		super(parent, checkStyle(style));
+	public EditableBrowser(Composite parent) {
+		super(parent, SWT.BORDER);
 		super.setLayout(new EditableBrowserLayout());
 
-		setBorderVisible((style & SWT.BORDER) != 0);
+		// setBorderVisible()
+		borderLeft = borderTop = borderRight = borderBottom = 1; // SWT.BORDER (sinon borderBottom = borderTop = borderLeft = borderRight = 0;)
+		highlight = 2; // SWT.FLAT (sinon highlight = 0;)
 
 		Listener listener = new Listener() {
 			public void handleEvent(Event e) {
@@ -156,11 +186,162 @@ public class EditableBrowserOriginal extends Composite {
 		for (int i = 0; i < events.length; i++) {
 			addListener(events[i], listener);
 		}
-	}
+		
+		/* *** BEGIN *** */
+		Font monoFont = new Font(Display.getCurrent(), "mono", 10, SWT.NORMAL);
+		
+		this.label = new Label(this, SWT.NONE);
+		this.setTopLeft(this.label);
+		
+		final Composite displayArea = new Composite(this, SWT.NONE);
+		final StackLayout stackLayout = new StackLayout();
+		displayArea.setLayout(stackLayout);
+		this.setContent(displayArea);
+		
+		editableText = new Text(displayArea, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
+		editableText.setFont(monoFont);
+		editableText.setTabs(3);
+		
+		final Browser browser = new Browser(displayArea, SWT.BORDER);
+		browser.setText(htmlOut(editableText.getText()));
+		
+		stackLayout.topControl = editableText;
+		
+		// FileDialog
+		openPictureFileDialog = new FileDialog(editableText.getShell(), SWT.OPEN);
+		
+		String userHome = System.getProperty("user.home");
+		openPictureFileDialog.setFilterPath(userHome);
+		
+		/*
+		// TODO : cf. dialog de Gimp pour des exemples
+		fileDialog.setFilterNames(new String[] {
+				"PNG Image (*.png)",
+				"JPEG Image (*.jpg)",
+				"JPEG Image (*.jpeg)",
+				"All Files (*.*)"
+		});
+		fileDialog.setFilterNames(new String[] {
+				"*.png", "*.jpg", "*.jpeg", "*.*"
+		});
+		*/
+		
+		/////////////////
+		final ToolBar tbMenu = new ToolBar(this, SWT.FLAT);
+		
+		final ToolItem switchDisplayItem = new ToolItem(tbMenu, SWT.PUSH);
+		final ToolItem insertPictureItem = new ToolItem(tbMenu, SWT.PUSH);
+		
+		switchDisplayItem.setImage(SharedImages.getImage(SharedImages.BROWSER_VIEW));
+		switchDisplayItem.setToolTipText("Switch display mode");
+		switchDisplayItem.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				if(stackLayout.topControl == editableText) {
+					stackLayout.topControl = browser;
+					browser.setText(htmlOut(editableText.getText()));
+					switchDisplayItem.setImage(SharedImages.getImage(SharedImages.EDIT_VIEW));
+					switchDisplayItem.setToolTipText("Switch to edit view");
+					insertPictureItem.setEnabled(false);
+				} else {
+					stackLayout.topControl = editableText;
+					switchDisplayItem.setImage(SharedImages.getImage(SharedImages.BROWSER_VIEW));
+					switchDisplayItem.setToolTipText("Switch to browser view");
+//					editableText.setFocus(); // TODO : Marche pas ???
+					insertPictureItem.setEnabled(true);
+				}
+				editableText.getParent().layout();
+			}
+		});
+		
+		insertPictureItem.setImage(SharedImages.getImage(SharedImages.INSERT_IMAGE));
+		insertPictureItem.setToolTipText("Insert picture");
+		insertPictureItem.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				if(!new File(openPictureFileDialog.getFilterPath()).exists()) {
+					// openPictureFileDialog.getFilterPath() don't exist"
+					//System.out.println(openPictureFileDialog.getFilterPath() + " don't exist");
+					String userHome = System.getProperty("user.home");	// TODO : et si le repertoire user.home n'existe pas non plus ? (est-ce que ça peut arriver ?)
+					openPictureFileDialog.setFilterPath(userHome);
+				}
+				
+				String filePath = openPictureFileDialog.open();
+				
+				if(filePath != null) {
+					String extension = EditableBrowser.extractExtension(filePath);	// TODO
+					
+					if(EditableBrowser.isAValidImageExtension(extension)) {				// TODO
+						try {
+							// Compute MD5SUM ///////
+							MessageDigest md5  = MessageDigest.getInstance("MD5");
+							
+							FileInputStream     fis = new FileInputStream(filePath);
+					        BufferedInputStream bis = new BufferedInputStream(fis);
+					        DigestInputStream   dis = new DigestInputStream(bis, md5);
+					        
+					        while (dis.read() != -1);			// Reads the file, and updates the message digest
+					        byte[] digest    = md5.digest();	// Completes the digest computation
+					        String hexDigest = DataToolKit.byteArray2Hex(digest);
+					        
+					        dis.close();						// Add fis.close() and bis.close() ? No, "dis.close()" is enough to close the stream (checked with "lsof" Unix command).
+							
+							// Copy file ////////////
+					        // TODO : vérifier l'emprunte MD5 du fichier, vérif que le fichier est bien fermé avec "lsof", ne pas copier le fichier si dest existe déjà, ...
+					        File src = new File(filePath);
+					        File dst = new File("/home/gremy/.opencal/materials/" + hexDigest + "." + extension); // TODO
+					        
+					        FileInputStream  srcStream = new FileInputStream(src);
+					        FileOutputStream dstStream = new FileOutputStream(dst);
+					        try {
+					            byte[] buf = new byte[1024];
+					            int i = 0;
+					            while ((i = srcStream.read(buf)) != -1) {
+					            	dstStream.write(buf, 0, i);
+					            }
+					        }
+					        finally {
+					            if (srcStream != null) srcStream.close();
+					            if (dstStream != null) dstStream.close();
+					        }
 
-	static int checkStyle(int style) {
-		int mask = SWT.FLAT | SWT.LEFT_TO_RIGHT | SWT.RIGHT_TO_LEFT;
-		return style & mask | SWT.NO_REDRAW_RESIZE;
+							
+							// Insert element ///////
+					        String tag = "<img file=\"" + hexDigest + "." + extension + "\" />";	// TODO : source, auteur, licence
+							editableText.insert(tag);
+							
+						} catch(NoSuchAlgorithmException e) {
+							e.printStackTrace();
+						} catch (FileNotFoundException e) {
+							e.printStackTrace();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					} else {
+						System.out.println("Bad extension");
+						// TODO
+					}
+				}
+			}
+		});
+		
+		if(stackLayout.topControl == editableText) {
+			insertPictureItem.setEnabled(true);
+		} else {
+			insertPictureItem.setEnabled(false);
+		}
+		
+		this.setTopCenter(tbMenu);
+		
+		/////////////
+		final ToolBar tbRight = new ToolBar(this, SWT.FLAT);
+		
+		final ToolItem minimizeItem = new ToolItem(tbRight, SWT.PUSH);
+		minimizeItem.setImage(SharedImages.getImage(SharedImages.MINIMALIZE));
+		minimizeItem.setToolTipText("Minimize");
+		
+		final ToolItem maximizeItem = new ToolItem(tbRight, SWT.PUSH);
+		maximizeItem.setImage(SharedImages.getImage(SharedImages.MAXIMIZE));
+		maximizeItem.setToolTipText("Maximize");
+		this.setTopRight(tbRight);
 	}
 
 	public Rectangle computeTrim(int x, int y, int width, int height) {
@@ -235,34 +416,34 @@ public class EditableBrowserOriginal extends Composite {
 	}
 
 	void onPaint(GC gc) {
-		Color gcForeground = gc.getForeground();
-		Point size = getSize();
-		Color border = getDisplay().getSystemColor(BORDER1_COLOR);
-		if (showBorder) {
-			gc.setForeground(border);
-			gc.drawRectangle(0, 0, size.x - 1, size.y - 1);
-			if (highlight > 0) {
-				int x1 = 1;
-				int y1 = 1;
-				int x2 = size.x - 1;
-				int y2 = size.y - 1;
-				int[] shape = new int[] { x1, y1, x2, y1, x2, y2, x1, y2, x1,
-						y1 + highlight, x1 + highlight, y1 + highlight,
-						x1 + highlight, y2 - highlight, x2 - highlight,
-						y2 - highlight, x2 - highlight, y1 + highlight, x1,
-						y1 + highlight };
-				Color highlightColor = getDisplay().getSystemColor(
-						SWT.COLOR_LIST_SELECTION);
-				gc.setBackground(highlightColor);
-				gc.fillPolygon(shape);
-			}
-		}
-		if (separator > -1) {
-			gc.setForeground(border);
-			gc.drawLine(borderLeft + highlight, separator, size.x - borderLeft
-					- borderRight - highlight, separator);
-		}
-		gc.setForeground(gcForeground);
+//		Color gcForeground = gc.getForeground();
+//		Point size = getSize();
+//		Color border = getDisplay().getSystemColor(BORDER1_COLOR);
+//		if (showBorder) {
+//			gc.setForeground(border);
+//			gc.drawRectangle(0, 0, size.x - 1, size.y - 1);
+//			if (highlight > 0) {
+//				int x1 = 1;
+//				int y1 = 1;
+//				int x2 = size.x - 1;
+//				int y2 = size.y - 1;
+//				int[] shape = new int[] { x1, y1, x2, y1, x2, y2, x1, y2, x1,
+//						y1 + highlight, x1 + highlight, y1 + highlight,
+//						x1 + highlight, y2 - highlight, x2 - highlight,
+//						y2 - highlight, x2 - highlight, y1 + highlight, x1,
+//						y1 + highlight };
+//				Color highlightColor = getDisplay().getSystemColor(
+//						SWT.COLOR_LIST_SELECTION);
+//				gc.setBackground(highlightColor);
+//				gc.fillPolygon(shape);
+//			}
+//		}
+//		if (separator > -1) {
+//			gc.setForeground(border);
+//			gc.drawLine(borderLeft + highlight, separator, size.x - borderLeft
+//					- borderRight - highlight, separator);
+//		}
+//		gc.setForeground(gcForeground);
 	}
 
 	void onResize() {
@@ -451,38 +632,6 @@ public class EditableBrowserOriginal extends Composite {
 	}
 
 	/**
-	 * Specify whether the border should be displayed or not.
-	 * 
-	 * @param show
-	 *            true if the border should be displayed
-	 * 
-	 * @exception SWTException
-	 *                <ul>
-	 *                <li>ERROR_WIDGET_DISPOSED - if the receiver has been
-	 *                disposed</li>
-	 *                <li>ERROR_THREAD_INVALID_ACCESS - if not called from the
-	 *                thread that created the receiver</li>
-	 *                </ul>
-	 */
-	public void setBorderVisible(boolean show) {
-		checkWidget();
-		if (showBorder == show)
-			return;
-
-		showBorder = show;
-		if (showBorder) {
-			borderLeft = borderTop = borderRight = borderBottom = 1;
-			if ((getStyle() & SWT.FLAT) == 0)
-				highlight = 2;
-		} else {
-			borderBottom = borderTop = borderLeft = borderRight = 0;
-			highlight = 0;
-		}
-		layout(false);
-		redraw();
-	}
-
-	/**
 	 * If true, the topCenter will always appear on a separate line by itself,
 	 * otherwise the topCenter will appear in the top row if there is room and
 	 * will be moved to the second row if required.
@@ -503,5 +652,63 @@ public class EditableBrowserOriginal extends Composite {
 		checkWidget();
 		separateTopCenter = show;
 		layout(false);
+	}
+	
+	/**
+	 * 
+	 * @param src
+	 * @return
+	 */
+	final private String htmlOut(String src) {
+		StringBuffer html = new StringBuffer();
+		
+		html.append("<html><head><style type=\"text/css\" media=\"all\">");
+		html.append(MainWindow.EDITABLE_BROWSER_CSS);
+		html.append("</style><head><body>");
+		
+		html.append(filter(src));
+		
+		html.append("</body></html>");
+		
+		return html.toString();
+	}
+	
+	/**
+	 * 
+	 * @param text
+	 * @return
+	 */
+	final private String filter(String text) {
+		// Empèche l'interprétation d'eventuelles fausses balises comprises dans les cartes 
+		String html = text.replaceAll("<", "&lt;");
+		html = html.replaceAll(">", "&gt;");
+		
+		// Rétabli l'interprétation pour les balises images
+		String pattern = "&lt;img file=\"([0-9abcdef]{32}.(png|jpg|jpeg))\" /&gt;";
+		Pattern regPat = Pattern.compile(pattern);
+		Matcher matcher = regPat.matcher(html);
+		html = matcher.replaceAll("<img src=\"" + UserProperties.getImgPath() + "$1\" />");
+		
+		return html;
+	}
+	
+	/**
+	 * 
+	 * @param filename
+	 * @return
+	 */
+	public static String extractExtension(String filename) {
+		String extension = filename.toLowerCase().substring(filename.lastIndexOf('.') + 1);
+		return extension;
+	}
+	
+	/**
+	 * 
+	 * @param extension
+	 * @return
+	 */
+	public static boolean isAValidImageExtension(String extension) {
+		Arrays.sort(IMAGE_EXTENSION_LIST); // ne pas supprimer, nécessaire pour "Arrays.binarySearch" (cf. /doc/openjdk-6-jre/api/java/util/Arrays.html
+		return (Arrays.binarySearch(EditableBrowser.IMAGE_EXTENSION_LIST, extension.toLowerCase()) >= 0);
 	}
 }
