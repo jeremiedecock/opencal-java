@@ -22,14 +22,14 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Scale;
 
-import org.jdhp.opencal.card.Card;
-import org.jdhp.opencal.card.CardManipulator;
-import org.jdhp.opencal.card.Review;
+import org.jdhp.opencal.data.UserProperties;
+import org.jdhp.opencal.model.card.Card;
+import org.jdhp.opencal.model.card.CardManipulator;
+import org.jdhp.opencal.model.card.Review;
 import org.jdhp.opencal.swt.CheckPanelHotKeys;
 import org.jdhp.opencal.swt.MainWindow;
 import org.jdhp.opencal.swt.images.SharedImages;
 import org.jdhp.opencal.OpenCAL;
-import org.jdhp.opencal.UserProperties;
 
 /**
  * 

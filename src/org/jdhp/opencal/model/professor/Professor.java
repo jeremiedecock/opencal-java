@@ -3,9 +3,9 @@
  * Copyright (c) 2007,2008,2009 Jérémie Decock
  */
 
-package org.jdhp.opencal.professor;
+package org.jdhp.opencal.model.professor;
 
-import org.jdhp.opencal.card.Card;
+import org.jdhp.opencal.model.card.Card;
 
 /**
  * 

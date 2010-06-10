@@ -3,15 +3,15 @@
  * Copyright (c) 2007,2008 Jérémie Decock
  */
 
-package org.jdhp.opencal.statistics;
+package org.jdhp.opencal.model.statistics;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 
 import org.jdhp.opencal.OpenCAL;
-import org.jdhp.opencal.card.Card;
-import org.jdhp.opencal.card.Review;
+import org.jdhp.opencal.model.card.Card;
+import org.jdhp.opencal.model.card.Review;
 import org.jdhp.opencal.util.CalendarToolKit;
 
 /**

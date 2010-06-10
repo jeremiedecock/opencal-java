@@ -3,7 +3,7 @@
  * Copyright (c) 2007,2008,2009,2010 Jérémie Decock
  */
 
-package org.jdhp.opencal.card;
+package org.jdhp.opencal.model.card;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.jdhp.opencal.OpenCAL;
-import org.jdhp.opencal.PersonalKnowledgeBase;
+import org.jdhp.opencal.data.PersonalKnowledgeBase;
 import org.jdhp.opencal.util.CalendarToolKit;
 
 import org.w3c.dom.CDATASection;

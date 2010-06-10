@@ -30,8 +30,8 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Text;
 
 import org.jdhp.opencal.OpenCAL;
-import org.jdhp.opencal.card.Card;
-import org.jdhp.opencal.card.Review;
+import org.jdhp.opencal.model.card.Card;
+import org.jdhp.opencal.model.card.Review;
 import org.jdhp.opencal.swt.MainWindow;
 import org.jdhp.opencal.swt.images.SharedImages;
 import org.jdhp.opencal.swt.widgets.EditableBrowser;

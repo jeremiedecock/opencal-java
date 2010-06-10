@@ -35,10 +35,10 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
-import org.jdhp.opencal.card.Card;
-import org.jdhp.opencal.card.Review;
+import org.jdhp.opencal.data.UserProperties;
 import org.jdhp.opencal.OpenCAL;
-import org.jdhp.opencal.UserProperties;
+import org.jdhp.opencal.model.card.Card;
+import org.jdhp.opencal.model.card.Review;
 import org.jdhp.opencal.swt.images.SharedImages;
 import org.jdhp.opencal.swt.tabs.ExplorerTab;
 import org.jdhp.opencal.swt.tabs.MakerTab;

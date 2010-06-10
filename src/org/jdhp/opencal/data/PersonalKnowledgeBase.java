@@ -3,7 +3,7 @@
  * Copyright (c) 2009 Jérémie Decock
  */
 
-package org.jdhp.opencal;
+package org.jdhp.opencal.data;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -21,7 +21,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.jdhp.opencal.card.Card;
+import org.jdhp.opencal.OpenCAL;
+import org.jdhp.opencal.model.card.Card;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;

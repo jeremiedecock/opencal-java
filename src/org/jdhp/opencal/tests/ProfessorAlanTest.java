@@ -5,7 +5,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.jdhp.opencal.OpenCAL;
-import org.jdhp.opencal.card.Card;
+import org.jdhp.opencal.model.card.Card;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
