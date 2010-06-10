@@ -1,6 +1,6 @@
 /*
  * OpenCAL version 3.0
- * Copyright (c) 2007,2008 Jérémie Decock
+ * Copyright (c) 2007,2008,2010 Jérémie Decock
  */
 
 package org.jdhp.opencal.swt.tabs;
@@ -12,16 +12,11 @@ import java.awt.GridLayout;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
-//import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.statistics.Statistics;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -46,10 +41,6 @@ public class StatsTab {
 	
 	final private JFreeChart chart;
 	
-	//private static int ADDED_CARDS_CACHE = -1;
-	
-	//private static int CHECKED_CARDS_CACHE = -1;
-	
 	/**
 	 * 
 	 * @param parentComposite
@@ -57,44 +48,16 @@ public class StatsTab {
 	public StatsTab(Composite parentComposite) {
 		this.parentComposite = parentComposite;
 
-		///////////////////////////////////////////////////////////////////////
-		// Make statComposite /////////////////////////////////////////////////
-		///////////////////////////////////////////////////////////////////////
-		
 		this.parentComposite.setLayout(new FillLayout(SWT.VERTICAL));
 		
 		// ********** //
 		
-		TimeSeries s1 = new TimeSeries("Card created per day", Day.class);
-		TreeMap<GregorianCalendar, Integer> cardCreationStats = Statistics.getCardCreationStats();
-		Set entries = cardCreationStats.entrySet();
-		Iterator<Set> it = entries.iterator();
-		while(it.hasNext()) {
-			Map.Entry entry = (Map.Entry) it.next();
-			GregorianCalendar date = (GregorianCalendar) entry.getKey();
-			Integer value = (Integer) entry.getValue();
-			s1.addOrUpdate(new Day(date.get(Calendar.DAY_OF_MONTH), date.get(Calendar.MONTH) + 1, date.get(Calendar.YEAR)), value);
-		}
-
-		TimeSeries s2 = new TimeSeries("Revision per day", Day.class);
-		TreeMap<GregorianCalendar, Integer> revisionStats = Statistics.getRevisionStats();
-		entries = revisionStats.entrySet();
-		it = entries.iterator();
-		while(it.hasNext()) {
-			Map.Entry entry = (Map.Entry) it.next();
-			GregorianCalendar date = (GregorianCalendar) entry.getKey();
-			Integer value = (Integer) entry.getValue();
-			s2.addOrUpdate(new Day(date.get(Calendar.DAY_OF_MONTH), date.get(Calendar.MONTH) + 1, date.get(Calendar.YEAR)), value);
-		}
-
 		this.dataset = new TimeSeriesCollection();
-		dataset.addSeries(s1);
-		dataset.addSeries(s2);
-
-		// ********** //
 		
 		this.chart = ChartFactory.createTimeSeriesChart("Statistics", "", "", dataset, true, true, false);
-		this.chart.setBackgroundPaint(new Color(this.parentComposite.getBackground().getRed(), this.parentComposite.getBackground().getGreen(), this.parentComposite.getBackground().getBlue()));
+		this.chart.setBackgroundPaint(new Color(this.parentComposite.getBackground().getRed(),
+				                                this.parentComposite.getBackground().getGreen(),
+				                                this.parentComposite.getBackground().getBlue()));
 		this.chart.setPadding(new RectangleInsets(10.0, 10.0, 10.0, 10.0));
 
 		XYPlot plot = (XYPlot) this.chart.getPlot();
@@ -123,43 +86,39 @@ public class StatsTab {
 	
 	/**
 	 * 
+	 * Update the dataset
 	 */
 	public void update() {
-		//if(StatsTab.ADDED_CARDS_CACHE != OpenCAL.newCardList.size() || StatsTab.CHECKED_CARDS_CACHE != OpenCAL.reviewedCardList.size()) {
-			// Update graph
-			TimeSeries s1 = new TimeSeries("Card created per day", Day.class);
-			TreeMap<GregorianCalendar, Integer> cardCreationStats = Statistics.getCardCreationStats();
-			Set entries = cardCreationStats.entrySet();
-			Iterator<Set> it = entries.iterator();
-			while(it.hasNext()) {
-				Map.Entry entry = (Map.Entry) it.next();
-				GregorianCalendar date = (GregorianCalendar) entry.getKey();
-				Integer value = (Integer) entry.getValue();
-				s1.addOrUpdate(new Day(date.get(Calendar.DAY_OF_MONTH), date.get(Calendar.MONTH) + 1, date.get(Calendar.YEAR)), value);
-			}
-	
-			TimeSeries s2 = new TimeSeries("Revision per day", Day.class);
-			TreeMap<GregorianCalendar, Integer> revisionStats = Statistics.getRevisionStats();
-			entries = revisionStats.entrySet();
-			it = entries.iterator();
-			while(it.hasNext()) {
-				Map.Entry entry = (Map.Entry) it.next();
-				GregorianCalendar date = (GregorianCalendar) entry.getKey();
-				Integer value = (Integer) entry.getValue();
-				s2.addOrUpdate(new Day(date.get(Calendar.DAY_OF_MONTH), date.get(Calendar.MONTH) + 1, date.get(Calendar.YEAR)), value);
-			}
-	
-			this.dataset.removeAllSeries();
-			this.dataset.addSeries(s1);
-			this.dataset.addSeries(s2);
-	
-			// ********** //
+		int numberOfDays = 30;
+		
+		TimeSeries s1 = new TimeSeries("Card created per day", Day.class);
+		TimeSeries s2 = new TimeSeries("Revision per day", Day.class);
+		
+		int[] cardCreationStats = Statistics.getCardCreationStats(numberOfDays);
+		int[] revisionStats = Statistics.getRevisionStats(numberOfDays);
+
+		GregorianCalendar date = new GregorianCalendar();
+		date.add(Calendar.DAY_OF_MONTH, -numberOfDays+1);
+		
+		for(int i=0 ; i<cardCreationStats.length ; i++) {
+			date.add(Calendar.DAY_OF_MONTH, 1);
 			
-			this.chart.setNotify(true);
+			s1.addOrUpdate(new Day(date.get(Calendar.DAY_OF_MONTH),
+					               date.get(Calendar.MONTH) + 1,
+					               date.get(Calendar.YEAR)),
+					       cardCreationStats[i]);
 			
-			//StatsTab.ADDED_CARDS_CACHE = OpenCAL.newCardList.size();
-			//StatsTab.CHECKED_CARDS_CACHE = OpenCAL.reviewedCardList.size();
-		//}
+			s2.addOrUpdate(new Day(date.get(Calendar.DAY_OF_MONTH),
+		                           date.get(Calendar.MONTH) + 1,
+		                           date.get(Calendar.YEAR)),
+		                   revisionStats[i]);
+		}
+
+		this.dataset.removeAllSeries();
+		this.dataset.addSeries(s1);
+		this.dataset.addSeries(s2);
+
+		if(this.chart != null) this.chart.setNotify(true);
 	}
 	
 }

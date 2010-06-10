@@ -7,13 +7,12 @@ package org.jdhp.opencal.statistics;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.TreeMap;
+import java.util.Iterator;
 
-import org.jdhp.opencal.PersonalKnowledgeBase;
+import org.jdhp.opencal.OpenCAL;
+import org.jdhp.opencal.card.Card;
+import org.jdhp.opencal.card.Review;
 import org.jdhp.opencal.util.CalendarToolKit;
-
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 /**
  * 
@@ -26,67 +25,82 @@ public class Statistics {
 	 * 
 	 * @return
 	 */
-	public static TreeMap<GregorianCalendar, Integer> getCardCreationStats() {
-		TreeMap<GregorianCalendar, Integer> cardCreationStats = new TreeMap<GregorianCalendar, Integer>();
+	public static int[] getCardCreationStats(int numberOfDays) {
 		
-		NodeList nodeCards = PersonalKnowledgeBase.getDomDocument().getElementsByTagName("card");
-		for(int i=0 ; i<nodeCards.getLength() ; i++) {
-			Element card = (Element) nodeCards.item(i);
+		GregorianCalendar startDate = new GregorianCalendar();
+		CalendarToolKit.floorGregorianCalendar(startDate);
+		startDate.add(Calendar.DAY_OF_MONTH, -numberOfDays+1);
+
+		int[] stats = new int[numberOfDays];
+		
+		Iterator<Card> it;
+		it = OpenCAL.cardCollection.iterator();
+		
+        while(it.hasNext()) {
+            Card card = it.next();
 			
-			GregorianCalendar cdate = CalendarToolKit.iso8601ToCalendar(card.getAttribute("cdate"));
+			GregorianCalendar cdate = CalendarToolKit.iso8601ToCalendar(card.getCreationDate());
 			
-			if(cardCreationStats.containsKey(cdate)) {
-				cardCreationStats.put(cdate, new Integer(cardCreationStats.get(cdate).intValue() + 1));
-			} else {
-				cardCreationStats.put(cdate, new Integer(1));
+			boolean found = false;
+			int i = -1;
+			GregorianCalendar date = (GregorianCalendar) startDate.clone();
+			while(!found && i < stats.length) {
+				if(cdate.after(date)) {
+					i++;
+					date.add(Calendar.DAY_OF_MONTH, 1);
+				} else {
+					found = true;
+				}
 			}
-		}
-		
-		// Ajoute à la liste tous les jours où aucune carte n'a été créée 
-		if(!cardCreationStats.isEmpty()) {
-			GregorianCalendar date = (GregorianCalendar) cardCreationStats.firstKey().clone();
-			GregorianCalendar today = new GregorianCalendar();
 			
-			while(date.before(today)) {
-				if(!cardCreationStats.containsKey(date)) cardCreationStats.put((GregorianCalendar) date.clone(), new Integer(0));
-				date.add(Calendar.DAY_OF_MONTH, 1);
-			}
-		}
+			if(i > 0)
+				stats[i]++;
+        }
 		
-		return cardCreationStats;
+		return stats;
 	}
 	
 	/**
 	 * 
 	 * @return
 	 */
-	public static TreeMap<GregorianCalendar, Integer> getRevisionStats() {
-		TreeMap<GregorianCalendar, Integer> revisionStats = new TreeMap<GregorianCalendar, Integer>();
+	public static int[] getRevisionStats(int numberOfDays) {
 		
-		NodeList nodeCards = PersonalKnowledgeBase.getDomDocument().getElementsByTagName("review");
-		for(int i=0 ; i<nodeCards.getLength() ; i++) {
-			Element review = (Element) nodeCards.item(i);
-			
-			GregorianCalendar rdate = CalendarToolKit.iso8601ToCalendar(review.getAttribute("rdate"));
-			
-			if(revisionStats.containsKey(rdate)) {
-				revisionStats.put(rdate, new Integer(revisionStats.get(rdate).intValue() + 1));
-			} else {
-				revisionStats.put(rdate, new Integer(1));
-			}
+		GregorianCalendar startDate = new GregorianCalendar();
+		CalendarToolKit.floorGregorianCalendar(startDate);
+		startDate.add(Calendar.DAY_OF_MONTH, -numberOfDays+1);
+
+		int[] stats = new int[numberOfDays];
+		
+		Iterator<Card> it;
+		it = OpenCAL.cardCollection.iterator();
+		
+        while(it.hasNext()) {
+            Card card = it.next();
+            
+            Review[] reviews = card.getReviews();
+            for(int j=0 ; j < reviews.length ; j++) {
+            	
+				GregorianCalendar rdate = CalendarToolKit.iso8601ToCalendar(reviews[j].getReviewDate());
+				
+				boolean found = false;
+				int i = -1;
+				GregorianCalendar date = (GregorianCalendar) startDate.clone();
+				while(!found && i < stats.length) {
+					if(rdate.after(date)) {
+						i++;
+						date.add(Calendar.DAY_OF_MONTH, 1);
+					} else {
+						found = true;
+					}
+				}
+				
+				if(i > 0)
+					stats[i]++;
+            }
 		}
 		
-		// Ajoute à la liste tous les jours où aucune carte n'a été révisée 
-		if(!revisionStats.isEmpty()) {
-			GregorianCalendar date = (GregorianCalendar) revisionStats.firstKey().clone();
-			GregorianCalendar today = new GregorianCalendar();
-			
-			while(date.before(today)) {
-				if(!revisionStats.containsKey(date)) revisionStats.put((GregorianCalendar) date.clone(), new Integer(0));
-				date.add(Calendar.DAY_OF_MONTH, 1);
-			}
-		}
-		
-		return revisionStats;
+		return stats;
 	}
+	
 }

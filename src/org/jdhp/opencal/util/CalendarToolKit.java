@@ -40,5 +40,18 @@ public class CalendarToolKit {
 		
 		return yearField + "-" + monthField + "-" + dayField;
 	}
-	
+
+	/**
+	 * Arrondi le gc donné en argument au jour près (met les champs HOUR, MINUTE, SECOND et MILLISECOND à 0.
+	 * 
+	 * @param gc
+	 * @return
+	 */
+	public static GregorianCalendar floorGregorianCalendar(GregorianCalendar gc) {
+		gc.set(GregorianCalendar.HOUR, 0);
+		gc.set(GregorianCalendar.MINUTE, 0);
+		gc.set(GregorianCalendar.SECOND, 0);
+		gc.set(GregorianCalendar.MILLISECOND, 0);
+		return gc;
+	}
 }
