@@ -1,6 +1,6 @@
 /*
  * OpenCAL version 3.0
- * Copyright (c) 2007,2008 Jérémie Decock
+ * Copyright (c) 2007,2008,2010 Jérémie Decock
  */
 
 package org.jdhp.opencal.swt.tabs;
@@ -45,15 +45,15 @@ public class MakerTab {
 		
 		// Question ////////
 		final EditableBrowser questionArea = new EditableBrowser(verticalSashForm);
-		questionArea.label.setText("Question");
+		questionArea.setTitle("Question");
 		
 		// Answer //////////
 		final EditableBrowser answerArea = new EditableBrowser(verticalSashForm);
-		answerArea.label.setText("Answer");
+		answerArea.setTitle("Answer");
 
 		// Tags ////////////
 		final EditableBrowser tagsArea = new EditableBrowser(verticalSashForm);
-		tagsArea.label.setText("Tags");
+		tagsArea.setTitle("Tags");
 		
 		verticalSashForm.setWeights(new int[] {40, 40, 20});
 		

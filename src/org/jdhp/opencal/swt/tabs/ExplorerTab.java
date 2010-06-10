@@ -174,7 +174,7 @@ public class ExplorerTab {
 		
 		// Question ///////////////
 		questionArea = new EditableBrowser(verticalSashForm);
-		questionArea.label.setText("Question");
+		questionArea.setTitle("Question");
 
 		questionArea.editableText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
@@ -185,7 +185,7 @@ public class ExplorerTab {
 		
 		// Answer /////////////////
 		answerArea = new EditableBrowser(verticalSashForm);
-		answerArea.label.setText("Answer");
+		answerArea.setTitle("Answer");
 		
 		answerArea.editableText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
@@ -196,7 +196,7 @@ public class ExplorerTab {
 		
 		// Tags ///////////////////
 		tagsArea = new EditableBrowser(verticalSashForm);
-		tagsArea.label.setText("Tags");
+		tagsArea.setTitle("Tags");
 		
 		tagsArea.editableText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
