@@ -1,6 +1,6 @@
 /*
  * OpenCAL version 3.0
- * Copyright (c) 2007,2008,2009 Jérémie Decock
+ * Copyright (c) 2007,2008,2009,2010 Jérémie Decock
  */
 
 package org.jdhp.opencal.card;
@@ -60,19 +60,23 @@ public class Card {
 			this.element = PersonalKnowledgeBase.getDomDocument().createElement("card");
 			this.element.setAttribute("cdate", CalendarToolKit.calendarToIso8601(new GregorianCalendar()));
 			
+			// Question
 			Element questionElement = PersonalKnowledgeBase.getDomDocument().createElement("question");
 			this.element.appendChild(questionElement);
 			questionElement.appendChild(PersonalKnowledgeBase.getDomDocument().createCDATASection(questionString));
 			
+			// Answer
 			Element answerElement = PersonalKnowledgeBase.getDomDocument().createElement("answer");
 			this.element.appendChild(answerElement);
 			answerElement.appendChild(PersonalKnowledgeBase.getDomDocument().createCDATASection(answerString));
 			
+			// Tags
 			for(int i=0 ; i<tagStrings.length ; i++) {
 				if(!tagStrings[i].equals("")) {
 					Element tagElement = PersonalKnowledgeBase.getDomDocument().createElement("tag");
 					this.element.appendChild(tagElement);
-					tagElement.appendChild(PersonalKnowledgeBase.getDomDocument().createTextNode(tagStrings[i]));
+					String tagValue = this.tagFilter(tagStrings[i]);
+					tagElement.appendChild(PersonalKnowledgeBase.getDomDocument().createTextNode(tagValue));
 				}
 			}
 			
@@ -270,7 +274,8 @@ public class Card {
 			if(!newTags[i].equals("")) {
 				tagElement = PersonalKnowledgeBase.getDomDocument().createElement("tag");
 				this.element.appendChild(tagElement);
-				tagElement.appendChild(PersonalKnowledgeBase.getDomDocument().createTextNode(newTags[i]));
+				String tagValue = this.tagFilter(newTags[i]);
+				tagElement.appendChild(PersonalKnowledgeBase.getDomDocument().createTextNode(tagValue));
 			}
 		}
 		
@@ -296,6 +301,19 @@ public class Card {
 	 */
 	public void setGrade(float grade) {
 		this.grade = grade;
+	}
+	
+	/**
+	 * 
+	 * @param tag
+	 * @return
+	 */
+	private String tagFilter(String tag) {
+		// TODO : n'authoriser que l'alphanum et [ _-] ?
+		// TODO : interdire les balises xml [<>...] car les tags ne sont pas dans des CDATA
+		//tag = tag.trim().toLowerCase(Locale.ENGLISH);  // TODO : i18n and L10n issues ???
+		tag = tag.trim().toLowerCase();  // TODO : i18n and L10n issues ???
+		return tag;
 	}
 	
 	/**
