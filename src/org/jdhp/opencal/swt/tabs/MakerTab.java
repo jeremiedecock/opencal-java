@@ -69,21 +69,21 @@ public class MakerTab {
 		
 		addButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				if(questionArea.editableText.getText().equals("")) {
+				if(questionArea.getText().equals("")) {
 					OpenCAL.mainWindow.printAlert("La question ne doit pas être vide !");
 				} else {
-					Card newCard = new Card(questionArea.editableText.getText(), answerArea.editableText.getText(), tagsArea.editableText.getText().split("\n"));
+					Card newCard = new Card(questionArea.getText(), answerArea.getText(), tagsArea.getText().split("\n"));
 					OpenCAL.cardCollection.add(newCard);
 					
-					questionArea.editableText.setText("");
-					answerArea.editableText.setText("");
-					tagsArea.editableText.setText("");
+					questionArea.setText("");
+					answerArea.setText("");
+					tagsArea.setText("");
 					
 					OpenCAL.mainWindow.updateStatus();
 				}
 			
 				// Set focus to the question field
-				questionArea.editableText.setFocus();
+				questionArea.setFocus();
 			}
 		});
 	}

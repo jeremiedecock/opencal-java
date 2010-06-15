@@ -176,7 +176,7 @@ public class ExplorerTab {
 		questionArea = new EditableBrowser(verticalSashForm);
 		questionArea.setTitle("Question");
 
-		questionArea.editableText.addModifyListener(new ModifyListener() {
+		questionArea.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				saveButton.setEnabled(true);
 				cancelButton.setEnabled(true);
@@ -187,7 +187,7 @@ public class ExplorerTab {
 		answerArea = new EditableBrowser(verticalSashForm);
 		answerArea.setTitle("Answer");
 		
-		answerArea.editableText.addModifyListener(new ModifyListener() {
+		answerArea.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				saveButton.setEnabled(true);
 				cancelButton.setEnabled(true);
@@ -198,7 +198,7 @@ public class ExplorerTab {
 		tagsArea = new EditableBrowser(verticalSashForm);
 		tagsArea.setTitle("Tags");
 		
-		tagsArea.editableText.addModifyListener(new ModifyListener() {
+		tagsArea.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				saveButton.setEnabled(true);
 				cancelButton.setEnabled(true);
@@ -224,9 +224,9 @@ public class ExplorerTab {
 		
 		saveButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				getSelectedCard().setQuestion(questionArea.editableText.getText());
-				getSelectedCard().setAnswer(answerArea.editableText.getText());
-				getSelectedCard().setTags(tagsArea.editableText.getText().split("\n"));
+				getSelectedCard().setQuestion(questionArea.getText());
+				getSelectedCard().setAnswer(answerArea.getText());
+				getSelectedCard().setTags(tagsArea.getText().split("\n"));
 				
 				saveButton.setEnabled(false);
 				cancelButton.setEnabled(false);
@@ -608,13 +608,13 @@ public class ExplorerTab {
 		Card selectedCard = getSelectedCard();
 		
 		if(selectedCard != null) {
-			questionArea.editableText.setText(selectedCard.getQuestion());
-			answerArea.editableText.setText(selectedCard.getAnswer());
-			tagsArea.editableText.setText(selectedCard.getTagsString());
+			questionArea.setText(selectedCard.getQuestion());
+			answerArea.setText(selectedCard.getAnswer());
+			tagsArea.setText(selectedCard.getTagsString());
 		} else {
-			questionArea.editableText.setText("");
-			answerArea.editableText.setText("");
-			tagsArea.editableText.setText("");
+			questionArea.setText("");
+			answerArea.setText("");
+			tagsArea.setText("");
 		}
 		
 		saveButton.setEnabled(false);
@@ -631,13 +631,13 @@ public class ExplorerTab {
 	 */
 	final private void updateTextAreaStatus() {
 		if(getSelectedCard() != null) {
-			questionArea.editableText.setEditable(true);
-			answerArea.editableText.setEditable(true);
-			tagsArea.editableText.setEditable(true);
+			questionArea.setEditable(true);
+			answerArea.setEditable(true);
+			tagsArea.setEditable(true);
 		} else {
-			questionArea.editableText.setEditable(false);
-			answerArea.editableText.setEditable(false);
-			tagsArea.editableText.setEditable(false);
+			questionArea.setEditable(false);
+			answerArea.setEditable(false);
+			tagsArea.setEditable(false);
 		}
 	}
 

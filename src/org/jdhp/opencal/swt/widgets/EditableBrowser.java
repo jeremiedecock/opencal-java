@@ -15,6 +15,8 @@ import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,6 +26,8 @@ import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.custom.ViewForm;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Font;
@@ -50,12 +54,15 @@ public class EditableBrowser {
 	
 	private final StackLayout stackLayout;
 	
-	public final Text editableText;
+	private final Text editableText;
 	private final Browser browser;
 	private final FileDialog openPictureFileDialog;
 	
+	private final Vector<ModifyListener> modifyListeners;
+	
 	public EditableBrowser(SashForm sashform) {
 		parent = sashform;
+		modifyListeners = new Vector<ModifyListener>();
 		
 		viewform = new ViewForm(parent, SWT.BORDER | SWT.FLAT);
 		
@@ -116,6 +123,16 @@ public class EditableBrowser {
 		
 		///////////////////////////////////////////////////////////////////////
 
+		editableText.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent event) {
+				//ModifyEvent modifyEvent = new ModifyEvent(viewform); 
+				Iterator<ModifyListener> it = modifyListeners.iterator();
+				
+				while(it.hasNext()) {
+					it.next().modifyText(event); // TODO : ne faut-il pas construire un nouvel event, la source est erronée
+				}
+			}
+		});
 		
 		maximizeItem.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
@@ -136,7 +153,7 @@ public class EditableBrowser {
 			public void widgetSelected(SelectionEvent e) {
 				if(stackLayout.topControl == editableText) {
 					stackLayout.topControl = browser;
-					browser.setText(htmlOut(editableText.getText()));
+					browser.setText(toHtml(editableText.getText()));
 					switchDisplayItem.setImage(SharedImages.getImage(SharedImages.EDIT_VIEW));
 					switchDisplayItem.setToolTipText("Switch to edit view");
 					insertPictureItem.setEnabled(false);
@@ -144,7 +161,6 @@ public class EditableBrowser {
 					stackLayout.topControl = editableText;
 					switchDisplayItem.setImage(SharedImages.getImage(SharedImages.BROWSER_VIEW));
 					switchDisplayItem.setToolTipText("Switch to browser view");
-//					editableText.setFocus(); // TODO : Marche pas ???
 					insertPictureItem.setEnabled(true);
 				}
 				editableText.getParent().layout();
@@ -227,7 +243,26 @@ public class EditableBrowser {
 		}
 	}
 
+	/**
+	 * Adds the listener to the collection of listeners who will be notified
+	 * when the receiver's text is modified, by sending it one of the messages
+	 * defined in the ModifyListener interface.
+	 * 
+	 * @param listener the listener which should be notified
+	 */
+	public void addModifyListener(ModifyListener listener) {
+		this.modifyListeners.addElement(listener);
+	}
 	
+	/**
+	 * Removes the listener from the collection of listeners who will be
+	 * notified when the receiver's text is modified.
+	 * 
+	 * @param listener the listener which should no longer be notified
+	 */
+	public void removeModifyListener(ModifyListener listener) {
+		this.modifyListeners.removeElement(listener);
+	}
 	
 	/**
 	 * 
@@ -247,10 +282,55 @@ public class EditableBrowser {
 	
 	/**
 	 * 
+	 * @return
+	 */
+	public String getText() {
+		return this.editableText.getText();
+	}
+
+	/**
+	 * 
+	 * @param title
+	 */
+	public void setText(String text) {
+		this.editableText.setText(text);
+		this.browser.setText(toHtml(text));
+	}
+	
+	/**
+	 * Returns the editable state.
+	 * 
+	 * @return
+	 */
+	public boolean getEditable() {
+		return this.editableText.getEditable();
+	}
+
+	/**
+	 * Sets the editable state.
+	 * 
+	 * @param title
+	 */
+	public void setEditable(boolean isEditable) {
+		this.editableText.setEditable(isEditable);
+	}
+	
+	/**
+	 * Causes the editableText to have the keyboard focus, such that all keyboard events will be delivered to it.
+	 * Focus reassignment will respect applicable platform constraints. 
+	 *
+	 * @return true if the control got focus, and false if it was unable to.
+	 */
+	public boolean setFocus() {
+		return editableText.setFocus();
+	}
+	
+	/**
+	 * 
 	 * @param src
 	 * @return
 	 */
-	final private String htmlOut(String src) {
+	final private String toHtml(String src) {
 		StringBuffer html = new StringBuffer();
 		
 		html.append("<html><head><style type=\"text/css\" media=\"all\">");
