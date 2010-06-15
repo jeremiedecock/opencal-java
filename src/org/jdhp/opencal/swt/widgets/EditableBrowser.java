@@ -47,6 +47,9 @@ public class EditableBrowser {
 
 	public static final String[] IMAGE_EXTENSION_LIST = {"png", "jpg", "jpeg"}; // les extensions doivent être en minuscule
 	
+	public static final int EDITOR = 1;
+	public static final int BROWSER = 2;
+	
 	private CLabel titleLabel;
 	
 	private final SashForm parent;
@@ -57,6 +60,10 @@ public class EditableBrowser {
 	private final Text editableText;
 	private final Browser browser;
 	private final FileDialog openPictureFileDialog;
+	
+	private final ToolItem maximizeItem;
+	private final ToolItem switchDisplayItem;
+	private final ToolItem insertPictureItem;
 	
 	private final Vector<ModifyListener> modifyListeners;
 	
@@ -75,11 +82,11 @@ public class EditableBrowser {
 		// Create the top center toolbar //////////////////////////////////////
 		ToolBar tbCenter = new ToolBar(viewform, SWT.FLAT);
 		
-		final ToolItem switchDisplayItem = new ToolItem(tbCenter, SWT.PUSH);
+		switchDisplayItem = new ToolItem(tbCenter, SWT.PUSH);
 		switchDisplayItem.setImage(SharedImages.getImage(SharedImages.BROWSER_VIEW));
 		switchDisplayItem.setToolTipText("Switch display mode");
 		
-		final ToolItem insertPictureItem = new ToolItem(tbCenter, SWT.PUSH);
+		insertPictureItem = new ToolItem(tbCenter, SWT.PUSH);
 		insertPictureItem.setImage(SharedImages.getImage(SharedImages.INSERT_IMAGE));
 		insertPictureItem.setToolTipText("Insert picture");
 		
@@ -92,7 +99,7 @@ public class EditableBrowser {
 //		minimizeItem.setImage(SharedImages.getImage(SharedImages.MINIMALIZE));
 //		minimizeItem.setToolTipText("Minimize");
 		
-		final ToolItem maximizeItem = new ToolItem(tbRight, SWT.PUSH);
+		maximizeItem = new ToolItem(tbRight, SWT.PUSH);
 		maximizeItem.setImage(SharedImages.getImage(SharedImages.MAXIMIZE));
 		maximizeItem.setToolTipText("Maximize");
 		
@@ -151,19 +158,11 @@ public class EditableBrowser {
 		
 		switchDisplayItem.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				if(stackLayout.topControl == editableText) {
-					stackLayout.topControl = browser;
-					browser.setText(toHtml(editableText.getText()));
-					switchDisplayItem.setImage(SharedImages.getImage(SharedImages.EDIT_VIEW));
-					switchDisplayItem.setToolTipText("Switch to edit view");
-					insertPictureItem.setEnabled(false);
+				if(getMode() == EDITOR) {
+					setMode(BROWSER);
 				} else {
-					stackLayout.topControl = editableText;
-					switchDisplayItem.setImage(SharedImages.getImage(SharedImages.BROWSER_VIEW));
-					switchDisplayItem.setToolTipText("Switch to browser view");
-					insertPictureItem.setEnabled(true);
+					setMode(EDITOR);
 				}
-				editableText.getParent().layout();
 			}
 		});
 		
@@ -242,6 +241,8 @@ public class EditableBrowser {
 			insertPictureItem.setEnabled(false);
 		}
 	}
+	
+	
 
 	/**
 	 * Adds the listener to the collection of listeners who will be notified
@@ -324,6 +325,36 @@ public class EditableBrowser {
 	public boolean setFocus() {
 		return editableText.setFocus();
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public int getMode() {
+		return stackLayout.topControl == editableText ? EDITOR : BROWSER;
+	}
+
+	/**
+	 * 
+	 * @param title
+	 */
+	public void setMode(int mode) {
+		if(mode == EDITOR) {
+			stackLayout.topControl = editableText;
+			switchDisplayItem.setImage(SharedImages.getImage(SharedImages.BROWSER_VIEW));
+			switchDisplayItem.setToolTipText("Switch to browser view");
+			insertPictureItem.setEnabled(true);
+		} else {
+			stackLayout.topControl = browser;
+			browser.setText(toHtml(editableText.getText()));
+			switchDisplayItem.setImage(SharedImages.getImage(SharedImages.EDIT_VIEW));
+			switchDisplayItem.setToolTipText("Switch to edit view");
+			insertPictureItem.setEnabled(false);
+		}
+		editableText.getParent().layout();
+	}
+	
+	
 	
 	/**
 	 * 

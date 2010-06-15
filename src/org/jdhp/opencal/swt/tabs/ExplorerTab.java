@@ -175,6 +175,7 @@ public class ExplorerTab {
 		// Question ///////////////
 		questionArea = new EditableBrowser(verticalSashForm);
 		questionArea.setTitle("Question");
+		questionArea.setMode(EditableBrowser.BROWSER);
 
 		questionArea.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
@@ -186,6 +187,7 @@ public class ExplorerTab {
 		// Answer /////////////////
 		answerArea = new EditableBrowser(verticalSashForm);
 		answerArea.setTitle("Answer");
+		answerArea.setMode(EditableBrowser.BROWSER);
 		
 		answerArea.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
