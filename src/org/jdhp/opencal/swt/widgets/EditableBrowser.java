@@ -21,12 +21,14 @@ import java.util.regex.Pattern;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.custom.CLabel;
+import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.custom.ViewForm;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Text;
@@ -42,11 +44,20 @@ public class EditableBrowser {
 	public static final String[] IMAGE_EXTENSION_LIST = {"png", "jpg", "jpeg"}; // les extensions doivent être en minuscule
 	
 	private CLabel titleLabel;
-	public final Text editableText;
-	public final FileDialog openPictureFileDialog;
 	
-	public EditableBrowser(Composite parent) {
-		ViewForm viewform = new ViewForm(parent, SWT.BORDER | SWT.FLAT);
+	private final SashForm parent;
+	private final ViewForm viewform;
+	
+	private final StackLayout stackLayout;
+	
+	public final Text editableText;
+	private final Browser browser;
+	private final FileDialog openPictureFileDialog;
+	
+	public EditableBrowser(SashForm sashform) {
+		parent = sashform;
+		
+		viewform = new ViewForm(parent, SWT.BORDER | SWT.FLAT);
 		
 		// Create the CLabel for the top left /////////////////////////////////
 		this.titleLabel = new CLabel(viewform, SWT.NONE);
@@ -70,18 +81,19 @@ public class EditableBrowser {
 		// Create the top right buttons (size) /////////////////////////////////
 		ToolBar tbRight = new ToolBar(viewform, SWT.FLAT);
 		
-		ToolItem minimizeItem = new ToolItem(tbRight, SWT.PUSH);
-		minimizeItem.setImage(SharedImages.getImage(SharedImages.MINIMALIZE));
-		minimizeItem.setToolTipText("Minimize");
+//		final ToolItem minimizeItem = new ToolItem(tbRight, SWT.PUSH);
+//		minimizeItem.setImage(SharedImages.getImage(SharedImages.MINIMALIZE));
+//		minimizeItem.setToolTipText("Minimize");
 		
-		ToolItem maximizeItem = new ToolItem(tbRight, SWT.PUSH);
+		final ToolItem maximizeItem = new ToolItem(tbRight, SWT.PUSH);
 		maximizeItem.setImage(SharedImages.getImage(SharedImages.MAXIMIZE));
 		maximizeItem.setToolTipText("Maximize");
+		
 		viewform.setTopRight(tbRight);
 		
 		// Create the content : an editable browser ///////////////////////////
 		final Composite displayArea = new Composite(viewform, SWT.NONE);
-		final StackLayout stackLayout = new StackLayout();
+		stackLayout = new StackLayout();
 		displayArea.setLayout(stackLayout);
 		viewform.setContent(displayArea);
 
@@ -90,7 +102,7 @@ public class EditableBrowser {
 		editableText.setFont(monoFont);
 		editableText.setTabs(3);
 		
-		final Browser browser = new Browser(displayArea, SWT.NONE);
+		browser = new Browser(displayArea, SWT.NONE);
 		browser.setText("Test");
 		
 		stackLayout.topControl = editableText;
@@ -103,6 +115,22 @@ public class EditableBrowser {
 		openPictureFileDialog.setFilterPath(userHome);
 		
 		///////////////////////////////////////////////////////////////////////
+
+		
+		maximizeItem.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				Control maximizedControl = parent.getMaximizedControl();
+				if(maximizedControl != null && maximizedControl.equals(viewform)) {
+					parent.setMaximizedControl(null);
+					maximizeItem.setImage(SharedImages.getImage(SharedImages.MAXIMIZE));
+					maximizeItem.setToolTipText("Maximize");
+				} else {
+					parent.setMaximizedControl(viewform);
+					maximizeItem.setImage(SharedImages.getImage(SharedImages.RESTORE));
+					maximizeItem.setToolTipText("Restore");
+				}
+			}
+		});
 		
 		switchDisplayItem.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
