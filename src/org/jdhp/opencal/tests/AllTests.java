@@ -9,7 +9,7 @@ public class AllTests {
 		TestSuite suite = new TestSuite("Test for org.jdhp.opencal.tests");
 		//$JUnit-BEGIN$
 		suite.addTestSuite(CalendarToolKitTest.class);
-		suite.addTestSuite(EditableBrowserTest.class);
+		suite.addTestSuite(InsertImageDialogTest.class);
 		suite.addTestSuite(ProfessorAlanTest.class);
 		suite.addTestSuite(ProfessorBenTest.class);
 		//$JUnit-END$

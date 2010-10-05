@@ -1,11 +1,11 @@
 package org.jdhp.opencal.tests;
 
-import org.jdhp.opencal.swt.widgets.EditableBrowser;
+import org.jdhp.opencal.swt.dialogs.InsertImageDialog;
 
 import junit.framework.TestCase;
 
-public class EditableBrowserTest extends TestCase {
-
+public class InsertImageDialogTest extends TestCase {
+	
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
@@ -28,7 +28,7 @@ public class EditableBrowserTest extends TestCase {
 		};
 		
 		for(int i=0 ; i<testArray.length ; i++) {
-			assertEquals(testArray[i][0], testArray[i][1], EditableBrowser.extractExtension(testArray[i][0]));
+			assertEquals(testArray[i][0], testArray[i][1], InsertImageDialog.extractExtension(testArray[i][0]));
 		}
 		
 	}
@@ -43,7 +43,7 @@ public class EditableBrowserTest extends TestCase {
 		};
 		
 		for(int i=0 ; i<falseTestArray.length ; i++) {
-			assertFalse(falseTestArray[i] + " (expected false)", EditableBrowser.isAValidImageExtension(falseTestArray[i]));
+			assertFalse(falseTestArray[i] + " (expected false)", InsertImageDialog.isAValidImageExtension(falseTestArray[i]));
 		}
 		
 		String[] trueTestArray = {
@@ -56,7 +56,7 @@ public class EditableBrowserTest extends TestCase {
 		};
 		
 		for(int i=0 ; i<trueTestArray.length ; i++) {
-			assertTrue(trueTestArray[i] + " (expected true)", EditableBrowser.isAValidImageExtension(trueTestArray[i]));
+			assertTrue(trueTestArray[i] + " (expected true)", InsertImageDialog.isAValidImageExtension(trueTestArray[i]));
 		}
 		
 	}

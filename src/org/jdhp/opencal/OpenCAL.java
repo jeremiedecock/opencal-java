@@ -10,6 +10,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.TreeSet;
 
 import org.jdhp.opencal.data.PersonalKnowledgeBase;
 import org.jdhp.opencal.data.UserProperties;
@@ -89,6 +91,30 @@ public class OpenCAL {
 			System.out.println("No professor set.");
 			OpenCAL.exit(1);
 		}
+	}
+	
+	/**
+	 * TODO : Mettre cette methode autrepart
+	 * 
+	 * @return
+	 */
+	public static String[] getTags(boolean ignoreHiddenCards) {
+		TreeSet<String> tagSet = new TreeSet<String>();
+		
+		Iterator<Card> it = OpenCAL.cardCollection.iterator();
+        while(it.hasNext()) {
+            Card card = it.next();
+            
+            if(!card.isHidden() || !ignoreHiddenCards) {
+                String[] tags = card.getTags();
+                
+                for(int j=0 ; j < tags.length ; j++) {
+                	tagSet.add(tags[j]);
+                }
+            }
+        }
+		
+		return tagSet.toArray(new String[tagSet.size()]);
 	}
 		
 	/**

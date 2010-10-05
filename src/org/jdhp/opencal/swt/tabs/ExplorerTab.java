@@ -1,6 +1,6 @@
 /*
  * OpenCAL version 3.0
- * Copyright (c) 2007,2008,2009 Jérémie Decock
+ * Copyright (c) 2007,2008,2009,2010 Jérémie Decock
  */
 
 package org.jdhp.opencal.swt.tabs;
@@ -10,7 +10,6 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.TreeSet;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
@@ -35,6 +34,7 @@ import org.jdhp.opencal.model.card.Review;
 import org.jdhp.opencal.swt.MainWindow;
 import org.jdhp.opencal.swt.images.SharedImages;
 import org.jdhp.opencal.swt.widgets.EditableBrowser;
+import org.jdhp.opencal.swt.widgets.TagsEditor;
 import org.jdhp.opencal.util.CalendarToolKit;
 
 /**
@@ -81,7 +81,7 @@ public class ExplorerTab {
 	
 	final private EditableBrowser answerArea;
 	
-	final private EditableBrowser tagsArea;
+	final private TagsEditor tagsArea;
 	
 	final private StringBuffer formerSelectedCardLabel;
 	
@@ -197,7 +197,7 @@ public class ExplorerTab {
 		});
 		
 		// Tags ///////////////////
-		tagsArea = new EditableBrowser(verticalSashForm);
+		tagsArea = new TagsEditor(verticalSashForm);
 		tagsArea.setTitle("Tags");
 		
 		tagsArea.addModifyListener(new ModifyListener() {
@@ -474,23 +474,8 @@ public class ExplorerTab {
 		String formerSelectedTagLabel = tagSelectionCombo.getText();
 
 		// Update the list of existing tags
-		TreeSet<String> tagSet = new TreeSet<String>();
-		
-		Iterator<Card> it = OpenCAL.cardCollection.iterator();
-        while(it.hasNext()) {
-            Card card = it.next();
-            
-            if(!card.isHidden() || showHiddenCardsCheckbox.getSelection()) {
-                String[] tags = card.getTags();
-                
-                for(int j=0 ; j < tags.length ; j++) {
-                	tagSet.add(tags[j]);
-                }
-            }
-        }
-		
-		String[] tagsArray = new String[tagSet.size()];
-		tagSelectionCombo.setItems(tagSet.toArray(tagsArray));
+		String[] tags = OpenCAL.getTags(!showHiddenCardsCheckbox.getSelection());
+		tagSelectionCombo.setItems(tags);
 
 		// Re sélectionne l'ancien tag si c'est possible
 		int index = tagSelectionCombo.indexOf(formerSelectedTagLabel);

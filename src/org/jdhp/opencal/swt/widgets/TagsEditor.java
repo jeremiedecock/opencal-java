@@ -1,59 +1,51 @@
 /*
  * OpenCAL version 3.0
- * Copyright (c) 2007,2008,2009,2010 Jérémie Decock
+ * Copyright (c) 2010 Jérémie Decock
  */
 
 package org.jdhp.opencal.swt.widgets;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Vector;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.custom.CLabel;
+import org.eclipse.swt.custom.PopupList;
 import org.eclipse.swt.custom.SashForm;
-import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.custom.ViewForm;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
-import org.jdhp.opencal.data.UserProperties;
-import org.jdhp.opencal.swt.MainWindow;
-import org.jdhp.opencal.swt.dialogs.InsertImageDialog;
+import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.swt.images.SharedImages;
 
-public class EditableBrowser {
+public class TagsEditor {
 
-	public static final int EDITOR = 1;
-	public static final int BROWSER = 2;
-	
 	private CLabel titleLabel;
 	
-	private final SashForm parent;
-	private final ViewForm viewform;
+	final SashForm parent;
+	final ViewForm viewform;
 	
-	private final StackLayout stackLayout;
+	final Text editableText;
 	
-	private final Text editableText;
-	private final Browser browser;
+	final ToolItem maximizeItem;
 	
-	private final ToolItem maximizeItem;
-	private final ToolItem switchDisplayItem;
-	private final ToolItem insertPictureItem;
+	final Vector<ModifyListener> modifyListeners;
 	
-	private final Vector<ModifyListener> modifyListeners;
-	
-	public EditableBrowser(SashForm sashform) {
+	public TagsEditor(SashForm sashform) {
 		parent = sashform;
 		modifyListeners = new Vector<ModifyListener>();
 		
@@ -61,22 +53,11 @@ public class EditableBrowser {
 		
 		// Create the CLabel for the top left /////////////////////////////////
 		this.titleLabel = new CLabel(viewform, SWT.NONE);
+		
 		titleLabel.setText("");
 		titleLabel.setAlignment(SWT.LEFT);
+		
 		viewform.setTopLeft(titleLabel);
-		
-		// Create the top center toolbar //////////////////////////////////////
-		ToolBar tbCenter = new ToolBar(viewform, SWT.FLAT);
-		
-		switchDisplayItem = new ToolItem(tbCenter, SWT.PUSH);
-		switchDisplayItem.setImage(SharedImages.getImage(SharedImages.BROWSER_VIEW));
-		switchDisplayItem.setToolTipText("Switch display mode");
-		
-		insertPictureItem = new ToolItem(tbCenter, SWT.PUSH);
-		insertPictureItem.setImage(SharedImages.getImage(SharedImages.INSERT_IMAGE));
-		insertPictureItem.setToolTipText("Insert picture");
-		
-		viewform.setTopCenter(tbCenter);
 		
 		// Create the top right buttons (size) /////////////////////////////////
 		ToolBar tbRight = new ToolBar(viewform, SWT.FLAT);
@@ -92,20 +73,13 @@ public class EditableBrowser {
 		viewform.setTopRight(tbRight);
 		
 		// Create the content : an editable browser ///////////////////////////
-		final Composite displayArea = new Composite(viewform, SWT.NONE);
-		stackLayout = new StackLayout();
-		displayArea.setLayout(stackLayout);
-		viewform.setContent(displayArea);
-
 		Font monoFont = new Font(Display.getCurrent(), "mono", 10, SWT.NORMAL);
-		editableText = new Text(displayArea, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+		
+		editableText = new Text(viewform, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
 		editableText.setFont(monoFont);
 		editableText.setTabs(3);
 		
-		browser = new Browser(displayArea, SWT.NONE);
-		browser.setText("Test");
-		
-		stackLayout.topControl = editableText;
+		viewform.setContent(editableText);
 		
 		///////////////////////////////////////////////////////////////////////
 
@@ -116,6 +90,46 @@ public class EditableBrowser {
 				
 				while(it.hasNext()) {
 					it.next().modifyText(event); // TODO : ne faut-il pas construire un nouvel event, la source est erronée
+				}
+			}
+		});
+		
+		editableText.addKeyListener(new KeyListener() {
+			public void keyPressed(KeyEvent event) { }
+
+			public void keyReleased(KeyEvent event) {
+				// Display content assist information when user press botrh the CTRL and SPACE keys.
+				if(((event.stateMask & SWT.CTRL) != 0) && (event.character == ' ')) {
+					// Get tag list
+					String[] fullTagList = OpenCAL.getTags(true);
+					String basename = editableText.getText().split("\n", -1)[editableText.getCaretLineNumber()];
+					basename = basename.toLowerCase().trim();
+					ArrayList<String> tagList = new ArrayList<String>();
+					for(int i=0 ; i<fullTagList.length ; i++) {
+						if(fullTagList[i].startsWith(basename)) {
+							tagList.add(fullTagList[i]);
+						}
+					}
+					
+					if(tagList.size() > 0) {
+						// Display popup
+						Shell shell = editableText.getShell();
+						PopupList popup = new PopupList(shell);
+						popup.setItems(tagList.toArray(new String[tagList.size()]));
+						
+						// Snippets from : http://www.ibm.com/developerworks/opensource/library/os-jface3/index.html
+						Point p = editableText.getCaretLocation();
+						p = shell.getDisplay().map(editableText, null, p.x, p.y);
+						String choice = popup.open(new Rectangle(p.x, 
+								                                 p.y + editableText.getLineHeight(),
+								                                 400,
+								                                 200));
+						
+						// Update text
+						if(choice != null) {
+							editableText.insert(choice.replaceFirst(basename, ""));
+						}
+					}
 				}
 			}
 		});
@@ -134,33 +148,6 @@ public class EditableBrowser {
 				}
 			}
 		});
-		
-		switchDisplayItem.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				if(getMode() == EDITOR) {
-					setMode(BROWSER);
-				} else {
-					setMode(EDITOR);
-				}
-			}
-		});
-		
-		insertPictureItem.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent event) {
-				InsertImageDialog dialog = new InsertImageDialog(parent.getShell());
-				String imageTag = dialog.open();
-				if(imageTag != null) {
-					editableText.insert(imageTag);
-				}
-			}
-		});
-		
-
-		if(stackLayout.topControl == editableText) {
-			insertPictureItem.setEnabled(true);
-		} else {
-			insertPictureItem.setEnabled(false);
-		}
 	}
 	
 	
@@ -216,7 +203,6 @@ public class EditableBrowser {
 	 */
 	public void setText(String text) {
 		this.editableText.setText(text);
-		this.browser.setText(toHtml(text));
 	}
 	
 	/**
@@ -246,73 +232,4 @@ public class EditableBrowser {
 	public boolean setFocus() {
 		return editableText.setFocus();
 	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public int getMode() {
-		return stackLayout.topControl == editableText ? EDITOR : BROWSER;
-	}
-
-	/**
-	 * 
-	 * @param title
-	 */
-	public void setMode(int mode) {
-		if(mode == EDITOR) {
-			stackLayout.topControl = editableText;
-			switchDisplayItem.setImage(SharedImages.getImage(SharedImages.BROWSER_VIEW));
-			switchDisplayItem.setToolTipText("Switch to browser view");
-			insertPictureItem.setEnabled(true);
-		} else {
-			stackLayout.topControl = browser;
-			browser.setText(toHtml(editableText.getText()));
-			switchDisplayItem.setImage(SharedImages.getImage(SharedImages.EDIT_VIEW));
-			switchDisplayItem.setToolTipText("Switch to edit view");
-			insertPictureItem.setEnabled(false);
-		}
-		editableText.getParent().layout();
-	}
-	
-	
-	
-	/**
-	 * 
-	 * @param src
-	 * @return
-	 */
-	final private String toHtml(String src) {
-		StringBuffer html = new StringBuffer();
-		
-		html.append("<html><head><style type=\"text/css\" media=\"all\">");
-		html.append(MainWindow.EDITABLE_BROWSER_CSS);
-		html.append("</style><head><body>");
-		
-		html.append(filter(src));
-		
-		html.append("</body></html>");
-		
-		return html.toString();
-	}
-	
-	/**
-	 * 
-	 * @param text
-	 * @return
-	 */
-	final private String filter(String text) {
-		// Empèche l'interprétation d'eventuelles fausses balises comprises dans les cartes 
-		String html = text.replaceAll("<", "&lt;");
-		html = html.replaceAll(">", "&gt;");
-		
-		// Rétabli l'interprétation pour les balises images
-		String pattern = "&lt;img file=\"([0-9abcdef]{32}.(png|jpg|jpeg))\" /&gt;";
-		Pattern regPat = Pattern.compile(pattern);
-		Matcher matcher = regPat.matcher(html);
-		html = matcher.replaceAll("<img src=\"" + UserProperties.getImgPath() + "$1\" />");
-		
-		return html;
-	}
-	
 }
