@@ -69,11 +69,11 @@ public class EditableBrowser {
 		ToolBar tbCenter = new ToolBar(viewform, SWT.FLAT);
 		
 		switchDisplayItem = new ToolItem(tbCenter, SWT.PUSH);
-		switchDisplayItem.setImage(SharedImages.getImage(SharedImages.BROWSER_VIEW));
+		switchDisplayItem.setImage(SharedImages.getImage(SharedImages.BROWSER_VIEW_16));
 		switchDisplayItem.setToolTipText("Switch display mode");
 		
 		insertPictureItem = new ToolItem(tbCenter, SWT.PUSH);
-		insertPictureItem.setImage(SharedImages.getImage(SharedImages.INSERT_IMAGE));
+		insertPictureItem.setImage(SharedImages.getImage(SharedImages.INSERT_IMAGE_16));
 		insertPictureItem.setToolTipText("Insert picture");
 		
 		viewform.setTopCenter(tbCenter);
@@ -86,7 +86,7 @@ public class EditableBrowser {
 //		minimizeItem.setToolTipText("Minimize");
 		
 		maximizeItem = new ToolItem(tbRight, SWT.PUSH);
-		maximizeItem.setImage(SharedImages.getImage(SharedImages.MAXIMIZE));
+		maximizeItem.setImage(SharedImages.getImage(SharedImages.MAXIMIZE_16));
 		maximizeItem.setToolTipText("Maximize");
 		
 		viewform.setTopRight(tbRight);
@@ -125,11 +125,11 @@ public class EditableBrowser {
 				Control maximizedControl = parent.getMaximizedControl();
 				if(maximizedControl != null && maximizedControl.equals(viewform)) {
 					parent.setMaximizedControl(null);
-					maximizeItem.setImage(SharedImages.getImage(SharedImages.MAXIMIZE));
+					maximizeItem.setImage(SharedImages.getImage(SharedImages.MAXIMIZE_16));
 					maximizeItem.setToolTipText("Maximize");
 				} else {
 					parent.setMaximizedControl(viewform);
-					maximizeItem.setImage(SharedImages.getImage(SharedImages.RESTORE));
+					maximizeItem.setImage(SharedImages.getImage(SharedImages.RESTORE_16));
 					maximizeItem.setToolTipText("Restore");
 				}
 			}
@@ -262,13 +262,13 @@ public class EditableBrowser {
 	public void setMode(int mode) {
 		if(mode == EDITOR) {
 			stackLayout.topControl = editableText;
-			switchDisplayItem.setImage(SharedImages.getImage(SharedImages.BROWSER_VIEW));
+			switchDisplayItem.setImage(SharedImages.getImage(SharedImages.BROWSER_VIEW_16));
 			switchDisplayItem.setToolTipText("Switch to browser view");
 			insertPictureItem.setEnabled(true);
 		} else {
 			stackLayout.topControl = browser;
 			browser.setText(toHtml(editableText.getText()));
-			switchDisplayItem.setImage(SharedImages.getImage(SharedImages.EDIT_VIEW));
+			switchDisplayItem.setImage(SharedImages.getImage(SharedImages.EDIT_VIEW_16));
 			switchDisplayItem.setToolTipText("Switch to edit view");
 			insertPictureItem.setEnabled(false);
 		}

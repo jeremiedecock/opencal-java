@@ -137,7 +137,7 @@ public class ReviewerTab {
 		// wrongAnswerButton /////////////
 		wrongAnswerButton.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, true));
 		wrongAnswerButton.setText("Wrong");
-		wrongAnswerButton.setImage(SharedImages.getImage(SharedImages.FACE_SAD));
+		wrongAnswerButton.setImage(SharedImages.getImage(SharedImages.FACE_SAD_24));
 		wrongAnswerButton.setToolTipText("Wrong answer");
 		
 		wrongAnswerButton.addSelectionListener(new SelectionAdapter() {
@@ -159,7 +159,7 @@ public class ReviewerTab {
 		// rightAnswerButton /////////////
 		rightAnswerButton.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, true));
 		rightAnswerButton.setText("Right");
-		rightAnswerButton.setImage(SharedImages.getImage(SharedImages.FACE_SMILE));
+		rightAnswerButton.setImage(SharedImages.getImage(SharedImages.FACE_SMILE_24));
 		rightAnswerButton.setToolTipText("Right answer");
 		
 		rightAnswerButton.addSelectionListener(new SelectionAdapter() {
@@ -201,7 +201,7 @@ public class ReviewerTab {
 		});
 
 		// FirstButton /////////
-		firstButton.setImage(SharedImages.getImage(SharedImages.GO_FIRST));
+		firstButton.setImage(SharedImages.getImage(SharedImages.GO_FIRST_24));
 		firstButton.setToolTipText("Goto the first card");
 		
 		firstButton.addSelectionListener(new SelectionAdapter() {
@@ -219,7 +219,7 @@ public class ReviewerTab {
 		// PreviousButton /////////
 		previousButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		previousButton.setText("Previous");
-		previousButton.setImage(SharedImages.getImage(SharedImages.GO_PREVIOUS));
+		previousButton.setImage(SharedImages.getImage(SharedImages.GO_PREVIOUS_24));
 		previousButton.setToolTipText("Goto the previous card");
 		
 		previousButton.addSelectionListener(new SelectionAdapter() {
@@ -237,7 +237,7 @@ public class ReviewerTab {
 		// AnswerButton //////////
 		answerButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		answerButton.setText("Answer");
-		answerButton.setImage(SharedImages.getImage(SharedImages.EDIT_FIND));
+		answerButton.setImage(SharedImages.getImage(SharedImages.EDIT_FIND_24));
 		answerButton.setToolTipText("Show the answer for this card (review this card)");
 		
 		answerButton.addSelectionListener(new SelectionAdapter() {
@@ -253,7 +253,7 @@ public class ReviewerTab {
 		// NextButton ////////////
 		nextButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		nextButton.setText("Next");
-		nextButton.setImage(SharedImages.getImage(SharedImages.GO_NEXT));
+		nextButton.setImage(SharedImages.getImage(SharedImages.GO_NEXT_24));
 		nextButton.setToolTipText("Goto the next card");
 		
 		nextButton.addSelectionListener(new SelectionAdapter() {
@@ -269,7 +269,7 @@ public class ReviewerTab {
 		});
 		
 		// LastButton /////////
-		lastButton.setImage(SharedImages.getImage(SharedImages.GO_LAST));
+		lastButton.setImage(SharedImages.getImage(SharedImages.GO_LAST_24));
 		lastButton.setToolTipText("Goto the last card");
 		
 		lastButton.addSelectionListener(new SelectionAdapter() {

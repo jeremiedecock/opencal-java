@@ -67,7 +67,7 @@ public class TagsEditor {
 //		minimizeItem.setToolTipText("Minimize");
 		
 		maximizeItem = new ToolItem(tbRight, SWT.PUSH);
-		maximizeItem.setImage(SharedImages.getImage(SharedImages.MAXIMIZE));
+		maximizeItem.setImage(SharedImages.getImage(SharedImages.MAXIMIZE_16));
 		maximizeItem.setToolTipText("Maximize");
 		
 		viewform.setTopRight(tbRight);
@@ -139,11 +139,11 @@ public class TagsEditor {
 				Control maximizedControl = parent.getMaximizedControl();
 				if(maximizedControl != null && maximizedControl.equals(viewform)) {
 					parent.setMaximizedControl(null);
-					maximizeItem.setImage(SharedImages.getImage(SharedImages.MAXIMIZE));
+					maximizeItem.setImage(SharedImages.getImage(SharedImages.MAXIMIZE_16));
 					maximizeItem.setToolTipText("Maximize");
 				} else {
 					parent.setMaximizedControl(viewform);
-					maximizeItem.setImage(SharedImages.getImage(SharedImages.RESTORE));
+					maximizeItem.setImage(SharedImages.getImage(SharedImages.RESTORE_16));
 					maximizeItem.setToolTipText("Restore");
 				}
 			}

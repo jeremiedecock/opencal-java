@@ -221,7 +221,7 @@ public class ExplorerTab {
 		saveButton.setLayoutData(new GridData(GridData.END, GridData.CENTER, true, true));
 		saveButton.setEnabled(false);
 		saveButton.setText("Save");
-		saveButton.setImage(SharedImages.getImage(SharedImages.MEDIA_FLOPPY));
+		saveButton.setImage(SharedImages.getImage(SharedImages.MEDIA_FLOPPY_24));
 		saveButton.setToolTipText("Save modification for this card");
 		
 		saveButton.addSelectionListener(new SelectionAdapter() {
@@ -243,7 +243,7 @@ public class ExplorerTab {
 		cancelButton.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, true, true));
 		cancelButton.setEnabled(false);
 		cancelButton.setText("Cancel");
-		cancelButton.setImage(SharedImages.getImage(SharedImages.EDIT_CLEAR));
+		cancelButton.setImage(SharedImages.getImage(SharedImages.EDIT_CLEAR_24));
 		cancelButton.setToolTipText("Cancel modification for this card");
 		
 		cancelButton.addSelectionListener(new SelectionAdapter() {

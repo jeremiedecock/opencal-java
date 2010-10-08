@@ -17,17 +17,21 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.jdhp.opencal.swt.images.SharedImages;
 import org.jdhp.opencal.util.DataToolKit;
 
 public class InsertImageDialog extends Dialog {
@@ -36,8 +40,6 @@ public class InsertImageDialog extends Dialog {
 	
 	private String imageTag;
 	
-	private String imageURI;
-
 	/**
 	 * InsertImageDialog constructor
 	 * 
@@ -57,7 +59,7 @@ public class InsertImageDialog extends Dialog {
 	public InsertImageDialog(Shell parent, int style) {
 		// Let users override the default styles
 		super(parent, style);
-		this.setText("Insert an image");
+		this.setText("Insert a picture");
 	}
 	
 	/**
@@ -108,27 +110,96 @@ public class InsertImageDialog extends Dialog {
 	 * @param shell the dialog window
 	 */
 	private void createContents(final Shell shell) {
-		shell.setLayout(new GridLayout(2, true));
 		
-		// Show the message
-		Label label = new Label(shell, SWT.NONE);
-		label.setText("Enter a value :");
-		GridData data = new GridData();
-		data.horizontalSpan = 2;
-		label.setLayoutData(data);
+		///////////////////////////
+		// Shell //////////////////
+		///////////////////////////
 		
-		// Display the input box
-		final Text text = new Text(shell, SWT.BORDER);
-		data = new GridData(GridData.FILL_HORIZONTAL);
-		data.horizontalSpan = 1;
-		text.setLayoutData(data);
+		shell.setMinimumSize(480, 0);
+		shell.setLayout(new GridLayout(1, true));
 		
-		// Create the file dialog button and add a handler so that pressing it
-		// will set the image uri
-		Button fileDialogButton = new Button(shell, SWT.PUSH);
-		fileDialogButton.setText("File");
-		data = new GridData(GridData.FILL_HORIZONTAL);
-		fileDialogButton.setLayoutData(data);
+		///////////////////////////
+		// FileAddressComposite ///
+		///////////////////////////
+		
+		Composite fileAddressComposite = new Composite(shell, SWT.NONE);
+		fileAddressComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		
+		fileAddressComposite.setLayout(new GridLayout(2, false));
+		
+		// Text control ///////////
+		final Text text = new Text(fileAddressComposite, SWT.BORDER);
+		text.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		
+		// File selection button //
+		Button fileDialogButton = new Button(fileAddressComposite, SWT.PUSH);
+		fileDialogButton.setText("Open...");
+		fileDialogButton.setImage(SharedImages.getImage(SharedImages.DOCUMENT_OPEN_16));
+		
+		///////////////////////////
+		// PreviewComposite ///////
+		///////////////////////////
+		
+		
+		///////////////////////////
+		// PropertiesComposite ////
+		///////////////////////////
+		
+		
+		///////////////////////////
+		// ButtonComposite ////////
+		///////////////////////////
+		
+		Composite buttonComposite = new Composite(shell, SWT.NONE);
+		buttonComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		
+		buttonComposite.setLayout(new GridLayout(2, true));
+		
+		// SaveButton /////////////
+		final Button okButton = new Button(buttonComposite, SWT.PUSH);
+		okButton.setLayoutData(new GridData(GridData.END, GridData.CENTER, true, true));
+		okButton.setEnabled(false);
+		okButton.setText("Ok");
+		okButton.setToolTipText("Insert this picture");
+		
+		// CancelButton ///////////
+		final Button cancelButton = new Button(buttonComposite, SWT.PUSH);
+		cancelButton.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, true, true));
+		cancelButton.setEnabled(true);
+		cancelButton.setText("Cancel");
+		cancelButton.setImage(SharedImages.getImage(SharedImages.WINDOW_CLOSE_22));
+		cancelButton.setToolTipText("Cancel picture insertion");
+
+        // Equalize buttons size (buttons size may change in others languages...) //
+        Point cancelButtonPoint = cancelButton.computeSize(SWT.DEFAULT, SWT.DEFAULT, false);
+        Point saveButtonPoint = okButton.computeSize(SWT.DEFAULT, SWT.DEFAULT, false);
+
+        if(cancelButtonPoint.x > saveButtonPoint.x) ((GridData) okButton.getLayoutData()).widthHint = cancelButtonPoint.x;
+        else ((GridData) cancelButton.getLayoutData()).widthHint = saveButtonPoint.x;
+        
+        if(cancelButtonPoint.y > saveButtonPoint.y) ((GridData) okButton.getLayoutData()).heightHint = cancelButtonPoint.y;
+        else ((GridData) cancelButton.getLayoutData()).heightHint = saveButtonPoint.y;
+		
+		// Set the Ok button as the default
+		shell.setDefaultButton(okButton);
+		
+		///////////////////////////
+		// Listeners //////////////
+		///////////////////////////
+		
+		// Text control ///////////
+		text.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent arg0) {
+				String uri = text.getText();
+				if(isValidPictureFile(uri)) {
+					okButton.setEnabled(true);
+				} else {
+					okButton.setEnabled(false);
+				}
+			}
+		});
+		
+		// File selection button //
 		fileDialogButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
 				// Make a file dialog
@@ -149,22 +220,16 @@ public class InsertImageDialog extends Dialog {
 				// Open the dialog
 				String uri = fileDialog.open();
 				if(uri != null) {
-					imageURI = uri;
 					text.setText(uri);
 				}
 			}
 		});
 		
-		// Create the Ok button and add a handler so that pressing it will set
-		// image tag
-		Button okButton = new Button(shell, SWT.PUSH);
-		okButton.setText("Ok");
-		data = new GridData(GridData.FILL_HORIZONTAL);
-		okButton.setLayoutData(data);
+		// OkButton ///////////////
 		okButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
 				String uri = text.getText();
-				if(uri != null) {
+				if(isValidPictureFile(uri)) {
 					imageTag = buildImageTag(uri);
 				} else {
 					imageTag = null;
@@ -173,12 +238,7 @@ public class InsertImageDialog extends Dialog {
 			}
 		});
 		
-		// Create the cancel button and add a handler so that pressing it will
-		// set image tag to null
-		Button cancelButton = new Button(shell, SWT.PUSH);
-		cancelButton.setText("Cancel");
-		data = new GridData(GridData.FILL_HORIZONTAL);
-		cancelButton.setLayoutData(data);
+		// CancelButton ///////////
 		cancelButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
 				imageTag = null;
@@ -186,15 +246,18 @@ public class InsertImageDialog extends Dialog {
 			}
 		});
 		
-		// Set the Ok button as the default
-		shell.setDefaultButton(okButton);
 	}
 	
+	/**
+	 * 
+	 * @param uri
+	 * @return
+	 */
 	private String buildImageTag(String uri) {
 		String tag = null;
 		String extension = extractExtension(uri);	// TODO
 		
-		if(isAValidImageExtension(extension)) {				// TODO
+		if(isValidPictureExtension(extension)) {				// TODO
 			try {
 				// Compute MD5SUM ///////
 				MessageDigest md5  = MessageDigest.getInstance("MD5");
@@ -256,8 +319,17 @@ public class InsertImageDialog extends Dialog {
 	 * @param extension
 	 * @return
 	 */
-	public static boolean isAValidImageExtension(String extension) {
+	public static boolean isValidPictureExtension(String extension) {
 		Arrays.sort(IMAGE_EXTENSION_LIST); // ne pas supprimer, nécessaire pour "Arrays.binarySearch" (cf. /doc/openjdk-6-jre/api/java/util/Arrays.html
 		return (Arrays.binarySearch(IMAGE_EXTENSION_LIST, extension.toLowerCase()) >= 0);
+	}
+	
+	/**
+	 * 
+	 * @param uri
+	 * @return
+	 */
+	public static boolean isValidPictureFile(String uri) {
+		return uri != null && (new File(uri)).exists() && isValidPictureExtension(extractExtension(uri));
 	}
 }

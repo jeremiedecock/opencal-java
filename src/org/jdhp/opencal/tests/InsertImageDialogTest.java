@@ -43,7 +43,7 @@ public class InsertImageDialogTest extends TestCase {
 		};
 		
 		for(int i=0 ; i<falseTestArray.length ; i++) {
-			assertFalse(falseTestArray[i] + " (expected false)", InsertImageDialog.isAValidImageExtension(falseTestArray[i]));
+			assertFalse(falseTestArray[i] + " (expected false)", InsertImageDialog.isValidPictureExtension(falseTestArray[i]));
 		}
 		
 		String[] trueTestArray = {
@@ -56,7 +56,7 @@ public class InsertImageDialogTest extends TestCase {
 		};
 		
 		for(int i=0 ; i<trueTestArray.length ; i++) {
-			assertTrue(trueTestArray[i] + " (expected true)", InsertImageDialog.isAValidImageExtension(trueTestArray[i]));
+			assertTrue(trueTestArray[i] + " (expected true)", InsertImageDialog.isValidPictureExtension(trueTestArray[i]));
 		}
 		
 	}

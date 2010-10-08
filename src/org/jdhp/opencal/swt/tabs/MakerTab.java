@@ -67,7 +67,7 @@ public class MakerTab {
 		final Button addButton = new Button(this.parentComposite, SWT.PUSH);
 		addButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_CENTER));
 		addButton.setText("Add this card");
-		addButton.setImage(SharedImages.getImage(SharedImages.LIST_ADD));
+		addButton.setImage(SharedImages.getImage(SharedImages.LIST_ADD_24));
 		addButton.setToolTipText("Add this card to the knowledge base");
 		addButton.setEnabled(false);
 

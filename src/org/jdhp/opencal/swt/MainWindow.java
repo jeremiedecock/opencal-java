@@ -139,11 +139,11 @@ public class MainWindow {
         
         // File items //
 		MenuItem newItem = new MenuItem(fileMenu, SWT.PUSH);
-		newItem.setImage(SharedImages.getImage(SharedImages.FILE_NEW));
+		newItem.setImage(SharedImages.getImage(SharedImages.DOCUMENT_NEW_16));
 		newItem.setText("New...");
 
 		MenuItem openItem = new MenuItem(fileMenu, SWT.PUSH);
-		openItem.setImage(SharedImages.getImage(SharedImages.FILE_OPEN));
+		openItem.setImage(SharedImages.getImage(SharedImages.DOCUMENT_OPEN_16));
 		openItem.setText("Open...");
 
 		MenuItem closeItem = new MenuItem(fileMenu, SWT.PUSH);
@@ -170,17 +170,17 @@ public class MainWindow {
 		new MenuItem(fileMenu, SWT.SEPARATOR);
 
 		MenuItem pdfItem = new MenuItem(fileMenu, SWT.PUSH);
-		pdfItem.setImage(SharedImages.getImage(SharedImages.FILE_PDF));
+		pdfItem.setImage(SharedImages.getImage(SharedImages.FILE_PDF_16));
 		pdfItem.setText("Export Review File...");
 		
 		MenuItem printItem = new MenuItem(fileMenu, SWT.PUSH);
-		printItem.setImage(SharedImages.getImage(SharedImages.FILE_PRINT));
+		printItem.setImage(SharedImages.getImage(SharedImages.DOCUMENT_PRINT_16));
 		printItem.setText("Print Review File...");
 
 		new MenuItem(fileMenu, SWT.SEPARATOR);
 
 		MenuItem quitItem = new MenuItem(fileMenu, SWT.PUSH);
-		quitItem.setImage(SharedImages.getImage(SharedImages.EXIT));
+		quitItem.setImage(SharedImages.getImage(SharedImages.EXIT_16));
 		quitItem.setText("Quit");
 
 		quitItem.addListener(SWT.Selection, new Listener() {
@@ -191,29 +191,29 @@ public class MainWindow {
 
 		// Edit items //
 		MenuItem undoItem = new MenuItem(editMenu, SWT.PUSH);
-		undoItem.setImage(SharedImages.getImage(SharedImages.EDIT_UNDO));
+		undoItem.setImage(SharedImages.getImage(SharedImages.EDIT_UNDO_16));
 		undoItem.setText("Undo Typing");
 		undoItem.setEnabled(false);
 
 		MenuItem redoItem = new MenuItem(editMenu, SWT.PUSH);
-		redoItem.setImage(SharedImages.getImage(SharedImages.EDIT_REDO));
+		redoItem.setImage(SharedImages.getImage(SharedImages.EDIT_REDO_16));
 		redoItem.setText("Redo");
 		redoItem.setEnabled(false);
 
 		new MenuItem(editMenu, SWT.SEPARATOR);
 
 		MenuItem copyItem = new MenuItem(editMenu, SWT.PUSH);
-		copyItem.setImage(SharedImages.getImage(SharedImages.EDIT_COPY));
+		copyItem.setImage(SharedImages.getImage(SharedImages.EDIT_COPY_16));
 		copyItem.setText("Copy");
 		copyItem.setEnabled(false);
 
 		MenuItem cutItem = new MenuItem(editMenu, SWT.PUSH);
-		cutItem.setImage(SharedImages.getImage(SharedImages.EDIT_CUT));
+		cutItem.setImage(SharedImages.getImage(SharedImages.EDIT_CUT_16));
 		cutItem.setText("Cut");
 		cutItem.setEnabled(false);
 
 		MenuItem pastItem = new MenuItem(editMenu, SWT.PUSH);
-		pastItem.setImage(SharedImages.getImage(SharedImages.EDIT_PASTE));
+		pastItem.setImage(SharedImages.getImage(SharedImages.EDIT_PASTE_16));
 		pastItem.setText("Past");
 		pastItem.setEnabled(false);
 
@@ -221,12 +221,12 @@ public class MainWindow {
 
 		MenuItem preferencesItem = new MenuItem(editMenu, SWT.PUSH);
 		preferencesItem.setImage(SharedImages
-				.getImage(SharedImages.PREFERENCES_SYSTEM));
+				.getImage(SharedImages.PREFERENCES_SYSTEM_16));
 		preferencesItem.setText("Preferences...");
 
 		// Help items //
 		MenuItem aboutItem = new MenuItem(helpMenu, SWT.PUSH);
-		aboutItem.setImage(SharedImages.getImage(SharedImages.HELP_BROWSER));
+		aboutItem.setImage(SharedImages.getImage(SharedImages.HELP_BROWSER_16));
 		aboutItem.setText("About OpenCAL...");
 
 		aboutItem.addListener(SWT.Selection, new Listener() {
