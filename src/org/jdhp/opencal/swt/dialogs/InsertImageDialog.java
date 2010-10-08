@@ -17,10 +17,12 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -29,12 +31,15 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.jdhp.opencal.swt.images.SharedImages;
 import org.jdhp.opencal.util.DataToolKit;
 
 public class InsertImageDialog extends Dialog {
+	
+	public static final String PREVIEW_DEFAULT_MESSAGE = "No preview available.";
 	
 	public static final String[] IMAGE_EXTENSION_LIST = {"png", "jpg", "jpeg"}; // les extensions doivent être en minuscule
 	
@@ -115,7 +120,6 @@ public class InsertImageDialog extends Dialog {
 		// Shell //////////////////
 		///////////////////////////
 		
-		shell.setMinimumSize(480, 0);
 		shell.setLayout(new GridLayout(1, true));
 		
 		///////////////////////////
@@ -140,11 +144,54 @@ public class InsertImageDialog extends Dialog {
 		// PreviewComposite ///////
 		///////////////////////////
 		
+		final ScrolledComposite scrolledPreviewComposite = new ScrolledComposite(shell, SWT.H_SCROLL | SWT.V_SCROLL);
+
+		final Composite previewComposite = new Composite(scrolledPreviewComposite, SWT.NONE);
+		previewComposite.setLayout(new GridLayout(1, false));
+		
+		final Label label = new Label(previewComposite, SWT.NONE);
+		label.setText(PREVIEW_DEFAULT_MESSAGE);
+		label.setLayoutData(new GridData(GridData.CENTER, GridData.CENTER, true, true));
+		
+		scrolledPreviewComposite.setContent(previewComposite);
+		scrolledPreviewComposite.setMinSize(480, 320);
+		
+		scrolledPreviewComposite.setExpandHorizontal(true);
+		scrolledPreviewComposite.setExpandVertical(true);
 		
 		///////////////////////////
 		// PropertiesComposite ////
 		///////////////////////////
 		
+		Composite propertiesComposite = new Composite(shell, SWT.NONE);
+		propertiesComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		
+		propertiesComposite.setLayout(new GridLayout(2, false));
+
+		// Source /////////////////
+		Label sourceLabel = new Label(propertiesComposite, SWT.NONE);
+		sourceLabel.setText("Source");
+		
+		final Text sourceText = new Text(propertiesComposite, SWT.BORDER);
+		sourceText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		
+		// Author /////////////////
+		Label authorLabel = new Label(propertiesComposite, SWT.NONE);
+		authorLabel.setText("Author");
+		
+		final Text authorText = new Text(propertiesComposite, SWT.BORDER);
+		authorText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		
+		// Licence ////////////////
+		Label licenceLabel = new Label(propertiesComposite, SWT.NONE);
+		licenceLabel.setText("Licence");
+		
+		final Text licenceText = new Text(propertiesComposite, SWT.BORDER);
+		licenceText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		
+		// Create a horizontal separator
+		Label separator = new Label(shell, SWT.HORIZONTAL | SWT.SEPARATOR);
+		separator.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		
 		///////////////////////////
 		// ButtonComposite ////////
@@ -193,8 +240,17 @@ public class InsertImageDialog extends Dialog {
 				String uri = text.getText();
 				if(isValidPictureFile(uri)) {
 					okButton.setEnabled(true);
+					label.setText("");
+					label.setImage(new Image(shell.getDisplay(), uri));
+//					previewLabel.setImage(new Image(shell.getDisplay(), new Image(shell.getDisplay(), uri).getImageData().scaledTo(64, 64)));
+					previewComposite.layout();
+					scrolledPreviewComposite.setMinSize(previewComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT, true));
 				} else {
 					okButton.setEnabled(false);
+					label.setText(PREVIEW_DEFAULT_MESSAGE);
+					label.setImage(null);
+					previewComposite.layout();
+					scrolledPreviewComposite.setMinSize(0, 0);
 				}
 			}
 		});
