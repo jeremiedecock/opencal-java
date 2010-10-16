@@ -1,0 +1,78 @@
+#!/bin/sh
+
+# Shell script to create images for OpenCAL
+#
+# Copyright (c) 2008,2009 Jérémie DECOCK
+#
+# This script is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+# 
+# This script is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this script; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
+
+
+PRGM=`basename "$0"`
+IMGDIR="~/.opencal/materials"
+
+## Check args #############################################
+if [ -z "$1" -o ! -z "$2" ]
+then
+	cat >&2 <<EOFwrongarg
+Error, too few or too many arguments.
+	
+Usage : $PRGM imgfile
+EOFwrongarg
+	exit 1
+fi
+
+INPATH="$1"
+INFILE=`basename "$INPATH"`
+
+
+## Check given file #######################################
+if [ ! -f "$INPATH" -o ! -r "$INPATH" ]
+then
+	cat >&2 <<EOFwrongfile
+Error, "$INPATH" is not a file or is not readable.
+	
+Usage : $PRGM imgfile
+EOFwrongfile
+	exit 2
+fi
+
+
+## Check extension ########################################
+if echo "$INFILE" | egrep -q '\.(png|jpg|jpeg)$'
+then
+	EXTENSION=`echo "$INFILE" | sed -r "s/^.+\.(png|jpg|jpeg)$/\1/"`
+else
+	cat >&2 <<EOFwrongext
+Error, wrong file extension.
+	
+Usage : $PRGM <file.png|file.jpg|file.jpeg>
+EOFwrongext
+	exit 3
+fi
+
+
+## Create the new file ####################################
+FILENAME=`md5sum "$INPATH" | cut -c -32`.$EXTENSION
+cp "$INPATH" "$IMGDIR/$FILENAME"
+
+
+## Display HTML code to insert ############################
+cat <<EOFhtml
+
+HTML code to insert :
+<img file="$FILENAME" />
+
+EOFhtml
+
