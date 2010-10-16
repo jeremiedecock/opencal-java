@@ -6,17 +6,23 @@
 package org.jdhp.opencal.swt.dialogs;
 
 import java.io.BufferedInputStream;
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.SWTError;
+import org.eclipse.swt.SWTException;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -44,6 +50,8 @@ public class InsertImageDialog extends Dialog {
 	public static final String[] IMAGE_EXTENSION_LIST = {"png", "jpg", "jpeg"}; // les extensions doivent être en minuscule
 	
 	private String imageTag;
+	
+	private String filepath;
 	
 	/**
 	 * InsertImageDialog constructor
@@ -235,14 +243,20 @@ public class InsertImageDialog extends Dialog {
 		///////////////////////////
 		
 		// Text control ///////////
-		text.addModifyListener(new ModifyListener() {
+		text.addModifyListener(new ModifyListener() {   // TODO
 			public void modifyText(ModifyEvent arg0) {
-				String uri = text.getText();
-				if(isValidPictureFile(uri)) {
+				String address = text.getText();
+				
+				if(isValidURL(address)) {
+					filepath = downloadFile(address);
+				} else {
+					filepath = address;
+				}
+				
+				if(isValidPictureFile(filepath)) {
 					okButton.setEnabled(true);
 					label.setText("");
-					label.setImage(new Image(shell.getDisplay(), uri));
-//					previewLabel.setImage(new Image(shell.getDisplay(), new Image(shell.getDisplay(), uri).getImageData().scaledTo(64, 64)));
+					label.setImage(new Image(shell.getDisplay(), filepath)); // TODO : Image.dispose()
 					previewComposite.layout();
 					scrolledPreviewComposite.setMinSize(previewComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT, true));
 				} else {
@@ -274,19 +288,18 @@ public class InsertImageDialog extends Dialog {
 //			String filePath = openPictureFileDialog.open();
 				
 				// Open the dialog
-				String uri = fileDialog.open();
-				if(uri != null) {
-					text.setText(uri);
+				String path = fileDialog.open();
+				if(path != null) {
+					text.setText(path);
 				}
 			}
 		});
 		
 		// OkButton ///////////////
-		okButton.addSelectionListener(new SelectionAdapter() {
+		okButton.addSelectionListener(new SelectionAdapter() {   // TODO
 			public void widgetSelected(SelectionEvent event) {
-				String uri = text.getText();
-				if(isValidPictureFile(uri)) {
-					imageTag = buildImageTag(uri);
+				if(isValidPictureFile(filepath)) {
+					imageTag = buildImageTag(filepath);
 				} else {
 					imageTag = null;
 				}
@@ -306,19 +319,19 @@ public class InsertImageDialog extends Dialog {
 	
 	/**
 	 * 
-	 * @param uri
+	 * @param path
 	 * @return
 	 */
-	private String buildImageTag(String uri) {
+	private String buildImageTag(String path) {
 		String tag = null;
-		String extension = extractExtension(uri);	// TODO
+		String extension = extractExtension(path);	// TODO
 		
 		if(isValidPictureExtension(extension)) {				// TODO
 			try {
 				// Compute MD5SUM ///////
 				MessageDigest md5  = MessageDigest.getInstance("MD5");
 				
-				FileInputStream     fis = new FileInputStream(uri);
+				FileInputStream     fis = new FileInputStream(path);
 		        BufferedInputStream bis = new BufferedInputStream(fis);
 		        DigestInputStream   dis = new DigestInputStream(bis, md5);
 		        
@@ -330,7 +343,7 @@ public class InsertImageDialog extends Dialog {
 				
 				// Copy file ////////////
 		        // TODO : vérifier l'emprunte MD5 du fichier, vérif que le fichier est bien fermé avec "lsof", ne pas copier le fichier si dest existe déjà, ...
-		        File src = new File(uri);
+		        File src = new File(path);
 		        File dst = new File("/home/gremy/.opencal/materials/" + hexDigest + "." + extension); // TODO
 		        
 		        FileInputStream  srcStream = new FileInputStream(src);
@@ -359,6 +372,54 @@ public class InsertImageDialog extends Dialog {
 		
 		return tag;
 	}
+	
+	/**
+	 * Download a remote file and copy it into the temp directory.
+	 * 
+	 * @param fileAddress the remote file url
+	 * @return string the local file address
+	 */
+	public static String downloadFile(String fileAddress) {
+		
+		File fileOut =  null;
+
+		DataInputStream inStream = null;
+		FileOutputStream outStream = null;
+		
+		if(fileAddress != null) {
+			try {
+				URL url = new URL(fileAddress);
+				URLConnection urlConnection = url.openConnection();
+				
+				// Output stream
+				fileOut = File.createTempFile("opencal_", "." + extractExtension(fileAddress));
+				fileOut.deleteOnExit();
+				outStream = new FileOutputStream(fileOut);
+				
+				// Input stream
+				inStream = new DataInputStream(urlConnection.getInputStream());
+				
+				// Copy the remote file
+				int data;
+				while((data = inStream.read()) != -1) { // TODO
+					outStream.write(data); // TODO
+				}
+			} catch (MalformedURLException e) {
+				//e.printStackTrace(); // TODO
+			} catch (IOException e) {
+				e.printStackTrace(); // TODO
+			} finally {
+				try {
+					if(inStream != null) inStream.close();
+					if(outStream != null) outStream.close();
+				} catch (IOException e) {
+					System.out.println("Error : can't close file.");
+				}
+			}
+		}
+		
+		return (fileOut != null ? fileOut.getAbsolutePath() : null);
+	}
 
 	/**
 	 * 
@@ -382,10 +443,43 @@ public class InsertImageDialog extends Dialog {
 	
 	/**
 	 * 
-	 * @param uri
+	 * @param path
 	 * @return
 	 */
-	public static boolean isValidPictureFile(String uri) {
-		return uri != null && (new File(uri)).exists() && isValidPictureExtension(extractExtension(uri));
+	public static boolean isValidPictureFile(String path) {
+		boolean valid = true;
+		
+		Image image = null;
+		
+		try {
+			new Image(Display.getCurrent(), path);
+		} catch(IllegalArgumentException e) {
+			valid = false;
+		} catch(SWTException e) {
+			valid = false;
+		} catch(SWTError e) {
+			valid = false;
+		}
+		
+		if(image != null) image.dispose();
+		
+		return valid;
+	}
+	
+	/**
+	 * 
+	 * @param url
+	 * @return
+	 */
+	public static boolean isValidURL(String address) {
+		boolean valid = true;
+		
+		try {
+			URL url = new URL(address);
+		} catch (MalformedURLException e) {
+			valid = false;
+		}
+		
+		return address != null && valid;
 	}
 }
