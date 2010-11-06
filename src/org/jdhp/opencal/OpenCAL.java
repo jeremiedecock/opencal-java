@@ -8,6 +8,7 @@ package org.jdhp.opencal;
 //import org.jdhp.opencal.card.Card;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -38,7 +39,8 @@ public class OpenCAL {
 	
 	public final static String WRONG_ANSWER_STRING = "bad";
 	
-	public final static Collection<Card> cardCollection = new HashSet<Card>();
+	//public final static Collection<Card> cardCollection = new HashSet<Card>();
+	public final static Collection<Card> cardCollection = new ArrayList<Card>(); // TODO : use an other collection ? (formerly HashSet -> it don't preserve chronology)
 	
 	public static MainWindow mainWindow;
 	
