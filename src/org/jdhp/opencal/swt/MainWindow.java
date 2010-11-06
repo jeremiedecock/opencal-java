@@ -170,7 +170,7 @@ public class MainWindow {
 		new MenuItem(fileMenu, SWT.SEPARATOR);
 
 		MenuItem pdfItem = new MenuItem(fileMenu, SWT.PUSH);
-		pdfItem.setImage(SharedImages.getImage(SharedImages.FILE_PDF_16));
+		pdfItem.setImage(SharedImages.getImage(SharedImages.TEXT_16));
 		pdfItem.setText("Export Review File...");
 		
 		MenuItem printItem = new MenuItem(fileMenu, SWT.PUSH);
@@ -180,7 +180,7 @@ public class MainWindow {
 		new MenuItem(fileMenu, SWT.SEPARATOR);
 
 		MenuItem quitItem = new MenuItem(fileMenu, SWT.PUSH);
-		quitItem.setImage(SharedImages.getImage(SharedImages.EXIT_16));
+		quitItem.setImage(SharedImages.getImage(SharedImages.SYSTEM_LOG_OUT_16));
 		quitItem.setText("Quit");
 
 		quitItem.addListener(SWT.Selection, new Listener() {
