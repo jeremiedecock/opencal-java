@@ -12,7 +12,8 @@ import org.eclipse.swt.widgets.Shell;
 
 public class InsertPlotDialog extends InsertScriptDialog {
 
-	public static final String SOURCE_HEADER = "set terminal png\n";
+	public static final String TERMINAL = "png"; // TODO : pngcairo (gnuplot >= 4.4)
+	public static final String SOURCE_HEADER = "set terminal " + TERMINAL + " size 350, 250\n";
 	public static final String SOURCE_FOOTER = "";
 	
 	/**
@@ -37,11 +38,13 @@ public class InsertPlotDialog extends InsertScriptDialog {
 		
 		this.setText("Insert a Gnuplot graphics");
 		
-		this.codeTemplate = "set zeroaxis\n\n"
+		this.codeTemplate = "set zeroaxis ls -1\n"
+			              + "set grid\n"
+			              + "\n"
                           + "f(x) = \n\n"
-                          + "plot f(x)\n";
+                          + "plot [-10:10] f(x) with lines\n";
 
-		this.defaultCursorPosition = 21;
+		this.defaultCursorPosition = 36;
 	}
 
 	
@@ -102,12 +105,15 @@ public class InsertPlotDialog extends InsertScriptDialog {
 	        picturePath = pngFile.getAbsolutePath();
 	        
 			// GET LOGS ///////////////
-	        BufferedReader is = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+	        String line;
 	        StringBuffer sb = new StringBuffer();
-			String line;
+			
+			BufferedReader is = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 			while((line = is.readLine()) != null) {
 				sb.append(line);
 			}
+			
+			sb.append("\n\nExit value : " + exitValue);
 			log = sb.toString();
 			
 			// TODO : destroy process ?

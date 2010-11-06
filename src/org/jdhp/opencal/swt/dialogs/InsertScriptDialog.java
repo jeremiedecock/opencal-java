@@ -174,6 +174,10 @@ public abstract class InsertScriptDialog extends Dialog {
 		final ToolItem switchDisplayItem = new ToolItem(tbRight, SWT.PUSH);
 		switchDisplayItem.setImage(SharedImages.getImage(SharedImages.BROWSER_VIEW_16));
 		switchDisplayItem.setToolTipText("Switch display mode");
+		
+		// TODO : Custom
+		
+		// TODO : Log
 
 		final ToolItem helpItem = new ToolItem(tbRight, SWT.PUSH);
 		helpItem.setImage(SharedImages.getImage(SharedImages.HELP_BROWSER_16));

@@ -122,6 +122,8 @@ public class InsertLatexDialog extends InsertScriptDialog {
 			while((line = is.readLine()) != null) {
 				sb.append(line);
 			}
+			
+			sb.append("\n\nExit value : " + latexExitValue);
 			log = sb.toString();
 			
 			// REMOVE TMP FILES ///////

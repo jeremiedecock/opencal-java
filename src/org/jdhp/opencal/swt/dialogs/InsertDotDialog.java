@@ -33,10 +33,18 @@ public class InsertDotDialog extends InsertScriptDialog {
 		this.setText("Insert a Dot graph");
 		
 		this.codeTemplate = "digraph G {\n"
-                          + "\t\n"
-                          + "}\n";
+                          + "\n"
+			              + "size = \"3.7,2.8\", fontsize=10, ranksep=0.4;\n"
+			              + "node[fontsize=10, height=0.3, width=0.3];\n"
+			              + "edge[fontsize=7, arrowsize=0.5, labeldistance=1.1];\n"
+			              + "\n"
+			              + "\n"
+			              + "\n"
+			              + "}";
 
-		this.defaultCursorPosition = 13;
+		
+		
+		this.defaultCursorPosition = 152;
 	}
 
 	
@@ -95,6 +103,8 @@ public class InsertDotDialog extends InsertScriptDialog {
 			while((line = is.readLine()) != null) {
 				sb.append(line);
 			}
+			
+			sb.append("\n\nExit value : " + exitValue);
 			log = sb.toString();
 			
 			// TODO : destroy process ?
