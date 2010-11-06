@@ -37,6 +37,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
@@ -175,9 +176,11 @@ public abstract class InsertScriptDialog extends Dialog {
 		switchDisplayItem.setImage(SharedImages.getImage(SharedImages.BROWSER_VIEW_16));
 		switchDisplayItem.setToolTipText("Switch display mode");
 		
-		// TODO : Custom
+		// TODO : Custom items -> insert templates, document properties, ...
 		
-		// TODO : Log
+		final ToolItem logviewerItem = new ToolItem(tbRight, SWT.PUSH);
+		logviewerItem.setImage(SharedImages.getImage(SharedImages.UTILITIES_TERMINAL_16));
+		logviewerItem.setToolTipText("Logviewer");
 
 		final ToolItem helpItem = new ToolItem(tbRight, SWT.PUSH);
 		helpItem.setImage(SharedImages.getImage(SharedImages.HELP_BROWSER_16));
@@ -250,7 +253,7 @@ public abstract class InsertScriptDialog extends Dialog {
 		// SaveButton /////////////
 		final Button okButton = new Button(buttonComposite, SWT.PUSH);
 		okButton.setLayoutData(new GridData(GridData.END, GridData.CENTER, true, true));
-		okButton.setEnabled(false);
+		okButton.setEnabled(true);
 		okButton.setText("Ok");
 		okButton.setToolTipText("Insert this picture");
 		
@@ -290,7 +293,6 @@ public abstract class InsertScriptDialog extends Dialog {
 					filepath = buildPictureFile(script);
 					if(isValidPictureFile(filepath)) {
 						browser.setText(toHtml("<img src=\"" + filepath + "\" />"));   // TODO
-						okButton.setEnabled(true);
 					} else {
 						// Error...
 						String log = getLog();
@@ -299,7 +301,6 @@ public abstract class InsertScriptDialog extends Dialog {
 						} else {
 							browser.setText(toHtml(DEFAULT_BUILD_ERR_MSG));  // TODO
 						}
-						okButton.setEnabled(false);
 					}
 					
 					switchDisplayItem.setImage(SharedImages.getImage(SharedImages.EDIT_VIEW_16));
@@ -313,6 +314,13 @@ public abstract class InsertScriptDialog extends Dialog {
 			}
 		});
 		
+		// logviewer button ///////
+		logviewerItem.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				// TODO
+			}
+		});
+		
 		// help button ////////////
 		helpItem.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -323,12 +331,25 @@ public abstract class InsertScriptDialog extends Dialog {
 		// OkButton ///////////////
 		okButton.addSelectionListener(new SelectionAdapter() {   // TODO
 			public void widgetSelected(SelectionEvent event) {
+				String content = editableText.getText();
+				String script = scriptPreprocessor(content);
+				filepath = buildPictureFile(script);
+				
+				boolean close = true;
 				if(isValidPictureFile(filepath)) {
 					imageTag = buildImageTag(filepath);          // TODO : redondance avec InsertImageDialog -> factoriser ! (dans package data)
 				} else {
 					imageTag = null;
+					
+					MessageBox message = new MessageBox(shell, SWT.ICON_ERROR | SWT.YES | SWT.NO);
+					message.setText("Error...");
+					message.setMessage("An error occurred during processing.\n\nThe script may be wrong, would you fix it ?");
+					int reply = message.open();
+					
+					close = (reply == SWT.YES ? false : true);
 				}
-				shell.close();
+				
+				if(close) shell.close();
 			}
 		});
 		
