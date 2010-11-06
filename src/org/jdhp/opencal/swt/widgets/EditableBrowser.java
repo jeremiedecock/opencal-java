@@ -29,7 +29,10 @@ import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.jdhp.opencal.data.UserProperties;
 import org.jdhp.opencal.swt.MainWindow;
+import org.jdhp.opencal.swt.dialogs.InsertDotDialog;
 import org.jdhp.opencal.swt.dialogs.InsertImageDialog;
+import org.jdhp.opencal.swt.dialogs.InsertLatexDialog;
+import org.jdhp.opencal.swt.dialogs.InsertPlotDialog;
 import org.jdhp.opencal.swt.images.SharedImages;
 
 public class EditableBrowser {
@@ -50,10 +53,14 @@ public class EditableBrowser {
 	private final ToolItem maximizeItem;
 	private final ToolItem switchDisplayItem;
 	private final ToolItem insertPictureItem;
+	private final ToolItem insertLatexItem;
+	private final ToolItem insertGnuplotItem;
+	private final ToolItem insertDotItem;
 	
 	private final Vector<ModifyListener> modifyListeners;
 	
 	public EditableBrowser(SashForm sashform) {
+		
 		parent = sashform;
 		modifyListeners = new Vector<ModifyListener>();
 		
@@ -67,7 +74,7 @@ public class EditableBrowser {
 		
 		// Create the top center toolbar //////////////////////////////////////
 		ToolBar tbCenter = new ToolBar(viewform, SWT.FLAT);
-		
+
 		switchDisplayItem = new ToolItem(tbCenter, SWT.PUSH);
 		switchDisplayItem.setImage(SharedImages.getImage(SharedImages.BROWSER_VIEW_16));
 		switchDisplayItem.setToolTipText("Switch display mode");
@@ -75,6 +82,18 @@ public class EditableBrowser {
 		insertPictureItem = new ToolItem(tbCenter, SWT.PUSH);
 		insertPictureItem.setImage(SharedImages.getImage(SharedImages.INSERT_IMAGE_16));
 		insertPictureItem.setToolTipText("Insert picture");
+		
+		insertLatexItem = new ToolItem(tbCenter, SWT.PUSH);
+		insertLatexItem.setImage(SharedImages.getImage(SharedImages.LATEX_16));
+		insertLatexItem.setToolTipText("Insert LaTeX formula");
+		
+		insertGnuplotItem = new ToolItem(tbCenter, SWT.PUSH);
+		insertGnuplotItem.setImage(SharedImages.getImage(SharedImages.PLOT_16));
+		insertGnuplotItem.setToolTipText("Insert Gnuplot graphics");
+		
+		insertDotItem = new ToolItem(tbCenter, SWT.PUSH);
+		insertDotItem.setImage(SharedImages.getImage(SharedImages.DOT_16));
+		insertDotItem.setToolTipText("Insert Dot graph");
 		
 		viewform.setTopCenter(tbCenter);
 		
@@ -107,7 +126,9 @@ public class EditableBrowser {
 		
 		stackLayout.topControl = editableText;
 		
-		///////////////////////////////////////////////////////////////////////
+        ///////////////////////////
+		// Listeners //////////////
+		///////////////////////////
 
 		editableText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent event) {
@@ -155,11 +176,47 @@ public class EditableBrowser {
 			}
 		});
 		
+		insertLatexItem.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				InsertLatexDialog dialog = new InsertLatexDialog(parent.getShell());
+				String imageTag = dialog.open();
+				if(imageTag != null) {
+					editableText.insert(imageTag);
+				}
+			}
+		});
+		
+		insertGnuplotItem.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				InsertPlotDialog dialog = new InsertPlotDialog(parent.getShell());
+				String imageTag = dialog.open();
+				if(imageTag != null) {
+					editableText.insert(imageTag);
+				}
+			}
+		});
+		
+		insertDotItem.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				InsertDotDialog dialog = new InsertDotDialog(parent.getShell());
+				String imageTag = dialog.open();
+				if(imageTag != null) {
+					editableText.insert(imageTag);
+				}
+			}
+		});
+		
 
 		if(stackLayout.topControl == editableText) {
 			insertPictureItem.setEnabled(true);
+			insertLatexItem.setEnabled(true);
+			insertGnuplotItem.setEnabled(true);
+			insertDotItem.setEnabled(true);
 		} else {
 			insertPictureItem.setEnabled(false);
+			insertLatexItem.setEnabled(false);
+			insertGnuplotItem.setEnabled(false);
+			insertDotItem.setEnabled(false);
 		}
 	}
 	
@@ -265,12 +322,18 @@ public class EditableBrowser {
 			switchDisplayItem.setImage(SharedImages.getImage(SharedImages.BROWSER_VIEW_16));
 			switchDisplayItem.setToolTipText("Switch to browser view");
 			insertPictureItem.setEnabled(true);
+			insertLatexItem.setEnabled(true);
+			insertGnuplotItem.setEnabled(true);
+			insertDotItem.setEnabled(true);
 		} else {
 			stackLayout.topControl = browser;
 			browser.setText(toHtml(editableText.getText()));
 			switchDisplayItem.setImage(SharedImages.getImage(SharedImages.EDIT_VIEW_16));
 			switchDisplayItem.setToolTipText("Switch to edit view");
 			insertPictureItem.setEnabled(false);
+			insertLatexItem.setEnabled(false);
+			insertGnuplotItem.setEnabled(false);
+			insertDotItem.setEnabled(false);
 		}
 		editableText.getParent().layout();
 	}

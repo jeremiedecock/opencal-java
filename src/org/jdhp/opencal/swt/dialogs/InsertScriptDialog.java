@@ -6,15 +6,13 @@
 package org.jdhp.opencal.swt.dialogs;
 
 import java.io.BufferedInputStream;
-import java.io.DataInputStream;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -23,11 +21,13 @@ import java.util.Arrays;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTError;
 import org.eclipse.swt.SWTException;
-import org.eclipse.swt.custom.ScrolledComposite;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.browser.Browser;
+import org.eclipse.swt.custom.CLabel;
+import org.eclipse.swt.custom.StackLayout;
+import org.eclipse.swt.custom.ViewForm;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
@@ -36,31 +36,73 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
+import org.jdhp.opencal.swt.MainWindow;
 import org.jdhp.opencal.swt.images.SharedImages;
 import org.jdhp.opencal.util.DataToolKit;
 
-public class InsertImageDialog extends Dialog {
+public abstract class InsertScriptDialog extends Dialog {
+	
+	public static final int EDITOR = 1;
+	public static final int BROWSER = 2;
 	
 	public static final String PREVIEW_DEFAULT_MESSAGE = "No preview available.";
 	
+	public static final String DEFAULT_BUILD_ERR_MSG = "Unknown error";  // TODO
+	
 	public static final String[] IMAGE_EXTENSION_LIST = {"png", "jpg", "jpeg"}; // les extensions doivent être en minuscule
+	
+	public static final String SCRIPT_SUFFIX = ".src";
+	
+	protected String codeTemplate = "";
+
+	protected int defaultCursorPosition = 0;
 	
 	private String imageTag;
 	
 	private String filepath;
+	
+	protected String log;
+	
+	///////////////////////////////////
+	
+	/**
+	 * Interprète le script et retourne l'adresse de l'image générée.
+	 * 
+	 * @param srcPath
+	 * @return
+	 */
+	public abstract String runScript(String srcPath);
+	
+	/**
+	 * Préprocesseur :
+	 * construit le code source complet du script (ajout éventuel d'entête, de pied de page, filtrage, ...)
+	 * à partir de la chaîne content.
+	 * 
+	 * @param content
+	 * @return 
+	 */
+	public abstract String scriptPreprocessor(String content);
+	
+	/**
+	 * Display help content about the script language.
+	 */
+	public abstract void help();
+
+	///////////////////////////////////
 	
 	/**
 	 * InsertImageDialog constructor
 	 * 
 	 * @param parent the parent
 	 */
-	public InsertImageDialog(Shell parent) {
+	protected InsertScriptDialog(Shell parent) {
 		// Pass the default styles here
-		this(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
+		this(parent, SWT.DIALOG_TRIM | SWT.RESIZE | SWT.MAX | SWT.APPLICATION_MODAL);
 	}
 	
 	/**
@@ -69,28 +111,10 @@ public class InsertImageDialog extends Dialog {
 	 * @param parent the parent
 	 * @param style the style
 	 */
-	public InsertImageDialog(Shell parent, int style) {
+	protected InsertScriptDialog(Shell parent, int style) {
 		// Let users override the default styles
 		super(parent, style);
 		this.setText("Insert a picture");
-	}
-	
-	/**
-	 * Get the image tag
-	 * 
-	 * @return tag the image tag
-	 */
-	public String getImageTag() {
-		return imageTag;
-	}
-
-	/**
-	 * Set the image tag
-	 * 
-	 * @param imageTag the new tag
-	 */
-	public void setImageTag(String imageTag) {
-		this.imageTag = imageTag;
 	}
 
 	/**
@@ -102,6 +126,7 @@ public class InsertImageDialog extends Dialog {
 		// Create the dialog window
 		Shell shell = new Shell(this.getParent(), this.getStyle());
 		shell.setText(this.getText());
+		shell.setMinimumSize(400, 520);
 		this.createContents(shell);
 		shell.pack();
 		shell.open();
@@ -131,41 +156,49 @@ public class InsertImageDialog extends Dialog {
 		shell.setLayout(new GridLayout(1, true));
 		
 		///////////////////////////
-		// FileAddressComposite ///
+		// EditorComposite ////////
 		///////////////////////////
 		
-		Composite fileAddressComposite = new Composite(shell, SWT.NONE);
-		fileAddressComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		final ViewForm viewform = new ViewForm(shell, SWT.BORDER | SWT.FLAT);
+		viewform.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
-		fileAddressComposite.setLayout(new GridLayout(2, false));
+		// Create the CLabel for the top left /////////////////////////////////
+		CLabel titleLabel = new CLabel(viewform, SWT.NONE);
+		titleLabel.setText("Source code");                              // TODO
+		titleLabel.setAlignment(SWT.LEFT);
+		viewform.setTopLeft(titleLabel);
 		
-		// Text control ///////////
-		final Text text = new Text(fileAddressComposite, SWT.BORDER);
-		text.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		// Create the top right buttons ///////////////////////////////////////
+		ToolBar tbRight = new ToolBar(viewform, SWT.FLAT);
 		
-		// File selection button //
-		Button fileDialogButton = new Button(fileAddressComposite, SWT.PUSH);
-		fileDialogButton.setText("Open...");
-		fileDialogButton.setImage(SharedImages.getImage(SharedImages.DOCUMENT_OPEN_16));
-		
-		///////////////////////////
-		// PreviewComposite ///////
-		///////////////////////////
-		
-		final ScrolledComposite scrolledPreviewComposite = new ScrolledComposite(shell, SWT.H_SCROLL | SWT.V_SCROLL);
+		final ToolItem switchDisplayItem = new ToolItem(tbRight, SWT.PUSH);
+		switchDisplayItem.setImage(SharedImages.getImage(SharedImages.BROWSER_VIEW_16));
+		switchDisplayItem.setToolTipText("Switch display mode");
 
-		final Composite previewComposite = new Composite(scrolledPreviewComposite, SWT.NONE);
-		previewComposite.setLayout(new GridLayout(1, false));
+		final ToolItem helpItem = new ToolItem(tbRight, SWT.PUSH);
+		helpItem.setImage(SharedImages.getImage(SharedImages.HELP_BROWSER_16));
+		helpItem.setToolTipText("Help");
 		
-		final Label label = new Label(previewComposite, SWT.NONE);
-		label.setText(PREVIEW_DEFAULT_MESSAGE);
-		label.setLayoutData(new GridData(GridData.CENTER, GridData.CENTER, true, true));
+		viewform.setTopRight(tbRight);
 		
-		scrolledPreviewComposite.setContent(previewComposite);
-		scrolledPreviewComposite.setMinSize(480, 320);
+		// Create the content : an editable browser /////////////////////////// TODO
+		final Composite displayArea = new Composite(viewform, SWT.NONE);
+		final StackLayout stackLayout = new StackLayout();
+		displayArea.setLayout(stackLayout);
+		viewform.setContent(displayArea);
+
+		Font monoFont = new Font(Display.getCurrent(), "mono", 10, SWT.NORMAL);
+		final Text editableText = new Text(displayArea, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+		editableText.setFont(monoFont);
+		editableText.setTabs(3);
 		
-		scrolledPreviewComposite.setExpandHorizontal(true);
-		scrolledPreviewComposite.setExpandVertical(true);
+		final Browser browser = new Browser(displayArea, SWT.NONE);
+		
+		stackLayout.topControl = editableText;
+		
+		editableText.setText(this.codeTemplate);
+		editableText.setSelection(this.defaultCursorPosition);
+		editableText.setFocus();
 		
 		///////////////////////////
 		// PropertiesComposite ////
@@ -242,56 +275,44 @@ public class InsertImageDialog extends Dialog {
 		// Listeners //////////////
 		///////////////////////////
 		
-		// Text control ///////////
-		text.addModifyListener(new ModifyListener() {   // TODO
-			public void modifyText(ModifyEvent arg0) {
-				String address = text.getText();
-				
-				if(isValidURL(address)) {
-					filepath = downloadFile(address);
+		// switch button //////////
+		switchDisplayItem.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				if(stackLayout.topControl == editableText) {
+					stackLayout.topControl = browser;
+					
+					String content = editableText.getText();
+					String script = scriptPreprocessor(content);
+					filepath = buildPictureFile(script);
+					if(isValidPictureFile(filepath)) {
+						browser.setText(toHtml("<img src=\"" + filepath + "\" />"));   // TODO
+						okButton.setEnabled(true);
+					} else {
+						// Error...
+						String log = getLog();
+						if(log != null && !log.equals("")) {
+							browser.setText(toHtml(log));  // TODO
+						} else {
+							browser.setText(toHtml(DEFAULT_BUILD_ERR_MSG));  // TODO
+						}
+						okButton.setEnabled(false);
+					}
+					
+					switchDisplayItem.setImage(SharedImages.getImage(SharedImages.EDIT_VIEW_16));
+					switchDisplayItem.setToolTipText("Switch to edit view");
 				} else {
-					filepath = address;
+					stackLayout.topControl = editableText;
+					switchDisplayItem.setImage(SharedImages.getImage(SharedImages.BROWSER_VIEW_16));
+					switchDisplayItem.setToolTipText("Switch to browser view");
 				}
-				
-				if(isValidPictureFile(filepath)) {
-					okButton.setEnabled(true);
-					label.setText("");
-					label.setImage(new Image(shell.getDisplay(), filepath)); // TODO : Image.dispose()
-					previewComposite.layout();
-					scrolledPreviewComposite.setMinSize(previewComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT, true));
-				} else {
-					okButton.setEnabled(false);
-					label.setText(PREVIEW_DEFAULT_MESSAGE);
-					label.setImage(null);
-					previewComposite.layout();
-					scrolledPreviewComposite.setMinSize(0, 0);
-				}
+				editableText.getParent().layout();
 			}
 		});
 		
-		// File selection button //
-		fileDialogButton.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent event) {
-				// Make a file dialog
-				FileDialog fileDialog = new FileDialog(shell, SWT.OPEN);
-				
-				// Configure the dialog
-				String userHome = System.getProperty("user.home");
-				fileDialog.setFilterPath(userHome);
-//				if(!new File(openPictureFileDialog.getFilterPath()).exists()) {
-//				// openPictureFileDialog.getFilterPath() don't exist"
-//				//System.out.println(openPictureFileDialog.getFilterPath() + " don't exist");
-//				String userHome = System.getProperty("user.home");	// TODO : et si le repertoire user.home n'existe pas non plus ? (est-ce que ça peut arriver ?)
-//				openPictureFileDialog.setFilterPath(userHome);
-//			}
-		//
-//			String filePath = openPictureFileDialog.open();
-				
-				// Open the dialog
-				String path = fileDialog.open();
-				if(path != null) {
-					text.setText(path);
-				}
+		// help button ////////////
+		helpItem.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				help();
 			}
 		});
 		
@@ -299,7 +320,7 @@ public class InsertImageDialog extends Dialog {
 		okButton.addSelectionListener(new SelectionAdapter() {   // TODO
 			public void widgetSelected(SelectionEvent event) {
 				if(isValidPictureFile(filepath)) {
-					imageTag = buildImageTag(filepath);
+					imageTag = buildImageTag(filepath);          // TODO : redondance avec InsertImageDialog -> factoriser ! (dans package data)
 				} else {
 					imageTag = null;
 				}
@@ -314,19 +335,63 @@ public class InsertImageDialog extends Dialog {
 				shell.close();
 			}
 		});
+
+	}
+
+
+	/**
+	 * Crée l'image correspondant au script courant.
+	 * Retourne l'adresse du fichier image créé
+	 * ou null en cas d'échec.
+	 * 
+	 * @param path
+	 * @return
+	 */
+	private String buildPictureFile(String script) {
 		
+		String picturePath = null;
+		
+		if(script != null) {
+			try {
+				File scriptFile = File.createTempFile("opencal_" , SCRIPT_SUFFIX);
+				scriptFile.deleteOnExit();
+				
+				// Écrire le script dans le fichier scriptFile
+				BufferedWriter out = new BufferedWriter(new FileWriter(scriptFile));
+				out.write(script);
+				out.close();
+		
+				picturePath = runScript(scriptFile.getAbsolutePath());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return picturePath;
 	}
 	
 	
+	/**
+	 * Retourne le dernier log généré par runScript()
+	 * @return
+	 */
+	public String getLog() {
+		return log;
+	}
+
+	public void setLog(String log) {
+		this.log = log;
+	}
 	
-	//	 TODO : À DÉMÉNAGER !!! /////////////////////////////////////////////////
 	
+	// TODO : À DÉMÉNAGER !!! /////////////////////////////////////////////////
+
 	/**
 	 * 
 	 * @param path
 	 * @return
 	 */
-	private String buildImageTag(String path) {
+	private String buildImageTag(String path) {	// prend src, licence, ... en argument
 		String tag = null;
 		String extension = extractExtension(path);	// TODO
 		
@@ -376,54 +441,6 @@ public class InsertImageDialog extends Dialog {
 		
 		return tag;
 	}
-	
-	/**
-	 * Download a remote file and copy it into the temp directory.
-	 * 
-	 * @param fileAddress the remote file url
-	 * @return string the local file address
-	 */
-	public static String downloadFile(String fileAddress) {
-		
-		File fileOut =  null;
-
-		DataInputStream inStream = null;
-		FileOutputStream outStream = null;
-		
-		if(fileAddress != null) {
-			try {
-				URL url = new URL(fileAddress);
-				URLConnection urlConnection = url.openConnection();
-				
-				// Output stream
-				fileOut = File.createTempFile("opencal_", "." + extractExtension(fileAddress));
-				fileOut.deleteOnExit();
-				outStream = new FileOutputStream(fileOut);
-				
-				// Input stream
-				inStream = new DataInputStream(urlConnection.getInputStream());
-				
-				// Copy the remote file
-				int data;
-				while((data = inStream.read()) != -1) { // TODO
-					outStream.write(data); // TODO
-				}
-			} catch (MalformedURLException e) {
-				//e.printStackTrace(); // TODO
-			} catch (IOException e) {
-				e.printStackTrace(); // TODO
-			} finally {
-				try {
-					if(inStream != null) inStream.close();
-					if(outStream != null) outStream.close();
-				} catch (IOException e) {
-					System.out.println("Error : can't close file.");
-				}
-			}
-		}
-		
-		return (fileOut != null ? fileOut.getAbsolutePath() : null);
-	}
 
 	/**
 	 * 
@@ -436,6 +453,7 @@ public class InsertImageDialog extends Dialog {
 	}
 	
 	/**
+	 * TODO
 	 * 
 	 * @param extension
 	 * @return
@@ -446,6 +464,7 @@ public class InsertImageDialog extends Dialog {
 	}
 	
 	/**
+	 * TODO
 	 * 
 	 * @param path
 	 * @return
@@ -470,20 +489,27 @@ public class InsertImageDialog extends Dialog {
 		return valid;
 	}
 	
+
+	// TODO : À SUPPRIMER ? //////////////////////////////////////////////////
+	
+	
 	/**
+	 * TODO (useless here ?)
 	 * 
-	 * @param url
+	 * @param src
 	 * @return
 	 */
-	public static boolean isValidURL(String address) {
-		boolean valid = true;
+	final private String toHtml(String src) {
+		StringBuffer html = new StringBuffer();
 		
-		try {
-			URL url = new URL(address);
-		} catch (MalformedURLException e) {
-			valid = false;
-		}
+		html.append("<html><head><style type=\"text/css\" media=\"all\">");
+		html.append(MainWindow.EDITABLE_BROWSER_CSS);
+		html.append("</style><head><body>");
 		
-		return address != null && valid;
+		html.append(src);
+		
+		html.append("</body></html>");
+		
+		return html.toString();
 	}
 }

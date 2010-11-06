@@ -31,6 +31,9 @@ public class SharedImages {
 	public static final String RESTORE_16 = "x16/restore.png";
 	public static final String BROWSER_VIEW_16 = "x16/browser_view.png";
 	public static final String EDIT_VIEW_16 = "x16/edit_view.png";
+	public static final String LATEX_16 = "x16/latex.png";
+	public static final String PLOT_16 = "x16/plot.png";
+	public static final String DOT_16 = "x16/dot.png";
 	
 	
 	// 22x22 images
