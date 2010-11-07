@@ -92,6 +92,41 @@ public class Card {
 	}
 	
 	/**
+	 * Retourne vrai si les attributs question ou answer contiennent le motif "pattern".
+	 * 
+	 * @param pattern
+	 * @param caseSensitive
+	 * @return
+	 */
+	public boolean contains(String pattern, boolean caseSensitive) {
+		boolean contains;
+		String question = this.getQuestion();
+		String answer = this.getAnswer();
+		
+		if(caseSensitive) {
+			contains = question.contains(pattern) || answer.contains(pattern);
+		} else {
+			pattern = pattern.toLowerCase();
+			question = question.toLowerCase();
+			answer = answer.toLowerCase();
+			contains = question.contains(pattern) || answer.contains(pattern);
+		}
+		
+		return contains;
+	}
+	
+	/**
+	 * Retourne vrai si les attributs question ou answer contiennent le motif "pattern".
+	 * 
+	 * @param pattern
+	 * @return
+	 */
+	public boolean containsRegex(String pattern) {
+		// TODO
+		return false;
+	}
+	
+	/**
 	 * 
 	 * @return
 	 */

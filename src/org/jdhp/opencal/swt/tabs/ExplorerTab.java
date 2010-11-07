@@ -13,6 +13,8 @@ import java.util.regex.Pattern;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -65,9 +67,17 @@ public class ExplorerTab {
 	
 	final private List cardListWidget;
 	
+	final private Composite tagSelectionComposite;
+	
 	final private Combo tagSelectionCombo;
 	
+	final private Button tagsWallButton;
+	
 	final private Text searchText;
+	
+	final private Button searchButton;
+	
+	final private Button caseSensitiveCheckbox;
 
 	final private Button showHiddenCardsCheckbox;
 	
@@ -129,16 +139,50 @@ public class ExplorerTab {
 		displayModeCombo.select(ExplorerTab.DEFAULT_LIST);
 		
 		// tagSelectionCombo //////////
-		tagSelectionCombo = new Combo(cardSelectionComposite, SWT.BORDER);
-		tagSelectionCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        //updateTagCombo();
-        setTagSelectionComboVisible(false);
+		tagSelectionComposite = new Composite(cardSelectionComposite, SWT.NONE);
+		tagSelectionComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        
+        GridLayout tagSelectionCompositeLayout = new GridLayout(2, false);
+        tagSelectionCompositeLayout.marginHeight = 0;
+        tagSelectionCompositeLayout.marginWidth = 0;
+        tagSelectionComposite.setLayout(tagSelectionCompositeLayout);
+        
+		tagSelectionCombo = new Combo(tagSelectionComposite, SWT.BORDER);
+		tagSelectionCombo.setToolTipText("Tag to search");
+		tagSelectionCombo.setLayoutData(new GridData(GridData.FILL_BOTH));
+		
+		tagsWallButton = new Button(tagSelectionComposite, SWT.PUSH);
+		tagsWallButton.setImage(SharedImages.getImage(SharedImages.SYSTEM_SEARCH_16));
+		tagsWallButton.setToolTipText("Display the wall of tags");
+		tagsWallButton.setLayoutData(new GridData(GridData.FILL_VERTICAL));
+		tagsWallButton.setEnabled(true);
+        
+        setTagSelectionCompositeVisible(false);
         
         // searchText /////////////////
-        searchText = new Text(cardSelectionComposite, SWT.BORDER);
-        searchText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        searchText.setToolTipText("Search cards");
-		
+        Composite searchTextComposite = new Composite(cardSelectionComposite, SWT.NONE);
+        searchTextComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        
+        GridLayout searchTextCompositeLayout = new GridLayout(2, false);
+        searchTextCompositeLayout.marginHeight = 0;
+        searchTextCompositeLayout.marginWidth = 0;
+        searchTextComposite.setLayout(searchTextCompositeLayout);
+        
+        searchText = new Text(searchTextComposite, SWT.BORDER | SWT.SINGLE | SWT.SEARCH);
+        searchText.setToolTipText("Text to search");
+        searchText.setLayoutData(new GridData(GridData.FILL_BOTH));
+        
+        searchButton = new Button(searchTextComposite, SWT.PUSH);
+        searchButton.setImage(SharedImages.getImage(SharedImages.EDIT_FIND_16));
+        searchButton.setToolTipText("Search");
+        searchButton.setLayoutData(new GridData(GridData.FILL_VERTICAL));
+        
+        caseSensitiveCheckbox = new Button(searchTextComposite, SWT.CHECK);
+        GridData caseSensitiveGridData =  new GridData(GridData.FILL_BOTH);
+        caseSensitiveGridData.horizontalSpan = 2;
+        caseSensitiveCheckbox.setLayoutData(caseSensitiveGridData);
+        caseSensitiveCheckbox.setText("Case Sensitive");
+        
 		// showHiddenCardsCheckbox ////
         showHiddenCardsCheckbox = new Button(cardSelectionComposite, SWT.CHECK);
         showHiddenCardsCheckbox.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -276,17 +320,65 @@ public class ExplorerTab {
 				switch(getCurrentMode()) {
 					case ExplorerTab.ALL_CARDS_LIST :
                         setShowHiddenCardsCheckboxVisible(true);
-                        setTagSelectionComboVisible(false);
+                        setTagSelectionCompositeVisible(false);
 						break;
 					case ExplorerTab.CARDS_BY_TAG_LIST :
                         setShowHiddenCardsCheckboxVisible(true);
-                        setTagSelectionComboVisible(true);
+                        setTagSelectionCompositeVisible(true);
 						break;
 					default :
                         setShowHiddenCardsCheckboxVisible(false);
-                        setTagSelectionComboVisible(false);
+                        setTagSelectionCompositeVisible(false);
 				}
 				
+				updateCardList();
+			}
+		});
+		
+		// tagSelectionComboListener ////////////
+		tagSelectionCombo.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				updateCardList();
+			}
+			
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// Appellé quand valide avec Entrer la zone de texte du combo 
+				updateCardList();
+			}
+			
+//			public void modifyText(ModifyEvent arg0) {
+//			// Check if the combo text match with the begining of a tag
+//			
+//			
+//			// Check if the combo text is equal to a tag
+//		}
+		});
+		
+		// tagsWallButtonListener ///////////////
+		tagsWallButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				// TODO
+			}
+		});
+
+		// searchTextListeners //////////////////
+		searchText.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent arg0) {
+				//updateCardList(); // recherche en temps réel -> un peu trop lent...
+			}
+		});
+		
+		searchText.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent e) {
+				if(e.character == SWT.CR || e.character == SWT.LF) {
+					updateCardList();         // TODO : envoyer un SelectionEvent sur le bouton searchButton à la place (factoriser code)...
+				}
+			}
+		});
+
+		// searchButtonListener /////////////////
+		searchButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
 				updateCardList();
 			}
 		});
@@ -299,20 +391,7 @@ public class ExplorerTab {
 			}
 		});
 		
-		// cardListWidgetListener ////////////
-		cardListWidget.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				updateTextArea();
-				
-				// Mémorise le label
-				int formerIndex = cardListWidget.getSelectionIndex(); // Vaut -1 si aucun item n'est sélectionné
-				formerSelectedCardLabel.replace(
-						0,
-						formerSelectedCardLabel.length(),
-						formerIndex >= 0 ? cardListWidget.getItem(formerIndex) : "");
-			}
-		});
-		
+
 		hideItem.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
 				int selectionIndices[] = cardListWidget.getSelectionIndices();
@@ -339,27 +418,20 @@ public class ExplorerTab {
 			}
 		});
 		
-		// tagSelectionComboListener ////////////
-		tagSelectionCombo.addSelectionListener(new SelectionAdapter() {
+		// cardListWidgetListener ////////////
+		cardListWidget.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				updateCardList();
-			}
-			
-			public void widgetDefaultSelected(SelectionEvent e) {
-				// Appellé quand valide avec Entrer la zone de texte du combo 
-				updateCardList();
+				updateTextArea();
+				
+				// Mémorise le label
+				int formerIndex = cardListWidget.getSelectionIndex(); // Vaut -1 si aucun item n'est sélectionné
+				formerSelectedCardLabel.replace(
+						0,
+						formerSelectedCardLabel.length(),
+						formerIndex >= 0 ? cardListWidget.getItem(formerIndex) : "");
 			}
 		});
 		
-//		tagSelectionCombo.addModifyListener(new ModifyListener() {
-//			public void modifyText(ModifyEvent arg0) {
-//				// Check if the combo text match with the begining of a tag
-//				
-//				
-//				// Check if the combo text is equal to a tag
-//			}
-//		});
-
 		///////////////////////////
 		// Init ///////////////////
 		///////////////////////////
@@ -376,7 +448,7 @@ public class ExplorerTab {
 	 * @param text
 	 * @return
 	 */
-	final private String[] itemFilter(String[] text) {
+	final private String[] formatItems(String[] text) {
 		for(int i=0 ; i<text.length ; i++) {
 			// Supprime les balises images
 			String pattern = "<img file=\"[0-9abcdef]{32}.(png|jpg|jpeg)\" />";
@@ -450,15 +522,15 @@ public class ExplorerTab {
 	/**
      *
      */
-    final private void setTagSelectionComboVisible(boolean visible) {
+    final private void setTagSelectionCompositeVisible(boolean visible) {
         if(visible) {
-            tagSelectionCombo.setVisible(true);
-            ((GridData) tagSelectionCombo.getLayoutData()).exclude = false;
-            tagSelectionCombo.getParent().layout();
+        	tagSelectionComposite.setVisible(true);
+            ((GridData) tagSelectionComposite.getLayoutData()).exclude = false;
+            tagSelectionComposite.getParent().layout();
         } else {
-            tagSelectionCombo.setVisible(false);
-            ((GridData) tagSelectionCombo.getLayoutData()).exclude = true;
-            tagSelectionCombo.getParent().layout();
+        	tagSelectionComposite.setVisible(false);
+            ((GridData) tagSelectionComposite.getLayoutData()).exclude = true;
+            tagSelectionComposite.getParent().layout();
         }
     }
 
@@ -565,10 +637,30 @@ public class ExplorerTab {
 				
 		}
 		
+		// Ne conserve que les cartes contenant le motif searchText (si celui ci n'est pas vide)
+		String pattern = searchText.getText();
+		if(pattern != null && !pattern.equals("")) {
+			it = cardList.iterator();
+			java.util.List<Card> filtredCardList = new ArrayList<Card>();
+			
+			boolean caseSensitive = caseSensitiveCheckbox.getSelection();
+			
+			while(it.hasNext()) {
+                Card card = it.next();
+                if(card.contains(pattern, caseSensitive)) {
+                	filtredCardList.add(card);
+                }
+            }
+			
+			cardList.clear();
+			cardList.addAll(filtredCardList);
+		}
+		
+		// Remplit le widget cardlist
 		if(getCurrentMode() == ExplorerTab.REVIEWED_CARDS_LIST)
-			cardListWidget.setItems(itemFilter(MainWindow.getQuestionStrings(cardList, true))); // TODO
+			cardListWidget.setItems(formatItems(MainWindow.getQuestionStrings(cardList, true))); // TODO
 		else
-			cardListWidget.setItems(itemFilter(MainWindow.getQuestionStrings(cardList, false))); // TODO
+			cardListWidget.setItems(formatItems(MainWindow.getQuestionStrings(cardList, false))); // TODO
 		
 		// Re sélectionne l'ancienne carte si c'est possible
 		if(!formerSelectedCardLabel.toString().equals("")) {
