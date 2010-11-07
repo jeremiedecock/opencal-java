@@ -44,7 +44,7 @@ import org.jdhp.opencal.util.CalendarToolKit;
  * @author Jérémie Decock
  *
  */
-public class ExplorerTab {
+public class ExploreTab {
 
 	final private static String[] LIST_LABELS = {"All Cards", "Reviewed Cards", "New Cards", "Hidden Cards", "Cards By Tag"};
 	
@@ -99,7 +99,7 @@ public class ExplorerTab {
 	 * 
 	 * @param parentComposite
 	 */
-	public ExplorerTab(Composite parentComposite) {
+	public ExploreTab(Composite parentComposite) {
 
 		formerSelectedCardLabel = new StringBuffer();
 		
@@ -135,8 +135,8 @@ public class ExplorerTab {
 		displayModeCombo = new Combo(cardSelectionComposite, SWT.BORDER | SWT.READ_ONLY);
 		displayModeCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		
-		displayModeCombo.setItems(ExplorerTab.LIST_LABELS);
-		displayModeCombo.select(ExplorerTab.DEFAULT_LIST);
+		displayModeCombo.setItems(ExploreTab.LIST_LABELS);
+		displayModeCombo.select(ExploreTab.DEFAULT_LIST);
 		
 		// tagSelectionCombo //////////
 		tagSelectionComposite = new Composite(cardSelectionComposite, SWT.NONE);
@@ -168,7 +168,7 @@ public class ExplorerTab {
         searchTextCompositeLayout.marginWidth = 0;
         searchTextComposite.setLayout(searchTextCompositeLayout);
         
-        searchText = new Text(searchTextComposite, SWT.BORDER | SWT.SINGLE | SWT.SEARCH);
+        searchText = new Text(searchTextComposite, SWT.BORDER | SWT.SINGLE | SWT.SEARCH | SWT.CANCEL);
         searchText.setToolTipText("Text to search");
         searchText.setLayoutData(new GridData(GridData.FILL_BOTH));
         
@@ -318,11 +318,11 @@ public class ExplorerTab {
 		displayModeCombo.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				switch(getCurrentMode()) {
-					case ExplorerTab.ALL_CARDS_LIST :
+					case ExploreTab.ALL_CARDS_LIST :
                         setShowHiddenCardsCheckboxVisible(true);
                         setTagSelectionCompositeVisible(false);
 						break;
-					case ExplorerTab.CARDS_BY_TAG_LIST :
+					case ExploreTab.CARDS_BY_TAG_LIST :
                         setShowHiddenCardsCheckboxVisible(true);
                         setTagSelectionCompositeVisible(true);
 						break;
@@ -572,7 +572,7 @@ public class ExplorerTab {
 		
 		switch(getCurrentMode()) {
 		
-			case ExplorerTab.ALL_CARDS_LIST :
+			case ExploreTab.ALL_CARDS_LIST :
                 
                 while(it.hasNext()) {
                     Card card = it.next();
@@ -583,7 +583,7 @@ public class ExplorerTab {
                 }
 				break;
 				
-			case ExplorerTab.REVIEWED_CARDS_LIST : 
+			case ExploreTab.REVIEWED_CARDS_LIST : 
                 
                 while(it.hasNext()) {
                     Card card = it.next();
@@ -598,7 +598,7 @@ public class ExplorerTab {
                 }
 				break;
 				
-			case ExplorerTab.NEW_CARDS_LIST :
+			case ExploreTab.NEW_CARDS_LIST :
                 
                 while(it.hasNext()) {
                     Card card = it.next();
@@ -606,7 +606,7 @@ public class ExplorerTab {
                 }
 				break;
 				
-			case ExplorerTab.HIDDEN_CARDS_LIST :
+			case ExploreTab.HIDDEN_CARDS_LIST :
                 
                 while(it.hasNext()) {
                     Card card = it.next();
@@ -614,7 +614,7 @@ public class ExplorerTab {
                 }
 				break;
 				
-			case ExplorerTab.CARDS_BY_TAG_LIST :
+			case ExploreTab.CARDS_BY_TAG_LIST :
                 
 				// If a tag is selected add the tag's cards (else keep cardList empty)
 				if(!tagSelectionCombo.getText().equals("")) {
@@ -657,7 +657,7 @@ public class ExplorerTab {
 		}
 		
 		// Remplit le widget cardlist
-		if(getCurrentMode() == ExplorerTab.REVIEWED_CARDS_LIST)
+		if(getCurrentMode() == ExploreTab.REVIEWED_CARDS_LIST)
 			cardListWidget.setItems(formatItems(MainWindow.getQuestionStrings(cardList, true))); // TODO
 		else
 			cardListWidget.setItems(formatItems(MainWindow.getQuestionStrings(cardList, false))); // TODO

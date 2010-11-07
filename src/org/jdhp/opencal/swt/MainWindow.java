@@ -40,10 +40,11 @@ import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.model.card.Card;
 import org.jdhp.opencal.model.card.Review;
 import org.jdhp.opencal.swt.images.SharedImages;
-import org.jdhp.opencal.swt.tabs.ExplorerTab;
-import org.jdhp.opencal.swt.tabs.MakerTab;
-import org.jdhp.opencal.swt.tabs.ReviewerTab;
-import org.jdhp.opencal.swt.tabs.StatsTab;
+import org.jdhp.opencal.swt.tabs.ExploreTab;
+import org.jdhp.opencal.swt.tabs.AddTab;
+import org.jdhp.opencal.swt.tabs.TestTab;
+import org.jdhp.opencal.swt.tabs.MonitorTab;
+import org.jdhp.opencal.swt.tabs.TrainTab;
 import org.jdhp.opencal.util.CalendarToolKit;
 
 /**
@@ -70,21 +71,27 @@ public class MainWindow {
 	
 	final private Label statusLabel4;
 	
-	final private TabItem tabItemMake;
 	
-	final private TabItem tabItemReview;
+	final private TabItem tabItemAddCard;
+
+	final private TabItem tabItemTrain;
+	
+	final private TabItem tabItemTest;
 	
 	final private TabItem tabItemExplore;
 	
-	final private TabItem tabItemStat;
+	final private TabItem tabItemMonitor;
 	
-	final private MakerTab makeTab;
 	
-	final private ReviewerTab reviewTab;
+	final private AddTab addCardTab;
 	
-	final private ExplorerTab exploreTab;
+	final private TrainTab trainTab;
 	
-	final private StatsTab statsTab;
+	final private TestTab testTab;
+	
+	final private ExploreTab exploreTab;
+	
+	final private MonitorTab monitorTab;
 	
 	private URI pkbURI;
 	
@@ -236,7 +243,7 @@ public class MainWindow {
 				mb.setText("About OpenCAL");
 				mb.setMessage(OpenCAL.PROGRAM_NAME + " "
 						+ OpenCAL.PROGRAM_VERSION
-						+ "\nCopyright (c) 2007,2008,2009 Jérémie DECOCK");
+						+ "\nCopyright (c) 2007,2008,2009,2010 Jérémie DECOCK");
 				mb.open();
 			}
 		});
@@ -246,51 +253,60 @@ public class MainWindow {
 		
 		tabFolder.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
-		this.tabItemMake = new TabItem(tabFolder, SWT.NONE);
-		this.tabItemReview = new TabItem(tabFolder, SWT.NONE);
+		this.tabItemAddCard = new TabItem(tabFolder, SWT.NONE);
+		this.tabItemTrain = new TabItem(tabFolder, SWT.NONE);
+		this.tabItemTest = new TabItem(tabFolder, SWT.NONE);
 		this.tabItemExplore = new TabItem(tabFolder, SWT.NONE);
-		this.tabItemStat = new TabItem(tabFolder, SWT.NONE);
+		this.tabItemMonitor = new TabItem(tabFolder, SWT.NONE);
 		
-		tabItemMake.setText("Add");
-		tabItemReview.setText("Check");
+		tabItemAddCard.setText("Add");
+		tabItemTrain.setText("Train");  // Review
+		tabItemTest.setText("Test");
 		tabItemExplore.setText("Explore");
-		tabItemStat.setText("Monitor");
+		tabItemMonitor.setText("Monitor");
 		
-		tabItemMake.setToolTipText("Add Knowledge");
-		tabItemReview.setToolTipText("Check Knowledge");
-		tabItemExplore.setToolTipText("Explore Knowledge Base");
-		tabItemStat.setToolTipText("Statistics");
+		tabItemAddCard.setToolTipText("Add new cards");
+		tabItemTrain.setToolTipText("Review some cards");
+		tabItemTest.setToolTipText("Test your knowledges");
+		tabItemExplore.setToolTipText("Explore your knowledge base");
+		tabItemMonitor.setToolTipText("Your statistics");
 		
-		Composite makeCardComposite = new Composite(tabFolder, SWT.NONE);
-		Composite reviewerComposite = new Composite(tabFolder, SWT.NONE);
-		Composite explorerComposite = new Composite(tabFolder, SWT.NONE);
-		Composite statsComposite = new Composite(tabFolder, SWT.NONE);
+		Composite addCardComposite = new Composite(tabFolder, SWT.NONE);
+		Composite trainComposite = new Composite(tabFolder, SWT.NONE);
+		Composite testComposite = new Composite(tabFolder, SWT.NONE);
+		Composite exploreComposite = new Composite(tabFolder, SWT.NONE);
+		Composite monitorComposite = new Composite(tabFolder, SWT.NONE);
 		
-		tabItemMake.setControl(makeCardComposite);
-		tabItemReview.setControl(reviewerComposite);
-		tabItemExplore.setControl(explorerComposite);
-		tabItemStat.setControl(statsComposite);
+		tabItemAddCard.setControl(addCardComposite);
+		tabItemTrain.setControl(trainComposite);
+		tabItemTest.setControl(testComposite);
+		tabItemExplore.setControl(exploreComposite);
+		tabItemMonitor.setControl(monitorComposite);
 		
-		makeTab = new MakerTab(makeCardComposite);
-		reviewTab = new ReviewerTab(reviewerComposite);
-		exploreTab = new ExplorerTab(explorerComposite);
-		statsTab = new StatsTab(statsComposite);
+		addCardTab = new AddTab(addCardComposite);
+		trainTab = new TrainTab(trainComposite);
+		testTab = new TestTab(testComposite);
+		exploreTab = new ExploreTab(exploreComposite);
+		monitorTab = new MonitorTab(monitorComposite);
 		
 		// Add listeners on tabFolder (prevent when a tabItem is selected)
 		tabFolder.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				switch (tabFolder.getSelectionIndex()) {
 					case 0 :
-						makeTab.update();
+						addCardTab.update();
 						break;
 					case 1 :
-						reviewTab.update();
+						trainTab.update();
 						break;
 					case 2 :
-						exploreTab.update();
+						testTab.update();
 						break;
 					case 3 :
-						statsTab.update();
+						exploreTab.update();
+						break;
+					case 4 :
+						monitorTab.update();
 						break;
 				}
 			}

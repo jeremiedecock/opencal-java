@@ -33,7 +33,7 @@ import org.jfree.ui.RectangleInsets;
  * @author Jérémie Decock
  *
  */
-public class StatsTab {
+public class MonitorTab {
 
 	final private Composite parentComposite;
 	
@@ -45,7 +45,7 @@ public class StatsTab {
 	 * 
 	 * @param parentComposite
 	 */
-	public StatsTab(Composite parentComposite) {
+	public MonitorTab(Composite parentComposite) {
 		this.parentComposite = parentComposite;
 
 		this.parentComposite.setLayout(new FillLayout(SWT.VERTICAL));

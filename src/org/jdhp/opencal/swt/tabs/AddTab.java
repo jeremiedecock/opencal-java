@@ -26,7 +26,7 @@ import org.jdhp.opencal.swt.widgets.TagsEditor;
  * @author Jérémie Decock
  *
  */
-public class MakerTab {
+public class AddTab {
 
 	final private Composite parentComposite;
 	
@@ -34,7 +34,7 @@ public class MakerTab {
 	 * 
 	 * @param parentComposite
 	 */
-	public MakerTab(Composite parentComposite) {
+	public AddTab(Composite parentComposite) {
 		
 		this.parentComposite = parentComposite;
 		this.parentComposite.setLayout(new GridLayout(1, false));
