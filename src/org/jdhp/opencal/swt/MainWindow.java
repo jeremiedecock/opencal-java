@@ -260,7 +260,7 @@ public class MainWindow {
 		this.tabItemMonitor = new TabItem(tabFolder, SWT.NONE);
 		
 		tabItemAddCard.setText("Add");
-		tabItemTrain.setText("Train");  // Review
+		tabItemTrain.setText("Review");
 		tabItemTest.setText("Test");
 		tabItemExplore.setText("Explore");
 		tabItemMonitor.setText("Monitor");

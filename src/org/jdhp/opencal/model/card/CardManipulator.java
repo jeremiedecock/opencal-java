@@ -34,7 +34,7 @@ public class CardManipulator {
 	 */
 	public Card pop() {
 		if(!this.cardList.isEmpty()) {
-			return (Card) this.cardList.get(this.index);
+			return this.cardList.get(this.index);
 		} else {
 			return null;
 		}
