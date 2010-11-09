@@ -141,14 +141,16 @@ public class CardSlider implements ModifyListListener {
 		
 		wrongAnswerButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				if(wrongAnswerButton.getEnabled()) {
-					notifyResultListeners(manipulator.pop(), false);
+				if(wrongAnswerButton.getEnabled()) { // Attention, les ordres d'appel ne doivent pas être modifiés !
+					Card card = manipulator.pop();
+					
 					manipulator.remove();
-
                     setState(TestTab.NAVIGATION_STATE);
                     updateButtons();
                     updateScale();
                     updateBrowser();
+                    
+                    notifyResultListeners(card, false);
 				}
 			}
 		});
@@ -161,14 +163,16 @@ public class CardSlider implements ModifyListListener {
 		
 		rightAnswerButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				if(rightAnswerButton.getEnabled()) {
-					notifyResultListeners(manipulator.pop(), true);
+				if(rightAnswerButton.getEnabled()) { // Attention, les ordres d'appel ne doivent pas être modifiés !
+					Card card = manipulator.pop();
+					
 					manipulator.remove();
-
                     setState(TestTab.NAVIGATION_STATE);
                     updateButtons();
                     updateScale();
                     updateBrowser();
+                    
+                    notifyResultListeners(card, true);
 				}
 			}
 		});
@@ -505,10 +509,11 @@ public class CardSlider implements ModifyListListener {
 	public void listModification(Collection<Card> cardCollection) {
 		this.cardList.clear();
 		this.cardList.addAll(cardCollection);
-		TestTab.sortCards(this.cardList);
+
+		TestTab.sortCards(this.cardList);     // Remplacer par ~random.shuffle(list)
 		
 		setState(TestTab.NAVIGATION_STATE);
-		this.manipulator.first();
+		this.manipulator.first();             // this.index = 0;
 		
 		updateButtons();
 		updateScale();

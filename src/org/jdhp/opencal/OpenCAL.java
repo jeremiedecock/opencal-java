@@ -39,7 +39,7 @@ public class OpenCAL {
 	
 	public final static String WRONG_ANSWER_STRING = "bad";
 	
-	//public final static Collection<Card> cardCollection = new HashSet<Card>();
+	//public final static Collection<Card> cardCollection = new HashSet<Card>(); // TODO : use TreeSet instead ? (sort)
 	public final static Collection<Card> cardCollection = new ArrayList<Card>(); // TODO : use an other collection ? (formerly HashSet -> it don't preserve chronology)
 	
 	public static MainWindow mainWindow;

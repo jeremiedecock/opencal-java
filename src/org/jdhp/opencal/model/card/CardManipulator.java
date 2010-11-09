@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class CardManipulator {
 	
-	private List<Card> cardList;
+	private final List<Card> cardList;
 	
 	private int index;
 	
