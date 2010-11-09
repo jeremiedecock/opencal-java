@@ -8,7 +8,7 @@ package org.jdhp.opencal.swt.listeners;
 import org.jdhp.opencal.model.card.Card;
 
 public interface ResultListener {
-
-	void resultNotification(Card card, boolean result);
+	
+	void resultNotification(Card card, int result);
 	
 }

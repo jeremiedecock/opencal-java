@@ -7,6 +7,7 @@ package org.jdhp.opencal.swt.composites;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -23,6 +24,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Scale;
 
+import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.data.UserProperties;
 import org.jdhp.opencal.model.card.Card;
 import org.jdhp.opencal.model.card.CardManipulator;
@@ -70,6 +72,8 @@ public class CardSlider implements ModifyListListener {
     final private Scale scale;
 	
 	final private CardManipulator manipulator;
+	
+	private boolean sortCardList;
 
 	
 	public CardSlider(Composite parent) {
@@ -80,6 +84,8 @@ public class CardSlider implements ModifyListListener {
 		cardList = new ArrayList<Card>();
 
 		manipulator = new CardManipulator(cardList);
+		
+		setSortCardList(false);
 		
 		
 		Composite sliderComposite = new Composite(parent, SWT.NONE);
@@ -150,7 +156,7 @@ public class CardSlider implements ModifyListListener {
                     updateScale();
                     updateBrowser();
                     
-                    notifyResultListeners(card, false);
+                    notifyResultListeners(card, OpenCAL.WRONG_ANSWER);
 				}
 			}
 		});
@@ -172,7 +178,7 @@ public class CardSlider implements ModifyListListener {
                     updateScale();
                     updateBrowser();
                     
-                    notifyResultListeners(card, true);
+                    notifyResultListeners(card, OpenCAL.RIGHT_ANSWER);
 				}
 			}
 		});
@@ -489,6 +495,16 @@ public class CardSlider implements ModifyListListener {
 	
 	
 	
+	public boolean isSortCardList() {
+		return sortCardList;
+	}
+
+	public void setSortCardList(boolean sortCardList) {
+		this.sortCardList = sortCardList;
+	}
+	
+	
+
 	public void addResultListener(ResultListener listener) {
 		this.resultListeners.add(listener);
 	}
@@ -497,7 +513,7 @@ public class CardSlider implements ModifyListListener {
 		this.resultListeners.remove(listener);
 	}
 	
-	public void notifyResultListeners(Card card, boolean result) {
+	public void notifyResultListeners(Card card, int result) {
 		Iterator<ResultListener> it = this.resultListeners.iterator();
 		
 		while(it.hasNext()) {
@@ -510,7 +526,10 @@ public class CardSlider implements ModifyListListener {
 		this.cardList.clear();
 		this.cardList.addAll(cardCollection);
 
-		TestTab.sortCards(this.cardList);     // Remplacer par ~random.shuffle(list)
+		if(this.isSortCardList())
+			TestTab.sortCards(this.cardList);
+		else
+			Collections.shuffle(this.cardList);
 		
 		setState(TestTab.NAVIGATION_STATE);
 		this.manipulator.first();             // this.index = 0;
