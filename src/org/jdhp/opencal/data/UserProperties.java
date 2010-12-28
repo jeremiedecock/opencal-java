@@ -30,7 +30,7 @@ public class UserProperties {
 		String fileSeparator = System.getProperty("file.separator"); // TODO : ça ne devrait pas être déclaré ici...
 		
 		if(userHome != null && fileSeparator != null) {
-			userPropertiesPath = userHome + fileSeparator + ".opencal" + fileSeparator + "opencal.properties";
+			userPropertiesPath = userHome + fileSeparator + ".opencal.properties";
 		} else {
 			System.out.println("Unexpected error : your system or your JVM can't run this program.");
 			System.exit(1);
