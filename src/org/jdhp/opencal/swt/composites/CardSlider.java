@@ -1,6 +1,6 @@
 /*
  * OpenCAL version 3.0
- * Copyright (c) 2007,2008,2009,2010 Jérémie Decock
+ * Copyright (c) 2007,2008,2009,2010,2011 Jérémie Decock
  */
 
 package org.jdhp.opencal.swt.composites;
@@ -34,6 +34,7 @@ import org.jdhp.opencal.swt.images.SharedImages;
 import org.jdhp.opencal.swt.listeners.ModifyListListener;
 import org.jdhp.opencal.swt.listeners.ResultListener;
 import org.jdhp.opencal.swt.tabs.TestTab;
+import org.jdhp.opencal.util.HTML;
 
 public class CardSlider implements ModifyListListener {
 	
@@ -457,11 +458,17 @@ public class CardSlider implements ModifyListListener {
 	 */
 	final private String filter(String text) {
 		// Empèche l'interprétation d'eventuelles fausses balises comprises dans les cartes 
-		String html = text.replaceAll("<", "&lt;");
-		html = html.replaceAll(">", "&gt;");
+		String html = HTML.replaceSpecialChars(text);
+
+//		// Espace (doit être traité comme n'importe quel autre caractère pour conserver plusieurs espaces successifs, l'indentation, etc.
+//		html = html.replaceAll("\t", "    ");
+//		html = html.replaceAll(" ", "&nbsp;");
+//		
+//		// Retour à la ligne
+//		html = html.replaceAll("\n", "<br />");
 		
 		// Rétabli l'interprétation pour les balises images
-		String pattern = "&lt;img file=\"([0-9abcdef]{32}.(png|jpg|jpeg))\" /&gt;";
+		String pattern = "&lt;img file=&quot;([0-9abcdef]{32}.(png|jpg|jpeg))&quot; /&gt;";
 		Pattern regPat = Pattern.compile(pattern);
 		Matcher matcher = regPat.matcher(html);
 		html = matcher.replaceAll("<img src=\"" + UserProperties.getImgPath() + "$1\" />");

@@ -1,7 +1,7 @@
 * {
 	font-family : monospace,fixed;
 	font-size   : 13px;
-	white-space : -moz-pre-wrap;
+	white-space : pre-wrap;
 }
 
 div#informations {

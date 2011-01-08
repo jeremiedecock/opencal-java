@@ -8,6 +8,6 @@
 #
 #java -cp $OPENCAL_LIBS org.jdhp.opencal.OpenCAL
 
-OPENCAL_ROOT="/media/data/gremy/developpement_logiciel/bin/opencal"
+OPENCAL_ROOT="/home/gremy/bin/opencal"
 
 java -jar $OPENCAL_ROOT/opencal.jar

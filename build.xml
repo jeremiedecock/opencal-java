@@ -49,18 +49,16 @@ variable from something like "us.utf8" to "us".
 	<property name="jcommon_lib" value="jcommon-1.0.14.jar" />
 	<property name="jfreechart_lib" value="jfreechart-1.0.11.jar" />
 	<property name="junit_lib" value="junit_3.8.2.jar" />
-	<property name="swt_lib" value="org.eclipse.swt_3.4.1.v3449c.jar" />
-	<property name="swt_gtk_linux_lib" value="org.eclipse.swt.gtk.linux.x86_3.4.1.v3449c.jar" />
+	<property name="swt_lib" value="swt-3.6.1-gtk-linux-x86.jar" />
 	
-	<property name="classpath" value="${class_dir}:${lib_dir}/${jcommon_lib}:${lib_dir}/${jfreechart_lib}:${lib_dir}/${junit_lib}:${lib_dir}/${swt_lib}:${lib_dir}/${swt_gtk_linux_lib}" />
+	<property name="classpath" value="${class_dir}:${lib_dir}/${jcommon_lib}:${lib_dir}/${jfreechart_lib}:${lib_dir}/${junit_lib}:${lib_dir}/${swt_lib}" />
 
 	<target name="init_dist" description="Generate the dist directories">
 		<echo>Generate the dist directories</echo>
 		<mkdir dir="${dist_dir}" />
 		<mkdir dir="${dist_project_dir}" />
 		<mkdir dir="${dist_project_dir}/lib" />
-		<copy file="${basedir}/run.sh" todir="${dist_project_dir}" />
-		<copy file="${basedir}/backup.sh" todir="${dist_project_dir}" />
+		<copy file="${basedir}/opencal" todir="${dist_project_dir}" />
 		<copy todir="${dist_project_dir}/lib">
 			<fileset dir="${lib_dir}"/>
 		</copy>
@@ -91,7 +89,7 @@ variable from something like "us.utf8" to "us".
 		<jar destfile="${jar_file}" basedir="${class_dir}">
 			<manifest>
 				<attribute name="Main-Class" value="org.jdhp.opencal.OpenCAL" />
-				<attribute name="Class-Path" value="./ ./lib/${jcommon_lib} ./lib/${jfreechart_lib} ./lib/${junit_lib} ./lib/${swt_lib} ./lib/${swt_gtk_linux_lib}" />
+				<attribute name="Class-Path" value="./ ./lib/${jcommon_lib} ./lib/${jfreechart_lib} ./lib/${junit_lib} ./lib/${swt_lib}" />
 			</manifest>
 		</jar>
 	</target>
