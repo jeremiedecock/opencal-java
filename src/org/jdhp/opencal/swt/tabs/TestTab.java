@@ -22,7 +22,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Scale;
 
-import org.jdhp.opencal.data.UserProperties;
+import org.jdhp.opencal.data.ApplicationProperties;
 import org.jdhp.opencal.model.card.Card;
 import org.jdhp.opencal.model.card.CardManipulator;
 import org.jdhp.opencal.model.card.Review;
@@ -496,7 +496,7 @@ public class TestTab {
 		String pattern = "&lt;img file=&quot;([0-9abcdef]{32}.(png|jpg|jpeg))&quot; /&gt;";
 		Pattern regPat = Pattern.compile(pattern);
 		Matcher matcher = regPat.matcher(html);
-		html = matcher.replaceAll("<img src=\"" + UserProperties.getImgPath() + "$1\" />");
+		html = matcher.replaceAll("<img src=\"" + ApplicationProperties.getImgPath() + "$1\" />");
 		
 		return html;
 	}

@@ -58,13 +58,13 @@ public class PersonalKnowledgeBase {
                 OpenCAL.cardCollection.add(card);
             }
 		} catch(SAXException e) {
-			OpenCAL.mainWindow.printError(UserProperties.getDefaultPkbFilePath() + " n'est pas valide (SAXException)");
+			OpenCAL.mainWindow.printError(ApplicationProperties.getPkbPath() + " n'est pas valide (SAXException)");
 			OpenCAL.exit(2);
 		} catch(FileNotFoundException e) {
-			OpenCAL.mainWindow.print(UserProperties.getDefaultPkbFilePath() + " est introuvable (FileNotFoundException)");
+			OpenCAL.mainWindow.print(ApplicationProperties.getPkbPath() + " est introuvable (FileNotFoundException)");
 			OpenCAL.exit(2);
 		} catch(IOException e) {
-			OpenCAL.mainWindow.printError(UserProperties.getDefaultPkbFilePath() + " est illisible (IOException)");
+			OpenCAL.mainWindow.printError(ApplicationProperties.getPkbPath() + " est illisible (IOException)");
 			OpenCAL.exit(2);
 		} catch(ParserConfigurationException e) {
 			OpenCAL.mainWindow.printError("The XML parser was not configured (ParserConfigurationException)");

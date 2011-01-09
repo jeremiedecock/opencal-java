@@ -70,6 +70,9 @@ variable from something like "us.utf8" to "us".
 		<delete dir="${class_dir}" />
 		<mkdir dir="${class_dir}" />
 		
+		<mkdir dir="${class_dir}/org/jdhp/opencal" />
+		<copy file="${basedir}/default.properties" todir="${class_dir}/org/jdhp/opencal" />
+
 		<mkdir dir="${class_dir}/org/jdhp/opencal/swt/images" />
 		<copy todir="${class_dir}/org/jdhp/opencal/swt/images">
 			<fileset dir="${src_dir}/org/jdhp/opencal/swt/images" excludes="**/*.java" />

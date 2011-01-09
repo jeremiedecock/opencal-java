@@ -27,7 +27,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
-import org.jdhp.opencal.data.UserProperties;
+import org.jdhp.opencal.data.ApplicationProperties;
 import org.jdhp.opencal.swt.MainWindow;
 import org.jdhp.opencal.swt.dialogs.InsertDotDialog;
 import org.jdhp.opencal.swt.dialogs.InsertImageDialog;
@@ -380,7 +380,7 @@ public class EditableBrowser {
 		String pattern = "&lt;img file=&quot;([0-9abcdef]{32}.(png|jpg|jpeg))&quot; /&gt;";
 		Pattern regPat = Pattern.compile(pattern);
 		Matcher matcher = regPat.matcher(html);
-		html = matcher.replaceAll("<img src=\"" + UserProperties.getImgPath() + "$1\" />");
+		html = matcher.replaceAll("<img src=\"" + ApplicationProperties.getImgPath() + "$1\" />");
 		
 		return html;
 	}

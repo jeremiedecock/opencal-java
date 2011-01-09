@@ -35,7 +35,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
-import org.jdhp.opencal.data.UserProperties;
+import org.jdhp.opencal.data.ApplicationProperties;
 import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.model.card.Card;
 import org.jdhp.opencal.model.card.Review;
@@ -101,7 +101,7 @@ public class MainWindow {
 	public MainWindow() {
 		
 		try {
-			this.pkbURI = new URI(UserProperties.getDefaultPkbFilePath());
+			this.pkbURI = new URI(ApplicationProperties.getPkbPath());
 		} catch (URISyntaxException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

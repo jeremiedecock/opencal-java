@@ -1,6 +1,6 @@
 /*
  * OpenCAL version 3.0
- * Copyright (c) 2007,2008,2009,2010 Jérémie Decock
+ * Copyright (c) 2007,2008,2009,2010,2011 Jérémie Decock
  */
 
 package org.jdhp.opencal;
@@ -14,7 +14,7 @@ import java.util.Iterator;
 import java.util.TreeSet;
 
 import org.jdhp.opencal.data.PersonalKnowledgeBase;
-import org.jdhp.opencal.data.UserProperties;
+import org.jdhp.opencal.data.ApplicationProperties;
 import org.jdhp.opencal.model.card.Card;
 import org.jdhp.opencal.model.professor.Professor;
 import org.jdhp.opencal.model.professor.ProfessorAlan;
@@ -57,14 +57,14 @@ public class OpenCAL {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		UserProperties.loadUserProperties();
+		ApplicationProperties.loadApplicationProperties();
 		
 		// Create Professor
-		OpenCAL.setProfessor(UserProperties.getProfessorName());
+		OpenCAL.setProfessor(ApplicationProperties.getProfessorName());
 		
 		// Open default PKB File and create card set
 		try {
-			URI uri = new URI(UserProperties.getDefaultPkbFilePath());
+			URI uri = new URI(ApplicationProperties.getPkbPath());
 			PersonalKnowledgeBase.load(uri);
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
