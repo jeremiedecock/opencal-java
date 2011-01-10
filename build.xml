@@ -72,6 +72,8 @@ variable from something like "us.utf8" to "us".
 		
 		<mkdir dir="${class_dir}/org/jdhp/opencal" />
 		<copy file="${basedir}/default.properties" todir="${class_dir}/org/jdhp/opencal" />
+		<copy file="${basedir}/COPYING" todir="${class_dir}/org/jdhp/opencal" />
+		<copy file="${basedir}/AUTHORS" todir="${class_dir}/org/jdhp/opencal" />
 
 		<mkdir dir="${class_dir}/org/jdhp/opencal/swt/images" />
 		<copy todir="${class_dir}/org/jdhp/opencal/swt/images">

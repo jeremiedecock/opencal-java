@@ -310,7 +310,7 @@ public abstract class InsertScriptDialog extends Dialog {
 					switchDisplayItem.setImage(SharedImages.getImage(SharedImages.BROWSER_VIEW_16));
 					switchDisplayItem.setToolTipText("Switch to browser view");
 				}
-				editableText.getParent().layout();
+				displayArea.layout();
 			}
 		});
 		

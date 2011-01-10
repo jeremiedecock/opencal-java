@@ -30,9 +30,13 @@ import org.jdhp.opencal.swt.MainWindow;
  */
 public class OpenCAL {
 
-	public final static String PROGRAM_VERSION = "3.0";
+	public final static String PROGRAM_VERSION = "3.0.0";
 	
 	public final static String PROGRAM_NAME = "OpenCAL";
+	
+	public final static String COPYRIGHT = "Copyright © 2007,2008,2009,2010,2011 Jérémie DECOCK";
+	
+	public final static String WEB_SITE = "http://www.jdhp.org";
 	
 	
 	final public static int NO_ANSWER = 0;

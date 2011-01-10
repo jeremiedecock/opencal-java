@@ -39,6 +39,7 @@ import org.jdhp.opencal.data.ApplicationProperties;
 import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.model.card.Card;
 import org.jdhp.opencal.model.card.Review;
+import org.jdhp.opencal.swt.dialogs.AboutDialog;
 import org.jdhp.opencal.swt.images.SharedImages;
 import org.jdhp.opencal.swt.tabs.ExploreTab;
 import org.jdhp.opencal.swt.tabs.AddTab;
@@ -238,13 +239,8 @@ public class MainWindow {
 
 		aboutItem.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
-				MessageBox mb = new MessageBox(shell, SWT.APPLICATION_MODAL
-						| SWT.ICON_INFORMATION | SWT.OK);
-				mb.setText("About OpenCAL");
-				mb.setMessage(OpenCAL.PROGRAM_NAME + " "
-						+ OpenCAL.PROGRAM_VERSION
-						+ "\nCopyright (c) 2007,2008,2009,2010 Jérémie DECOCK");
-				mb.open();
+				AboutDialog dialog = new AboutDialog(shell);
+				dialog.open();
 			}
 		});
         
