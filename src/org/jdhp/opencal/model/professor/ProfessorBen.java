@@ -21,8 +21,6 @@ import org.w3c.dom.NodeList;
  */
 public class ProfessorBen implements Professor {
 
-	public final String NAME = "Ben";
-	
 	/**
 	 * Ben is a little more professional than Alan.
 	 * He doesn't validate reviews when it's too early...
@@ -112,14 +110,6 @@ public class ProfessorBen implements Professor {
 	 */
 	public static int deltaDays(int grade) {
 		return (new Double(Math.pow(2, grade))).intValue();
-	}
-	
-	
-	/**
-	 * 
-	 */
-	public String getName() {
-		return this.NAME;
 	}
 	
 }

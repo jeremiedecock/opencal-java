@@ -14,8 +14,6 @@ import org.jdhp.opencal.model.card.Card;
  */
 public interface Professor {
 	
-	public String getName();
-	
 	public float assess(Card card);
 	
 }

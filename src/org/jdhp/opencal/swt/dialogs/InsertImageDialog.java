@@ -40,6 +40,7 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.jdhp.opencal.data.ApplicationProperties;
 import org.jdhp.opencal.swt.images.SharedImages;
 import org.jdhp.opencal.util.DataToolKit;
 
@@ -189,6 +190,7 @@ public class InsertImageDialog extends Dialog {
 		
 		final Text authorText = new Text(propertiesComposite, SWT.BORDER);
 		authorText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		authorText.setText(ApplicationProperties.getDefaultAuthor());
 		
 		// Licence ////////////////
 		Label licenceLabel = new Label(propertiesComposite, SWT.NONE);
@@ -196,6 +198,7 @@ public class InsertImageDialog extends Dialog {
 		
 		final Text licenceText = new Text(propertiesComposite, SWT.BORDER);
 		licenceText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		licenceText.setText(ApplicationProperties.getDefaultLicense());
 		
 		// Create a horizontal separator
 		Label separator = new Label(shell, SWT.HORIZONTAL | SWT.SEPARATOR);
@@ -276,21 +279,17 @@ public class InsertImageDialog extends Dialog {
 				FileDialog fileDialog = new FileDialog(shell, SWT.OPEN);
 				
 				// Configure the dialog
-				String userHome = System.getProperty("user.home");
-				fileDialog.setFilterPath(userHome);
-//				if(!new File(openPictureFileDialog.getFilterPath()).exists()) {
-//				// openPictureFileDialog.getFilterPath() don't exist"
-//				//System.out.println(openPictureFileDialog.getFilterPath() + " don't exist");
-//				String userHome = System.getProperty("user.home");	// TODO : et si le repertoire user.home n'existe pas non plus ? (est-ce que ça peut arriver ?)
-//				openPictureFileDialog.setFilterPath(userHome);
-//			}
-		//
-//			String filePath = openPictureFileDialog.open();
+				String dir = ApplicationProperties.getLastInsertPicturePath();
+				if(!new File(dir).exists()) {
+					dir = System.getProperty("user.home");
+				}
+				fileDialog.setFilterPath(dir);
 				
 				// Open the dialog
 				String path = fileDialog.open();
 				if(path != null) {
 					text.setText(path);
+					ApplicationProperties.setLastInsertPicturePath(new File(path).getParent()); // save dirname
 				}
 			}
 		});

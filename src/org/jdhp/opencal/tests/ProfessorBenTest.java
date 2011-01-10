@@ -42,7 +42,7 @@ public class ProfessorBenTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		
-		OpenCAL.setProfessor("Ben");
+		OpenCAL.setProfessorName("Ben");
 	}
 
 	/**

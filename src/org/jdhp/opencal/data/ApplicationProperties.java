@@ -7,6 +7,7 @@ package org.jdhp.opencal.data;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -21,6 +22,21 @@ import org.jdhp.opencal.OpenCAL;
 public class ApplicationProperties {
 
 	private static Properties applicationProperties;
+	
+	private static String userPropertiesLocation() {
+		String userHome = System.getProperty("user.home");
+		String fileSeparator = System.getProperty("file.separator");
+		String userPropertiesDefaultLocation = userHome + fileSeparator + ".opencal.properties";
+		
+		/* 
+		 * Utiliser l'option -D de la JVM pour utiliser un fichier "userproperties" alternatif
+		 * (utile en phase de développement).
+		 * Exemple : java -Dopencal.userproperties.location=/home/gremy/.opencal_dev.properties
+		 */
+		String userPropertiesLocation = System.getProperty("opencal.userproperties.location", userPropertiesDefaultLocation);
+		
+		return userPropertiesLocation;
+	}
 	
 	/**
 	 * Set user properties object.
@@ -43,23 +59,14 @@ public class ApplicationProperties {
 		ApplicationProperties.applicationProperties = new Properties(defaultProperties);
 		
 		// Load user properties from last invocation ////////////////
-		String userHome = System.getProperty("user.home");
-		String fileSeparator = System.getProperty("file.separator");
-		String userPropertiesDefaultLocation = userHome + fileSeparator + ".opencal.properties";
-		
-		/* 
-		 * Utiliser l'option -D de la JVM pour utiliser un fichier "userproperties" alternatif
-		 * (utile en phase de développement).
-		 * Exemple : java -Dopencal.userproperties.location=/home/gremy/.opencal_dev.properties
-		 */
-		String userPropertiesLocation = System.getProperty("opencal.userproperties.location", userPropertiesDefaultLocation);
-		
+		String userPropertiesLocation = userPropertiesLocation();
+
 		try {
 			FileInputStream inStream = new FileInputStream(userPropertiesLocation);
 			ApplicationProperties.applicationProperties.load(inStream);
 			inStream.close();
 		} catch(FileNotFoundException e) {
-			// TODO : create userProperties file from defaultProperties
+			// Don't do anything : the file will be created by the next saveApplicationProperties() call
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -67,18 +74,112 @@ public class ApplicationProperties {
 	
 	/**
 	 * 
-	 * @return
+	 *
 	 */
-	public static String getPkbPath() {
-		return ApplicationProperties.applicationProperties.getProperty("pkb.path");
+	public static void saveApplicationProperties() {
+		String userPropertiesLocation = userPropertiesLocation();
+		
+		try {
+			FileOutputStream outStream = new FileOutputStream(userPropertiesLocation);
+			ApplicationProperties.applicationProperties.store(outStream, null);
+			outStream.close();
+		} catch(FileNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (IOException e2) {
+			e2.printStackTrace();
+		}
 	}
 	
 	/**
 	 * 
 	 * @return
 	 */
+	public static String getDefaultAuthor() {
+		String userName = System.getProperty("user.name");
+		return ApplicationProperties.applicationProperties.getProperty("default.author", userName);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static void setDefaultAuthor(String value) {
+		ApplicationProperties.applicationProperties.setProperty("default.author", value);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static String getDefaultLicense() {
+		return ApplicationProperties.applicationProperties.getProperty("default.license", "");
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static void setDefaultLicense(String value) {
+		ApplicationProperties.applicationProperties.setProperty("default.license", value);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static String getPkbPath() {
+		String userHome = System.getProperty("user.home");
+		String fileSeparator = System.getProperty("file.separator");
+		String userName = System.getProperty("user.name");
+		//String pkbDefaultPath = userHome + fileSeparator + userName + ".pkb"; // TODO
+		String pkbDefaultPath = "file://" + userHome + fileSeparator + userName + ".pkb"; // TODO
+		
+		return ApplicationProperties.applicationProperties.getProperty("pkb.path", pkbDefaultPath);
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static void setPkbPath(String value) {
+		ApplicationProperties.applicationProperties.setProperty("pkb.path", value);
+	}
+	
+	/**
+	 * ATTENTION : doit être appellé uniquement au démarrage du programme pour initialiser OpenCAL.professorName
+	 * OpenCAL.getProfessorName() doit être utilisé dans le cas contraire pour éviter les incohérences. 
+	 * 
+	 * @return
+	 */
 	public static String getProfessorName() {
-		return ApplicationProperties.applicationProperties.getProperty("professor.name");
+		String defaultProfessorName = OpenCAL.DEFAULT_PROFESSOR_NAME;
+		return ApplicationProperties.applicationProperties.getProperty("professor.name", defaultProfessorName);
+	}
+
+	/**
+	 * ATTENTION : doit être appellé uniquement par OpenCAL.setProfessorName() pour éviter les incohérences avec OpenCAL.professorName
+	 * 
+	 * @return
+	 */
+	public static void setProfessorName(String value) {
+		ApplicationProperties.applicationProperties.setProperty("professor.name", value);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static String getLastInsertPicturePath() {
+		String userHome = System.getProperty("user.home");
+		return ApplicationProperties.applicationProperties.getProperty("last.insert.picture.path", userHome);
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static void setLastInsertPicturePath(String value) {
+		ApplicationProperties.applicationProperties.setProperty("last.insert.picture.path", value);
 	}
 	
 	/**
@@ -86,6 +187,6 @@ public class ApplicationProperties {
 	 * @return
 	 */
 	public static String getImgPath() {
-		return ApplicationProperties.applicationProperties.getProperty("img.path");
+		return ApplicationProperties.applicationProperties.getProperty("img.path", "file:///home/gremy/.opencal_dev/materials/"); // TODO
 	}
 }

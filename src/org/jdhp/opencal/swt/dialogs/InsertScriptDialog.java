@@ -42,6 +42,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
+import org.jdhp.opencal.data.ApplicationProperties;
 import org.jdhp.opencal.swt.MainWindow;
 import org.jdhp.opencal.swt.images.SharedImages;
 import org.jdhp.opencal.util.DataToolKit;
@@ -103,7 +104,7 @@ public abstract class InsertScriptDialog extends Dialog {
 	 */
 	protected InsertScriptDialog(Shell parent) {
 		// Pass the default styles here
-		this(parent, SWT.DIALOG_TRIM | SWT.RESIZE | SWT.MAX | SWT.APPLICATION_MODAL);
+		this(parent, SWT.APPLICATION_MODAL | SWT.DIALOG_TRIM | SWT.MAX | SWT.RESIZE);
 	}
 	
 	/**
@@ -229,6 +230,7 @@ public abstract class InsertScriptDialog extends Dialog {
 		
 		final Text authorText = new Text(propertiesComposite, SWT.BORDER);
 		authorText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		authorText.setText(ApplicationProperties.getDefaultAuthor());
 		
 		// Licence ////////////////
 		Label licenceLabel = new Label(propertiesComposite, SWT.NONE);
@@ -236,6 +238,7 @@ public abstract class InsertScriptDialog extends Dialog {
 		
 		final Text licenceText = new Text(propertiesComposite, SWT.BORDER);
 		licenceText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		licenceText.setText(ApplicationProperties.getDefaultLicense());
 		
 		// Create a horizontal separator
 		Label separator = new Label(shell, SWT.HORIZONTAL | SWT.SEPARATOR);

@@ -40,6 +40,7 @@ import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.model.card.Card;
 import org.jdhp.opencal.model.card.Review;
 import org.jdhp.opencal.swt.dialogs.AboutDialog;
+import org.jdhp.opencal.swt.dialogs.PreferencesDialog;
 import org.jdhp.opencal.swt.images.SharedImages;
 import org.jdhp.opencal.swt.tabs.ExploreTab;
 import org.jdhp.opencal.swt.tabs.AddTab;
@@ -193,7 +194,7 @@ public class MainWindow {
 
 		quitItem.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
-				OpenCAL.exit(0);
+				shell.close();
 			}
 		});
 
@@ -228,9 +229,15 @@ public class MainWindow {
 		new MenuItem(editMenu, SWT.SEPARATOR);
 
 		MenuItem preferencesItem = new MenuItem(editMenu, SWT.PUSH);
-		preferencesItem.setImage(SharedImages
-				.getImage(SharedImages.PREFERENCES_SYSTEM_16));
+		preferencesItem.setImage(SharedImages.getImage(SharedImages.PREFERENCES_SYSTEM_16));
 		preferencesItem.setText("Preferences...");
+
+		preferencesItem.addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event e) {
+				PreferencesDialog dialog = new PreferencesDialog(shell);
+				dialog.open();
+			}
+		});
 
 		// Help items //
 		MenuItem aboutItem = new MenuItem(helpMenu, SWT.PUSH);

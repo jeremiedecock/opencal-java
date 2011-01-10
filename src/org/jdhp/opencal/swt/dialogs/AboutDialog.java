@@ -229,13 +229,13 @@ public class AboutDialog extends Dialog {
 		closeButton.setToolTipText("Close this dialog");
 
         // Equalize buttons size (buttons size may change in others languages...) //
-        Point infoButtonPoint = switchButton.computeSize(SWT.DEFAULT, SWT.DEFAULT, false);
+        Point switchButtonPoint = switchButton.computeSize(SWT.DEFAULT, SWT.DEFAULT, false);
         Point closeButtonPoint = closeButton.computeSize(SWT.DEFAULT, SWT.DEFAULT, false);
 
-        if(infoButtonPoint.x > closeButtonPoint.x) ((GridData) closeButton.getLayoutData()).widthHint = infoButtonPoint.x;
+        if(switchButtonPoint.x > closeButtonPoint.x) ((GridData) closeButton.getLayoutData()).widthHint = switchButtonPoint.x;
         else ((GridData) switchButton.getLayoutData()).widthHint = closeButtonPoint.x;
         
-        if(infoButtonPoint.y > closeButtonPoint.y) ((GridData) closeButton.getLayoutData()).heightHint = infoButtonPoint.y;
+        if(switchButtonPoint.y > closeButtonPoint.y) ((GridData) closeButton.getLayoutData()).heightHint = switchButtonPoint.y;
         else ((GridData) switchButton.getLayoutData()).heightHint = closeButtonPoint.y;
 		
 		// Set the Close button as the default

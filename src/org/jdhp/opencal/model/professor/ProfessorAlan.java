@@ -20,8 +20,6 @@ import org.w3c.dom.NodeList;
  */
 public class ProfessorAlan implements Professor {
 	
-	public final String NAME = "Alan";
-
 	/**
 	 * Alan is a lazy guy. He doesn't care about too late or too early reviews.
 	 * 
@@ -68,13 +66,6 @@ public class ProfessorAlan implements Professor {
 		}
 		
 		return isSorted;
-	}
-	
-	/**
-	 * 
-	 */
-	public String getName() {
-		return this.NAME;
 	}
 	
 }

@@ -38,7 +38,7 @@ public class ProfessorAlanTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		
-		OpenCAL.setProfessor("Alan");
+		OpenCAL.setProfessorName("Alan");
 	}
 
 	/**

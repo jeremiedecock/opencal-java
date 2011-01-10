@@ -21,8 +21,6 @@ import org.w3c.dom.NodeList;
  */
 public class ProfessorCharlie implements Professor {
 
-	public final String NAME = "Charlie";
-	
 	/**
 	 * 
 	 * 
@@ -87,11 +85,4 @@ public class ProfessorCharlie implements Professor {
 		return (new Double(Math.pow(2, grade))).intValue(); // TODO comment est arrondi le double ???!!!
 	}
 	
-	
-	/**
-	 * 
-	 */
-	public String getName() {
-		return this.NAME;
-	}
 }

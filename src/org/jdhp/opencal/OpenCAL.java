@@ -10,7 +10,10 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.TreeSet;
 
 import org.jdhp.opencal.data.PersonalKnowledgeBase;
@@ -55,16 +58,28 @@ public class OpenCAL {
 	
 	public static MainWindow mainWindow;
 	
-	private static Professor professor;
+	private static String professorName;
+	
+	public final static Map<String, Professor> PROFESSOR_MAP;
+	static {
+		Map<String, Professor> map = new HashMap<String, Professor>();
+		map.put("Alan", new ProfessorAlan());
+		map.put("Ben", new ProfessorBen());
+		map.put("Charlie", new ProfessorCharlie());
+		PROFESSOR_MAP = Collections.unmodifiableMap(map);
+	}
+	
+	public final static String DEFAULT_PROFESSOR_NAME = "Ben";
 	
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		// Load UserProperties
 		ApplicationProperties.loadApplicationProperties();
 		
 		// Create Professor
-		OpenCAL.setProfessor(ApplicationProperties.getProfessorName());
+		OpenCAL.setProfessorName(ApplicationProperties.getProfessorName());
 		
 		// Open default PKB File and create card set
 		try {
@@ -77,6 +92,17 @@ public class OpenCAL {
 		// Make and run GUI
 		OpenCAL.mainWindow = new MainWindow();
 		OpenCAL.mainWindow.run();
+		
+		// Save UserProperties
+		ApplicationProperties.saveApplicationProperties();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static String getProfessorName() {
+		return OpenCAL.professorName;
 	}
 	
 	/**
@@ -84,26 +110,21 @@ public class OpenCAL {
 	 * @return
 	 */
 	public static Professor getProfessor() {
-		return OpenCAL.professor;
+		return PROFESSOR_MAP.get(OpenCAL.getProfessorName());
 	}
 	
 	/**
 	 * 
 	 * @return
 	 */
-	public static void setProfessor(String professorName) {
-		if(professorName == null) {
-			// TODO : set a default professor and manage errors
-			System.out.println("No professor set.");
-			OpenCAL.exit(1);
-		} else if(professorName.equals("Alan")) OpenCAL.professor = new ProfessorAlan();
-		else if(professorName.equals("Ben")) OpenCAL.professor = new ProfessorBen();
-		else if(professorName.equals("Charlie")) OpenCAL.professor = new ProfessorCharlie();
-		else {
-			// TODO : set a default professor and manage errors
-			System.out.println("No professor set.");
-			OpenCAL.exit(1);
+	public static void setProfessorName(String professorName) {
+		if(!PROFESSOR_MAP.containsKey(professorName)) {
+			professorName = OpenCAL.DEFAULT_PROFESSOR_NAME;
 		}
+		
+		OpenCAL.professorName = professorName;
+		
+		ApplicationProperties.setProfessorName(professorName);
 	}
 	
 	/**
