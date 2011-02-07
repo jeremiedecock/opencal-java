@@ -39,7 +39,14 @@ import org.jdhp.opencal.util.CalendarToolKit;
 
 public class CardSelector {
 	
-	final public static String[] LIST_LABELS = {"All Cards", "Reviewed Cards", "New Cards", "Hidden Cards", "Cards By Tag"};
+	final public static String[] LIST_LABELS = {
+		"All Cards",
+		"Reviewed Cards (all)",
+		"Reviewed Cards (wrong only)",
+		"New Cards",
+		"Hidden Cards",
+		"Cards By Tag"
+	};
 	
 	final public static int DEFAULT_LIST = 1;
 
@@ -47,11 +54,13 @@ public class CardSelector {
 	
 	final public static int REVIEWED_CARDS_LIST = 1;
 	
-	final public static int NEW_CARDS_LIST = 2;
+	final public static int REVIEWED_CARDS_WRONG_LIST = 2;
 	
-	final public static int HIDDEN_CARDS_LIST = 3;
+	final public static int NEW_CARDS_LIST = 3;
 	
-	final public static int CARDS_BY_TAG_LIST = 4;
+	final public static int HIDDEN_CARDS_LIST = 4;
+	
+	final public static int CARDS_BY_TAG_LIST = 5;
 	
 	
 	final private ArrayList<ModifyListListener> modifyListListeners;
@@ -446,10 +455,30 @@ public class CardSelector {
                     boolean hasBeenReviewed = false;
                     Review[] reviews = card.getReviews();
                     for(int j=0 ; j < reviews.length ; j++) {
-                        if(reviews[j].getReviewDate().equals(CalendarToolKit.calendarToIso8601(new GregorianCalendar()))) hasBeenReviewed = true;
+                        if(reviews[j].getReviewDate().equals(CalendarToolKit.calendarToIso8601(new GregorianCalendar())))
+                        	hasBeenReviewed = true;
                     }
                     
                     if(hasBeenReviewed) cardList.add(card);
+                }
+				break;
+				
+			case REVIEWED_CARDS_WRONG_LIST : 
+                
+                while(it.hasNext()) {
+                    Card card = it.next();
+                    
+                    boolean keepThisCard = false;
+                    Review[] reviews = card.getReviews();
+                    for(int j=0 ; j < reviews.length ; j++) {
+                        if(reviews[j].getReviewDate().equals(CalendarToolKit.calendarToIso8601(new GregorianCalendar()))) {
+                        	if(reviews[j].getResult().equals(OpenCAL.WRONG_ANSWER_STRING)) {
+                        		keepThisCard = true;
+                        	}
+                        }
+                    }
+                    
+                    if(keepThisCard) cardList.add(card);
                 }
 				break;
 				
