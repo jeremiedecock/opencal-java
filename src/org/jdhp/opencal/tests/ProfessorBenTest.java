@@ -6,9 +6,9 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.model.card.Card;
 import org.jdhp.opencal.model.professor.ProfessorBen;
+import org.jdhp.opencal.model.professor.Professors;
 import org.jdhp.opencal.util.CalendarToolKit;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -42,7 +42,7 @@ public class ProfessorBenTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		
-		OpenCAL.setProfessorName("Ben");
+		Professors.setProfessorName("Ben");
 	}
 
 	/**

@@ -19,8 +19,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.MessageBox;
-import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.model.card.Card;
+import org.jdhp.opencal.model.card.Review;
 import org.jdhp.opencal.swt.composites.CardSelector;
 import org.jdhp.opencal.swt.composites.CardSlider;
 import org.jdhp.opencal.swt.listeners.ModifyListListener;
@@ -129,19 +129,19 @@ public class TrainTab implements ResultListener, ModifyListListener {
 		this.cardMap.put(card, new Integer(result));
 		
 		// Vérifi si toutes les cartes ont été révisées
-		if(!this.cardMap.containsValue(new Integer(OpenCAL.NO_ANSWER))) {
+		if(!this.cardMap.containsValue(new Integer(Review.NO_ANSWER))) {
 			
 			List<Card> newCardList = new ArrayList<Card>();
 			
 			// Vérifi si il y au au moins une mauvaise réponse
-			if(this.cardMap.containsValue(new Integer(OpenCAL.WRONG_ANSWER))) {
+			if(this.cardMap.containsValue(new Integer(Review.WRONG_ANSWER))) {
 				
 				// Crée une liste à partir des cartes WRONG_ANSWER
 				Set<Map.Entry<Card, Integer>> cardSet = this.cardMap.entrySet();
 				Iterator<Map.Entry<Card, Integer>> it = cardSet.iterator();
 				while(it.hasNext()) {
 					Map.Entry<Card, Integer> entry = it.next();
-					if(entry.getValue().equals(new Integer(OpenCAL.WRONG_ANSWER))) 
+					if(entry.getValue().equals(new Integer(Review.WRONG_ANSWER))) 
 						newCardList.add(entry.getKey());
 		        }
 				
@@ -178,7 +178,7 @@ public class TrainTab implements ResultListener, ModifyListListener {
 		this.cardMap.clear();
 		while(it.hasNext()) {
 			Card card = it.next();
-			this.cardMap.put(card, new Integer(OpenCAL.NO_ANSWER));
+			this.cardMap.put(card, new Integer(Review.NO_ANSWER));
         }
 	}
 

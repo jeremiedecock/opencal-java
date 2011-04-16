@@ -24,7 +24,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Scale;
 
-import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.data.properties.ApplicationProperties;
 import org.jdhp.opencal.model.card.Card;
 import org.jdhp.opencal.model.card.Review;
@@ -157,7 +156,7 @@ public class CardSlider implements ModifyListListener {
                     updateScale();
                     updateBrowser();
                     
-                    notifyResultListeners(card, OpenCAL.WRONG_ANSWER);
+                    notifyResultListeners(card, Review.WRONG_ANSWER);
 				}
 			}
 		});
@@ -179,7 +178,7 @@ public class CardSlider implements ModifyListListener {
                     updateScale();
                     updateBrowser();
                     
-                    notifyResultListeners(card, OpenCAL.RIGHT_ANSWER);
+                    notifyResultListeners(card, Review.RIGHT_ANSWER);
 				}
 			}
 		});

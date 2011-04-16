@@ -14,6 +14,7 @@ import java.io.InputStreamReader;
 import java.util.Properties;
 
 import org.jdhp.opencal.OpenCAL;
+import org.jdhp.opencal.model.professor.Professors;
 
 /**
  *
@@ -152,7 +153,7 @@ public class ApplicationProperties {
 	 * @return
 	 */
 	public static String getProfessorName() {
-		String defaultProfessorName = OpenCAL.DEFAULT_PROFESSOR_NAME;
+		String defaultProfessorName = Professors.DEFAULT_PROFESSOR_NAME;
 		return ApplicationProperties.applicationProperties.getProperty("professor.name", defaultProfessorName);
 	}
 

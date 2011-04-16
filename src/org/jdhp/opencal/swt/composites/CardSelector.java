@@ -40,6 +40,7 @@ import org.jdhp.opencal.util.CalendarToolKit;
 
 public class CardSelector {
 	
+	// TODO : use a map
 	final public static String[] LIST_LABELS = {
 		"All Cards",
 		"Reviewed Cards (all)",
@@ -49,18 +50,25 @@ public class CardSelector {
 		"Cards By Tag"
 	};
 	
+	// TODO : use a map
 	final public static int DEFAULT_LIST = 1;
 
+	// TODO : use a map
 	final public static int ALL_CARDS_LIST = 0;
 	
+	// TODO : use a map
 	final public static int REVIEWED_CARDS_LIST = 1;
 	
+	// TODO : use a map
 	final public static int REVIEWED_CARDS_WRONG_LIST = 2;
 	
+	// TODO : use a map
 	final public static int NEW_CARDS_LIST = 3;
 	
+	// TODO : use a map
 	final public static int HIDDEN_CARDS_LIST = 4;
 	
+	// TODO : use a map
 	final public static int CARDS_BY_TAG_LIST = 5;
 	
 	
@@ -466,7 +474,7 @@ public class CardSelector {
                     Review[] reviews = card.getReviews();
                     for(Review review : reviews) {
                         if(review.getReviewDate().equals(CalendarToolKit.calendarToIso8601(new GregorianCalendar()))) {
-                        	if(review.getResult().equals(OpenCAL.WRONG_ANSWER_STRING)) {
+                        	if(review.getResult().equals(Review.WRONG_ANSWER_STRING)) {
                         		keepThisCard = true;
                         	}
                         }

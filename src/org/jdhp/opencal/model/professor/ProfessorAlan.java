@@ -7,8 +7,8 @@ package org.jdhp.opencal.model.professor;
 
 import java.util.GregorianCalendar;
 
-import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.model.card.Card;
+import org.jdhp.opencal.model.card.Review;
 import org.jdhp.opencal.util.CalendarToolKit;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -33,7 +33,7 @@ public class ProfessorAlan implements Professor {
 		if(!isSorted(reviewList)) System.out.println("Unsorted card detected : " + card);
 		
 		for(int i=0 ; i < reviewList.getLength() ; i++) {
-			if(((Element) reviewList.item(i)).getAttribute("result").equals(OpenCAL.RIGHT_ANSWER_STRING)) {
+			if(((Element) reviewList.item(i)).getAttribute("result").equals(Review.RIGHT_ANSWER_STRING)) {
 				grade++;
 			} else {
 				grade = 0;

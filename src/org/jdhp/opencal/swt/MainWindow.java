@@ -424,7 +424,7 @@ public class MainWindow {
 		            
 		            for(int j=0 ; j<reviews.length ; j++) {
 		                if(reviews[j].getReviewDate().equals(CalendarToolKit.calendarToIso8601(new GregorianCalendar())))
-		                	if(reviews[j].getResult().equals(OpenCAL.WRONG_ANSWER_STRING)) prefix = "✖ ";
+		                	if(reviews[j].getResult().equals(Review.WRONG_ANSWER_STRING)) prefix = "✖ ";
 		                	else prefix = "✔ ";
 		            }
 				}

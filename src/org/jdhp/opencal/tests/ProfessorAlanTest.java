@@ -4,8 +4,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.model.card.Card;
+import org.jdhp.opencal.model.professor.Professors;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -38,7 +38,7 @@ public class ProfessorAlanTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		
-		OpenCAL.setProfessorName("Alan");
+		Professors.setProfessorName("Alan");
 	}
 
 	/**

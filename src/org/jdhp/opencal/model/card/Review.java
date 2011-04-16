@@ -12,6 +12,21 @@ package org.jdhp.opencal.model.card;
  */
 public class Review {
 
+	// TODO : use an enum
+	final public static int NO_ANSWER = 0;
+	
+	// TODO : use an enum
+	final public static int RIGHT_ANSWER = 1;
+	
+	// TODO : use an enum
+	final public static int WRONG_ANSWER = -1;
+	
+	// TODO : faire une map (dico) pour relier les clés {RIGHT_ANSWER, WRONG_ANSWER} aux valeures {RIGHT_ANSWER_STRING, WRONG_ANSWER_STRING}
+	public final static String RIGHT_ANSWER_STRING = "good";
+	
+	public final static String WRONG_ANSWER_STRING = "bad";
+	
+	
 	private String rdate;
 	
 	private String result;

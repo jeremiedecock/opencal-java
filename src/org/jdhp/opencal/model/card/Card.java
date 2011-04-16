@@ -17,8 +17,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.data.pkb.PersonalKnowledgeBase;
+import org.jdhp.opencal.model.professor.Professors;
 import org.jdhp.opencal.util.CalendarToolKit;
 
 import org.w3c.dom.CDATASection;
@@ -44,7 +44,7 @@ public class Card {
 	 */
 	public Card(Element element) {
 		this.element = element;
-		this.grade = OpenCAL.getProfessor().assess(this);
+		this.grade = Professors.getProfessor().assess(this);
 	}
 	
 	/**
@@ -87,7 +87,7 @@ public class Card {
 			// Add the new "card" to the XML file
 			PersonalKnowledgeBase.save(null);
 			
-			this.grade = OpenCAL.getProfessor().assess(this);
+			this.grade = Professors.getProfessor().assess(this);
 		}
 	}
 	
@@ -255,7 +255,7 @@ public class Card {
 		this.element.appendChild(reviewElement);
 		
 		// Update grade
-		this.grade = OpenCAL.getProfessor().assess(this);
+		this.grade = Professors.getProfessor().assess(this);
 		
 		// Serialize DOM tree
 		PersonalKnowledgeBase.save(null);

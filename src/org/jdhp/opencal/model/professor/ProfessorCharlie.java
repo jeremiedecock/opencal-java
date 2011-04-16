@@ -8,8 +8,8 @@ package org.jdhp.opencal.model.professor;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.model.card.Card;
+import org.jdhp.opencal.model.card.Review;
 import org.jdhp.opencal.util.CalendarToolKit;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -38,7 +38,7 @@ public class ProfessorCharlie implements Professor {
 			GregorianCalendar rdate = CalendarToolKit.iso8601ToCalendar(((Element) reviewList.item(i)).getAttribute("rdate"));
 			String result = ((Element) reviewList.item(i)).getAttribute("result"); 
 			
-			if(result.equals(OpenCAL.RIGHT_ANSWER_STRING)) {
+			if(result.equals(Review.RIGHT_ANSWER_STRING)) {
 				if(!rdate.before(expectedRevisionDate)) {
 					// TODO : vérifier qu'il n'y a pas de bug sur les conversions heure d'été / heure d'hivers dans le calcul suivant
 					// TODO : log(n) -> vérifier que n>=1

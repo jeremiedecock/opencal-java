@@ -143,7 +143,7 @@ public class TestTab {
 		wrongAnswerButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				if(wrongAnswerButton.getEnabled()) {
-					manipulator.pop().putReview(OpenCAL.WRONG_ANSWER_STRING);
+					manipulator.pop().putReview(Review.WRONG_ANSWER_STRING);
 					manipulator.pop().setGrade(-1);
 					manipulator.remove();
 
@@ -165,7 +165,7 @@ public class TestTab {
 		rightAnswerButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				if(rightAnswerButton.getEnabled()) {
-					manipulator.pop().putReview(OpenCAL.RIGHT_ANSWER_STRING);
+					manipulator.pop().putReview(Review.RIGHT_ANSWER_STRING);
 					manipulator.pop().setGrade(-1);
 					manipulator.remove();
 
