@@ -23,6 +23,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.model.card.Card;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -58,17 +59,21 @@ public class PersonalKnowledgeBase {
                 OpenCAL.cardCollection.add(card);
             }
 		} catch(SAXException e) {
+			/* TODO : une classe data n'a pas à appeller une classe gui => faire un throw à la place pour remonter l'exeption à l'appellant */
 			OpenCAL.mainWindow.printError(ApplicationProperties.getPkbPath() + " n'est pas valide (SAXException)");
-			OpenCAL.exit(2);
+			OpenCAL.mainWindow.close();
 		} catch(FileNotFoundException e) {
+			/* TODO : une classe data n'a pas à appeller une classe gui => faire un throw à la place pour remonter l'exeption à l'appellant */
 			OpenCAL.mainWindow.print(ApplicationProperties.getPkbPath() + " est introuvable (FileNotFoundException)");
-			OpenCAL.exit(2);
+			OpenCAL.mainWindow.close();
 		} catch(IOException e) {
+			/* TODO : une classe data n'a pas à appeller une classe gui => faire un throw à la place pour remonter l'exeption à l'appellant */
 			OpenCAL.mainWindow.printError(ApplicationProperties.getPkbPath() + " est illisible (IOException)");
-			OpenCAL.exit(2);
+			OpenCAL.mainWindow.close();
 		} catch(ParserConfigurationException e) {
+			/* TODO : une classe data n'a pas à appeller une classe gui => faire un throw à la place pour remonter l'exeption à l'appellant */
 			OpenCAL.mainWindow.printError("The XML parser was not configured (ParserConfigurationException)");
-			OpenCAL.exit(2);
+			OpenCAL.mainWindow.close();
 		}
 	}
 	

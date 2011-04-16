@@ -500,4 +500,11 @@ public class MainWindow {
 		MainWindow.DISPLAY.dispose();
 	}
 	
+	/**
+	 * 
+	 */
+	public void close() {
+		this.shell.close();
+	}
+	
 }

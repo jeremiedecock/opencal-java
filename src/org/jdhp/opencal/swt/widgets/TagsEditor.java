@@ -101,7 +101,7 @@ public class TagsEditor {
 				// Display content assist information when user press botrh the CTRL and SPACE keys.
 				if(((event.stateMask & SWT.CTRL) != 0) && (event.character == ' ')) {
 					// Get tag list
-					String[] fullTagList = OpenCAL.getTags(true);
+					String[] fullTagList = OpenCAL.cardCollection.getTags(true);
 					String basename = editableText.getText().split("\n", -1)[editableText.getCaretLineNumber()];
 					basename = basename.toLowerCase().trim();
 					ArrayList<String> tagList = new ArrayList<String>();

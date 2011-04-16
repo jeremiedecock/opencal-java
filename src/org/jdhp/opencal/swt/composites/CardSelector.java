@@ -410,7 +410,7 @@ public class CardSelector {
 		String formerSelectedTagLabel = tagSelectionCombo.getText();
 
 		// Update the list of existing tags
-		String[] tags = OpenCAL.getTags(!showHiddenCardsCheckbox.getSelection());
+		String[] tags = OpenCAL.cardCollection.getTags(!showHiddenCardsCheckbox.getSelection());
 		tagSelectionCombo.setItems(tags);
 
 		// Re sélectionne l'ancien tag si c'est possible

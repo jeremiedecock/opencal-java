@@ -8,17 +8,13 @@ package org.jdhp.opencal;
 //import org.jdhp.opencal.card.Card;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.TreeSet;
 
 import org.jdhp.opencal.data.PersonalKnowledgeBase;
 import org.jdhp.opencal.data.ApplicationProperties;
-import org.jdhp.opencal.model.card.Card;
+import org.jdhp.opencal.model.cardcollection.CardCollection;
 import org.jdhp.opencal.model.professor.Professor;
 import org.jdhp.opencal.model.professor.ProfessorAlan;
 import org.jdhp.opencal.model.professor.ProfessorBen;
@@ -53,8 +49,7 @@ public class OpenCAL {
 	
 	public final static String WRONG_ANSWER_STRING = "bad";
 	
-	//public final static Collection<Card> cardCollection = new HashSet<Card>(); // TODO : use TreeSet instead ? (sort)
-	public final static Collection<Card> cardCollection = new ArrayList<Card>(); // TODO : use an other collection ? (formerly HashSet -> it don't preserve chronology)
+	public final static CardCollection cardCollection = new CardCollection();
 	
 	public static MainWindow mainWindow;
 	
@@ -125,39 +120,6 @@ public class OpenCAL {
 		OpenCAL.professorName = professorName;
 		
 		ApplicationProperties.setProfessorName(professorName);
-	}
-	
-	/**
-	 * TODO : Mettre cette methode autrepart
-	 * 
-	 * @return
-	 */
-	public static String[] getTags(boolean ignoreHiddenCards) {
-		TreeSet<String> tagSet = new TreeSet<String>();
-		
-		Iterator<Card> it = OpenCAL.cardCollection.iterator();
-        while(it.hasNext()) {
-            Card card = it.next();
-            
-            if(!card.isHidden() || !ignoreHiddenCards) {
-                String[] tags = card.getTags();
-                
-                for(int j=0 ; j < tags.length ; j++) {
-                	tagSet.add(tags[j]);
-                }
-            }
-        }
-		
-		return tagSet.toArray(new String[tagSet.size()]);
-	}
-		
-	/**
-	 * Quit the program
-	 * 
-	 * @param status
-	 */
-	public static void exit(int status) {
-		System.exit(status);
 	}
 
 }
