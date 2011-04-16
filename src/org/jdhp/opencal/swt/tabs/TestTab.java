@@ -26,7 +26,6 @@ import org.jdhp.opencal.data.ApplicationProperties;
 import org.jdhp.opencal.model.card.Card;
 import org.jdhp.opencal.model.card.CardManipulator;
 import org.jdhp.opencal.model.card.Review;
-import org.jdhp.opencal.swt.CheckPanelHotKeys;
 import org.jdhp.opencal.swt.MainWindow;
 import org.jdhp.opencal.swt.images.SharedImages;
 import org.jdhp.opencal.util.HTML;
@@ -290,17 +289,6 @@ public class TestTab {
 
         // Init controls
         update();
-        
-		// Add Hot Keys (TODO : clean that...)
-		CheckPanelHotKeys keyboardListener = new CheckPanelHotKeys(browser, firstButton, previousButton, answerButton, nextButton, lastButton, wrongAnswerButton, rightAnswerButton);
-		browser.addKeyListener(keyboardListener);
-		firstButton.addKeyListener(keyboardListener);
-		previousButton.addKeyListener(keyboardListener);
-		answerButton.addKeyListener(keyboardListener);
-		nextButton.addKeyListener(keyboardListener);
-		lastButton.addKeyListener(keyboardListener);
-		wrongAnswerButton.addKeyListener(keyboardListener);
-		rightAnswerButton.addKeyListener(keyboardListener);
 	}
 	
 	/**
