@@ -3,7 +3,7 @@
  * Copyright (c) 2007,2008,2009 Jérémie Decock
  */
 
-package org.jdhp.opencal.model.statistics;
+package org.jdhp.opencal.swt.tabs.monitor;
 
 import java.text.DateFormat;
 import java.text.ParseException;

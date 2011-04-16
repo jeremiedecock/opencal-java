@@ -3,7 +3,7 @@
  * Copyright (c) 2009,2011 Jérémie Decock
  */
 
-package org.jdhp.opencal.data;
+package org.jdhp.opencal.data.properties;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

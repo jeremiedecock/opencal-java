@@ -40,7 +40,7 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.jdhp.opencal.data.ApplicationProperties;
+import org.jdhp.opencal.data.properties.ApplicationProperties;
 import org.jdhp.opencal.swt.images.SharedImages;
 import org.jdhp.opencal.util.DataToolKit;
 

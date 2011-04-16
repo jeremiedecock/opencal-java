@@ -35,18 +35,19 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 
-import org.jdhp.opencal.data.ApplicationProperties;
+import org.jdhp.opencal.data.properties.ApplicationProperties;
 import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.model.card.Card;
 import org.jdhp.opencal.model.card.Review;
+import org.jdhp.opencal.model.cardcollection.CardCollection;
 import org.jdhp.opencal.swt.dialogs.AboutDialog;
 import org.jdhp.opencal.swt.dialogs.PreferencesDialog;
 import org.jdhp.opencal.swt.images.SharedImages;
 import org.jdhp.opencal.swt.tabs.ExploreTab;
 import org.jdhp.opencal.swt.tabs.AddTab;
 import org.jdhp.opencal.swt.tabs.TestTab;
-import org.jdhp.opencal.swt.tabs.MonitorTab;
 import org.jdhp.opencal.swt.tabs.TrainTab;
+import org.jdhp.opencal.swt.tabs.monitor.MonitorTab;
 import org.jdhp.opencal.util.CalendarToolKit;
 
 /**
@@ -442,15 +443,12 @@ public class MainWindow {
 		this.statusLabel1.setText("");
 		this.statusLabel1.setToolTipText("");
 		
-		Iterator<Card> it;
 		GregorianCalendar gc = new GregorianCalendar();
 
         // Cards Added /////////////////
         int nbCardsAdded = 0;
         
-        it = OpenCAL.cardCollection.iterator();
-        while(it.hasNext()) {
-            Card card = it.next();
+        for(Card card : CardCollection.getInstance()) {
             if(card.getCreationDate().equals(CalendarToolKit.calendarToIso8601(gc))) nbCardsAdded++;
         }
         
@@ -460,14 +458,12 @@ public class MainWindow {
         // Cards Checked ///////////////
         int nbCardsChecked = 0;
         
-        it = OpenCAL.cardCollection.iterator();
-        while(it.hasNext()) {
-            Card card = it.next();
-            
+        for(Card card : CardCollection.getInstance()) {
             boolean hasBeenReviewed = false;
             Review[] reviews = card.getReviews();
-            for(int j=0 ; j < reviews.length ; j++) {
-                if(reviews[j].getReviewDate().equals(CalendarToolKit.calendarToIso8601(gc))) hasBeenReviewed = true;
+            for(Review review : reviews) {
+                if(review.getReviewDate().equals(CalendarToolKit.calendarToIso8601(gc)))
+                	hasBeenReviewed = true;
             }
             
             if(hasBeenReviewed) nbCardsChecked++;

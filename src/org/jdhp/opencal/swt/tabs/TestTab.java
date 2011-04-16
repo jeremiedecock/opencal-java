@@ -6,7 +6,6 @@
 package org.jdhp.opencal.swt.tabs;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,10 +21,11 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Scale;
 
-import org.jdhp.opencal.data.ApplicationProperties;
+import org.jdhp.opencal.data.properties.ApplicationProperties;
 import org.jdhp.opencal.model.card.Card;
-import org.jdhp.opencal.model.card.CardManipulator;
 import org.jdhp.opencal.model.card.Review;
+import org.jdhp.opencal.model.cardcollection.CardCollection;
+import org.jdhp.opencal.model.cardcollection.CardManipulator;
 import org.jdhp.opencal.swt.MainWindow;
 import org.jdhp.opencal.swt.images.SharedImages;
 import org.jdhp.opencal.util.HTML;
@@ -315,14 +315,11 @@ public class TestTab {
 	 * TODO : le manipulator n'est pas mis à jour...
 	 */
 	final private void updateCardList() {
-		Iterator<Card> it;
-		it = OpenCAL.cardCollection.iterator();
-		
 		cardList.clear();
 		
-		while(it.hasNext()) {
-            Card card = it.next();
-    		if(card.getGrade() >= 0. && !card.isHidden()) cardList.add(card);
+		for(Card card : CardCollection.getInstance()) {
+    		if(card.getGrade() >= 0. && !card.isHidden())
+    			cardList.add(card);
 		}
 
 		TestTab.sortCards(cardList);

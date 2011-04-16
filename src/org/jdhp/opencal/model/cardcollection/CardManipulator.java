@@ -3,9 +3,11 @@
  * Copyright (c) 2007,2008 Jérémie Decock
  */
 
-package org.jdhp.opencal.model.card;
+package org.jdhp.opencal.model.cardcollection;
 
 import java.util.List;
+
+import org.jdhp.opencal.model.card.Card;
 
 
 /**

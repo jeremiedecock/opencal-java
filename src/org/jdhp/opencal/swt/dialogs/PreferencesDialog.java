@@ -23,7 +23,7 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.jdhp.opencal.OpenCAL;
-import org.jdhp.opencal.data.ApplicationProperties;
+import org.jdhp.opencal.data.properties.ApplicationProperties;
 import org.jdhp.opencal.swt.images.SharedImages;
 
 public class PreferencesDialog extends Dialog {

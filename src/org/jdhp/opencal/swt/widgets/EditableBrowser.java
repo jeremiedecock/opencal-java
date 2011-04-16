@@ -27,7 +27,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
-import org.jdhp.opencal.data.ApplicationProperties;
+import org.jdhp.opencal.data.properties.ApplicationProperties;
 import org.jdhp.opencal.swt.MainWindow;
 import org.jdhp.opencal.swt.dialogs.InsertDotDialog;
 import org.jdhp.opencal.swt.dialogs.InsertImageDialog;

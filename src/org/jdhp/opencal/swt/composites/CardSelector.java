@@ -32,6 +32,7 @@ import org.eclipse.swt.widgets.Text;
 import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.model.card.Card;
 import org.jdhp.opencal.model.card.Review;
+import org.jdhp.opencal.model.cardcollection.CardCollection;
 import org.jdhp.opencal.swt.MainWindow;
 import org.jdhp.opencal.swt.images.SharedImages;
 import org.jdhp.opencal.swt.listeners.ModifyListListener;
@@ -101,7 +102,7 @@ public class CardSelector {
 		///////////////////////////////////////////////////////////////////////
 
 		this.cardList = new ArrayList<Card>();
-		this.cardList.addAll(OpenCAL.cardCollection);
+		this.cardList.addAll(CardCollection.getInstance());
         
         ///////////////////////////////////////////////////////////////////////
 		// CardSelectionComposite /////////////////////////////////////////////
@@ -410,7 +411,7 @@ public class CardSelector {
 		String formerSelectedTagLabel = tagSelectionCombo.getText();
 
 		// Update the list of existing tags
-		String[] tags = OpenCAL.cardCollection.getTags(!showHiddenCardsCheckbox.getSelection());
+		String[] tags = CardCollection.getInstance().getTags(!showHiddenCardsCheckbox.getSelection());
 		tagSelectionCombo.setItems(tags);
 
 		// Re sélectionne l'ancien tag si c'est possible
@@ -429,18 +430,13 @@ public class CardSelector {
 	 * TODO : Mieux gérer l'ajout et la supression de d'items !
 	 */
 	final public void updateCardList() {
-		Iterator<Card> it;
-		it = OpenCAL.cardCollection.iterator();
-		
 		cardList.clear();
 		
 		switch(getCurrentMode()) {
 		
 			case ALL_CARDS_LIST :
                 
-                while(it.hasNext()) {
-                    Card card = it.next();
-                    
+                for(Card card : CardCollection.getInstance()) {
                     if(!card.isHidden() || showHiddenCardsCheckbox.getSelection()) {
 	                    cardList.add(card);
                     }
@@ -449,13 +445,12 @@ public class CardSelector {
 				
 			case REVIEWED_CARDS_LIST : 
                 
-                while(it.hasNext()) {
-                    Card card = it.next();
-                    
+				for(Card card : CardCollection.getInstance()) {
                     boolean hasBeenReviewed = false;
+                    
                     Review[] reviews = card.getReviews();
-                    for(int j=0 ; j < reviews.length ; j++) {
-                        if(reviews[j].getReviewDate().equals(CalendarToolKit.calendarToIso8601(new GregorianCalendar())))
+                    for(Review review : reviews) {
+                        if(review.getReviewDate().equals(CalendarToolKit.calendarToIso8601(new GregorianCalendar())))
                         	hasBeenReviewed = true;
                     }
                     
@@ -465,14 +460,13 @@ public class CardSelector {
 				
 			case REVIEWED_CARDS_WRONG_LIST : 
                 
-                while(it.hasNext()) {
-                    Card card = it.next();
-                    
+				for(Card card : CardCollection.getInstance()) {
                     boolean keepThisCard = false;
+                    
                     Review[] reviews = card.getReviews();
-                    for(int j=0 ; j < reviews.length ; j++) {
-                        if(reviews[j].getReviewDate().equals(CalendarToolKit.calendarToIso8601(new GregorianCalendar()))) {
-                        	if(reviews[j].getResult().equals(OpenCAL.WRONG_ANSWER_STRING)) {
+                    for(Review review : reviews) {
+                        if(review.getReviewDate().equals(CalendarToolKit.calendarToIso8601(new GregorianCalendar()))) {
+                        	if(review.getResult().equals(OpenCAL.WRONG_ANSWER_STRING)) {
                         		keepThisCard = true;
                         	}
                         }
@@ -484,17 +478,16 @@ public class CardSelector {
 				
 			case NEW_CARDS_LIST :
                 
-                while(it.hasNext()) {
-                    Card card = it.next();
-                    if(card.getCreationDate().equals(CalendarToolKit.calendarToIso8601(new GregorianCalendar()))) cardList.add(card);
+				for(Card card : CardCollection.getInstance()) {
+                    if(card.getCreationDate().equals(CalendarToolKit.calendarToIso8601(new GregorianCalendar())))
+                    	cardList.add(card);
                 }
 				break;
 				
 			case HIDDEN_CARDS_LIST :
                 
-                while(it.hasNext()) {
-                    Card card = it.next();
-                    if(card.isHidden()) cardList.add(card);
+				for(Card card : CardCollection.getInstance()) {
+                    if(card.isHidden())cardList.add(card);
                 }
 				break;
 				
@@ -502,15 +495,14 @@ public class CardSelector {
                 
 				// If a tag is selected add the tag's cards (else keep cardList empty)
 				if(!tagSelectionCombo.getText().equals("")) {
-	                while(it.hasNext()) {
-	                    Card card = it.next();
-	                    
+					for(Card card : CardCollection.getInstance()) {
 	                    if(!card.isHidden() || showHiddenCardsCheckbox.getSelection()) {
 	                        String[] tags = card.getTags();
 	                        
 	                        boolean addCard = false;
-	                        for(int j=0 ; j < tags.length ; j++) {
-	                            if(tags[j].equals(tagSelectionCombo.getText())) addCard = true;
+	                        for(String tag : tags) {
+	                            if(tag.equals(tagSelectionCombo.getText()))
+	                            	addCard = true;
 	                        }
 	                        
 	                        if(addCard) cardList.add(card);
@@ -524,13 +516,11 @@ public class CardSelector {
 		// Ne conserve que les cartes contenant le motif searchText (si celui ci n'est pas vide)
 		String pattern = searchText.getText();
 		if(pattern != null && !pattern.equals("")) {
-			it = cardList.iterator();
 			java.util.List<Card> filtredCardList = new ArrayList<Card>();
 			
 			boolean caseSensitive = caseSensitiveCheckbox.getSelection();
 			
-			while(it.hasNext()) {
-                Card card = it.next();
+			for(Card card : cardList) {
                 if(card.contains(pattern, caseSensitive)) {
                 	filtredCardList.add(card);
                 }

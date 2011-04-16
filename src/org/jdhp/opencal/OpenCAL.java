@@ -12,9 +12,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.jdhp.opencal.data.PersonalKnowledgeBase;
-import org.jdhp.opencal.data.ApplicationProperties;
-import org.jdhp.opencal.model.cardcollection.CardCollection;
+import org.jdhp.opencal.data.pkb.PersonalKnowledgeBase;
+import org.jdhp.opencal.data.properties.ApplicationProperties;
 import org.jdhp.opencal.model.professor.Professor;
 import org.jdhp.opencal.model.professor.ProfessorAlan;
 import org.jdhp.opencal.model.professor.ProfessorBen;
@@ -48,8 +47,6 @@ public class OpenCAL {
 	public final static String RIGHT_ANSWER_STRING = "good";
 	
 	public final static String WRONG_ANSWER_STRING = "bad";
-	
-	public final static CardCollection cardCollection = new CardCollection();
 	
 	public static MainWindow mainWindow;
 	

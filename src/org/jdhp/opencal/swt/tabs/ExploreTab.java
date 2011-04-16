@@ -7,7 +7,6 @@ package org.jdhp.opencal.swt.tabs;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,9 +29,9 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Text;
 
-import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.model.card.Card;
 import org.jdhp.opencal.model.card.Review;
+import org.jdhp.opencal.model.cardcollection.CardCollection;
 import org.jdhp.opencal.swt.MainWindow;
 import org.jdhp.opencal.swt.images.SharedImages;
 import org.jdhp.opencal.swt.widgets.EditableBrowser;
@@ -108,7 +107,7 @@ public class ExploreTab {
 		///////////////////////////////////////////////////////////////////////
 
         cardList = new ArrayList<Card>();
-        cardList.addAll(OpenCAL.cardCollection);
+        cardList.addAll(CardCollection.getInstance());
 
 		///////////////////////////////////////////////////////////////////////
 		// GUI ////////////////////////////////////////////////////////////////
@@ -546,7 +545,7 @@ public class ExploreTab {
 		String formerSelectedTagLabel = tagSelectionCombo.getText();
 
 		// Update the list of existing tags
-		String[] tags = OpenCAL.cardCollection.getTags(!showHiddenCardsCheckbox.getSelection());
+		String[] tags = CardCollection.getInstance().getTags(!showHiddenCardsCheckbox.getSelection());
 		tagSelectionCombo.setItems(tags);
 
 		// Re sélectionne l'ancien tag si c'est possible
@@ -565,18 +564,13 @@ public class ExploreTab {
 	 * TODO : Mieux gérer l'ajout et la supression de d'items !
 	 */
 	final private void updateCardList() {
-		Iterator<Card> it;
-		it = OpenCAL.cardCollection.iterator();
-		
 		cardList.clear();
 		
 		switch(getCurrentMode()) {
 		
 			case ExploreTab.ALL_CARDS_LIST :
                 
-                while(it.hasNext()) {
-                    Card card = it.next();
-                    
+                for(Card card : CardCollection.getInstance()) {
                     if(!card.isHidden() || showHiddenCardsCheckbox.getSelection()) {
 	                    cardList.add(card);
                     }
@@ -585,13 +579,13 @@ public class ExploreTab {
 				
 			case ExploreTab.REVIEWED_CARDS_LIST : 
                 
-                while(it.hasNext()) {
-                    Card card = it.next();
-                    
+				for(Card card : CardCollection.getInstance()) {
                     boolean hasBeenReviewed = false;
+                    
                     Review[] reviews = card.getReviews();
-                    for(int j=0 ; j < reviews.length ; j++) {
-                        if(reviews[j].getReviewDate().equals(CalendarToolKit.calendarToIso8601(new GregorianCalendar()))) hasBeenReviewed = true;
+                    for(Review review : reviews) {
+                        if(review.getReviewDate().equals(CalendarToolKit.calendarToIso8601(new GregorianCalendar())))
+                        	hasBeenReviewed = true;
                     }
                     
                     if(hasBeenReviewed) cardList.add(card);
@@ -600,17 +594,17 @@ public class ExploreTab {
 				
 			case ExploreTab.NEW_CARDS_LIST :
                 
-                while(it.hasNext()) {
-                    Card card = it.next();
-                    if(card.getCreationDate().equals(CalendarToolKit.calendarToIso8601(new GregorianCalendar()))) cardList.add(card);
+				for(Card card : CardCollection.getInstance()) {
+                    if(card.getCreationDate().equals(CalendarToolKit.calendarToIso8601(new GregorianCalendar())))
+                    	cardList.add(card);
                 }
 				break;
 				
 			case ExploreTab.HIDDEN_CARDS_LIST :
                 
-                while(it.hasNext()) {
-                    Card card = it.next();
-                    if(card.isHidden()) cardList.add(card);
+				for(Card card : CardCollection.getInstance()) {
+                    if(card.isHidden())
+                    	cardList.add(card);
                 }
 				break;
 				
@@ -618,15 +612,14 @@ public class ExploreTab {
                 
 				// If a tag is selected add the tag's cards (else keep cardList empty)
 				if(!tagSelectionCombo.getText().equals("")) {
-	                while(it.hasNext()) {
-	                    Card card = it.next();
-	                    
+					for(Card card : CardCollection.getInstance()) {
 	                    if(!card.isHidden() || showHiddenCardsCheckbox.getSelection()) {
 	                        String[] tags = card.getTags();
 	                        
 	                        boolean addCard = false;
-	                        for(int j=0 ; j < tags.length ; j++) {
-	                            if(tags[j].equals(tagSelectionCombo.getText())) addCard = true;
+	                        for(String tag : tags) {
+	                            if(tag.equals(tagSelectionCombo.getText()))
+	                            	addCard = true;
 	                        }
 	                        
 	                        if(addCard) cardList.add(card);
@@ -640,13 +633,11 @@ public class ExploreTab {
 		// Ne conserve que les cartes contenant le motif searchText (si celui ci n'est pas vide)
 		String pattern = searchText.getText();
 		if(pattern != null && !pattern.equals("")) {
-			it = cardList.iterator();
 			java.util.List<Card> filtredCardList = new ArrayList<Card>();
 			
 			boolean caseSensitive = caseSensitiveCheckbox.getSelection();
 			
-			while(it.hasNext()) {
-                Card card = it.next();
+			for(Card card : cardList) {
                 if(card.contains(pattern, caseSensitive)) {
                 	filtredCardList.add(card);
                 }

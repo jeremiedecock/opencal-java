@@ -3,7 +3,7 @@
  * Copyright (c) 2009 Jérémie Decock
  */
 
-package org.jdhp.opencal.data;
+package org.jdhp.opencal.data.pkb;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -22,7 +22,9 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.jdhp.opencal.OpenCAL;
+import org.jdhp.opencal.data.properties.ApplicationProperties;
 import org.jdhp.opencal.model.card.Card;
+import org.jdhp.opencal.model.cardcollection.CardCollection;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -56,7 +58,7 @@ public class PersonalKnowledgeBase {
 			NodeList nodeCards = PersonalKnowledgeBase.domDocument.getElementsByTagName("card");
             for(int i=0 ; i<nodeCards.getLength() ; i++) {
                 Card card = new Card((Element) nodeCards.item(i));
-                OpenCAL.cardCollection.add(card);
+                CardCollection.getInstance().add(card);
             }
 		} catch(SAXException e) {
 			/* TODO : une classe data n'a pas à appeller une classe gui => faire un throw à la place pour remonter l'exeption à l'appellant */
