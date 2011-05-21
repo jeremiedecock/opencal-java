@@ -32,7 +32,12 @@ public class ApplicationProperties {
 		/* 
 		 * Utiliser l'option -D de la JVM pour utiliser un fichier "userproperties" alternatif
 		 * (utile en phase de développement).
+		 * 
 		 * Exemple : java -Dopencal.userproperties.location=/home/gremy/.opencal_dev.properties
+		 * 
+		 * Pour eclipse, l'option précédente (-D...=...) doit être ajoutée dans :
+		 *    Run / Run Configurations... / Arguments / VM arguments...
+		 *    Run / Debug Configurations... / Arguments / VM arguments...
 		 */
 		String userPropertiesLocation = System.getProperty("opencal.userproperties.location", userPropertiesDefaultLocation);
 		
