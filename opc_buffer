@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# OpenCAL v3
+# Copyright (c) 2006,2007,2008 Jérémie DECOCK
+
+OPENCAL_ROOT="/home/gremy/bin/opencal"
+PROPERTIES="/home/gremy/.opencal_buffer.properties"
+
+java -Dopencal.userproperties.location=$PROPERTIES -jar $OPENCAL_ROOT/opencal.jar
+

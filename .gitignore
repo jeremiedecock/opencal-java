@@ -1,10 +1,9 @@
-.classpath
-.project
 bin/
 dist/
+doc/doxygen/
+tmp/
 .settings/
 *.swp
-tmp/
 *.log
 *.aux
 *.dvi
@@ -12,3 +11,5 @@ tmp/
 *.lot
 *.lof
 *.out
+.classpath
+.project
