@@ -3,6 +3,10 @@ dist/
 doc/doxygen/
 tmp/
 .settings/
+debian/files
+debian/opencal.substvars
+debian/opencal/
+opencal.jar
 *.swp
 *.log
 *.aux

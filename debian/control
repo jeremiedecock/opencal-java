@@ -9,6 +9,6 @@ Homepage: http://www.jdhp.org
 
 Package: opencal
 Architecture: all
-Depends: openjdk-6-jre, jarwrapper (>= 0.5)
+Depends: ${java:Depends}, openjdk-6-jre, jarwrapper (>= 0.5)
 Description: OpenCAL
  OpenCAL

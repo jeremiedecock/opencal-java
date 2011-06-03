@@ -34,7 +34,7 @@ lower 7 bits are US-ASCII. Another trick is to change the LANG environment
 variable from something like "us.utf8" to "us". 
 -->
 
-<project name="OpenCAL" basedir="." default="help">
+<project name="OpenCAL" basedir="." default="jar">
 
 	<property name="src_dir" value="${basedir}/src" />
 	<property name="class_dir" value="${basedir}/bin" />
@@ -52,9 +52,6 @@ variable from something like "us.utf8" to "us".
 	<property name="swt_lib" value="swt-3.6.1-gtk-linux-x86.jar" />
 	
 	<property name="classpath" value="${class_dir}:${lib_dir}/${jcommon_lib}:${lib_dir}/${jfreechart_lib}:${lib_dir}/${junit_lib}:${lib_dir}/${swt_lib}" />
-
-	<target name="init_dist" description="Generate the dist directories">
-	</target>
 
 	<target name="build" description="Build class files">
 		<echo>Generate class files</echo>
