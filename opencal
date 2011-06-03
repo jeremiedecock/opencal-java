@@ -4,12 +4,10 @@
 # Copyright (c) 2006,2007,2008,2009,2010,2011 Jérémie DECOCK <jd.jdhp@gmail.com>
 
 ROOT="."
-LIBS="$ROOT/bin/:$ROOT/ext/lib/swt-3.6.1-gtk-linux-x86.jar:$ROOT/ext/lib/junit_3.8.2.jar:$ROOT/ext/lib/jcommon-1.0.14.jar:$ROOT/ext/lib/jfreechart-1.0.11.jar"
 OPTS=
 #OPTS="-Dopencal.userproperties.location=/home/gremy/.opencal_dev.properties"
+LIBS="$ROOT/bin/:$ROOT/ext/lib/swt-3.6.1-gtk-linux-x86.jar:$ROOT/ext/lib/junit_3.8.2.jar:$ROOT/ext/lib/jcommon-1.0.14.jar:$ROOT/ext/lib/jfreechart-1.0.11.jar"
 
+#java ${OPTS} $@ -jar $ROOT/opencal.jar
 java ${OPTS} $@ -cp ${LIBS} org.jdhp.opencal.OpenCAL
 
-#ROOT="./dist/opencal"
-#
-#java -jar $ROOT/opencal.jar
