@@ -9,6 +9,6 @@ Homepage: http://www.jdhp.org
 
 Package: opencal
 Architecture: all
-Depends: ${java:Depends}, openjdk-6-jre, jarwrapper (>= 0.5)
+Depends: ${java:Depends}, ${misc:Depends}, gnuplot (>= 4.4.0), graphviz, junit (>= 3.8), texlive, texlive-latex-extra, libswt-gtk-3.5-java, libswt-gnome-gtk-3.5-jni, libswt-cairo-gtk-3.5-jni, libswt-mozilla-gtk-3.5-jni, libjfreechart-java
 Description: OpenCAL
  OpenCAL
