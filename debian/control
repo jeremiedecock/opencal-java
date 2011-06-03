@@ -1,0 +1,14 @@
+Source: opencal
+Section: misc
+Priority: optional
+Maintainer: Jeremie Decock <jd.jdhp@gmail.com>
+Build-Depends: debhelper (>> 7), javahelper (>= 0.32) , ant
+Build-Depends-Indep: openjdk-6-jdk
+Standards-Version: 3.8.3
+Homepage: http://www.jdhp.org
+
+Package: opencal
+Architecture: all
+Depends: openjdk-6-jre, jarwrapper (>= 0.5)
+Description: OpenCAL
+ OpenCAL

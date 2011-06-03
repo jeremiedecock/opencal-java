@@ -1,0 +1,5 @@
+opencal.jar usr/share/opencal
+ext/lib/jcommon-1.0.14.jar usr/share/opencal
+ext/lib/jfreechart-1.0.11.jar usr/share/opencal
+ext/lib/junit_3.8.2.jar usr/share/opencal
+ext/lib/swt-3.6.1-gtk-linux-x86.jar usr/share/opencal

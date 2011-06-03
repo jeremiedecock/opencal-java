@@ -1,0 +1,4 @@
+usr/share/opencal/opencal.jar:
+ Main-Class: org.jdhp.opencal.OpenCAL
+ Debian-Java-Home: /usr/lib/jvm/java-6-openjdk
+ Class-Path: /usr/share/opencal/jcommon-1.0.14.jar /usr/share/opencal/jfreechart-1.0.11.jar /usr/share/opencal/junit_3.8.2.jar /usr/share/opencal/swt-3.6.1-gtk-linux-x86.jar

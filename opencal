@@ -1,13 +1,15 @@
 #!/bin/sh
 
 # OpenCAL v3
-# Copyright (c) 2006,2007,2008 Jérémie DECOCK
+# Copyright (c) 2006,2007,2008,2009,2010,2011 Jérémie DECOCK <jd.jdhp@gmail.com>
 
-#OPENCAL_ROOT="/media/data/gremy/developpement_logiciel/workspaces/eclipse/projets_java/project_0002"
-#OPENCAL_LIBS="$OPENCAL_ROOT/bin/:$OPENCAL_ROOT/ext/lib/org.eclipse.swt_3.3.2.v3347.jar:$OPENCAL_ROOT/ext/lib/org.eclipse.swt.gtk.linux.x86_3.3.2.v3347.jar:$OPENCAL_ROOT/ext/lib/jcommon-1.0.12.jar:$OPENCAL_ROOT/ext/lib/jfreechart-1.0.9.jar"
+ROOT="."
+LIBS="$ROOT/bin/:$ROOT/ext/lib/swt-3.6.1-gtk-linux-x86.jar:$ROOT/ext/lib/junit_3.8.2.jar:$ROOT/ext/lib/jcommon-1.0.14.jar:$ROOT/ext/lib/jfreechart-1.0.11.jar"
+OPTS=
+#OPTS="-Dopencal.userproperties.location=/home/gremy/.opencal_dev.properties"
+
+java ${OPTS} $@ -cp ${LIBS} org.jdhp.opencal.OpenCAL
+
+#ROOT="./dist/opencal"
 #
-#java -cp $OPENCAL_LIBS org.jdhp.opencal.OpenCAL
-
-OPENCAL_ROOT="/home/gremy/bin/opencal"
-
-java -jar $OPENCAL_ROOT/opencal.jar
+#java -jar $ROOT/opencal.jar

@@ -43,7 +43,7 @@ variable from something like "us.utf8" to "us".
 	<property name="dist_dir" value="${basedir}/dist" />
 	<property name="dist_project_dir" value="${dist_dir}/opencal" />
 	
-	<property name="jar_file" value="${dist_project_dir}/opencal.jar" />
+	<property name="jar_file" value="${basedir}/opencal.jar" />
 	<property name="dist_file" value="${dist_dir}/opencal.zip" />
 	
 	<property name="jcommon_lib" value="jcommon-1.0.14.jar" />
@@ -54,14 +54,6 @@ variable from something like "us.utf8" to "us".
 	<property name="classpath" value="${class_dir}:${lib_dir}/${jcommon_lib}:${lib_dir}/${jfreechart_lib}:${lib_dir}/${junit_lib}:${lib_dir}/${swt_lib}" />
 
 	<target name="init_dist" description="Generate the dist directories">
-		<echo>Generate the dist directories</echo>
-		<mkdir dir="${dist_dir}" />
-		<mkdir dir="${dist_project_dir}" />
-		<mkdir dir="${dist_project_dir}/lib" />
-		<copy file="${basedir}/opencal" todir="${dist_project_dir}" />
-		<copy todir="${dist_project_dir}/lib">
-			<fileset dir="${lib_dir}"/>
-		</copy>
 	</target>
 
 	<target name="build" description="Build class files">
@@ -88,7 +80,7 @@ variable from something like "us.utf8" to "us".
 		<javac srcdir="${src_dir}" destdir="${class_dir}" classpath="${classpath}" />
 	</target>
 
-	<target name="jar" depends="build, init_dist" description="Generate the jar file">
+	<target name="jar" depends="build" description="Generate the jar file">
 		<echo>Generate the jar file</echo>
 		<delete file="${jar_file}" />
 		<jar destfile="${jar_file}" basedir="${class_dir}">
@@ -100,8 +92,19 @@ variable from something like "us.utf8" to "us".
 	</target>
 
 	<target name="dist" depends="jar" description="Generate the dist file">
+		<echo>Generate the dist directories</echo>
+		<delete dir="${dist_dir}" />
+		<mkdir dir="${dist_dir}" />
+		<mkdir dir="${dist_project_dir}" />
+		<mkdir dir="${dist_project_dir}/lib" />
+
+		<copy file="${basedir}/opencal" todir="${dist_project_dir}" />
+		<copy todir="${dist_project_dir}/lib">
+			<fileset dir="${lib_dir}"/>
+		</copy>
+		<copy file="${jar_file}" todir="${dist_project_dir}" />
+
 		<echo>Generate the dist file</echo>
-		<delete file="${dist_file}" />
 		<zip basedir="${dist_dir}" destfile="${dist_file}" />
 	</target>
 
