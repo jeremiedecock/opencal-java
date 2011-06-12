@@ -120,7 +120,7 @@ public class AboutDialog extends Dialog {
 		generalInfoComposite.setLayout(new GridLayout(1, true));
 		
 		// Copyright
-		Label copyrightLabel = new Label(generalInfoComposite, SWT.CENTER | SWT.WRAP);
+		Label copyrightLabel = new Label(generalInfoComposite, SWT.CENTER);
 		copyrightLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		copyrightLabel.setText(OpenCAL.COPYRIGHT);
 		copyrightLabel.setFont(smallFont);
