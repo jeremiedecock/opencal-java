@@ -19,6 +19,7 @@ import java.util.List;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -117,6 +118,21 @@ public class MainWindow {
 		this.shell.setMinimumSize(400, 350);
 		this.shell.setSize(640, 480);
 		
+		/*
+		 * Depending where the icon is displayed, the platform chooses the icon
+		 * with the "best" attributes. It is expected that the array will
+		 * contain the same icon rendered at different sizes, with different
+		 * depth and transparency attributes.
+		 */
+		Image[] icons = {
+				SharedImages.getImage(SharedImages.EMBLEM_DOCUMENTS_16),
+				SharedImages.getImage(SharedImages.EMBLEM_DOCUMENTS_22),
+				SharedImages.getImage(SharedImages.EMBLEM_DOCUMENTS_24),
+				SharedImages.getImage(SharedImages.EMBLEM_DOCUMENTS_32),
+				SharedImages.getImage(SharedImages.EMBLEM_DOCUMENTS_48)
+				};
+		this.shell.setImages(icons);
+		
 		// Center the main shell on the primary monitor
         Monitor primary = MainWindow.DISPLAY.getPrimaryMonitor();
         Rectangle bounds = primary.getBounds();
@@ -181,11 +197,13 @@ public class MainWindow {
 
 		MenuItem pdfItem = new MenuItem(fileMenu, SWT.PUSH);
 		pdfItem.setImage(SharedImages.getImage(SharedImages.TEXT_16));
-		pdfItem.setText("Export Review File...");
+		pdfItem.setText("Export Cards To Test (PDF)...");
+		pdfItem.setEnabled(false);
 		
 		MenuItem printItem = new MenuItem(fileMenu, SWT.PUSH);
 		printItem.setImage(SharedImages.getImage(SharedImages.DOCUMENT_PRINT_16));
-		printItem.setText("Print Review File...");
+		printItem.setText("Print Cards To Test...");
+		printItem.setEnabled(false);
 
 		new MenuItem(fileMenu, SWT.SEPARATOR);
 

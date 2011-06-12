@@ -59,11 +59,13 @@ public class SharedImages {
 	
 	// 22x22 images
 	public static final String DOCUMENT_OPEN_22 = "x22/document-open.png";
+	public static final String EMBLEM_DOCUMENTS_22 = "x22/emblem-documents.png";
 	public static final String WINDOW_CLOSE_22 = "x22/window-close.png";
 	
 	// 24x24 images
 	public static final String EDIT_CLEAR_24 = "x24/edit-clear.png";
 	public static final String EDIT_FIND_24 = "x24/edit-find.png";
+	public static final String EMBLEM_DOCUMENTS_24 = "x24/emblem-documents.png";
 	public static final String FACE_SAD_24 = "x24/face-sad.png";
 	public static final String FACE_SMILE_24 = "x24/face-smile.png";
 	public static final String GO_FIRST_24 = "x24/go-first.png";
@@ -73,6 +75,12 @@ public class SharedImages {
 	public static final String LIST_ADD_24 = "x24/list-add.png";
 	public static final String LIST_REMOVE_24 = "x24/list-remove.png";
 	public static final String MEDIA_FLOPPY_24 = "x24/media-floppy.png";
+	
+	// 32x32 images
+	public static final String EMBLEM_DOCUMENTS_32 = "x32/emblem-documents.png";
+	
+	// 48x48 images
+	public static final String EMBLEM_DOCUMENTS_48 = "x48/emblem-documents.png";
 
 	/**
 	 * 
