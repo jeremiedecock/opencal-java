@@ -197,12 +197,12 @@ public class MainWindow {
 
 		MenuItem pdfItem = new MenuItem(fileMenu, SWT.PUSH);
 		pdfItem.setImage(SharedImages.getImage(SharedImages.TEXT_16));
-		pdfItem.setText("Export Cards To Test (PDF)...");
+		pdfItem.setText("Export Test To PDF...");
 		pdfItem.setEnabled(false);
 		
 		MenuItem printItem = new MenuItem(fileMenu, SWT.PUSH);
 		printItem.setImage(SharedImages.getImage(SharedImages.DOCUMENT_PRINT_16));
-		printItem.setText("Print Cards To Test...");
+		printItem.setText("Print Test...");
 		printItem.setEnabled(false);
 
 		new MenuItem(fileMenu, SWT.SEPARATOR);
