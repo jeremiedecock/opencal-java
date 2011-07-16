@@ -1,59 +1,63 @@
+/* Copyright (c) 2006,2007,2008,2009,2010,2011 Jérémie DECOCK (jdhp.org)     */
+
 * {
-	font-family : monospace,fixed;
-	font-size   : 13px;
-	white-space : pre-wrap;
+    font-family : monospace,fixed;
+    font-size   : 13px;
+    white-space : pre-wrap;
 }
 
 div#informations {
-	font-size     : 11px;
-	color         : #7c7a7a;
-	padding       : 3px 0;
-	margin        : 6px 0 6px 0;
-	border-top    : 1px solid #eee;
-	border-bottom : 1px solid #eee;
+    font-size      : 11px;
+    color          : #7c7a7a;
+    padding        : 3px;
+    margin         : 6px 0 6px 0;
+    border-top     : 1px solid #eee;
+    border-bottom  : 1px solid #eee;
 }
 
 div#informations span.information {
-	color     : #b91631;
-	font-size : 11px;
+    color     : #b91631;
+    font-size : 11px;
 }
 
 div#informations span {
-	font-size : 11px;
+    font-size : 11px;
 }
 
 div#tags {
-	margin : 6px 10px 0px 10px;
+    margin            : 6px 10px 0px 10px;
 }
 
 div#tags span.tag {
-	border    : 1px solid #eee;
-	color     : #b91631;
-	font-size : 10px;
-	
-	padding : 0px 3px 0px 3px;
-	margin  : 0px 8px 0px 0px;
+    background-image  : url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAAXNSR0IArs4c6QAAAAZiS0dEAAAAAAAA+UO7fwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sGDAsgIaQD10kAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAABjklEQVQoz32Sv2vbQBzFn1wKwRAIIiDs7cCLMGS5bv4P/B9kyN6lZO2SsUu2QCF7lyxez5u0aZOWgE+Lq6PQwB0Jwo6JI+jwMrS+GFvug5uO7+e9749Aa30L4DMArNdrbEtKGeB/0lqzTdZa5nlOkjj0OhuIMQZFUcAYAwCIoghhGKIoCh4y7myi1nUNKWVQ17X/FEIgDENkWdYK8M7bLs/rZzjnUJRPEEKg3++3A/715bV8WdJayy/XGS+uEub6kSRZVRWTJOFez845D3tdveLbj58AgJPjI9zc3fsEQgikaeoTdKSUwXw+94Df9QcsVo2H7QJ6vZ4HBORfUJZlHAwGiKIIRfmEm7t7nBwfechi1eDy/AwyPkVZljDGvA9sNBoFs9kMzjnI+BSX52etCbblnTdK05TD4XAvwWLV4PvXT3j49QBjDMbjcdB6OUopWmtJkrl+5MVVwuXLklprKqX8xA+enlKKVVX5Fe4WktyPva3pdMo4jtE0zXvUnZ4/AvhzCDCZTNjtdvcKAeANfNtm4C6e18cAAAAASUVORK5CYII=);
+    background-repeat : no-repeat;
+
+    color     : #b91631;
+    font-size : 10px;
+    
+    padding   : 0px 3px 0px 3px;
+    margin    : 0px 8px 0px 0px;
 }
 
 div#question {
-	padding : 0px 10px 0px 10px;
-	margin  : 20px 0px 20px 0px;
+    padding   : 0px 10px 0px 10px;
+    margin    : 20px 0px 20px 0px;
 }
 
 div#question img {
-	max-width : 100%;
+    max-width : 100%;
 }
 
 div#answer {
-	padding : 0px 10px 0px 10px;
-	margin  : 20px 0px 20px 0px;
+    padding   : 0px 10px 0px 10px;
+    margin    : 20px 0px 20px 0px;
 }
 
 div#answer img {
-	max-width : 100%;
+    max-width : 100%;
 }
 
 h1 {
-	font-size   : 14px;
-	font-family : verdana, sans-serif;
+    font-size   : 14px;
+    font-family : verdana, sans-serif;
 }
