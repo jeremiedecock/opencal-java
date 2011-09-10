@@ -57,6 +57,10 @@ public class ApplicationProperties {
 			InputStreamReader reader = new InputStreamReader(inStream);
 			defaultProperties.load(reader);
 			reader.close();
+		} catch (NullPointerException e1) {
+			System.err.println("Can't find \"default.properties\" file.");
+			System.err.println("Try \"ant build\" to build OpenCal and copy default files in the class path.");
+			throw(e1);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
