@@ -124,7 +124,9 @@ variable from something like "us.utf8" to "us".
 
 	<target name="run" depends="build" description="Run the project">
 		<echo>Run the project</echo>
-		<java classpath="${classpath}" classname="org.jdhp.opencal.OpenCAL" fork="true" />
+		<java classpath="${classpath}" classname="org.jdhp.opencal.OpenCAL" fork="true">
+			<jvmarg value="-Dopencal.userproperties.location=/home/gremy/.opencal_dev.properties"/>
+		</java>
 	</target>
 	
 	<target name="help" description="Display help">
