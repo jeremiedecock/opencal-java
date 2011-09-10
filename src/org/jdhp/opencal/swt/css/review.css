@@ -1,63 +1,103 @@
 /* Copyright (c) 2006,2007,2008,2009,2010,2011 Jérémie DECOCK (jdhp.org)     */
 
+/* ************************************************************************* */
+/*                                 DEFAULT                                   */
+/* ************************************************************************* */
+
 * {
-    font-family : monospace,fixed;
-    font-size   : 13px;
-    white-space : pre-wrap;
+    border-width      : 0px;
+
+    font-family       : monospace,fixed;
+    font-size         : 13px;
+
+    margin            : 0px;
+    padding           : 0px;
+
+    white-space       : pre-wrap;
 }
+
+/* ************************************************************************* */
+/*                                 HEADER                                    */
+/* ************************************************************************* */
 
 div#informations {
-    font-size      : 11px;
-    color          : #7c7a7a;
-    padding        : 3px;
-    margin         : 6px 0 6px 0;
-    border-top     : 1px solid #eee;
-    border-bottom  : 1px solid #eee;
-}
+    background-color  : #eeeeee;
+    border-bottom     : 1px solid #dddddd;
+    color             : #666666;
 
-div#informations span.information {
-    color     : #b91631;
-    font-size : 11px;
+    font-size         : 11px;
+
+    padding           : 1em;
 }
 
 div#informations span {
-    font-size : 11px;
+    font-size         : 11px;
 }
 
+/*
+div#informations span.information {
+    margin-right      : 3em;
+}
+*/
+
+div#informations span.highlight {
+    color             : #197cc1;
+}
+
+/* ************************************************************************* */
+/*                                  TAGS                                     */
+/* ************************************************************************* */
+
 div#tags {
-    margin            : 6px 10px 0px 10px;
+    margin            : 0.5em 2em 2em 2em;
 }
 
 div#tags span.tag {
+    /* Image : 15x15 px */
     background-image  : url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAAAAXNSR0IArs4c6QAAAAZiS0dEAAAAAAAA+UO7fwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sGDAsgIaQD10kAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAABjklEQVQoz32Sv2vbQBzFn1wKwRAIIiDs7cCLMGS5bv4P/B9kyN6lZO2SsUu2QCF7lyxez5u0aZOWgE+Lq6PQwB0Jwo6JI+jwMrS+GFvug5uO7+e9749Aa30L4DMArNdrbEtKGeB/0lqzTdZa5nlOkjj0OhuIMQZFUcAYAwCIoghhGKIoCh4y7myi1nUNKWVQ17X/FEIgDENkWdYK8M7bLs/rZzjnUJRPEEKg3++3A/715bV8WdJayy/XGS+uEub6kSRZVRWTJOFez845D3tdveLbj58AgJPjI9zc3fsEQgikaeoTdKSUwXw+94Df9QcsVo2H7QJ6vZ4HBORfUJZlHAwGiKIIRfmEm7t7nBwfechi1eDy/AwyPkVZljDGvA9sNBoFs9kMzjnI+BSX52etCbblnTdK05TD4XAvwWLV4PvXT3j49QBjDMbjcdB6OUopWmtJkrl+5MVVwuXLklprKqX8xA+enlKKVVX5Fe4WktyPva3pdMo4jtE0zXvUnZ4/AvhzCDCZTNjtdvcKAeANfNtm4C6e18cAAAAASUVORK5CYII=);
     background-repeat : no-repeat;
 
-    color     : #b91631;
-    font-size : 10px;
+    color             : #666666;
+    font-size         : 10px;
     
-    padding   : 0px 3px 0px 3px;
-    margin    : 0px 8px 0px 0px;
+    margin-right      : 0.5em;
+
+    padding-left      : 18px;
+    padding-top       : 1px;
+    padding-bottom    : 1px;
+}
+
+/* ************************************************************************* */
+/*                           QUESTION & ANSWER                               */
+/* ************************************************************************* */
+
+h1 {
+    font-size         : 14px;
+    font-family       : verdana, sans-serif;
+
+    margin            : 0em 1em 0.5em 1em;
+}
+
+h1#answer {
+    border-top        : 1px solid #dddddd;
+
+    margin-top        : 1em;
+    padding-top       : 1em;
 }
 
 div#question {
-    padding   : 0px 10px 0px 10px;
-    margin    : 20px 0px 20px 0px;
+    margin            : 0em 2em 0.5em 2em;
 }
 
 div#question img {
-    max-width : 100%;
+    max-width         : 100%;
 }
 
 div#answer {
-    padding   : 0px 10px 0px 10px;
-    margin    : 20px 0px 20px 0px;
+    margin            : 0em 2em 0.5em 2em;
 }
 
 div#answer img {
-    max-width : 100%;
+    max-width         : 100%;
 }
 
-h1 {
-    font-size   : 14px;
-    font-family : verdana, sans-serif;
-}

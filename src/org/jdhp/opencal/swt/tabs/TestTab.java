@@ -411,9 +411,16 @@ public class TestTab {
 			html.append("<center>Review done</center>");
 		} else {
 			// Informations
-			html.append("<div id=\"informations\">Created on <span class=\"information\">");
+			html.append("<div id=\"informations\">");
+			
+			html.append("<span class=\"information\">");
+			html.append("Created on ");
+			html.append("<span class=\"highlight\">");
 			html.append(card.getCreationDate());
-			html.append("</span> | <span title=\"");
+			html.append("</span>");
+			html.append("</span> - ");
+			
+			html.append("<span class=\"information\" title=\"");
 			Review reviews[] = card.getReviews();
 			for(int i=0 ; i<reviews.length ; i++) {
 				html.append(reviews[i].getReviewDate());
@@ -421,12 +428,23 @@ public class TestTab {
 				html.append(reviews[i].getResult());
 				html.append("\n");
 			}
-			html.append("\">Checked <span class=\"information\">");
+			html.append("\">");
+			html.append("Checked ");
+			html.append("<span class=\"highlight\">");
 			html.append(card.getReviews().length);
 			// TODO : Late ... days
-			html.append("</span> times</span> | Level <span class=\"information\">");
+			html.append("</span>");
+			html.append(" times");
+			html.append("</span> - ");
+			
+			html.append("<span class=\"information\">");
+			html.append("Level ");
+			html.append("<span class=\"highlight\">");
 			html.append(card.getGrade());
-			html.append("</span></div>");
+			html.append("</span>");
+			html.append("</span>");
+			
+			html.append("</div>");
 			
 			// Tags
 			html.append("<div id=\"tags\">");
@@ -435,20 +453,20 @@ public class TestTab {
 				html.append("<span class=\"tag\">");
 				html.append(tags[i]);
 				html.append("</span>");
+				html.append(" ");      // a space is needed between each span to "wrap" it
 			}
 			html.append("</div>");
 			
 			// Question
+			html.append("<h1 id=\"question\">Question</h1>");
 			html.append("<div id=\"question\">");
-			html.append("<h1>Question</h1>");
 			html.append(filter(card.getQuestion()));
 			html.append("</div>");
 			
 			// Answer
             if(getState() == TestTab.RESULT_STATE) {
-				html.append("<hr />");
+				html.append("<h1 id=\"answer\">Answer</h1>");
 				html.append("<div id=\"answer\">");
-				html.append("<h1>Answer</h1>");
 				html.append(filter(card.getAnswer()));
 				html.append("</div>");
 			}
