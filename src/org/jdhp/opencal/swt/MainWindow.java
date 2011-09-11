@@ -99,10 +99,27 @@ public class MainWindow {
 	
 	private URI pkbURI;
 	
+	
+	// Singleton pattern
+	private static MainWindow uniqueInstance = null;
+	
+	/**
+	 * Singleton pattern
+	 * TODO : add sync...
+	 * 
+	 * @return
+	 */
+	public static MainWindow getInstance() {
+		if(MainWindow.uniqueInstance == null) {
+			MainWindow.uniqueInstance = new MainWindow();
+		}
+		return MainWindow.uniqueInstance; 
+	}
+	
 	/**
 	 * 
 	 */
-	public MainWindow() {
+	private MainWindow() {
 		
 		try {
 			this.pkbURI = new URI(ApplicationProperties.getPkbPath());

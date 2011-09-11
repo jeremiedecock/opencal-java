@@ -29,7 +29,6 @@ import org.jdhp.opencal.model.cardcollection.CardManipulator;
 import org.jdhp.opencal.swt.MainWindow;
 import org.jdhp.opencal.swt.images.SharedImages;
 import org.jdhp.opencal.util.HTML;
-import org.jdhp.opencal.OpenCAL;
 
 /**
  * 
@@ -151,7 +150,7 @@ public class TestTab {
 	
                     update();
 
-					OpenCAL.mainWindow.updateStatus();
+                    MainWindow.getInstance().updateStatus();
 				}
 			}
 		});
@@ -173,7 +172,7 @@ public class TestTab {
 					
                     update();
 
-					OpenCAL.mainWindow.updateStatus();
+                    MainWindow.getInstance().updateStatus();
 				}
 			}
 		});

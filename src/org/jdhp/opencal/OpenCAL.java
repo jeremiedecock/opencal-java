@@ -29,8 +29,6 @@ public class OpenCAL {
 	
 	public final static String WEB_SITE = "http://www.jdhp.org";
 	
-	public static MainWindow mainWindow;
-	
 	/**
 	 * @param args
 	 */
@@ -50,8 +48,7 @@ public class OpenCAL {
 		}
         
 		// Make and run GUI
-		OpenCAL.mainWindow = new MainWindow();
-		OpenCAL.mainWindow.run();
+		MainWindow.getInstance().run();
 		
 		// Save UserProperties
 		ApplicationProperties.saveApplicationProperties();

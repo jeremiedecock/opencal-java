@@ -21,10 +21,10 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.data.properties.ApplicationProperties;
 import org.jdhp.opencal.model.card.Card;
 import org.jdhp.opencal.model.cardcollection.CardCollection;
+import org.jdhp.opencal.swt.MainWindow;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -62,20 +62,20 @@ public class PersonalKnowledgeBase {
             }
 		} catch(SAXException e) {
 			/* TODO : une classe data n'a pas à appeller une classe gui => faire un throw à la place pour remonter l'exeption à l'appellant */
-			OpenCAL.mainWindow.printError(ApplicationProperties.getPkbPath() + " n'est pas valide (SAXException)");
-			OpenCAL.mainWindow.close();
+			MainWindow.getInstance().printError(ApplicationProperties.getPkbPath() + " n'est pas valide (SAXException)");
+			MainWindow.getInstance().close();
 		} catch(FileNotFoundException e) {
 			/* TODO : une classe data n'a pas à appeller une classe gui => faire un throw à la place pour remonter l'exeption à l'appellant */
-			OpenCAL.mainWindow.print(ApplicationProperties.getPkbPath() + " est introuvable (FileNotFoundException)");
-			OpenCAL.mainWindow.close();
+			MainWindow.getInstance().print(ApplicationProperties.getPkbPath() + " est introuvable (FileNotFoundException)");
+			MainWindow.getInstance().close();
 		} catch(IOException e) {
 			/* TODO : une classe data n'a pas à appeller une classe gui => faire un throw à la place pour remonter l'exeption à l'appellant */
-			OpenCAL.mainWindow.printError(ApplicationProperties.getPkbPath() + " est illisible (IOException)");
-			OpenCAL.mainWindow.close();
+			MainWindow.getInstance().printError(ApplicationProperties.getPkbPath() + " est illisible (IOException)");
+			MainWindow.getInstance().close();
 		} catch(ParserConfigurationException e) {
 			/* TODO : une classe data n'a pas à appeller une classe gui => faire un throw à la place pour remonter l'exeption à l'appellant */
-			OpenCAL.mainWindow.printError("The XML parser was not configured (ParserConfigurationException)");
-			OpenCAL.mainWindow.close();
+			MainWindow.getInstance().printError("The XML parser was not configured (ParserConfigurationException)");
+			MainWindow.getInstance().close();
 		}
 	}
 	

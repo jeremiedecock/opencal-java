@@ -15,9 +15,9 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.model.card.Card;
 import org.jdhp.opencal.model.cardcollection.CardCollection;
+import org.jdhp.opencal.swt.MainWindow;
 import org.jdhp.opencal.swt.images.SharedImages;
 import org.jdhp.opencal.swt.widgets.EditableBrowser;
 import org.jdhp.opencal.swt.widgets.TagsEditor;
@@ -96,7 +96,7 @@ public class AddTab {
 				answerArea.setText("");
 				tagsArea.setText("");
 				
-				OpenCAL.mainWindow.updateStatus();
+				MainWindow.getInstance().updateStatus();
 			
 				// Set focus to the question field
 				questionArea.setFocus();
