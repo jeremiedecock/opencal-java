@@ -402,12 +402,19 @@ public class TestTab {
 	final private String htmlOut(Card card) {
 		StringBuffer html = new StringBuffer();
 		
-		html.append("<html><head><style type=\"text/css\" media=\"all\">");
+		html.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n");
+		html.append("<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\" lang=\"fr\">\n");
+		html.append("<head>\n");
+		html.append("<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\" />\n");
+		html.append("<title>opencal</title>\n");
+		html.append("<style type=\"text/css\" media=\"all\">\n");
 		html.append(MainWindow.REVIEW_CSS);
-		html.append("</style><head><body>");
+		html.append("</style>\n");
+		html.append("</head>\n");
+		html.append("<body>");
 		
 		if(card == null) {
-			html.append("<center>Review done</center>");
+			html.append("<div id=\"empty\">Test done</div>\n");
 		} else {
 			// Informations
 			html.append("<div id=\"informations\">");
@@ -457,21 +464,22 @@ public class TestTab {
 			html.append("</div>");
 			
 			// Question
-			html.append("<h1 id=\"question\">Question</h1>");
-			html.append("<div id=\"question\">");
+			html.append("<h1 class=\"question\">Question</h1>");
+			html.append("<div class=\"question\">");
 			html.append(filter(card.getQuestion()));
 			html.append("</div>");
 			
 			// Answer
             if(getState() == TestTab.RESULT_STATE) {
-				html.append("<h1 id=\"answer\">Answer</h1>");
-				html.append("<div id=\"answer\">");
+				html.append("<h1 class=\"answer\">Answer</h1>");
+				html.append("<div class=\"answer\">");
 				html.append(filter(card.getAnswer()));
 				html.append("</div>");
 			}
 		}
 		
-		html.append("</body></html>");
+		html.append("</body>\n");
+		html.append("</html>");
 		
 		return html.toString();
 	}

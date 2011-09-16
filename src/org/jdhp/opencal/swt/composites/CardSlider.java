@@ -392,17 +392,31 @@ public class CardSlider implements ModifyListListener {
 	final private String htmlOut(Card card) {
 		StringBuffer html = new StringBuffer();
 		
-		html.append("<html><head><style type=\"text/css\" media=\"all\">");
+		html.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n");
+		html.append("<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\" lang=\"fr\">\n");
+		html.append("<head>\n");
+		html.append("<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\" />\n");
+		html.append("<title>opencal</title>\n");
+		html.append("<style type=\"text/css\" media=\"all\">\n");
 		html.append(MainWindow.REVIEW_CSS);
-		html.append("</style><head><body>");
+		html.append("</style>\n");
+		html.append("</head>\n");
+		html.append("<body>");
 		
 		if(card == null) {
-			html.append("<center>Empty selection</center>");
+			html.append("<div id=\"empty\">Empty selection</div>\n");
 		} else {
 			// Informations
-			html.append("<div id=\"informations\">Created on <span class=\"information\">");
+			html.append("<div id=\"informations\">");
+			
+			html.append("<span class=\"information\">");
+			html.append("Created on ");
+			html.append("<span class=\"highlight\">");
 			html.append(card.getCreationDate());
-			html.append("</span> | <span title=\"");
+			html.append("</span>");
+			html.append("</span> - ");
+			
+			html.append("<span class=\"information\" title=\"");
 			Review reviews[] = card.getReviews();
 			for(int i=0 ; i<reviews.length ; i++) {
 				html.append(reviews[i].getReviewDate());
@@ -410,12 +424,23 @@ public class CardSlider implements ModifyListListener {
 				html.append(reviews[i].getResult());
 				html.append("\n");
 			}
-			html.append("\">Checked <span class=\"information\">");
+			html.append("\">");
+			html.append("Checked ");
+			html.append("<span class=\"highlight\">");
 			html.append(card.getReviews().length);
 			// TODO : Late ... days
-			html.append("</span> times</span> | Level <span class=\"information\">");
+			html.append("</span>");
+			html.append(" times");
+			html.append("</span> - ");
+			
+			html.append("<span class=\"information\">");
+			html.append("Level ");
+			html.append("<span class=\"highlight\">");
 			html.append(card.getGrade());
-			html.append("</span></div>");
+			html.append("</span>");
+			html.append("</span>");
+			
+			html.append("</div>");
 			
 			// Tags
 			html.append("<div id=\"tags\">");
@@ -424,26 +449,27 @@ public class CardSlider implements ModifyListListener {
 				html.append("<span class=\"tag\">");
 				html.append(tags[i]);
 				html.append("</span>");
+				html.append(" ");      // a space is needed between each span to "wrap" it
 			}
 			html.append("</div>");
 			
 			// Question
-			html.append("<div id=\"question\">");
-			html.append("<h1>Question</h1>");
+			html.append("<h1 class=\"question\">Question</h1>");
+			html.append("<div class=\"question\">");
 			html.append(filter(card.getQuestion()));
 			html.append("</div>");
 			
 			// Answer
             if(getState() == TestTab.RESULT_STATE) {
-				html.append("<hr />");
-				html.append("<div id=\"answer\">");
-				html.append("<h1>Answer</h1>");
+				html.append("<h1 class=\"answer\">Answer</h1>");
+				html.append("<div class=\"answer\">");
 				html.append(filter(card.getAnswer()));
 				html.append("</div>");
 			}
 		}
 		
-		html.append("</body></html>");
+		html.append("</body>\n");
+		html.append("</html>");
 		
 		return html.toString();
 	}

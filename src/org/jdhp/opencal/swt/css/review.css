@@ -16,6 +16,10 @@
     white-space       : pre-wrap;
 }
 
+div#empty {
+    text-align        : center;
+}
+
 /* ************************************************************************* */
 /*                                 HEADER                                    */
 /* ************************************************************************* */
@@ -68,7 +72,7 @@ div#tags span.tag {
 }
 
 /* ************************************************************************* */
-/*                           QUESTION & ANSWER                               */
+/*                          QUESTION AND ANSWER                              */
 /* ************************************************************************* */
 
 h1 {
@@ -78,26 +82,30 @@ h1 {
     margin            : 0em 1em 0.5em 1em;
 }
 
-h1#answer {
+h1.question {
+
+}
+
+h1.answer {
     border-top        : 1px solid #dddddd;
 
     margin-top        : 1em;
     padding-top       : 1em;
 }
 
-div#question {
+div.question {
     margin            : 0em 2em 0.5em 2em;
 }
 
-div#question img {
+div.question img {
     max-width         : 100%;
 }
 
-div#answer {
+div.answer {
     margin            : 0em 2em 0.5em 2em;
 }
 
-div#answer img {
+div.answer img {
     max-width         : 100%;
 }
 
