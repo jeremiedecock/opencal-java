@@ -393,7 +393,7 @@ public class CardSlider implements ModifyListListener {
 		StringBuffer html = new StringBuffer();
 		
 		html.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n");
-		html.append("<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\" lang=\"fr\">\n");
+		html.append("<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">\n");
 		html.append("<head>\n");
 		html.append("<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\" />\n");
 		html.append("<title>opencal</title>\n");
