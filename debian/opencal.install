@@ -1,1 +1,8 @@
 opencal.jar usr/share/opencal
+debian/opencal.desktop usr/share/applications
+debian/icons/32x32/opencal.png usr/share/pixmaps
+debian/icons/16x16/opencal.png usr/share/icons/hicolor/16x16/apps
+debian/icons/22x22/opencal.png usr/share/icons/hicolor/22x22/apps
+debian/icons/24x24/opencal.png usr/share/icons/hicolor/24x24/apps
+debian/icons/32x32/opencal.png usr/share/icons/hicolor/32x32/apps
+debian/icons/48x48/opencal.png usr/share/icons/hicolor/48x48/apps

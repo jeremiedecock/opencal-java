@@ -1,0 +1,9 @@
+[Desktop Entry]
+Categories=Education
+Comment=Generic card based learning program
+Exec=opencal
+Icon=opencal
+Name=OpenCAL
+Terminal=false
+TryExec=opencal
+Type=Application

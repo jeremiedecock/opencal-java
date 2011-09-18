@@ -1,0 +1,1 @@
+?package(opencal):command="opencal" icon="/usr/share/pixmaps/opencal.png" needs="x11" section="Applications/Education" title="OpenCAL"
