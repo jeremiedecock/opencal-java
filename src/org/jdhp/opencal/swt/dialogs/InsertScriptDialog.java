@@ -438,10 +438,17 @@ public abstract class InsertScriptDialog extends Dialog {
 		        
 		        dis.close();						// Add fis.close() and bis.close() ? No, "dis.close()" is enough to close the stream (checked with "lsof" Unix command).
 				
+		        // Make destination directory if it don't exist
+		        // TODO
+		        File dstDir = new File(ApplicationProperties.getImgPath());
+		        if(!dstDir.exists()) {
+		        	dstDir.mkdirs();
+		        }
+
 				// Copy file ////////////
 		        // TODO : vérifier l'emprunte MD5 du fichier, vérif que le fichier est bien fermé avec "lsof", ne pas copier le fichier si dest existe déjà, ...
 		        File src = new File(path);
-		        File dst = new File("/home/gremy/.opencal/materials/" + hexDigest + "." + extension); // TODO
+		        File dst = new File(ApplicationProperties.getImgPath() + hexDigest + "." + extension); // TODO
 		        
 		        FileInputStream  srcStream = new FileInputStream(src);
 		        FileOutputStream dstStream = new FileOutputStream(dst);
