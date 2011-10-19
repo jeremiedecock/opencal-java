@@ -197,6 +197,11 @@ public class ApplicationProperties {
 	 * @return
 	 */
 	public static String getImgPath() {
-		return ApplicationProperties.applicationProperties.getProperty("img.path", "file:///home/gremy/.opencal_dev/materials/"); // TODO
+		String userHome = System.getProperty("user.home");
+		String fileSeparator = System.getProperty("file.separator");
+		//String defaultImgPath = "file://" + userHome + fileSeparator + ".opencal" + fileSeparator + "materials" + fileSeparator; // TODO 
+		String defaultImgPath = userHome + fileSeparator + ".opencal" + fileSeparator + "materials" + fileSeparator; // TODO
+		
+		return ApplicationProperties.applicationProperties.getProperty("img.path", defaultImgPath); // TODO
 	}
 }
