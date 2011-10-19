@@ -53,8 +53,16 @@ public class PersonalKnowledgeBase {
 		try {
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder db = dbf.newDocumentBuilder();
-			PersonalKnowledgeBase.domDocument = db.parse(PersonalKnowledgeBase.pkbFile);
 			
+			if(PersonalKnowledgeBase.pkbFile.exists()) {
+				PersonalKnowledgeBase.domDocument = db.parse(PersonalKnowledgeBase.pkbFile);
+			} else {
+				PersonalKnowledgeBase.domDocument = db.newDocument();
+				Element root = PersonalKnowledgeBase.domDocument.createElement("pkb");
+				PersonalKnowledgeBase.domDocument.appendChild(root);
+			}
+
+			// Build the CardCollection
 			NodeList nodeCards = PersonalKnowledgeBase.domDocument.getElementsByTagName("card");
             for(int i=0 ; i<nodeCards.getLength() ; i++) {
                 Card card = new Card((Element) nodeCards.item(i));
