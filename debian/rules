@@ -1,11 +1,5 @@
 #!/usr/bin/make -f
 
-export JAVA_HOME=/usr/lib/jvm/java-6-openjdk
-
-# Put depended upon jars in here
-# le fichier opencal.manifest doit aussi etre renseigne si non ça marche pas... (un bug de javahelper ???)
-export CLASSPATH=/usr/share/opencal/jcommon-1.0.14.jar:/usr/share/opencal/jfreechart-1.0.11.jar:/usr/share/opencal/junit_3.8.2.jar:/usr/share/opencal/swt-3.6.1-gtk-linux-x86.jar
-
 %:
 	dh --with javahelper $@
 
