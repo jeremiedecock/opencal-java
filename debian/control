@@ -7,8 +7,16 @@ Build-Depends-Indep: openjdk-6-jdk
 Standards-Version: 3.8.3
 Homepage: http://www.jdhp.org
 
+# * ************************************************************************** *
+# * This package should work with libswt 3.5 (Debian Squeeze) and 3.7 (Wheezy) *
+# * - Debian Squeeze needs "libswt-*-3.5-*"                                    *
+# * - Debian Wheezy needs "libswt-*-3-*"                                       *
+# * Warning: "${java:Depends}" changes "libswt-gtk-3.5-java|libswt-gtk-3-java" *
+# *   to "libswt-gtk-3.5-java", so I can't use it...                           *
+# * ************************************************************************** *
 Package: opencal
 Architecture: all
-Depends: ${java:Depends}, ${misc:Depends}, gnuplot (>= 4.4.0), graphviz, junit (>= 3.8), texlive, texlive-latex-extra, libswt-gtk-3.5-java, libswt-gnome-gtk-3.5-jni, libswt-cairo-gtk-3.5-jni, libswt-mozilla-gtk-3.5-jni, libjfreechart-java
+#Depends: ${java:Depends}, ${misc:Depends}, junit (>= 3.8), libswt-gtk-3.5-java, libswt-gnome-gtk-3.5-jni, libswt-cairo-gtk-3.5-jni, libswt-mozilla-gtk-3.5-jni, gnuplot (>= 4.4.0), graphviz, texlive, texlive-latex-extra, dvipng
+Depends: openjdk-6-jre | openjdk-7-jre, jarwrapper (>= 0.5), junit (>= 3.8), libswt-gtk-3.5-java | libswt-gtk-3-java, libswt-gnome-gtk-3.5-jni | libswt-gnome-gtk-3-jni, libswt-cairo-gtk-3.5-jni | libswt-cairo-gtk-3-jni, libswt-mozilla-gtk-3.5-jni | libswt-webkit-gtk-3-jni, gnuplot (>= 4.4.0), graphviz, texlive, texlive-latex-extra, dvipng, libjfreechart-java
 Description: OpenCAL
  OpenCAL
