@@ -71,6 +71,11 @@ public class PersonalKnowledgeBase {
                 CardCollection.getInstance().add(card);
             }
             
+            // Check the CardCollection
+            boolean isDateConsistent = CardCollection.getInstance().isDateConsistent();
+            if(!isDateConsistent) {
+            	MainWindow.getInstance().printAlert("The system date is not consistent with some dates in the knowledge base.\n\nPlease check your system date !");
+            }
             
 		} catch(SAXException e) {
 			/* TODO : une classe data n'a pas à appeller une classe gui => faire un throw à la place pour remonter l'exeption à l'appellant */

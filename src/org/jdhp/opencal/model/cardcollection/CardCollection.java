@@ -48,6 +48,36 @@ public class CardCollection extends ArrayList<Card> {
 		return tagSet.toArray(new String[tagSet.size()]);
 	}
 	
+	
+	/**
+	 * Vérifi que toutes les dates de toutes les cartes sont bien antérieurs (ou égales) à aujourd'hui.
+	 * Dans le cas contraire, c'est qu'il y a un problème avec l'heure du système... 
+	 */
+	public boolean isDateConsistent() {
+		GregorianCalendar todayDate = new GregorianCalendar();
+		boolean isConsistent = true;
+		
+		loop1: for(Card card : this) {
+			// Check creationDate
+			GregorianCalendar creationDate = CalendarToolKit.iso8601ToCalendar(card.getCreationDate());
+            if(creationDate.after(todayDate)) {
+            	isConsistent = false;
+            	break loop1;
+            }
+            
+            // Check reviewDate
+            for(Review review : card.getReviews()) {
+            	GregorianCalendar reviewDate = CalendarToolKit.iso8601ToCalendar(review.getReviewDate());
+            	if(reviewDate.after(todayDate)) {
+            		isConsistent = false;
+            		break loop1;
+                }
+            }
+        }
+		
+		return isConsistent;
+	}
+	
 	/**
 	 * 
 	 * @return
