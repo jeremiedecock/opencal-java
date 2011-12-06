@@ -7,6 +7,7 @@ debian/files
 debian/opencal.substvars
 debian/opencal.postinst.debhelper
 debian/opencal.postrm.debhelper
+debian/opencal.debhelper.log
 debian/opencal/
 opencal.jar
 *.swp
