@@ -37,12 +37,13 @@ import org.xml.sax.SAXException;
  */
 public class PersonalKnowledgeBase {
 
-	private static File pkbFile;			// TODO : à supprimer
+	private static File pkbFile;
 	
 	private static Document domDocument;	// TODO : à supprimer
 
 	
 	/**
+	 * TODO retourner un objet CardCollection
 	 * 
 	 * @param uri
 	 */
@@ -51,6 +52,7 @@ public class PersonalKnowledgeBase {
 
 		// Build the XML DOM tree
 		try {
+			
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			
@@ -68,6 +70,8 @@ public class PersonalKnowledgeBase {
                 Card card = new Card((Element) nodeCards.item(i));
                 CardCollection.getInstance().add(card);
             }
+            
+            
 		} catch(SAXException e) {
 			/* TODO : une classe data n'a pas à appeller une classe gui => faire un throw à la place pour remonter l'exeption à l'appellant */
 			MainWindow.getInstance().printError(ApplicationProperties.getPkbPath() + " n'est pas valide (SAXException)");
@@ -89,10 +93,10 @@ public class PersonalKnowledgeBase {
 	
 
 	/**
+	 * TODO : prendre un objet CardCollection
 	 * 
-	 * @param document
 	 */
-	public static void save(URI uri) {
+	public static void save() {
 		try {
 			// Make DOM source
 			Source domSource = new DOMSource(PersonalKnowledgeBase.domDocument);
@@ -113,8 +117,8 @@ public class PersonalKnowledgeBase {
 		}
 	}
 	
-	
 	/**
+	 * TODO : supprimer
 	 * 
 	 * @return
 	 */

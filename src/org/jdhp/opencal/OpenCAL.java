@@ -50,6 +50,9 @@ public class OpenCAL {
 		// Make and run GUI
 		MainWindow.getInstance().run();
 		
+		// Save PKB file
+		PersonalKnowledgeBase.save();
+		
 		// Save UserProperties
 		ApplicationProperties.saveApplicationProperties();
 	}

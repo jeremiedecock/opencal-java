@@ -32,6 +32,16 @@ import org.w3c.dom.NodeList;
  *
  */
 public class Card {
+	
+	
+//  TODO:
+//	private String question;
+//	private String answer;
+//	private List<String> tags;    // TODO : utiliser une collection (set?)
+//	private List<Review> reviews; // TODO : utiliser une collection (set?)
+//	private Date cdate;
+//	private boolean hidden;
+	
 
 	private Element element;
 	
@@ -83,9 +93,6 @@ public class Card {
 			NodeList nodeList = PersonalKnowledgeBase.getDomDocument().getElementsByTagName("pkb");
 			Element pkbElement = (Element) nodeList.item(0);
 			pkbElement.appendChild(this.element);
-			
-			// Add the new "card" to the XML file
-			PersonalKnowledgeBase.save(null);
 			
 			this.grade = Professors.getProfessor().assess(this);
 		}
@@ -256,9 +263,6 @@ public class Card {
 		
 		// Update grade
 		this.grade = Professors.getProfessor().assess(this);
-		
-		// Serialize DOM tree
-		PersonalKnowledgeBase.save(null);
 	}
 	
 	/**
@@ -269,9 +273,6 @@ public class Card {
 		NodeList nodeCards = this.element.getElementsByTagName("question");
 		Element questionElement = (Element) nodeCards.item(0);
 		((CDATASection) questionElement.getFirstChild()).setTextContent(newQuestion);
-		
-		// Serialize DOM tree
-		PersonalKnowledgeBase.save(null);
 	}
 	
 	/**
@@ -282,9 +283,6 @@ public class Card {
 		NodeList nodeCards = this.element.getElementsByTagName("answer");
 		Element answerElement = (Element) nodeCards.item(0);
 		((CDATASection) answerElement.getFirstChild()).setTextContent(newAnswer);
-		
-		// Serialize DOM tree
-		PersonalKnowledgeBase.save(null);
 	}
 	
 	/**
@@ -313,9 +311,6 @@ public class Card {
 				tagElement.appendChild(PersonalKnowledgeBase.getDomDocument().createTextNode(tagValue));
 			}
 		}
-		
-		// Serialize DOM tree
-		PersonalKnowledgeBase.save(null);
 	}
 
 	/**
@@ -325,9 +320,6 @@ public class Card {
 	public void setHidden(boolean isHidden) {
         // Update XML element
         this.element.setAttribute("hidden", isHidden ? "true" : "false");
-		
-		// Serialize DOM tree
-		PersonalKnowledgeBase.save(null);
     }
 	
 	/**
