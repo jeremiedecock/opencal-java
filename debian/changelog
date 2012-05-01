@@ -1,5 +1,6 @@
-opencal (3.0.0-1) unstable; urgency=low
+opencal (3.0.1) unstable; urgency=low
 
   * Initial release.
+  * Add gif support (3.0.1).
 
  -- Jeremie Decock <jd.jdhp@gmail.com>  Fri, 03 Jun 2011 19:43:15 +0200
