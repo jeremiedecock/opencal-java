@@ -56,7 +56,7 @@ public abstract class InsertScriptDialog extends Dialog {
 	
 	public static final String DEFAULT_BUILD_ERR_MSG = "Unknown error";  // TODO
 	
-	public static final String[] IMAGE_EXTENSION_LIST = {"png", "jpg", "jpeg"}; // les extensions doivent être en minuscule
+	public static final String[] IMAGE_EXTENSION_LIST = {"png", "jpg", "jpeg", "gif"}; // les extensions doivent être en minuscule
 	
 	public static final String SCRIPT_SUFFIX = ".src";
 	

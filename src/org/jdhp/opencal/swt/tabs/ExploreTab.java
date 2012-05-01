@@ -450,7 +450,7 @@ public class ExploreTab {
 	final private String[] formatItems(String[] text) {
 		for(int i=0 ; i<text.length ; i++) {
 			// Supprime les balises images
-			String pattern = "<img file=\"[0-9abcdef]{32}.(png|jpg|jpeg)\" />";
+			String pattern = "<img file=\"[0-9abcdef]{32}.(png|jpg|jpeg|gif)\" />";
 			Pattern regPat = Pattern.compile(pattern);
 			Matcher matcher = regPat.matcher(text[i]);
 			text[i] = matcher.replaceAll("[img]");

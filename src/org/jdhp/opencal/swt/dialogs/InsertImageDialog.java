@@ -48,7 +48,7 @@ public class InsertImageDialog extends Dialog {
 	
 	public static final String PREVIEW_DEFAULT_MESSAGE = "No preview available.";
 	
-	public static final String[] IMAGE_EXTENSION_LIST = {"png", "jpg", "jpeg"}; // les extensions doivent être en minuscule
+	public static final String[] IMAGE_EXTENSION_LIST = {"png", "jpg", "jpeg", "gif"}; // les extensions doivent être en minuscule
 	
 	private String imageTag;
 	

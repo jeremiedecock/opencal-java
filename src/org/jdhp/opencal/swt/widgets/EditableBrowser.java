@@ -377,7 +377,7 @@ public class EditableBrowser {
 //		html = html.replaceAll("\n", "<br />");
 		
 		// Rétabli l'interprétation pour les balises images
-		String pattern = "&lt;img file=&quot;([0-9abcdef]{32}.(png|jpg|jpeg))&quot; /&gt;";
+		String pattern = "&lt;img file=&quot;([0-9abcdef]{32}.(png|jpg|jpeg|gif))&quot; /&gt;";
 		Pattern regPat = Pattern.compile(pattern);
 		Matcher matcher = regPat.matcher(html);
 		html = matcher.replaceAll("<img src=\"" + ApplicationProperties.getImgPath() + "$1\" />");
