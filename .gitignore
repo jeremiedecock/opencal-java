@@ -18,5 +18,6 @@ opencal.jar
 *.lot
 *.lof
 *.out
+*.pkb
 .classpath
 .project
