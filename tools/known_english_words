@@ -1,0 +1,98 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2012 Jérémie DECOCK (http://www.jdhp.org)
+
+import argparse
+import xml.sax
+
+from xml.sax.handler import ContentHandler, ErrorHandler
+
+# ContentHandler ############################
+
+class MyContentHandler(ContentHandler):
+    """Get known words in english questions"""
+
+    def __init__(self):
+        # Init all vars
+        self.isQuestionElement = False
+        self.isTagElement = False
+        self.isEnglishCard = False
+        self.isVocabularyCard = False
+        self.questionValue = ""
+        self.tagValue = ""
+
+    def startDocument(self):
+        pass
+
+    def endDocument(self):
+        print() 
+
+    def startElement(self, name, attr):
+        if name == "card":
+            # Init all vars
+            self.isQuestionElement = False
+            self.isTagElement = False
+            self.isEnglishCard = False
+            self.isVocabularyCard = False
+            self.questionValue = ""
+            self.tagValue = ""
+        if name == "question":
+            self.isQuestionElement = True
+            self.questionValue = ""
+        if name == "tag":
+            self.isTagElement = True
+            self.tagValue = ""
+
+    def endElement(self, name):
+        if name == "card":
+            if self.isEnglishCard and self.isVocabularyCard:
+                print(self.questionValue)
+        if name == "question":
+            self.isQuestionElement = False
+        if name == "tag":
+            if self.tagValue == "anglais":
+                self.isEnglishCard = True
+            elif self.tagValue == "vocabulaire":
+                self.isVocabularyCard = True
+            self.isTagElement = False
+
+    def characters(self, ch):
+        if self.isTagElement:
+            self.tagValue += ch
+        elif self.isQuestionElement:
+            self.questionValue += ch
+
+# ErrorHandler ##############################
+
+class MyErrorHandler(ErrorHandler):
+    def fatalError(self, exception):
+        print("Fatal error:", exception)
+
+    def error(self, exception):
+        print("Error:", exception)
+
+    def warning(self, exception):
+        print("Warning:", exception)
+
+
+def main():
+    """Main function"""
+
+    # Parse program arguments
+    argparser = argparse.ArgumentParser(description='OPC tool.')
+    argparser.add_argument('filenames', nargs='+', metavar='FILE', help='file to read')
+    args = argparser.parse_args()
+
+    # Make XML parser
+    xmlreader = xml.sax.make_parser()
+    xmlreader.setContentHandler(MyContentHandler())
+    xmlreader.setErrorHandler(MyErrorHandler())
+
+    # Parse XML files
+    for filename in args.filenames:
+        print(filename, end=' ')
+        xmlreader.parse(filename)
+
+if __name__ == '__main__':
+    main()
