@@ -10,7 +10,8 @@ import java.net.URISyntaxException;
 
 import org.jdhp.opencal.data.pkb.PersonalKnowledgeBase;
 import org.jdhp.opencal.data.properties.ApplicationProperties;
-import org.jdhp.opencal.model.professor.Professors;
+import org.jdhp.opencal.model.professor.Professor;
+import org.jdhp.opencal.model.professor.ProfessorFactory;
 import org.jdhp.opencal.swt.MainWindow;
 
 /**
@@ -25,9 +26,12 @@ public class OpenCAL {
 	
 	public final static String PROGRAM_NAME = "OpenCAL";
 	
-	public final static String COPYRIGHT = "Copyright © 2007,2008,2009,2010,2011 Jérémie DECOCK";
+	public final static String COPYRIGHT = "Copyright © 2007,2008,2009,2010,2011,2012 Jérémie DECOCK";
 	
 	public final static String WEB_SITE = "http://www.jdhp.org";
+	
+	// TODO
+	public static Professor professor = null; 
 	
 	/**
 	 * @param args
@@ -37,7 +41,7 @@ public class OpenCAL {
 		ApplicationProperties.loadApplicationProperties();
 		
 		// Create Professor
-		Professors.setProfessorName(ApplicationProperties.getProfessorName());
+		OpenCAL.professor = ProfessorFactory.createProfessor(ApplicationProperties.getProfessorName());
 		
 		// Open default PKB File and create card set
 		try {

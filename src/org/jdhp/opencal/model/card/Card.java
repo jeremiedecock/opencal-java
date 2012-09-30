@@ -5,26 +5,26 @@
 
 package org.jdhp.opencal.model.card;
 
-import java.io.StringWriter;
+import java.io.StringWriter;  // TODO: REMOVE THIS !
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.OutputKeys;  // TODO: REMOVE THIS !
+import javax.xml.transform.Result;  // TODO: REMOVE THIS !
+import javax.xml.transform.Source;  // TODO: REMOVE THIS !
+import javax.xml.transform.Transformer;  // TODO: REMOVE THIS !
+import javax.xml.transform.TransformerFactory;  // TODO: REMOVE THIS !
+import javax.xml.transform.dom.DOMSource;  // TODO: REMOVE THIS !
+import javax.xml.transform.stream.StreamResult;  // TODO: REMOVE THIS !
 
-import org.jdhp.opencal.data.pkb.PersonalKnowledgeBase;
-import org.jdhp.opencal.model.professor.Professors;
+import org.jdhp.opencal.OpenCAL;
+import org.jdhp.opencal.data.pkb.PersonalKnowledgeBase;  // TODO: REMOVE THIS !
 import org.jdhp.opencal.util.CalendarToolKit;
 
-import org.w3c.dom.CDATASection;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.CDATASection;  // TODO: REMOVE THIS !
+import org.w3c.dom.Element;  // TODO: REMOVE THIS !
+import org.w3c.dom.Node;  // TODO: REMOVE THIS !
+import org.w3c.dom.NodeList;  // TODO: REMOVE THIS !
 
 /**
  * 
@@ -54,7 +54,7 @@ public class Card {
 	 */
 	public Card(Element element) {
 		this.element = element;
-		this.grade = Professors.getProfessor().assess(this);
+		this.grade = OpenCAL.professor.assess(this);
 	}
 	
 	/**
@@ -94,7 +94,7 @@ public class Card {
 			Element pkbElement = (Element) nodeList.item(0);
 			pkbElement.appendChild(this.element);
 			
-			this.grade = Professors.getProfessor().assess(this);
+			this.grade = OpenCAL.professor.assess(this);
 		}
 	}
 	
@@ -262,7 +262,7 @@ public class Card {
 		this.element.appendChild(reviewElement);
 		
 		// Update grade
-		this.grade = Professors.getProfessor().assess(this);
+		this.grade = OpenCAL.professor.assess(this);
 	}
 	
 	/**

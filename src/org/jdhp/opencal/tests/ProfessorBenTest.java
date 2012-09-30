@@ -6,9 +6,11 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.model.card.Card;
+import org.jdhp.opencal.model.professor.Professor;
 import org.jdhp.opencal.model.professor.ProfessorBen;
-import org.jdhp.opencal.model.professor.Professors;
+import org.jdhp.opencal.model.professor.ProfessorFactory;
 import org.jdhp.opencal.util.CalendarToolKit;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -17,6 +19,7 @@ import junit.framework.TestCase;
 
 public class ProfessorBenTest extends TestCase {
 
+	// TODO: remove this !!!
 	private Document document;
 	
 	/**
@@ -42,7 +45,7 @@ public class ProfessorBenTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		
-		Professors.setProfessorName("Ben");
+		OpenCAL.professor = ProfessorFactory.createProfessor("Ben");
 	}
 
 	/**
@@ -50,8 +53,6 @@ public class ProfessorBenTest extends TestCase {
 	 */
 	protected void tearDown() throws Exception {
 		super.tearDown();
-
-//		OpenCAL.setProfessor(UserProperties.getProfessorName());
 	}
 
 	/**

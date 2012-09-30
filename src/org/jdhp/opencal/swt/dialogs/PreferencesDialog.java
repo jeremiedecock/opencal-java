@@ -22,8 +22,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.data.properties.ApplicationProperties;
-import org.jdhp.opencal.model.professor.Professors;
+import org.jdhp.opencal.model.professor.ProfessorFactory;
 import org.jdhp.opencal.swt.images.SharedImages;
 
 public class PreferencesDialog extends Dialog {
@@ -188,8 +189,8 @@ public class PreferencesDialog extends Dialog {
 		
 		final Combo professorNameCombo = new Combo(professorPropertiesComposite, SWT.BORDER | SWT.READ_ONLY);
 		professorNameCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		professorNameCombo.setItems(Professors.PROFESSOR_MAP.keySet().toArray(new String[0]));
-		professorNameCombo.setText(Professors.getProfessorName());
+		professorNameCombo.setItems(ProfessorFactory.AVAILABLE_PROFESSORS_NAME.toArray(new String[0]));
+		professorNameCombo.setText(OpenCAL.professor.getName());
 		
 		/////////////////////////////////////////
 		// ExternalToolsPropertiesComposite /////
@@ -290,7 +291,9 @@ public class PreferencesDialog extends Dialog {
 			public void widgetSelected(SelectionEvent event) {
 				ApplicationProperties.setDefaultAuthor(authorText.getText());
 				ApplicationProperties.setDefaultLicense(licenceText.getText());
-				Professors.setProfessorName(professorNameCombo.getText());
+				ApplicationProperties.setProfessorName(professorNameCombo.getText());
+				// TODO: change OpenCAL.professor
+				// TODO: update cardList assess
 				
 				// Innutile, saveApplicationProperties() est appellé automatiquement à l'arret du programme (cf. classe OpenCAL)
 				// ApplicationProperties.saveApplicationProperties();

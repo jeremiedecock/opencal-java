@@ -11,6 +11,7 @@ import java.util.GregorianCalendar;
 import org.jdhp.opencal.model.card.Card;
 import org.jdhp.opencal.model.card.Review;
 import org.jdhp.opencal.util.CalendarToolKit;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -21,6 +22,12 @@ import org.w3c.dom.NodeList;
  */
 public class ProfessorCharlie implements Professor {
 
+	public static final String NAME = "Charlie";
+	
+	public String getName() {
+		return ProfessorCharlie.NAME;
+	}
+	
 	/**
 	 * 
 	 * 

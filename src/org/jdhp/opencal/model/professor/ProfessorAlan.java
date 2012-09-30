@@ -10,6 +10,7 @@ import java.util.GregorianCalendar;
 import org.jdhp.opencal.model.card.Card;
 import org.jdhp.opencal.model.card.Review;
 import org.jdhp.opencal.util.CalendarToolKit;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -19,6 +20,12 @@ import org.w3c.dom.NodeList;
  *
  */
 public class ProfessorAlan implements Professor {
+	
+	public static final String NAME = "Alan";
+	
+	public String getName() {
+		return ProfessorAlan.NAME;
+	}
 	
 	/**
 	 * Alan is a lazy guy. He doesn't care about too late or too early reviews.

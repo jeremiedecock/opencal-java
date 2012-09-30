@@ -14,7 +14,6 @@ import java.io.InputStreamReader;
 import java.util.Properties;
 
 import org.jdhp.opencal.OpenCAL;
-import org.jdhp.opencal.model.professor.Professors;
 
 /**
  *
@@ -23,6 +22,8 @@ import org.jdhp.opencal.model.professor.Professors;
 public class ApplicationProperties {
 
 	private static Properties applicationProperties;
+	
+	public final static String DEFAULT_PROFESSOR_NAME = "Ben";
 	
 	private static String userPropertiesLocation() {
 		String userHome = System.getProperty("user.home");
@@ -162,7 +163,7 @@ public class ApplicationProperties {
 	 * @return
 	 */
 	public static String getProfessorName() {
-		String defaultProfessorName = Professors.DEFAULT_PROFESSOR_NAME;
+		String defaultProfessorName = ApplicationProperties.DEFAULT_PROFESSOR_NAME;
 		return ApplicationProperties.applicationProperties.getProperty("professor.name", defaultProfessorName);
 	}
 

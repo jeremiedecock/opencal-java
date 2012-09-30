@@ -11,6 +11,7 @@ import java.util.GregorianCalendar;
 import org.jdhp.opencal.model.card.Card;
 import org.jdhp.opencal.model.card.Review;
 import org.jdhp.opencal.util.CalendarToolKit;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -20,6 +21,12 @@ import org.w3c.dom.NodeList;
  *
  */
 public class ProfessorBen implements Professor {
+	
+	public static final String NAME = "Ben";
+	
+	public String getName() {
+		return ProfessorBen.NAME;
+	}
 
 	/**
 	 * Ben is a little more professional than Alan.
