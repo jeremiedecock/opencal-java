@@ -35,15 +35,20 @@ public class ProfessorAlan implements Professor {
 	public float assess(Card card) {
 		int grade = 0;
 		
-		// TODO : vérifier que les noeuds "review" sont bien classés par date croissante
 		NodeList reviewList = card.getElement().getElementsByTagName("review");
-		if(!isSorted(reviewList)) System.out.println("Unsorted card detected : " + card);
 		
-		for(int i=0 ; i < reviewList.getLength() ; i++) {
-			if(((Element) reviewList.item(i)).getAttribute("result").equals(Review.RIGHT_ANSWER_STRING)) {
-				grade++;
-			} else {
-				grade = 0;
+		if(reviewList.getLength() == 0) {
+			grade = Professor.HAS_NEVER_BEEN_REVIEWED;
+		} else {
+			// TODO : vérifier que les noeuds "review" sont bien classés par date croissante
+			if(!isSorted(reviewList)) System.out.println("Unsorted card detected : " + card);
+			
+			for(int i=0 ; i < reviewList.getLength() ; i++) {
+				if(((Element) reviewList.item(i)).getAttribute("result").equals(Review.RIGHT_ANSWER_STRING)) {
+					grade++;
+				} else {
+					grade = 0;
+				}
 			}
 		}
 		

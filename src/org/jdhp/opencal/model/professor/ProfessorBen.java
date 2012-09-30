@@ -38,32 +38,37 @@ public class ProfessorBen implements Professor {
 	public float assess(Card card) {
 		int grade = 0;
 		
-		GregorianCalendar cdate = CalendarToolKit.iso8601ToCalendar(card.getElement().getAttribute("cdate"));
-		GregorianCalendar expectedRevisionDate = getExpectedRevisionDate(cdate, grade);
-		
-		// TODO : vérifier que les noeuds "review" sont bien classés par date croissante
 		NodeList reviewList = card.getElement().getElementsByTagName("review");
-		if(!isSorted(reviewList)) System.out.println("Unsorted card detected : " + card);
 		
-		for(int i=0 ; i < reviewList.getLength() ; i++) {
-			GregorianCalendar rdate = CalendarToolKit.iso8601ToCalendar(((Element) reviewList.item(i)).getAttribute("rdate"));
-			String result = ((Element) reviewList.item(i)).getAttribute("result"); 
+		if(reviewList.getLength() == 0) {
+			grade = Professor.HAS_NEVER_BEEN_REVIEWED;
+		} else {
+			GregorianCalendar cdate = CalendarToolKit.iso8601ToCalendar(card.getElement().getAttribute("cdate"));
+			GregorianCalendar expectedRevisionDate = getExpectedRevisionDate(cdate, grade);
 			
-			if(result.equals(Review.RIGHT_ANSWER_STRING)) {
-				if(!rdate.before(expectedRevisionDate)) {
-					grade++;
+			// TODO : vérifier que les noeuds "review" sont bien classés par date croissante
+			if(!isSorted(reviewList)) System.out.println("Unsorted card detected : " + card);
+			
+			for(int i=0 ; i < reviewList.getLength() ; i++) {
+				GregorianCalendar rdate = CalendarToolKit.iso8601ToCalendar(((Element) reviewList.item(i)).getAttribute("rdate"));
+				String result = ((Element) reviewList.item(i)).getAttribute("result"); 
+				
+				if(result.equals(Review.RIGHT_ANSWER_STRING)) {
+					if(!rdate.before(expectedRevisionDate)) {
+						grade++;
+						expectedRevisionDate = getExpectedRevisionDate(rdate, grade);
+					}
+				} else {
+					grade = 0;
 					expectedRevisionDate = getExpectedRevisionDate(rdate, grade);
 				}
-			} else {
-				grade = 0;
-				expectedRevisionDate = getExpectedRevisionDate(rdate, grade);
 			}
-		}
-		
-		GregorianCalendar today = new GregorianCalendar();
-		if(today.before(expectedRevisionDate)) {
-			// It's too early to review this card. The card will be hide.
-			grade = -1;
+			
+			GregorianCalendar today = new GregorianCalendar();
+			if(today.before(expectedRevisionDate)) {
+				// It's too early to review this card. The card will be hide.
+				grade = Professor.DONT_REVIEW_THIS_TODAY;
+			}
 		}
 		
 		return grade;

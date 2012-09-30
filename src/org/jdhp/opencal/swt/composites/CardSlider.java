@@ -28,6 +28,7 @@ import org.jdhp.opencal.data.properties.ApplicationProperties;
 import org.jdhp.opencal.model.card.Card;
 import org.jdhp.opencal.model.card.Review;
 import org.jdhp.opencal.model.cardcollection.CardManipulator;
+import org.jdhp.opencal.model.professor.Professor;
 import org.jdhp.opencal.swt.MainWindow;
 import org.jdhp.opencal.swt.images.SharedImages;
 import org.jdhp.opencal.swt.listeners.ModifyListListener;
@@ -436,7 +437,7 @@ public class CardSlider implements ModifyListListener {
 			html.append("<span class=\"information\">");
 			html.append("Level ");
 			html.append("<span class=\"highlight\">");
-			html.append(card.getGrade());
+			html.append(card.getGrade() == Professor.HAS_NEVER_BEEN_REVIEWED ? "-" : card.getGrade());
 			html.append("</span>");
 			html.append("</span>");
 			

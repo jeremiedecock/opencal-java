@@ -26,6 +26,7 @@ import org.jdhp.opencal.model.card.Card;
 import org.jdhp.opencal.model.card.Review;
 import org.jdhp.opencal.model.cardcollection.CardCollection;
 import org.jdhp.opencal.model.cardcollection.CardManipulator;
+import org.jdhp.opencal.model.professor.Professor;
 import org.jdhp.opencal.swt.MainWindow;
 import org.jdhp.opencal.swt.images.SharedImages;
 import org.jdhp.opencal.util.HTML;
@@ -143,7 +144,7 @@ public class TestTab {
 			public void widgetSelected(SelectionEvent e) {
 				if(wrongAnswerButton.getEnabled()) {
 					manipulator.pop().putReview(Review.WRONG_ANSWER_STRING);
-					manipulator.pop().setGrade(-1);
+					manipulator.pop().setGrade(Professor.DONT_REVIEW_THIS_TODAY);
 					manipulator.remove();
 
                     setState(TestTab.NAVIGATION_STATE);
@@ -165,7 +166,7 @@ public class TestTab {
 			public void widgetSelected(SelectionEvent e) {
 				if(rightAnswerButton.getEnabled()) {
 					manipulator.pop().putReview(Review.RIGHT_ANSWER_STRING);
-					manipulator.pop().setGrade(-1);
+					manipulator.pop().setGrade(Professor.DONT_REVIEW_THIS_TODAY);
 					manipulator.remove();
 
                     setState(TestTab.NAVIGATION_STATE);
@@ -317,7 +318,7 @@ public class TestTab {
 		cardList.clear();
 		
 		for(Card card : CardCollection.getInstance()) {
-    		if(card.getGrade() >= 0. && !card.isHidden())
+    		if(card.getGrade() != Professor.DONT_REVIEW_THIS_TODAY && !card.isHidden())
     			cardList.add(card);
 		}
 
@@ -446,7 +447,7 @@ public class TestTab {
 			html.append("<span class=\"information\">");
 			html.append("Level ");
 			html.append("<span class=\"highlight\">");
-			html.append(card.getGrade());
+			html.append(card.getGrade() == Professor.HAS_NEVER_BEEN_REVIEWED ? "-" : card.getGrade());
 			html.append("</span>");
 			html.append("</span>");
 			
