@@ -6,7 +6,7 @@ import java.util.List;
 
 public class ProfessorFactory {
 	
-	public static Professor createProfessor(String professorName) {
+	public static Professor createProfessor(String professorName) throws ProfessorFactoryException {
 		Professor professorInstance = null;
 		
 		if(professorName.equals(ProfessorAlan.NAME)) {
@@ -16,7 +16,7 @@ public class ProfessorFactory {
 		} else if(professorName.equals(ProfessorCharlie.NAME)) {
 			professorInstance =  new ProfessorCharlie();
 		} else {
-			//TODO throw ProfessorFactoryException;
+			throw new ProfessorFactoryException("Unknown professor name: " + professorName);
 		}
 		
 		return professorInstance;

@@ -12,6 +12,7 @@ import org.jdhp.opencal.data.pkb.PersonalKnowledgeBase;
 import org.jdhp.opencal.data.properties.ApplicationProperties;
 import org.jdhp.opencal.model.professor.Professor;
 import org.jdhp.opencal.model.professor.ProfessorFactory;
+import org.jdhp.opencal.model.professor.ProfessorFactoryException;
 import org.jdhp.opencal.swt.MainWindow;
 
 /**
@@ -41,14 +42,20 @@ public class OpenCAL {
 		ApplicationProperties.loadApplicationProperties();
 		
 		// Create Professor
-		OpenCAL.professor = ProfessorFactory.createProfessor(ApplicationProperties.getProfessorName());
+		try {
+			OpenCAL.professor = ProfessorFactory.createProfessor(ApplicationProperties.getProfessorName());
+		} catch(ProfessorFactoryException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
 		
 		// Open default PKB File and create card set
 		try {
 			URI uri = new URI(ApplicationProperties.getPkbPath());
 			PersonalKnowledgeBase.load(uri);
-		} catch (URISyntaxException e) {
+		} catch(URISyntaxException e) {
 			e.printStackTrace();
+			System.exit(1);
 		}
         
 		// Make and run GUI
