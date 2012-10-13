@@ -10,7 +10,7 @@ import java.io.InputStreamReader;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Shell;
 
-public class InsertPlotDialog extends InsertScriptDialog {
+public final class InsertPlotDialog extends InsertScriptDialog {
 
 	public static final String TERMINAL = "png"; // TODO : pngcairo (gnuplot >= 4.4)
 	public static final String SOURCE_HEADER = "set terminal " + TERMINAL + " size 350, 250\n";

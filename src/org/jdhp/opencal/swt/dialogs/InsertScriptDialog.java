@@ -99,36 +99,11 @@ public abstract class InsertScriptDialog extends InsertImageDialog {
 	}
 
 	/**
-	 * Opens the dialog and returns the image tag
-	 * 
-	 * @return tag the image tag
-	 */
-	public String open() {
-		// Create the dialog window
-		Shell shell = new Shell(this.getParent(), this.getStyle());
-		shell.setText(this.getText());
-		shell.setMinimumSize(400, 520);
-		this.createContents(shell);
-		shell.pack();
-		shell.open();
-		
-		Display display = this.getParent().getDisplay();
-		while(!shell.isDisposed()) {
-			if(!display.readAndDispatch()) {
-				display.sleep();
-			}
-		}
-		
-		// Return the image tag, or null
-		return this.imageTag;
-	}
-	
-	/**
 	 * Creates the dialog's contents
 	 * 
 	 * @param shell the dialog window
 	 */
-	private final void createContents(final Shell shell) {
+	protected final void createContents(final Shell shell) {
 		
 		///////////////////////////
 		// Shell //////////////////
@@ -319,9 +294,9 @@ public abstract class InsertScriptDialog extends InsertImageDialog {
 				
 				boolean close = true;
 				if(isValidPictureFile(filepath)) {
-					imageTag = buildImageTag(filepath);
+					tag = buildImageTag(filepath);
 				} else {
-					imageTag = null;
+					tag = null;
 					
 					MessageBox message = new MessageBox(shell, SWT.ICON_ERROR | SWT.YES | SWT.NO);
 					message.setText("Error...");
@@ -338,7 +313,7 @@ public abstract class InsertScriptDialog extends InsertImageDialog {
 		// CancelButton ///////////
 		cancelButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
-				imageTag = null;
+				tag = null;
 				shell.close();
 			}
 		});
@@ -381,7 +356,7 @@ public abstract class InsertScriptDialog extends InsertImageDialog {
 	 * @param src
 	 * @return
 	 */
-	final private String toHtml(String src) {
+	private final String toHtml(String src) {
 		StringBuffer html = new StringBuffer();
 		
 		html.append("<html><head><style type=\"text/css\" media=\"all\">");

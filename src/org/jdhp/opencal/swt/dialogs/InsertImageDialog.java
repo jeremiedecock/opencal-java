@@ -34,7 +34,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
@@ -44,13 +43,11 @@ import org.jdhp.opencal.data.properties.ApplicationProperties;
 import org.jdhp.opencal.swt.images.SharedImages;
 import org.jdhp.opencal.util.DataToolKit;
 
-public class InsertImageDialog extends Dialog {
+public class InsertImageDialog extends InsertDialog {
 	
 	public static final String PREVIEW_DEFAULT_MESSAGE = "No preview available.";
 	
 	public static final String[] IMAGE_EXTENSION_LIST = {"png", "jpg", "jpeg", "gif"}; // les extensions doivent être en minuscule
-	
-	protected String imageTag;
 	
 	protected String filepath;
 	
@@ -75,37 +72,13 @@ public class InsertImageDialog extends Dialog {
 		super(parent, style);
 		this.setText("Insert a picture");
 	}
-
-	/**
-	 * Opens the dialog and returns the image tag
-	 * 
-	 * @return tag the image tag
-	 */
-	public String open() {
-		// Create the dialog window
-		Shell shell = new Shell(this.getParent(), this.getStyle());
-		shell.setText(this.getText());
-		this.createContents(shell);
-		shell.pack();
-		shell.open();
-		
-		Display display = this.getParent().getDisplay();
-		while(!shell.isDisposed()) {
-			if(!display.readAndDispatch()) {
-				display.sleep();
-			}
-		}
-		
-		// Return the image tag, or null
-		return this.imageTag;
-	}
 	
 	/**
 	 * Creates the dialog's contents
 	 * 
 	 * @param shell the dialog window
 	 */
-	private void createContents(final Shell shell) {
+	protected void createContents(final Shell shell) {
 		
 		///////////////////////////
 		// Shell //////////////////
@@ -280,9 +253,9 @@ public class InsertImageDialog extends Dialog {
 		okButton.addSelectionListener(new SelectionAdapter() {   // TODO
 			public void widgetSelected(SelectionEvent event) {
 				if(isValidPictureFile(filepath)) {
-					imageTag = buildImageTag(filepath);
+					tag = buildImageTag(filepath);
 				} else {
-					imageTag = null;
+					tag = null;
 				}
 				shell.close();
 			}
@@ -291,7 +264,7 @@ public class InsertImageDialog extends Dialog {
 		// CancelButton ///////////
 		cancelButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
-				imageTag = null;
+				tag = null;
 				shell.close();
 			}
 		});
