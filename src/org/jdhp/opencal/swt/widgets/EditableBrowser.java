@@ -78,9 +78,8 @@ public class EditableBrowser {
 		// Create the top center toolbar //////////////////////////////////////
 		ToolBar tbCenter = new ToolBar(viewform, SWT.FLAT);
 
+		// Image and ToolTipText are defined in "setMode" function.
 		switchDisplayItem = new ToolItem(tbCenter, SWT.PUSH);
-		switchDisplayItem.setImage(SharedImages.getImage(SharedImages.BROWSER_VIEW_16));
-		switchDisplayItem.setToolTipText("Switch display mode");
 		
 		insertPictureItem = new ToolItem(tbCenter, SWT.PUSH);
 		insertPictureItem.setImage(SharedImages.getImage(SharedImages.INSERT_IMAGE_16));
@@ -135,7 +134,8 @@ public class EditableBrowser {
 		browser = new Browser(displayArea, SWT.NONE);
 		browser.setText("Test");
 		
-		stackLayout.topControl = editableText;
+		// Set the default mode
+		this.setMode(EditableBrowser.EDITOR);
 		
         ///////////////////////////
 		// Listeners //////////////
@@ -216,23 +216,6 @@ public class EditableBrowser {
 				}
 			}
 		});
-		
-
-		if(stackLayout.topControl == editableText) {
-			insertPictureItem.setEnabled(true);
-			insertAudioItem.setEnabled(true);
-			insertVideoItem.setEnabled(true);
-			insertLatexItem.setEnabled(true);
-			insertGnuplotItem.setEnabled(true);
-			insertDotItem.setEnabled(true);
-		} else {
-			insertPictureItem.setEnabled(false);
-			insertAudioItem.setEnabled(false);
-			insertVideoItem.setEnabled(false);
-			insertLatexItem.setEnabled(false);
-			insertGnuplotItem.setEnabled(false);
-			insertDotItem.setEnabled(false);
-		}
 	}
 	
 	
