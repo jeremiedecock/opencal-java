@@ -248,7 +248,7 @@ public abstract class InsertScriptDialog extends InsertImageDialog {
 					String content = editableText.getText();
 					String script = scriptPreprocessor(content);
 					filepath = buildPictureFile(script);
-					if(isValidPictureFile(filepath)) {
+					if(isValidFile(filepath)) {
 						browser.setText(toHtml("<img src=\"" + filepath + "\" />"));   // TODO
 					} else {
 						// Error...
@@ -293,8 +293,8 @@ public abstract class InsertScriptDialog extends InsertImageDialog {
 				filepath = buildPictureFile(script);
 				
 				boolean close = true;
-				if(isValidPictureFile(filepath)) {
-					tag = buildImageTag(filepath);
+				if(isValidFile(filepath)) {
+					tag = buildTag(filepath);
 				} else {
 					tag = null;
 					

@@ -12,13 +12,15 @@ import org.eclipse.swt.widgets.Shell;
  */
 public abstract class InsertDialog extends Dialog {
 
+	/**
+	 * The tag to be inserted in card's question or answer
+	 */
 	protected String tag;
 
 	/**
 	 * Creates the dialog's contents
 	 * 
-	 * @param shell
-	 *            the dialog window
+	 * @param shell the dialog window
 	 */
 	protected abstract void createContents(final Shell shell);
 

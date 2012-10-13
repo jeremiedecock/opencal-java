@@ -180,7 +180,7 @@ public class ApplicationProperties {
 	 * 
 	 * @return
 	 */
-	public static String getLastInsertPicturePath() {
+	public static String getLastInsertFilePath() {
 		String userHome = System.getProperty("user.home");
 		return ApplicationProperties.applicationProperties.getProperty("last.insert.picture.path", userHome);
 	}
@@ -189,7 +189,7 @@ public class ApplicationProperties {
 	 * 
 	 * @return
 	 */
-	public static void setLastInsertPicturePath(String value) {
+	public static void setLastInsertFilePath(String value) {
 		ApplicationProperties.applicationProperties.setProperty("last.insert.picture.path", value);
 	}
 	
