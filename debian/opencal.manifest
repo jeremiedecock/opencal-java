@@ -1,1 +1,4 @@
-opencal.manifest.wheezy
+usr/share/opencal/opencal.jar:
+ Main-Class: org.jdhp.opencal.OpenCAL
+ Debian-Java-Home: /usr/lib/jvm/default-java
+ Class-Path: /usr/share/java/jcommon.jar /usr/share/java/jcommon-xml.jar /usr/share/java/jfreechart.jar /usr/share/java/junit.jar /usr/share/java/swt.jar
