@@ -5,22 +5,12 @@
 
 package org.jdhp.opencal.swt.dialogs;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.security.DigestInputStream;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.SWTError;
-import org.eclipse.swt.SWTException;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.StackLayout;
@@ -28,13 +18,11 @@ import org.eclipse.swt.custom.ViewForm;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
@@ -45,28 +33,19 @@ import org.eclipse.swt.widgets.ToolItem;
 import org.jdhp.opencal.data.properties.ApplicationProperties;
 import org.jdhp.opencal.swt.MainWindow;
 import org.jdhp.opencal.swt.images.SharedImages;
-import org.jdhp.opencal.util.DataToolKit;
 
-public abstract class InsertScriptDialog extends Dialog {
+public abstract class InsertScriptDialog extends InsertImageDialog {
 	
 	public static final int EDITOR = 1;
 	public static final int BROWSER = 2;
 	
-	public static final String PREVIEW_DEFAULT_MESSAGE = "No preview available.";
-	
 	public static final String DEFAULT_BUILD_ERR_MSG = "Unknown error";  // TODO
-	
-	public static final String[] IMAGE_EXTENSION_LIST = {"png", "jpg", "jpeg", "gif"}; // les extensions doivent être en minuscule
 	
 	public static final String SCRIPT_SUFFIX = ".src";
 	
 	protected String codeTemplate = "";
 
 	protected int defaultCursorPosition = 0;
-	
-	private String imageTag;
-	
-	private String filepath;
 	
 	protected String log;
 	
@@ -78,7 +57,7 @@ public abstract class InsertScriptDialog extends Dialog {
 	 * @param srcPath
 	 * @return
 	 */
-	public abstract String runScript(String srcPath);
+	protected abstract String runScript(String srcPath);
 	
 	/**
 	 * Préprocesseur :
@@ -88,12 +67,12 @@ public abstract class InsertScriptDialog extends Dialog {
 	 * @param content
 	 * @return 
 	 */
-	public abstract String scriptPreprocessor(String content);
+	protected abstract String scriptPreprocessor(String content);
 	
 	/**
 	 * Display help content about the script language.
 	 */
-	public abstract void help();
+	protected abstract void help();
 
 	///////////////////////////////////
 	
@@ -149,7 +128,7 @@ public abstract class InsertScriptDialog extends Dialog {
 	 * 
 	 * @param shell the dialog window
 	 */
-	private void createContents(final Shell shell) {
+	private final void createContents(final Shell shell) {
 		
 		///////////////////////////
 		// Shell //////////////////
@@ -298,7 +277,7 @@ public abstract class InsertScriptDialog extends Dialog {
 						browser.setText(toHtml("<img src=\"" + filepath + "\" />"));   // TODO
 					} else {
 						// Error...
-						String log = getLog();
+						String log = InsertScriptDialog.this.log;
 						if(log != null && !log.equals("")) {
 							browser.setText(toHtml(log));  // TODO
 						} else {
@@ -340,7 +319,7 @@ public abstract class InsertScriptDialog extends Dialog {
 				
 				boolean close = true;
 				if(isValidPictureFile(filepath)) {
-					imageTag = buildImageTag(filepath);          // TODO : redondance avec InsertImageDialog -> factoriser ! (dans package data)
+					imageTag = buildImageTag(filepath);
 				} else {
 					imageTag = null;
 					
@@ -366,7 +345,6 @@ public abstract class InsertScriptDialog extends Dialog {
 
 	}
 
-
 	/**
 	 * Crée l'image correspondant au script courant.
 	 * Retourne l'adresse du fichier image créé
@@ -375,7 +353,7 @@ public abstract class InsertScriptDialog extends Dialog {
 	 * @param path
 	 * @return
 	 */
-	private String buildPictureFile(String script) {
+	private final String buildPictureFile(String script) {
 		
 		String picturePath = null;
 		
@@ -397,140 +375,9 @@ public abstract class InsertScriptDialog extends Dialog {
 		
 		return picturePath;
 	}
-	
-	
-	/**
-	 * Retourne le dernier log généré par runScript()
-	 * @return
-	 */
-	public String getLog() {
-		return log;
-	}
-
-	public void setLog(String log) {
-		this.log = log;
-	}
-	
-	
-	// TODO : À DÉMÉNAGER !!! /////////////////////////////////////////////////
-
-	/**
-	 * 
-	 * @param path
-	 * @return
-	 */
-	private String buildImageTag(String path) {	// prend src, licence, ... en argument
-		String tag = null;
-		String extension = extractExtension(path);	// TODO
 		
-		if(isValidPictureExtension(extension)) {				// TODO
-			try {
-				// Compute MD5SUM ///////
-				MessageDigest md5  = MessageDigest.getInstance("MD5");
-				
-				FileInputStream     fis = new FileInputStream(path);
-		        BufferedInputStream bis = new BufferedInputStream(fis);
-		        DigestInputStream   dis = new DigestInputStream(bis, md5);
-		        
-		        while (dis.read() != -1);			// Reads the file, and updates the message digest
-		        byte[] digest    = md5.digest();	// Completes the digest computation
-		        String hexDigest = DataToolKit.byteArray2Hex(digest);
-		        
-		        dis.close();						// Add fis.close() and bis.close() ? No, "dis.close()" is enough to close the stream (checked with "lsof" Unix command).
-				
-		        // Make destination directory if it don't exist
-		        // TODO
-		        File dstDir = new File(ApplicationProperties.getImgPath());
-		        if(!dstDir.exists()) {
-		        	dstDir.mkdirs();
-		        }
-
-				// Copy file ////////////
-		        // TODO : vérifier l'emprunte MD5 du fichier, vérif que le fichier est bien fermé avec "lsof", ne pas copier le fichier si dest existe déjà, ...
-		        File src = new File(path);
-		        File dst = new File(ApplicationProperties.getImgPath() + hexDigest + "." + extension); // TODO
-		        
-		        FileInputStream  srcStream = new FileInputStream(src);
-		        FileOutputStream dstStream = new FileOutputStream(dst);
-		        try {
-		            byte[] buf = new byte[1024];
-		            int i = 0;
-		            while ((i = srcStream.read(buf)) != -1) {
-		            	dstStream.write(buf, 0, i);
-		            }
-		        } finally {
-		            if (srcStream != null) srcStream.close();
-		            if (dstStream != null) dstStream.close();
-		        }
-
-		        tag = "<img file=\"" + hexDigest + "." + extension + "\" />";	// TODO : source, auteur, licence
-				
-			} catch(NoSuchAlgorithmException e) {
-				e.printStackTrace();
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		return tag;
-	}
-
 	/**
-	 * 
-	 * @param filename
-	 * @return
-	 */
-	public static String extractExtension(String filename) {
-		String extension = filename.toLowerCase().substring(filename.lastIndexOf('.') + 1);
-		return extension;
-	}
-	
-	/**
-	 * TODO
-	 * 
-	 * @param extension
-	 * @return
-	 */
-	public static boolean isValidPictureExtension(String extension) {
-		Arrays.sort(IMAGE_EXTENSION_LIST); // ne pas supprimer, nécessaire pour "Arrays.binarySearch" (cf. /doc/openjdk-6-jre/api/java/util/Arrays.html
-		return (Arrays.binarySearch(IMAGE_EXTENSION_LIST, extension.toLowerCase()) >= 0);
-	}
-	
-	/**
-	 * TODO
-	 * 
-	 * @param path
-	 * @return
-	 */
-	public static boolean isValidPictureFile(String path) {
-		boolean valid = true;
-		
-		Image image = null;
-		
-		try {
-			new Image(Display.getCurrent(), path);
-		} catch(IllegalArgumentException e) {
-			valid = false;
-		} catch(SWTException e) {
-			valid = false;
-		} catch(SWTError e) {
-			valid = false;
-		}
-		
-		if(image != null) image.dispose();
-		
-		return valid;
-	}
-	
-
-	// TODO : À SUPPRIMER ? //////////////////////////////////////////////////
-	
-	
-	/**
-	 * TODO (useless here ?)
-	 * 
+	 * TODO: remove this ??? redundant with EditableBrowser.toHtml() ???
 	 * @param src
 	 * @return
 	 */

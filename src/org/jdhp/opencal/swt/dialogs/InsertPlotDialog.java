@@ -83,7 +83,7 @@ public class InsertPlotDialog extends InsertScriptDialog {
 			Process process = Runtime.getRuntime().exec(cmd, null, workingDirectory);
 			try {
 				process.waitFor();
-			} catch (InterruptedException e) {
+			} catch(InterruptedException e) {
 				e.printStackTrace();
 			}
 			int exitValue = process.exitValue();
@@ -94,12 +94,12 @@ public class InsertPlotDialog extends InsertScriptDialog {
 	        try {
 	            byte[] buf = new byte[1024];
 	            int i = 0;
-	            while ((i = in.read(buf)) != -1) {
+	            while((i = in.read(buf)) != -1) {
 	            	dstStream.write(buf, 0, i);
 	            }
 	        } finally {
-	            if (in != null) in.close();
-	            if (dstStream != null) dstStream.close();
+	            if(in != null) in.close();
+	            if(dstStream != null) dstStream.close();
 	        }
 	        
 	        picturePath = pngFile.getAbsolutePath();

@@ -50,9 +50,9 @@ public class InsertImageDialog extends Dialog {
 	
 	public static final String[] IMAGE_EXTENSION_LIST = {"png", "jpg", "jpeg", "gif"}; // les extensions doivent être en minuscule
 	
-	private String imageTag;
+	protected String imageTag;
 	
-	private String filepath;
+	protected String filepath;
 	
 	/**
 	 * InsertImageDialog constructor
@@ -74,24 +74,6 @@ public class InsertImageDialog extends Dialog {
 		// Let users override the default styles
 		super(parent, style);
 		this.setText("Insert a picture");
-	}
-	
-	/**
-	 * Get the image tag
-	 * 
-	 * @return tag the image tag
-	 */
-	public String getImageTag() {
-		return imageTag;
-	}
-
-	/**
-	 * Set the image tag
-	 * 
-	 * @param imageTag the new tag
-	 */
-	public void setImageTag(String imageTag) {
-		this.imageTag = imageTag;
 	}
 
 	/**
@@ -316,8 +298,6 @@ public class InsertImageDialog extends Dialog {
 		
 	}
 	
-	
-	
 	//	 TODO : À DÉMÉNAGER !!! /////////////////////////////////////////////////
 	
 	/**
@@ -325,7 +305,7 @@ public class InsertImageDialog extends Dialog {
 	 * @param path
 	 * @return
 	 */
-	private String buildImageTag(String path) {
+	protected String buildImageTag(String path) {	// prend src, licence, ... en argument
 		String tag = null;
 		String extension = extractExtension(path);	// TODO
 		

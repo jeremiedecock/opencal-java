@@ -29,10 +29,12 @@ import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.jdhp.opencal.data.properties.ApplicationProperties;
 import org.jdhp.opencal.swt.MainWindow;
+import org.jdhp.opencal.swt.dialogs.InsertAudioDialog;
 import org.jdhp.opencal.swt.dialogs.InsertDotDialog;
 import org.jdhp.opencal.swt.dialogs.InsertImageDialog;
 import org.jdhp.opencal.swt.dialogs.InsertLatexDialog;
 import org.jdhp.opencal.swt.dialogs.InsertPlotDialog;
+import org.jdhp.opencal.swt.dialogs.InsertVideoDialog;
 import org.jdhp.opencal.swt.images.SharedImages;
 import org.jdhp.opencal.util.HTML;
 
@@ -100,11 +102,17 @@ public class EditableBrowser {
 		insertGnuplotItem = new ToolItem(tbCenter, SWT.PUSH);
 		insertGnuplotItem.setImage(SharedImages.getImage(SharedImages.PLOT_16));
 		insertGnuplotItem.setToolTipText("Insert Gnuplot graphics");
-		
+				
 		insertDotItem = new ToolItem(tbCenter, SWT.PUSH);
 		insertDotItem.setImage(SharedImages.getImage(SharedImages.DOT_16));
 		insertDotItem.setToolTipText("Insert Dot graph");
 		
+		// TODO: Sans les 4 lignes suivantes, insertDotItem n'est pas visible !!! WTF SWT ???!!!
+		ToolItem foo = new ToolItem(tbCenter, SWT.PUSH);  // TODO : WTF SWT ???!!!
+		foo.setEnabled(false);
+		ToolItem bar = new ToolItem(tbCenter, SWT.PUSH);  // TODO : WTF SWT ???!!!
+		bar.setEnabled(false);
+
 		viewform.setTopCenter(tbCenter);
 		
 		// Create the top right buttons (size) /////////////////////////////////
@@ -183,6 +191,26 @@ public class EditableBrowser {
 				String imageTag = dialog.open();
 				if(imageTag != null) {
 					editableText.insert(imageTag);
+				}
+			}
+		});
+		
+		insertAudioItem.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				InsertAudioDialog dialog = new InsertAudioDialog(parent.getShell());
+				String audioTag = dialog.open();
+				if(audioTag != null) {
+					editableText.insert(audioTag);
+				}
+			}
+		});
+		
+		insertVideoItem.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				InsertVideoDialog dialog = new InsertVideoDialog(parent.getShell());
+				String videoTag = dialog.open();
+				if(videoTag != null) {
+					editableText.insert(videoTag);
 				}
 			}
 		});
