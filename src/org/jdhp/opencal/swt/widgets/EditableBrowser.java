@@ -54,6 +54,8 @@ public class EditableBrowser {
 	private final ToolItem maximizeItem;
 	private final ToolItem switchDisplayItem;
 	private final ToolItem insertPictureItem;
+	private final ToolItem insertAudioItem;
+	private final ToolItem insertVideoItem;
 	private final ToolItem insertLatexItem;
 	private final ToolItem insertGnuplotItem;
 	private final ToolItem insertDotItem;
@@ -83,6 +85,14 @@ public class EditableBrowser {
 		insertPictureItem = new ToolItem(tbCenter, SWT.PUSH);
 		insertPictureItem.setImage(SharedImages.getImage(SharedImages.INSERT_IMAGE_16));
 		insertPictureItem.setToolTipText("Insert picture");
+		
+		insertAudioItem = new ToolItem(tbCenter, SWT.PUSH);
+		insertAudioItem.setImage(SharedImages.getImage(SharedImages.AUDIO_X_GENERIC_16));
+		insertAudioItem.setToolTipText("Insert audio");
+		
+		insertVideoItem = new ToolItem(tbCenter, SWT.PUSH);
+		insertVideoItem.setImage(SharedImages.getImage(SharedImages.VIDEO_X_GENERIC_16));
+		insertVideoItem.setToolTipText("Insert video");
 		
 		insertLatexItem = new ToolItem(tbCenter, SWT.PUSH);
 		insertLatexItem.setImage(SharedImages.getImage(SharedImages.LATEX_16));
@@ -210,11 +220,15 @@ public class EditableBrowser {
 
 		if(stackLayout.topControl == editableText) {
 			insertPictureItem.setEnabled(true);
+			insertAudioItem.setEnabled(true);
+			insertVideoItem.setEnabled(true);
 			insertLatexItem.setEnabled(true);
 			insertGnuplotItem.setEnabled(true);
 			insertDotItem.setEnabled(true);
 		} else {
 			insertPictureItem.setEnabled(false);
+			insertAudioItem.setEnabled(false);
+			insertVideoItem.setEnabled(false);
 			insertLatexItem.setEnabled(false);
 			insertGnuplotItem.setEnabled(false);
 			insertDotItem.setEnabled(false);
@@ -323,6 +337,8 @@ public class EditableBrowser {
 			switchDisplayItem.setImage(SharedImages.getImage(SharedImages.BROWSER_VIEW_16));
 			switchDisplayItem.setToolTipText("Switch to browser view");
 			insertPictureItem.setEnabled(true);
+			insertAudioItem.setEnabled(true);
+			insertVideoItem.setEnabled(true);
 			insertLatexItem.setEnabled(true);
 			insertGnuplotItem.setEnabled(true);
 			insertDotItem.setEnabled(true);
@@ -332,6 +348,8 @@ public class EditableBrowser {
 			switchDisplayItem.setImage(SharedImages.getImage(SharedImages.EDIT_VIEW_16));
 			switchDisplayItem.setToolTipText("Switch to edit view");
 			insertPictureItem.setEnabled(false);
+			insertAudioItem.setEnabled(false);
+			insertVideoItem.setEnabled(false);
 			insertLatexItem.setEnabled(false);
 			insertGnuplotItem.setEnabled(false);
 			insertDotItem.setEnabled(false);
