@@ -191,7 +191,7 @@ public abstract class InsertFileDialog extends InsertDialog {
 				if(isValidFile(filepath)) {
 					okButton.setEnabled(true);
 					label.setText("");
-					label.setImage(new Image(shell.getDisplay(), filepath)); // TODO : Image.dispose()
+//					label.setImage(new Image(shell.getDisplay(), filepath)); // TODO : Image.dispose() // TODO: HTML!!!
 					previewComposite.layout();
 					scrolledPreviewComposite.setMinSize(previewComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT, true));
 				} else {
