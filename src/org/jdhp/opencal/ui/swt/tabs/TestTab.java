@@ -6,6 +6,8 @@
 package org.jdhp.opencal.ui.swt.tabs;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
@@ -28,6 +30,7 @@ import org.jdhp.opencal.ui.html.QuestionAnswerToHtml;
 import org.jdhp.opencal.ui.html.QuestionAnswerToHtmlImpl;
 import org.jdhp.opencal.ui.swt.MainWindow;
 import org.jdhp.opencal.ui.swt.images.SharedImages;
+import org.jdhp.opencal.util.CalendarToolKit;
 
 /**
  * 
@@ -437,6 +440,7 @@ public class TestTab {
 				html.append("\n");
 			}
 			html.append("\">");
+			
 			html.append("Checked ");
 			html.append("<span class=\"highlight\">");
 			html.append(card.getReviews().length);
@@ -451,6 +455,26 @@ public class TestTab {
 			html.append(card.getGrade() == Professor.HAS_NEVER_BEEN_REVIEWED ? "-" : card.getGrade());
 			html.append("</span>");
 			html.append("</span>");
+
+			/*
+			 * Affiche une image pour mettre en evidence les cartes pour
+			 * lesquelles on a donné une réponse érronée la veille (pratique
+			 * quand il y a beaucoup de carte de niveau 0 en attente et qu'on
+			 * veut donner la priorité aux cartes révisées la veille).
+			 */
+			if(card.getGrade() == 0) {
+                Review[] review_tab = card.getReviews();
+                
+                GregorianCalendar yesterday = new GregorianCalendar();
+                yesterday.add(Calendar.DAY_OF_MONTH, -1);
+                
+                for(Review review : review_tab) {
+                    if(review.getReviewDate().equals(CalendarToolKit.calendarToIso8601(yesterday))) {
+                    	// TODO: set the width in CSS and remove the workaround "&nbsp;&nbsp;&nbsp;&nbsp;"
+                    	html.append(" <span class=\"star\">&nbsp;&nbsp;&nbsp;&nbsp;</span>");
+                    }
+                }
+            }
 			
 			html.append("</div>");
 			
