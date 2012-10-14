@@ -249,14 +249,14 @@ public abstract class InsertScriptDialog extends InsertImageDialog {
 					String script = scriptPreprocessor(content);
 					filepath = buildPictureFile(script);
 					if(isValidFile(filepath)) {
-						browser.setText(toHtml("<img src=\"" + filepath + "\" />"));   // TODO
+						browser.setText(htmlPreview());
 					} else {
 						// Error...
 						String log = InsertScriptDialog.this.log;
 						if(log != null && !log.equals("")) {
-							browser.setText(toHtml(log));  // TODO
+							browser.setText(log);  // TODO
 						} else {
-							browser.setText(toHtml(DEFAULT_BUILD_ERR_MSG));  // TODO
+							browser.setText(DEFAULT_BUILD_ERR_MSG);  // TODO
 						}
 					}
 					
@@ -349,24 +349,5 @@ public abstract class InsertScriptDialog extends InsertImageDialog {
 		}
 		
 		return picturePath;
-	}
-		
-	/**
-	 * TODO: remove this ??? redundant with EditableBrowser.toHtml() ???
-	 * @param src
-	 * @return
-	 */
-	private final String toHtml(String src) {
-		StringBuffer html = new StringBuffer();
-		
-		html.append("<html><head><style type=\"text/css\" media=\"all\">");
-		html.append(MainWindow.EDITABLE_BROWSER_CSS);
-		html.append("</style><head><body>");
-		
-		html.append(src);
-		
-		html.append("</body></html>");
-		
-		return html.toString();
 	}
 }

@@ -1,8 +1,10 @@
 package org.jdhp.opencal.swt.dialogs;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.jdhp.opencal.swt.MainWindow;
 
 /**
  * La classe de base de tous les dialog utilisés par EditableBrowser pour
@@ -35,8 +37,10 @@ public abstract class InsertDialog extends Dialog {
 	 */
 	public final String open() {
 		// Create the dialog window
-		Shell shell = new Shell(this.getParent(), this.getStyle());
+		Shell shell = new Shell(this.getParent(), this.getStyle() | SWT.RESIZE);
 		shell.setText(this.getText());
+		shell.setMinimumSize(480, 520); // TODO
+		//shell.setSize(480, 520);      // TODO
 		this.createContents(shell);
 		shell.pack();
 		shell.open();

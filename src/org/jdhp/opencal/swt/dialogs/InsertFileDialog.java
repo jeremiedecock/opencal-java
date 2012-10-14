@@ -15,12 +15,11 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -45,10 +44,10 @@ public abstract class InsertFileDialog extends InsertDialog {
 	}
 	
 	protected abstract String buildTag(String path);
-
-	protected abstract boolean isValidFile(String path);
 	
 	protected abstract boolean isValidExtension(String extension);
+	
+	protected abstract String htmlPreview();
 
 	/**
 	 * Creates the dialog's contents
@@ -85,24 +84,15 @@ public abstract class InsertFileDialog extends InsertDialog {
 		// PreviewComposite ///////
 		///////////////////////////
 		
-		final ScrolledComposite scrolledPreviewComposite = new ScrolledComposite(shell, SWT.H_SCROLL | SWT.V_SCROLL);
-
-		final Composite previewComposite = new Composite(scrolledPreviewComposite, SWT.NONE);
-		previewComposite.setLayout(new GridLayout(1, false));
-		
-		final Label label = new Label(previewComposite, SWT.NONE);
-		label.setText(PREVIEW_DEFAULT_MESSAGE);
-		label.setLayoutData(new GridData(GridData.CENTER, GridData.CENTER, true, true));
-		
-		scrolledPreviewComposite.setContent(previewComposite);
-		scrolledPreviewComposite.setMinSize(480, 320);
-		
-		scrolledPreviewComposite.setExpandHorizontal(true);
-		scrolledPreviewComposite.setExpandVertical(true);
+		final Browser browser = new Browser(shell, SWT.BORDER);
+		browser.setText(PREVIEW_DEFAULT_MESSAGE);
+		browser.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
 		///////////////////////////
 		// PropertiesComposite ////
 		///////////////////////////
+		
+		// TODO: factorize PropertiesComposite (defined once for all Dialogs)
 		
 		Composite propertiesComposite = new Composite(shell, SWT.NONE);
 		propertiesComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -185,22 +175,16 @@ public abstract class InsertFileDialog extends InsertDialog {
 				if(isValidURL(address)) {
 					filepath = downloadFile(address);
 				} else {
-					filepath = address;
+					filepath = address;  // TODO: null ?
 				}
 				
 				if(isValidFile(filepath)) {
 					okButton.setEnabled(true);
-					label.setText("");
-//					label.setImage(new Image(shell.getDisplay(), filepath)); // TODO : Image.dispose() // TODO: HTML!!!
-					previewComposite.layout();
-					scrolledPreviewComposite.setMinSize(previewComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT, true));
 				} else {
 					okButton.setEnabled(false);
-					label.setText(PREVIEW_DEFAULT_MESSAGE);
-					label.setImage(null);
-					previewComposite.layout();
-					scrolledPreviewComposite.setMinSize(0, 0);
 				}
+				
+				browser.setText(htmlPreview());
 			}
 		});
 		
@@ -306,6 +290,11 @@ public abstract class InsertFileDialog extends InsertDialog {
 		}
 		
 		return hexDigest;
+	}
+	
+	protected boolean isValidFile(String path) {
+		// Check if the file exists
+		return (new File(path)).exists();
 	}
 	
 	// TOOLS //////////////////////////////////////////////////////////////////

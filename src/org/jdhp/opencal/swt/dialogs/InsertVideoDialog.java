@@ -9,10 +9,11 @@ import java.util.Arrays;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Shell;
+import org.jdhp.opencal.swt.MainWindow;
 
 public class InsertVideoDialog extends InsertFileDialog {
 	
-	public static final String[] VIDEO_EXTENSION_LIST = {"ogg", "vp8", "mpg"}; // les extensions doivent être en minuscule
+	public static final String[] VIDEO_EXTENSION_LIST = {"ogg", "ogv", "vp8", "avi", "mp4", "mpg", "wmv", "mov"}; // les extensions doivent être en minuscule
 	
 	/**
 	 * 
@@ -62,12 +63,23 @@ public class InsertVideoDialog extends InsertFileDialog {
 	}
 	
 	/**
-	 * 
-	 * @param path
-	 * @return
+	 * Utilisé par les browsers (donnant un apperçu des fichiers insérés ou des scripts créés).
 	 */
-	protected final boolean isValidFile(String path) {
-		// TODO
-		return true;
+	protected String htmlPreview() {
+		StringBuffer html = new StringBuffer();
+		
+		html.append("<!DOCTYPE html>\n<html>\n<head>\n<style type=\"text/css\" media=\"all\">");
+		html.append(MainWindow.EDITABLE_BROWSER_CSS);
+		html.append("</style>\n</head>\n<body>\n");
+		
+		if(isValidFile(this.filepath)) {
+			html.append("<video controls src=\"" + this.filepath + "\">Your browser does not support the video tag.<audio/>");
+		} else {
+			html.append("<p>" + PREVIEW_DEFAULT_MESSAGE + "</p>");
+		}
+		
+		html.append("\n</body>\n</html>");
+		
+		return html.toString();
 	}
 }

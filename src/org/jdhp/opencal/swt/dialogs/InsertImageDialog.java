@@ -8,11 +8,10 @@ package org.jdhp.opencal.swt.dialogs;
 import java.util.Arrays;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.SWTError;
-import org.eclipse.swt.SWTException;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.jdhp.opencal.swt.MainWindow;
 
 public class InsertImageDialog extends InsertFileDialog {
 	
@@ -73,22 +72,48 @@ public class InsertImageDialog extends InsertFileDialog {
 	 * @return
 	 */
 	protected final boolean isValidFile(String path) {
-		boolean valid = true;
+		// Check if the file exists
+		boolean valid = super.isValidFile(path);
 		
-		Image image = null;
-		
-		try {
-			new Image(Display.getCurrent(), path);
-		} catch(IllegalArgumentException e) {
-			valid = false;
-		} catch(SWTException e) {
-			valid = false;
-		} catch(SWTError e) {
-			valid = false;
+		// Check if the file is a valid image
+		if(valid) {
+			Image image = null;
+			
+			try {
+				image = new Image(Display.getCurrent(), path);
+			} catch(Exception e) {
+				// do nothing
+			}
+			
+			if(image == null) {
+				valid = false;
+			} else {
+				valid = true;
+				image.dispose();
+			}
 		}
 		
-		if(image != null) image.dispose();
-		
 		return valid;
+	}
+	
+	/**
+	 * Utilisé par les browsers (donnant un apperçu des fichiers insérés ou des scripts créés).
+	 */
+	protected String htmlPreview() {
+		StringBuffer html = new StringBuffer();
+		
+		html.append("<html><head><style type=\"text/css\" media=\"all\">");
+		html.append(MainWindow.EDITABLE_BROWSER_CSS);
+		html.append("</style></head><body>");
+		
+		if(isValidFile(this.filepath)) {
+			html.append("<img src=\"" + this.filepath + "\" />");
+		} else {
+			html.append("<p>" + PREVIEW_DEFAULT_MESSAGE + "</p>");
+		}
+		
+		html.append("</body></html>");
+		
+		return html.toString();
 	}
 }
