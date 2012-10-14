@@ -6,8 +6,9 @@
 ROOT="."
 OPTS=
 #OPTS="-Dopencal.userproperties.location=.devel.properties"
-LIBS="$ROOT/bin/:$ROOT/ext/lib/swt-3.6.1-gtk-linux-x86.jar:$ROOT/ext/lib/junit_3.8.2.jar:$ROOT/ext/lib/jcommon-1.0.14.jar:$ROOT/ext/lib/jfreechart-1.0.11.jar"
+BIN="$ROOT/bin/"
+LIBS="$ROOT/ext/lib/swt-3.6.1-gtk-linux-x86.jar:$ROOT/ext/lib/junit_3.8.2.jar:$ROOT/ext/lib/jcommon-1.0.14.jar:$ROOT/ext/lib/jfreechart-1.0.11.jar"
 
-#java ${OPTS} $@ -jar $ROOT/opencal.jar
-java ${OPTS} $@ -cp ${LIBS} org.jdhp.opencal.OpenCAL
+#java ${OPTS} $@ -cp ${LIBS} -jar $ROOT/opencal.jar
+java ${OPTS} $@ -cp ${BIN}:${LIBS} org.jdhp.opencal.OpenCAL
 
