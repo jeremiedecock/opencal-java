@@ -26,6 +26,7 @@ import org.jdhp.opencal.model.card.Review;
 import org.jdhp.opencal.model.cardcollection.CardCollection;
 import org.jdhp.opencal.model.cardcollection.CardManipulator;
 import org.jdhp.opencal.model.professor.Professor;
+import org.jdhp.opencal.ui.css.CSS;
 import org.jdhp.opencal.ui.html.QuestionAnswerToHtml;
 import org.jdhp.opencal.ui.html.QuestionAnswerToHtmlImpl;
 import org.jdhp.opencal.ui.swt.MainWindow;
@@ -413,7 +414,7 @@ public class TestTab {
 		html.append("<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\" />\n");
 		html.append("<title>opencal</title>\n");
 		html.append("<style type=\"text/css\" media=\"all\">\n");
-		html.append(MainWindow.REVIEW_CSS);
+		html.append(CSS.REVIEW_CSS);
 		html.append("</style>\n");
 		html.append("</head>\n");
 		html.append("<body>");

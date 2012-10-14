@@ -5,10 +5,8 @@
 
 package org.jdhp.opencal.ui.swt.tabs.monitor;
 
-import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 public class Window {
 

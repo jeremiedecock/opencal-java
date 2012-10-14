@@ -8,7 +8,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.model.card.Card;
-import org.jdhp.opencal.model.professor.Professor;
 import org.jdhp.opencal.model.professor.ProfessorBen;
 import org.jdhp.opencal.model.professor.ProfessorFactory;
 import org.jdhp.opencal.util.CalendarToolKit;

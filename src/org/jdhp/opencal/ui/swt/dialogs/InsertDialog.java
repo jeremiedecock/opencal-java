@@ -4,7 +4,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.jdhp.opencal.ui.swt.MainWindow;
 
 /**
  * La classe de base de tous les dialog utilisés par EditableBrowser pour

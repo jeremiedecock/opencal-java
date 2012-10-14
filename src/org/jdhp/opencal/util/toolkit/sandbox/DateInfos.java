@@ -2,7 +2,6 @@ package org.jdhp.opencal.util.toolkit.sandbox;
 
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;

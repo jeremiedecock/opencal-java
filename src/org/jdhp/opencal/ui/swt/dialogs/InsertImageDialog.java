@@ -11,7 +11,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.jdhp.opencal.ui.swt.MainWindow;
+import org.jdhp.opencal.ui.css.CSS;
 
 public class InsertImageDialog extends InsertFileDialog {
 	
@@ -103,7 +103,7 @@ public class InsertImageDialog extends InsertFileDialog {
 		StringBuffer html = new StringBuffer();
 		
 		html.append("<!DOCTYPE html>\n<html>\n<head>\n<style type=\"text/css\" media=\"all\">");
-		html.append(MainWindow.EDITABLE_BROWSER_CSS);
+		html.append(CSS.EDITABLE_BROWSER_CSS);
 		html.append("</style>\n</head>\n<body>\n");
 		
 		if(this.filepath != null) {

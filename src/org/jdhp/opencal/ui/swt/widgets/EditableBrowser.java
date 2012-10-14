@@ -25,9 +25,9 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
+import org.jdhp.opencal.ui.css.CSS;
 import org.jdhp.opencal.ui.html.QuestionAnswerToHtml;
 import org.jdhp.opencal.ui.html.QuestionAnswerToHtmlImpl;
-import org.jdhp.opencal.ui.swt.MainWindow;
 import org.jdhp.opencal.ui.swt.dialogs.InsertAudioDialog;
 import org.jdhp.opencal.ui.swt.dialogs.InsertDotDialog;
 import org.jdhp.opencal.ui.swt.dialogs.InsertImageDialog;
@@ -381,7 +381,7 @@ public class EditableBrowser {
 		StringBuffer html = new StringBuffer();
 		
 		html.append("<!DOCTYPE html>\n<html>\n<head>\n<style type=\"text/css\" media=\"all\">");
-		html.append(MainWindow.EDITABLE_BROWSER_CSS);
+		html.append(CSS.EDITABLE_BROWSER_CSS);
 		html.append("</style>\n</head>\n<body>\n");
 		
 		html.append(filter.questionAnswerToHtml(src));
