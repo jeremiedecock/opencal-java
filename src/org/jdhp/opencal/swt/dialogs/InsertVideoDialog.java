@@ -72,7 +72,7 @@ public class InsertVideoDialog extends InsertFileDialog {
 		html.append(MainWindow.EDITABLE_BROWSER_CSS);
 		html.append("</style>\n</head>\n<body>\n");
 		
-		if(isValidFile(this.filepath)) {
+		if(this.filepath != null) {
 			html.append("<video controls src=\"" + this.filepath + "\">Your browser does not support the video tag.<audio/>");
 		} else {
 			html.append("<p>" + PREVIEW_DEFAULT_MESSAGE + "</p>");

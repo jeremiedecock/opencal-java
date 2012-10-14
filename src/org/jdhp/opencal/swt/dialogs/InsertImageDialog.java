@@ -106,7 +106,7 @@ public class InsertImageDialog extends InsertFileDialog {
 		html.append(MainWindow.EDITABLE_BROWSER_CSS);
 		html.append("</style></head><body>");
 		
-		if(isValidFile(this.filepath)) {
+		if(this.filepath != null) {
 			html.append("<img src=\"" + this.filepath + "\" />");
 		} else {
 			html.append("<p>" + PREVIEW_DEFAULT_MESSAGE + "</p>");

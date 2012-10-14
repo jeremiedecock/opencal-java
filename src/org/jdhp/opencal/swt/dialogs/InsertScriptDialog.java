@@ -31,7 +31,6 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.jdhp.opencal.data.properties.ApplicationProperties;
-import org.jdhp.opencal.swt.MainWindow;
 import org.jdhp.opencal.swt.images.SharedImages;
 
 public abstract class InsertScriptDialog extends InsertImageDialog {
@@ -247,11 +246,13 @@ public abstract class InsertScriptDialog extends InsertImageDialog {
 					
 					String content = editableText.getText();
 					String script = scriptPreprocessor(content);
-					filepath = buildPictureFile(script);
-					if(isValidFile(filepath)) {
+					String built_picture_filepath = buildPictureFile(script);
+					if(isValidFile(built_picture_filepath)) {
+						filepath = built_picture_filepath;
 						browser.setText(htmlPreview());
 					} else {
 						// Error...
+						filepath = null;
 						String log = InsertScriptDialog.this.log;
 						if(log != null && !log.equals("")) {
 							browser.setText(log);  // TODO
@@ -290,12 +291,14 @@ public abstract class InsertScriptDialog extends InsertImageDialog {
 			public void widgetSelected(SelectionEvent event) {
 				String content = editableText.getText();
 				String script = scriptPreprocessor(content);
-				filepath = buildPictureFile(script);
+				String built_picture_filepath = buildPictureFile(script);
 				
 				boolean close = true;
-				if(isValidFile(filepath)) {
+				if(isValidFile(built_picture_filepath)) {
+					filepath = built_picture_filepath;
 					tag = buildTag(filepath);
 				} else {
+					filepath = null;
 					tag = null;
 					
 					MessageBox message = new MessageBox(shell, SWT.ICON_ERROR | SWT.YES | SWT.NO);

@@ -172,15 +172,18 @@ public abstract class InsertFileDialog extends InsertDialog {
 			public void modifyText(ModifyEvent arg0) {
 				String address = text.getText();
 				
+				String local_file_path = null;
 				if(isValidURL(address)) {
-					filepath = downloadFile(address);
+					local_file_path = downloadFile(address);
 				} else {
-					filepath = address;  // TODO: null ?
+					local_file_path = address;  // TODO: null ?
 				}
 				
-				if(isValidFile(filepath)) {
+				if(isValidFile(local_file_path)) {
+					filepath = local_file_path;
 					okButton.setEnabled(true);
 				} else {
+					filepath = null;
 					okButton.setEnabled(false);
 				}
 				
@@ -213,7 +216,7 @@ public abstract class InsertFileDialog extends InsertDialog {
 		// OkButton ///////////////
 		okButton.addSelectionListener(new SelectionAdapter() {   // TODO
 			public void widgetSelected(SelectionEvent event) {
-				if(isValidFile(filepath)) {
+				if(filepath != null) {
 					tag = buildTag(filepath);
 				} else {
 					tag = null;

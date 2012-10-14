@@ -72,7 +72,7 @@ public class InsertAudioDialog extends InsertFileDialog {
 		html.append(MainWindow.EDITABLE_BROWSER_CSS);
 		html.append("</style>\n</head>\n<body>\n");
 		
-		if(isValidFile(this.filepath)) {
+		if(this.filepath != null) {
 			html.append("<audio controls src=\"" + this.filepath + "\">Your browser does not support the audio tag.<audio/>");
 		} else {
 			html.append("<p>" + PREVIEW_DEFAULT_MESSAGE + "</p>");
