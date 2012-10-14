@@ -24,7 +24,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.jdhp.opencal.data.properties.ApplicationProperties;
 import org.jdhp.opencal.model.card.Card;
 import org.jdhp.opencal.model.cardcollection.CardCollection;
-import org.jdhp.opencal.swt.MainWindow;
+import org.jdhp.opencal.ui.swt.MainWindow;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

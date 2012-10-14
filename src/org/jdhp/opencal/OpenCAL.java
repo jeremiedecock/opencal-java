@@ -13,7 +13,7 @@ import org.jdhp.opencal.data.properties.ApplicationProperties;
 import org.jdhp.opencal.model.professor.Professor;
 import org.jdhp.opencal.model.professor.ProfessorFactory;
 import org.jdhp.opencal.model.professor.ProfessorFactoryException;
-import org.jdhp.opencal.swt.MainWindow;
+import org.jdhp.opencal.ui.swt.MainWindow;
 
 /**
  * OpenCAL
