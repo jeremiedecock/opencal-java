@@ -380,13 +380,13 @@ public class EditableBrowser {
 	final private String toHtml(String src) {
 		StringBuffer html = new StringBuffer();
 		
-		html.append("<html><head><style type=\"text/css\" media=\"all\">");
+		html.append("<!DOCTYPE html>\n<html>\n<head>\n<style type=\"text/css\" media=\"all\">");
 		html.append(MainWindow.EDITABLE_BROWSER_CSS);
-		html.append("</style><head><body>");
+		html.append("</style>\n</head>\n<body>\n");
 		
 		html.append(filter.questionAnswerToHtml(src));
 		
-		html.append("</body></html>");
+		html.append("\n</body>\n</html>");
 		
 		return html.toString();
 	}

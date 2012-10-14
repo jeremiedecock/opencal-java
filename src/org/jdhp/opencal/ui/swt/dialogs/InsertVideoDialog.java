@@ -73,7 +73,7 @@ public class InsertVideoDialog extends InsertFileDialog {
 		html.append("</style>\n</head>\n<body>\n");
 		
 		if(this.filepath != null) {
-			html.append("<video controls src=\"" + this.filepath + "\">Your browser does not support the video tag.<audio/>");
+			html.append("<video controls src=\"" + this.filepath + "\">Your browser does not support the video tag.<video/>");
 		} else {
 			html.append("<p>" + PREVIEW_DEFAULT_MESSAGE + "</p>");
 		}
