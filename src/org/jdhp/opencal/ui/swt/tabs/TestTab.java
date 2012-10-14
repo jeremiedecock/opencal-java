@@ -7,8 +7,6 @@ package org.jdhp.opencal.ui.swt.tabs;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
@@ -21,15 +19,15 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Scale;
 
-import org.jdhp.opencal.data.properties.ApplicationProperties;
 import org.jdhp.opencal.model.card.Card;
 import org.jdhp.opencal.model.card.Review;
 import org.jdhp.opencal.model.cardcollection.CardCollection;
 import org.jdhp.opencal.model.cardcollection.CardManipulator;
 import org.jdhp.opencal.model.professor.Professor;
+import org.jdhp.opencal.ui.html.QuestionAnswerToHtml;
+import org.jdhp.opencal.ui.html.QuestionAnswerToHtmlImpl;
 import org.jdhp.opencal.ui.swt.MainWindow;
 import org.jdhp.opencal.ui.swt.images.SharedImages;
-import org.jdhp.opencal.util.HTML;
 
 /**
  * 
@@ -72,6 +70,8 @@ public class TestTab {
     final private Scale scale;
 	
 	final private CardManipulator manipulator;
+	
+	final private QuestionAnswerToHtml filter;
 
 	/**
 	 * 
@@ -85,6 +85,8 @@ public class TestTab {
 		
 		this.parentComposite = parentComposite;
 		this.parentComposite.setLayout(new GridLayout(1, false));
+		
+		this.filter = new QuestionAnswerToHtmlImpl();
 		
 		///////////////////////////////////////////////////////////////////////
 		// browser ////////////////////////////////////////////////////////////
@@ -467,14 +469,14 @@ public class TestTab {
 			// Question
 			html.append("<h1 class=\"question\">Question</h1>");
 			html.append("<div class=\"question\">");
-			html.append(filter(card.getQuestion()));
+			html.append(filter.questionAnswerToHtml(card.getQuestion()));
 			html.append("</div>");
 			
 			// Answer
             if(getState() == TestTab.RESULT_STATE) {
 				html.append("<h1 class=\"answer\">Answer</h1>");
 				html.append("<div class=\"answer\">");
-				html.append(filter(card.getAnswer()));
+				html.append(filter.questionAnswerToHtml(card.getAnswer()));
 				html.append("</div>");
 			}
 		}
@@ -483,33 +485,6 @@ public class TestTab {
 		html.append("</html>");
 		
 		return html.toString();
-	}
-	
-	/**
-	 * This method is used to prepare questions and answers for HTML browser.
-	 * This method is not very clean...
-	 * 
-	 * @param text
-	 * @return
-	 */
-	final private String filter(String text) {
-		// Empèche l'interprétation d'eventuelles fausses balises comprises dans les cartes
-		String html = HTML.replaceSpecialChars(text);
-
-//		// Espace (doit être traité comme n'importe quel autre caractère pour conserver plusieurs espaces successifs, l'indentation, etc.
-//		html = html.replaceAll("\t", "    ");
-//		html = html.replaceAll(" ", "&nbsp;");
-//		
-//		// Retour à la ligne
-//		html = html.replaceAll("\n", "<br />");
-		
-		// Rétabli l'interprétation pour les balises images
-		String pattern = "&lt;img file=&quot;([0-9abcdef]{32}.(png|jpg|jpeg|gif))&quot; /&gt;";
-		Pattern regPat = Pattern.compile(pattern);
-		Matcher matcher = regPat.matcher(html);
-		html = matcher.replaceAll("<img src=\"" + ApplicationProperties.getImgPath() + "$1\" />");
-		
-		return html;
 	}
 	
 	/**
