@@ -233,8 +233,4 @@ public class VirtualKeyboardDialog extends Dialog {
 			((GridData) control.getLayoutData()).heightHint = max_size;
 		}
 	}
-	
-	public Shell getShell() {
-		return this.getShell();
-	}
 }
