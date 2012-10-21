@@ -274,7 +274,7 @@ public class MainWindow {
 
 		virtualKeyboardItem.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
-				VirtualKeyboardDialog dialog = new VirtualKeyboardDialog(shell);
+				VirtualKeyboardDialog dialog = VirtualKeyboardDialog.getInstance();
 				dialog.open();
 			}
 		});
@@ -526,6 +526,14 @@ public class MainWindow {
 	 */
 	public void close() {
 		this.shell.close();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Shell getShell() {
+		return this.shell;
 	}
 	
 }

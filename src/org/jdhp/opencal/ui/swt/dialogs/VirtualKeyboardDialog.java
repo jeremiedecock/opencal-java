@@ -20,8 +20,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.jdhp.opencal.ui.swt.MainWindow;
 import org.jdhp.opencal.ui.swt.images.SharedImages;
-import org.jdhp.opencal.ui.swt.widgets.EditableBrowser;
 
 public class VirtualKeyboardDialog extends Dialog {
 	
@@ -39,12 +39,30 @@ public class VirtualKeyboardDialog extends Dialog {
 		"āáăàēéĕèīíĭìōóŏòūúŭù"
 		};
 	
+	private Shell shell;
+	
+	// Singleton pattern
+	private static VirtualKeyboardDialog uniqueInstance = null;
+	
+	/**
+	 * Singleton pattern
+	 * TODO : add sync...
+	 * 
+	 * @return
+	 */
+	public static VirtualKeyboardDialog getInstance() {
+		if(VirtualKeyboardDialog.uniqueInstance == null) {
+			VirtualKeyboardDialog.uniqueInstance = new VirtualKeyboardDialog(MainWindow.getInstance().getShell());
+		}
+		return VirtualKeyboardDialog.uniqueInstance; 
+	}
+	
 	/**
 	 * PreferencesDialog constructor
 	 * 
 	 * @param parent the parent
 	 */
-	public VirtualKeyboardDialog(Shell parent) {
+	private VirtualKeyboardDialog(Shell parent) {
 		// Pass the default styles here
 		this(parent, SWT.SHELL_TRIM);
 	}
@@ -55,7 +73,7 @@ public class VirtualKeyboardDialog extends Dialog {
 	 * @param parent the parent
 	 * @param style the style
 	 */
-	public VirtualKeyboardDialog(Shell parent, int style) {
+	private VirtualKeyboardDialog(Shell parent, int style) {
 		// Let users override the default styles
 		super(parent, style);
 		this.setText("Virtual Keyboard");
@@ -68,7 +86,7 @@ public class VirtualKeyboardDialog extends Dialog {
 	 */
 	public String open() {
 		// Create the dialog window
-		Shell shell = new Shell(this.getParent(), this.getStyle());
+		shell = new Shell(this.getParent(), this.getStyle());
 		shell.setText(this.getText());
 		shell.setMinimumSize(640, 480);
 		this.createContents(shell);
@@ -193,44 +211,67 @@ public class VirtualKeyboardDialog extends Dialog {
 
 		GridData buttonGridData = new GridData(GridData.CENTER, GridData.CENTER, false, false);
 		
-		// TODO: test, try, exceptions, ...
-		String characters = CHARACTERS_LISTS[charactersListIndex];
-		
-		for(int index=0 ; index < characters.length(); index++) {
-			final Button btn = new Button(keyboardComposite, SWT.PUSH);
-			btn.setText(Character.toString(characters.charAt(index)));
-			btn.setLayoutData(buttonGridData);
+		try {
+			String characters = CHARACTERS_LISTS[charactersListIndex];
 			
-			btn.addSelectionListener(new SelectionAdapter() {
-				public void widgetSelected(SelectionEvent event) {
-					Text textFocus = EditableBrowser.textFocus;
-					if(textFocus != null) {
-						textFocus.insert(btn.getText());
-
+			for(int index=0 ; index < characters.length(); index++) {
+				final Button btn = new Button(keyboardComposite, SWT.PUSH);
+				btn.setText(Character.toString(characters.charAt(index)));
+				btn.setLayoutData(buttonGridData);
+				
+				btn.addSelectionListener(new SelectionAdapter() {
+					public void widgetSelected(SelectionEvent event) {
 						/*
-						 * Redonne immédiatement le focus au "Text" pour
-						 * permettre à l'utilisateur de continuer d'écrire
-						 * dedans sans devoir le (re)sélectionner à la souris
-						 * (beaucoup plus fluide et agréable).
+						 * Display.getFocusControl() retourne le contrôle qui a le focus dans la fenêtre active.
+						 * Cette méthode ne permet pas de récupérer le contrôle qui a le focus dans les fenêtres non actives.
+						 * 
+						 * Ici on veut le dernier focus de MainWindow, or c'est forcement VirtualKeyboardDialog qui est active
+						 * (à chaque appel de ce listener).
+						 * Il faut donc que MainWindow redevienne (temporairement) active pour récupérer son Control possédant le focus.
 						 */
-						textFocus.forceFocus();
+						MainWindow.getInstance().getShell().setActive();
+						
+						Control controlFocus = VirtualKeyboardDialog.getInstance().getShell().getDisplay().getFocusControl();
+						if(controlFocus != null && controlFocus instanceof Text) {
+							((Text) controlFocus).insert(btn.getText());
+							
+							/*
+							 * Redonne immédiatement le focus au "Text" pour
+							 * permettre à l'utilisateur de continuer d'écrire
+							 * dedans sans devoir le (re)sélectionner à la souris
+							 * (beaucoup plus fluide et agréable).
+							 */
+							controlFocus.forceFocus();
+						} else {
+							VirtualKeyboardDialog.getInstance().getShell().setActive();
+						}
 					}
-				}
-			});
+				});
+			}
+			
+			// Equalize buttons size (buttons size may change in others languages...)
+			int max_size = 0;
+			
+			for(Control control : keyboardComposite.getChildren()) {
+				Point point = control.computeSize(SWT.DEFAULT, SWT.DEFAULT, false);
+				max_size = Math.max(max_size, point.x);
+				max_size = Math.max(max_size, point.y);
+			}
+			
+			for(Control control : keyboardComposite.getChildren()) {
+				((GridData) control.getLayoutData()).widthHint = max_size;
+				((GridData) control.getLayoutData()).heightHint = max_size;
+			}
+		} catch(ArrayIndexOutOfBoundsException ex) {
+			// TODO
 		}
-		
-		// Equalize buttons size (buttons size may change in others languages...)
-		int max_size = 0;
-		
-		for(Control control : keyboardComposite.getChildren()) {
-			Point point = control.computeSize(SWT.DEFAULT, SWT.DEFAULT, false);
-			max_size = Math.max(max_size, point.x);
-			max_size = Math.max(max_size, point.y);
-		}
-		
-		for(Control control : keyboardComposite.getChildren()) {
-			((GridData) control.getLayoutData()).widthHint = max_size;
-			((GridData) control.getLayoutData()).heightHint = max_size;
-		}
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Shell getShell() {
+		return this.shell;
 	}
 }
