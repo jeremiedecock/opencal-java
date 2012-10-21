@@ -39,6 +39,7 @@ import org.jdhp.opencal.model.card.Review;
 import org.jdhp.opencal.model.cardcollection.CardCollection;
 import org.jdhp.opencal.ui.swt.dialogs.AboutDialog;
 import org.jdhp.opencal.ui.swt.dialogs.PreferencesDialog;
+import org.jdhp.opencal.ui.swt.dialogs.VirtualKeyboardDialog;
 import org.jdhp.opencal.ui.swt.images.SharedImages;
 import org.jdhp.opencal.ui.swt.tabs.AddTab;
 import org.jdhp.opencal.ui.swt.tabs.ExploreTab;
@@ -159,6 +160,9 @@ public class MainWindow {
         MenuItem editItem = new MenuItem(menu, SWT.CASCADE);
         editItem.setText("&Edit");
         
+        MenuItem windowItem = new MenuItem(menu, SWT.CASCADE);
+        windowItem.setText("&Window");
+        
         MenuItem helpItem = new MenuItem(menu, SWT.CASCADE);
         helpItem.setText("&Help");
         
@@ -168,10 +172,16 @@ public class MainWindow {
         Menu editMenu = new Menu(shell, SWT.DROP_DOWN);
         editItem.setMenu(editMenu);
         
+        Menu windowMenu = new Menu(shell, SWT.DROP_DOWN);
+        windowItem.setMenu(windowMenu);
+        
         Menu helpMenu = new Menu(shell, SWT.DROP_DOWN);
         helpItem.setMenu(helpMenu);
         
-        // File items //
+        ///////////////////////////////
+        
+        // File items /////////////////
+        
 		MenuItem newItem = new MenuItem(fileMenu, SWT.PUSH);
 		newItem.setImage(SharedImages.getImage(SharedImages.DOCUMENT_NEW_16));
 		newItem.setText("New...");
@@ -225,7 +235,8 @@ public class MainWindow {
 			}
 		});
 
-		// Edit items //
+		// Edit items /////////////////
+		
 		MenuItem undoItem = new MenuItem(editMenu, SWT.PUSH);
 		undoItem.setImage(SharedImages.getImage(SharedImages.EDIT_UNDO_16));
 		undoItem.setText("Undo Typing");
@@ -253,9 +264,23 @@ public class MainWindow {
 		pastItem.setText("Past");
 		pastItem.setEnabled(false);
 
-		new MenuItem(editMenu, SWT.SEPARATOR);
+		// Window items ///////////////
+		
+		// Virtual keyboard
+		MenuItem virtualKeyboardItem = new MenuItem(windowMenu, SWT.PUSH);
+		virtualKeyboardItem.setImage(SharedImages.getImage(SharedImages.PREFERENCES_SYSTEM_16));
+		virtualKeyboardItem.setText("Virtual Keyboard...");
+		virtualKeyboardItem.setAccelerator(SWT.MOD1 + 'W');  // Define a shortcut to open this Dialog (ctrl + w)
 
-		MenuItem preferencesItem = new MenuItem(editMenu, SWT.PUSH);
+		virtualKeyboardItem.addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event e) {
+				VirtualKeyboardDialog dialog = new VirtualKeyboardDialog(shell);
+				dialog.open();
+			}
+		});
+		
+		// Preferences
+		MenuItem preferencesItem = new MenuItem(windowMenu, SWT.PUSH);
 		preferencesItem.setImage(SharedImages.getImage(SharedImages.PREFERENCES_SYSTEM_16));
 		preferencesItem.setText("Preferences...");
 
@@ -265,8 +290,8 @@ public class MainWindow {
 				dialog.open();
 			}
 		});
-
-		// Help items //
+		
+		// Help items /////////////////
 		MenuItem aboutItem = new MenuItem(helpMenu, SWT.PUSH);
 		aboutItem.setImage(SharedImages.getImage(SharedImages.HELP_BROWSER_16));
 		aboutItem.setText("About OpenCAL...");
@@ -278,6 +303,8 @@ public class MainWindow {
 			}
 		});
         
+		///////////////////////////////
+		
         // Create the tabfolder
 		final TabFolder tabFolder = new TabFolder(this.shell, SWT.NONE);
 		

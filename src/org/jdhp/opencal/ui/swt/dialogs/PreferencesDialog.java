@@ -261,11 +261,17 @@ public class PreferencesDialog extends Dialog {
         Point okButtonPoint = okButton.computeSize(SWT.DEFAULT, SWT.DEFAULT, false);
         Point cancelButtonPoint = cancelButton.computeSize(SWT.DEFAULT, SWT.DEFAULT, false);
 
-        if(okButtonPoint.x > cancelButtonPoint.x) ((GridData) cancelButton.getLayoutData()).widthHint = okButtonPoint.x;
-        else ((GridData) okButton.getLayoutData()).widthHint = cancelButtonPoint.x;
+        if(okButtonPoint.x > cancelButtonPoint.x) {
+        	((GridData) cancelButton.getLayoutData()).widthHint = okButtonPoint.x;
+        } else {
+        	((GridData) okButton.getLayoutData()).widthHint = cancelButtonPoint.x;
+        }
         
-        if(okButtonPoint.y > cancelButtonPoint.y) ((GridData) cancelButton.getLayoutData()).heightHint = okButtonPoint.y;
-        else ((GridData) okButton.getLayoutData()).heightHint = cancelButtonPoint.y;
+        if(okButtonPoint.y > cancelButtonPoint.y) {
+        	((GridData) cancelButton.getLayoutData()).heightHint = okButtonPoint.y;
+        } else {
+        	((GridData) okButton.getLayoutData()).heightHint = cancelButtonPoint.y;
+        }
 		
 		// Set the Close button as the default
         cancelButton.setFocus();
