@@ -14,6 +14,8 @@ import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.custom.ViewForm;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -28,18 +30,28 @@ import org.eclipse.swt.widgets.ToolItem;
 import org.jdhp.opencal.ui.css.CSS;
 import org.jdhp.opencal.ui.html.QuestionAnswerToHtml;
 import org.jdhp.opencal.ui.html.QuestionAnswerToHtmlImpl;
+import org.jdhp.opencal.ui.swt.MainWindow;
 import org.jdhp.opencal.ui.swt.dialogs.InsertAudioDialog;
 import org.jdhp.opencal.ui.swt.dialogs.InsertDotDialog;
 import org.jdhp.opencal.ui.swt.dialogs.InsertImageDialog;
 import org.jdhp.opencal.ui.swt.dialogs.InsertLatexDialog;
 import org.jdhp.opencal.ui.swt.dialogs.InsertPlotDialog;
 import org.jdhp.opencal.ui.swt.dialogs.InsertVideoDialog;
+import org.jdhp.opencal.ui.swt.dialogs.VirtualKeyboardDialog;
 import org.jdhp.opencal.ui.swt.images.SharedImages;
 
 public class EditableBrowser {
 
 	public static final int EDITOR = 1;
 	public static final int BROWSER = 2;
+	
+	/**
+	 * Workaround for VirtualKeybardDialog.
+	 * Display.getFocusControl() retourne le contrôle qui a le focus dans VirtualKeybardDialog (la fenêtre active) mais
+	 * ne parmet pas de récupérer le contrôle qui a le focus dans les fenêtres non actives (MainWindow).
+	 * Ce workaround permet de compenser (temporairement?) ce manque.
+	 */
+	public static Text textFocus = null;
 	
 	private CLabel titleLabel;
 	
@@ -159,6 +171,28 @@ public class EditableBrowser {
 				while(it.hasNext()) {
 					it.next().modifyText(event); // TODO : ne faut-il pas construire un nouvel event, la source est erronée
 				}
+			}
+		});
+		
+		/**
+		 * Workaround for VirtualKeybardDialog.
+		 * Display.getFocusControl() retourne le contrôle qui a le focus dans VirtualKeybardDialog (la fenêtre active) mais
+		 * ne parmet pas de récupérer le contrôle qui a le focus dans les fenêtres non actives (MainWindow).
+		 * Ce workaround permet de compenser (temporairement?) ce manque.
+		 */
+		editableText.addFocusListener(new FocusListener() {
+			public void focusLost(FocusEvent arg0) {
+//				Control newFocusControl = editableText.getDisplay().getFocusControl();
+//				if(newFocusControl.getShell() != VirtualKeyboardDialog.getShell()) {
+//					System.out.println("Text perd le Focus");
+//					EditableBrowser.textFocus = null;
+//				} else {
+//					System.out.println("Text conserve le Focus");
+//				}
+			}
+			
+			public void focusGained(FocusEvent arg0) {
+				EditableBrowser.textFocus = editableText;
 			}
 		});
 		

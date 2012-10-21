@@ -19,7 +19,9 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
 import org.jdhp.opencal.ui.swt.images.SharedImages;
+import org.jdhp.opencal.ui.swt.widgets.EditableBrowser;
 
 public class VirtualKeyboardDialog extends Dialog {
 	
@@ -189,7 +191,6 @@ public class VirtualKeyboardDialog extends Dialog {
 			control.dispose();
 		}
 
-//		GridData buttonGridData = new GridData(GridData.FILL_BOTH);
 		GridData buttonGridData = new GridData(GridData.CENTER, GridData.CENTER, false, false);
 		
 		// TODO: test, try, exceptions, ...
@@ -202,13 +203,18 @@ public class VirtualKeyboardDialog extends Dialog {
 			
 			btn.addSelectionListener(new SelectionAdapter() {
 				public void widgetSelected(SelectionEvent event) {
-					System.out.println(btn.getText());
-	//				Control focusControl = this.getDisplay().getFocusControl();
-	//				if(focusControl instanceof Text) {
-	//					System.out.println("Yes!");
-	//				} else {
-	//					System.out.println("No!");
-	//				}
+					Text textFocus = EditableBrowser.textFocus;
+					if(textFocus != null) {
+						textFocus.insert(btn.getText());
+
+						/*
+						 * Redonne immédiatement le focus au "Text" pour
+						 * permettre à l'utilisateur de continuer d'écrire
+						 * dedans sans devoir le (re)sélectionner à la souris
+						 * (beaucoup plus fluide et agréable).
+						 */
+						textFocus.forceFocus();
+					}
 				}
 			});
 		}
@@ -226,5 +232,9 @@ public class VirtualKeyboardDialog extends Dialog {
 			((GridData) control.getLayoutData()).widthHint = max_size;
 			((GridData) control.getLayoutData()).heightHint = max_size;
 		}
+	}
+	
+	public Shell getShell() {
+		return this.getShell();
 	}
 }
