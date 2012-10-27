@@ -13,8 +13,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Properties;
 
-import org.jdhp.opencal.OpenCAL;  // TODO: REMOVE THIS!
-
 /**
  *
  * @author Jérémie Decock
@@ -50,20 +48,18 @@ public class ApplicationProperties {
 	 * 
 	 * @return
 	 */
-	public static void loadApplicationProperties() {
+	public static void loadApplicationProperties() throws ApplicationPropertiesException {
 		// Create and load default properties ///////////////////////
 		Properties defaultProperties = new Properties();
 		try {
-			InputStream inStream = OpenCAL.class.getResourceAsStream("default.properties");
+			InputStream inStream = ApplicationProperties.class.getResourceAsStream("default.properties");
 			InputStreamReader reader = new InputStreamReader(inStream);
 			defaultProperties.load(reader);
 			reader.close();
-		} catch (NullPointerException e1) {
-			System.err.println("Can't find \"default.properties\" file.");
-			System.err.println("Try \"ant build\" to build OpenCal and copy default files in the class path.");
-			throw(e1);
-		} catch (IOException e1) {
-			e1.printStackTrace();
+		} catch(NullPointerException e1) {
+			throw new ApplicationPropertiesException("Can't find \"default.properties\" file.\nTry \"ant build\" to build OpenCal and copy default files in the class path.", e1);
+		} catch(IOException e2) {
+			throw new ApplicationPropertiesException("Can't load \"default.properties\" file.", e2);
 		}
 		
 		// Create application properties with default ///////////////
@@ -78,8 +74,8 @@ public class ApplicationProperties {
 			inStream.close();
 		} catch(FileNotFoundException e) {
 			// Don't do anything : the file will be created by the next saveApplicationProperties() call
-		} catch (IOException e1) {
-			e1.printStackTrace();
+		} catch(IOException e1) {
+			throw new ApplicationPropertiesException("Can't load application properties.", e1);
 		}
 	}
 	
@@ -87,17 +83,15 @@ public class ApplicationProperties {
 	 * 
 	 *
 	 */
-	public static void saveApplicationProperties() {
+	public static void saveApplicationProperties() throws ApplicationPropertiesException {
 		String userPropertiesLocation = userPropertiesLocation();
 		
 		try {
 			FileOutputStream outStream = new FileOutputStream(userPropertiesLocation);
 			ApplicationProperties.applicationProperties.store(outStream, null);
 			outStream.close();
-		} catch(FileNotFoundException e1) {
-			e1.printStackTrace();
-		} catch (IOException e2) {
-			e2.printStackTrace();
+		} catch(IOException e) {
+			throw new ApplicationPropertiesException("Can't save application properties: can't write " + userPropertiesLocation + " file.", e);
 		}
 	}
 	
@@ -139,13 +133,24 @@ public class ApplicationProperties {
 	 * @return
 	 */
 	public static String getPkbPath() {
-		String userHome = System.getProperty("user.home");
-		String fileSeparator = System.getProperty("file.separator");
-		String userName = System.getProperty("user.name");
-		//String pkbDefaultPath = userHome + fileSeparator + userName + ".pkb"; // TODO
-		String pkbDefaultPath = "file://" + userHome + fileSeparator + userName + ".pkb"; // TODO
+		String pkbPath = "";
 		
-		return ApplicationProperties.applicationProperties.getProperty("pkb.path", pkbDefaultPath);
+		/*
+		 *  Nécessaire car MainWindow utilise cette méthode pour définir sa barre de titre or
+		 *  MainWindow est suceptible d'être appelé pour afficher des messages d'erreur
+		 *  alors qu'applicationProperties n'est pas encore instancié.
+		 */
+		if(ApplicationProperties.applicationProperties != null) {
+			String userHome = System.getProperty("user.home");
+			String fileSeparator = System.getProperty("file.separator");
+			String userName = System.getProperty("user.name");
+			//String pkbDefaultPath = userHome + fileSeparator + userName + ".pkb"; // TODO
+			String pkbDefaultPath = "file://" + userHome + fileSeparator + userName + ".pkb"; // TODO
+			
+			pkbPath = ApplicationProperties.applicationProperties.getProperty("pkb.path", pkbDefaultPath);
+		}
+		
+		return pkbPath;
 	}
 
 	/**
@@ -198,11 +203,22 @@ public class ApplicationProperties {
 	 * @return
 	 */
 	public static String getImgPath() {
-		String userHome = System.getProperty("user.home");
-		String fileSeparator = System.getProperty("file.separator");
-		//String defaultImgPath = "file://" + userHome + fileSeparator + ".opencal" + fileSeparator + "materials" + fileSeparator; // TODO 
-		String defaultImgPath = userHome + fileSeparator + ".opencal" + fileSeparator + "materials" + fileSeparator; // TODO
+		String imgPath = "";
 		
-		return ApplicationProperties.applicationProperties.getProperty("img.path", defaultImgPath); // TODO
+		/*
+		 *  Nécessaire car MainWindow utilise cette méthode or
+		 *  MainWindow est suceptible d'être appelé pour afficher des messages d'erreur
+		 *  alors qu'applicationProperties n'est pas encore instancié.
+		 */
+		if(ApplicationProperties.applicationProperties != null) {
+			String userHome = System.getProperty("user.home");
+			String fileSeparator = System.getProperty("file.separator");
+			//String defaultImgPath = "file://" + userHome + fileSeparator + ".opencal" + fileSeparator + "materials" + fileSeparator; // TODO 
+			String defaultImgPath = userHome + fileSeparator + ".opencal" + fileSeparator + "materials" + fileSeparator; // TODO
+			
+			imgPath = ApplicationProperties.applicationProperties.getProperty("img.path", defaultImgPath);
+		}
+		
+		return imgPath; // TODO
 	}
 }

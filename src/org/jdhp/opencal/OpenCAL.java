@@ -9,7 +9,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import org.jdhp.opencal.data.pkb.PersonalKnowledgeBase;
+import org.jdhp.opencal.data.pkb.PersonalKnowledgeBaseException;
 import org.jdhp.opencal.data.properties.ApplicationProperties;
+import org.jdhp.opencal.data.properties.ApplicationPropertiesException;
 import org.jdhp.opencal.model.professor.Professor;
 import org.jdhp.opencal.model.professor.ProfessorFactory;
 import org.jdhp.opencal.model.professor.ProfessorFactoryException;
@@ -39,13 +41,20 @@ public class OpenCAL {
 	 */
 	public static void main(String[] args) {
 		// Load UserProperties
-		ApplicationProperties.loadApplicationProperties();
+		try {
+			ApplicationProperties.loadApplicationProperties();
+		} catch (ApplicationPropertiesException e) {
+			MainWindow.getInstance().printError(e.getMessage());
+			MainWindow.getInstance().close();
+			System.exit(1);
+		}
 		
 		// Create Professor
 		try {
 			OpenCAL.professor = ProfessorFactory.createProfessor(ApplicationProperties.getProfessorName());
 		} catch(ProfessorFactoryException e) {
-			e.printStackTrace();
+			MainWindow.getInstance().printError(e.getMessage());
+			MainWindow.getInstance().close();
 			System.exit(1);
 		}
 		
@@ -54,7 +63,12 @@ public class OpenCAL {
 			URI uri = new URI(ApplicationProperties.getPkbPath());
 			PersonalKnowledgeBase.load(uri);
 		} catch(URISyntaxException e) {
-			e.printStackTrace();
+			MainWindow.getInstance().printError(e.getMessage());
+			MainWindow.getInstance().close();
+			System.exit(1);
+		} catch(PersonalKnowledgeBaseException e) {
+			MainWindow.getInstance().printError(e.getMessage());
+			MainWindow.getInstance().close();
 			System.exit(1);
 		}
         
@@ -62,10 +76,21 @@ public class OpenCAL {
 		MainWindow.getInstance().run();
 		
 		// Save PKB file
-		PersonalKnowledgeBase.save();
+		try {
+			PersonalKnowledgeBase.save();
+		} catch(PersonalKnowledgeBaseException e) {
+			System.err.println(e.getMessage());
+			//MainWindow.getInstance().printError(e.getMessage());  // TODO: le shell est fermé => pas d'affichage graphique... mettre les err dans des dialog (shell)  part ?
+		}
 		
 		// Save UserProperties
-		ApplicationProperties.saveApplicationProperties();
+		try {
+			ApplicationProperties.saveApplicationProperties();
+		} catch (ApplicationPropertiesException e) {
+			System.err.println(e.getMessage());
+			//MainWindow.getInstance().printError(e.getMessage());  // TODO: le shell est fermé => pas d'affichage graphique... mettre les err dans des dialog (shell)  part ?
+			System.exit(1);
+		}
 	}
 
 }

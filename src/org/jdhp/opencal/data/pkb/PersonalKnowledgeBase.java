@@ -17,14 +17,14 @@ import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.jdhp.opencal.data.properties.ApplicationProperties;
 import org.jdhp.opencal.model.card.Card;
 import org.jdhp.opencal.model.cardcollection.CardCollection;
-import org.jdhp.opencal.ui.swt.MainWindow;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -47,7 +47,7 @@ public class PersonalKnowledgeBase {
 	 * 
 	 * @param uri
 	 */
-	public static void load(URI uri) {
+	public static void load(URI uri) throws PersonalKnowledgeBaseException {
 		PersonalKnowledgeBase.pkbFile = new File(uri);
 
 		// Build the XML DOM tree
@@ -74,25 +74,17 @@ public class PersonalKnowledgeBase {
             // Check the CardCollection
             boolean isDateConsistent = CardCollection.getInstance().isDateConsistent();
             if(!isDateConsistent) {
-            	MainWindow.getInstance().printAlert("The system date is not consistent with some dates in the knowledge base.\n\nPlease check your system date !");
+            	throw new PersonalKnowledgeBaseException("The system date is not consistent with some dates in the knowledge base.\n\nPlease check your system date !");
             }
             
 		} catch(SAXException e) {
-			/* TODO : une classe data n'a pas à appeller une classe gui => faire un throw à la place pour remonter l'exeption à l'appellant */
-			MainWindow.getInstance().printError(ApplicationProperties.getPkbPath() + " n'est pas valide (SAXException)");
-			MainWindow.getInstance().close();
+			throw new PersonalKnowledgeBaseException(uri + " n'est pas valide (SAXException)", e);
 		} catch(FileNotFoundException e) {
-			/* TODO : une classe data n'a pas à appeller une classe gui => faire un throw à la place pour remonter l'exeption à l'appellant */
-			MainWindow.getInstance().print(ApplicationProperties.getPkbPath() + " est introuvable (FileNotFoundException)");
-			MainWindow.getInstance().close();
+			throw new PersonalKnowledgeBaseException(uri + " est introuvable (FileNotFoundException)", e);
 		} catch(IOException e) {
-			/* TODO : une classe data n'a pas à appeller une classe gui => faire un throw à la place pour remonter l'exeption à l'appellant */
-			MainWindow.getInstance().printError(ApplicationProperties.getPkbPath() + " est illisible (IOException)");
-			MainWindow.getInstance().close();
+			throw new PersonalKnowledgeBaseException(uri + " est illisible (IOException)", e);
 		} catch(ParserConfigurationException e) {
-			/* TODO : une classe data n'a pas à appeller une classe gui => faire un throw à la place pour remonter l'exeption à l'appellant */
-			MainWindow.getInstance().printError("The XML parser was not configured (ParserConfigurationException)");
-			MainWindow.getInstance().close();
+			throw new PersonalKnowledgeBaseException("The XML parser was not configured (ParserConfigurationException)", e);
 		}
 	}
 	
@@ -101,7 +93,7 @@ public class PersonalKnowledgeBase {
 	 * TODO : prendre un objet CardCollection
 	 * 
 	 */
-	public static void save() {
+	public static void save() throws PersonalKnowledgeBaseException {
 		try {
 			// Make DOM source
 			Source domSource = new DOMSource(PersonalKnowledgeBase.domDocument);
@@ -111,19 +103,22 @@ public class PersonalKnowledgeBase {
 
 			// Setup transformer
 			TransformerFactory factory = TransformerFactory.newInstance();
-			Transformer transformer = factory.newTransformer();
+			Transformer transformer;
+			transformer = factory.newTransformer();
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 
 			// Transformation
 			transformer.transform(domSource, streamResult);
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (TransformerConfigurationException e) {
+			throw new PersonalKnowledgeBaseException("Can't write the PKB file (TransformerConfigurationException)", e);
+		} catch (TransformerException e) {
+			throw new PersonalKnowledgeBaseException("Can't write the PKB file (TransformerException)", e);
 		}
 	}
 	
 	/**
-	 * TODO : supprimer
+	 * TODO : REMOVE THIS!!!
 	 * 
 	 * @return
 	 */
