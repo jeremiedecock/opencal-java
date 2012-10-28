@@ -36,7 +36,6 @@ import org.jdhp.opencal.data.properties.ApplicationProperties;
 import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.model.card.Card;
 import org.jdhp.opencal.model.card.Review;
-import org.jdhp.opencal.model.cardcollection.CardCollection;
 import org.jdhp.opencal.ui.swt.dialogs.AboutDialog;
 import org.jdhp.opencal.ui.swt.dialogs.PreferencesDialog;
 import org.jdhp.opencal.ui.swt.dialogs.VirtualKeyboardDialog;
@@ -445,7 +444,7 @@ public class MainWindow {
 				prefix = "⬚ ";
 			} else {
 				if(displayErrors) {
-		            Review[] reviews = card.getReviews();
+		            Review[] reviews = card.getReviews().toArray(new Review[0]);
 		            
 		            for(int j=0 ; j<reviews.length ; j++) {
 		                if(reviews[j].getReviewDate().equals(CalendarToolKit.calendarToIso8601(new GregorianCalendar())))
@@ -473,7 +472,7 @@ public class MainWindow {
         // Cards Added /////////////////
         int nbCardsAdded = 0;
         
-        for(Card card : CardCollection.getInstance()) {
+        for(Card card : OpenCAL.cardCollection) {
             if(card.getCreationDate().equals(CalendarToolKit.calendarToIso8601(gc))) nbCardsAdded++;
         }
         
@@ -483,9 +482,9 @@ public class MainWindow {
         // Cards Checked ///////////////
         int nbCardsChecked = 0;
         
-        for(Card card : CardCollection.getInstance()) {
+        for(Card card : OpenCAL.cardCollection) {
             boolean hasBeenReviewed = false;
-            Review[] reviews = card.getReviews();
+            Review[] reviews = card.getReviews().toArray(new Review[0]);
             for(Review review : reviews) {
                 if(review.getReviewDate().equals(CalendarToolKit.calendarToIso8601(gc)))
                 	hasBeenReviewed = true;

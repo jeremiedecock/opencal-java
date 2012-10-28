@@ -43,5 +43,19 @@ public class Review {
 	public String getResult() {
 		return this.result;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Review [rdate=");
+		builder.append(this.getReviewDate());
+		builder.append(", result=");
+		builder.append(this.getResult());
+		builder.append("]");
+		return builder.toString();
+	}
 	
 }

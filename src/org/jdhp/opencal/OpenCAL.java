@@ -10,8 +10,12 @@ import java.net.URISyntaxException;
 
 import org.jdhp.opencal.data.pkb.PersonalKnowledgeBase;
 import org.jdhp.opencal.data.pkb.PersonalKnowledgeBaseException;
+import org.jdhp.opencal.data.pkb.PersonalKnowledgeBaseFactory;
+import org.jdhp.opencal.data.pkb.PersonalKnowledgeBaseFactoryException;
 import org.jdhp.opencal.data.properties.ApplicationProperties;
 import org.jdhp.opencal.data.properties.ApplicationPropertiesException;
+import org.jdhp.opencal.model.card.Card;
+import org.jdhp.opencal.model.cardcollection.CardCollection;
 import org.jdhp.opencal.model.professor.Professor;
 import org.jdhp.opencal.model.professor.ProfessorFactory;
 import org.jdhp.opencal.model.professor.ProfessorFactoryException;
@@ -33,8 +37,9 @@ public class OpenCAL {
 	
 	public final static String WEB_SITE = "http://www.jdhp.org";
 	
-	// TODO
-	public static Professor professor = null; 
+	public static Professor professor = null;        // TODO
+	public static PersonalKnowledgeBase pkb = null;  // TODO
+	public static CardCollection cardCollection = null;
 	
 	/**
 	 * @param args
@@ -59,10 +64,21 @@ public class OpenCAL {
 		}
 		
 		// Open default PKB File and create card set
+		URI uri = null;
 		try {
-			URI uri = new URI(ApplicationProperties.getPkbPath());
-			PersonalKnowledgeBase.load(uri);
+			uri = new URI(ApplicationProperties.getPkbPath());
+			OpenCAL.pkb = PersonalKnowledgeBaseFactory.createPersonalKnowledgeBase("DOM");
+			OpenCAL.cardCollection = OpenCAL.pkb.load(uri);
+			
+			// Assess cards
+			for(Card card : OpenCAL.cardCollection) {
+				card.setGrade(OpenCAL.professor.assess(card));
+			}
 		} catch(URISyntaxException e) {
+			MainWindow.getInstance().printError(e.getMessage());
+			MainWindow.getInstance().close();
+			System.exit(1);
+		} catch(PersonalKnowledgeBaseFactoryException e) {
 			MainWindow.getInstance().printError(e.getMessage());
 			MainWindow.getInstance().close();
 			System.exit(1);
@@ -77,7 +93,7 @@ public class OpenCAL {
 		
 		// Save PKB file
 		try {
-			PersonalKnowledgeBase.save();
+			OpenCAL.pkb.save(OpenCAL.cardCollection, uri);
 		} catch(PersonalKnowledgeBaseException e) {
 			System.err.println(e.getMessage());
 			//MainWindow.getInstance().printError(e.getMessage());  // TODO: le shell est fermé => pas d'affichage graphique... mettre les err dans des dialog (shell)  part ?

@@ -15,18 +15,26 @@ import org.jdhp.opencal.util.CalendarToolKit;
 
 public class CardCollection extends ArrayList<Card> {
 	
-	// Singleton pattern
-	private final static CardCollection uniqueInstance = new CardCollection();
-	
-	// Singleton pattern
-	public static CardCollection getInstance() {
-		return uniqueInstance;
+//	// Singleton pattern
+//	private final static CardCollection uniqueInstance = new CardCollection();
+//	
+//	// Singleton pattern
+//	public static CardCollection getInstance() {
+//		return uniqueInstance;
+//	}
+//	
+//	// Singleton pattern (set all constructors to private)
+	public CardCollection() {
+		super();
 	}
 	
-	// Singleton pattern (set all constructors to private)
-	private CardCollection() {}
-	private CardCollection(int initialCapacity) {}
-	private CardCollection(Collection<? extends Card> c) {}
+	public CardCollection(int initialCapacity) {
+		super(initialCapacity);
+	}
+	
+	public CardCollection(Collection<? extends Card> c) {
+		super(c);
+	}
 
 	/**
 	 * 
@@ -37,7 +45,7 @@ public class CardCollection extends ArrayList<Card> {
 		
         for(Card card : this) {
             if(!card.isHidden() || !ignoreHiddenCards) {
-                String[] tags = card.getTags();
+                String[] tags = card.getTags().toArray(new String[0]);
                 
                 for(String tag : tags) {
                 	tagSet.add(tag);
@@ -127,7 +135,7 @@ public class CardCollection extends ArrayList<Card> {
 		
 		for(Card card : this) {
             
-            Review[] reviews = card.getReviews();
+            Review[] reviews = card.getReviews().toArray(new Review[0]);
             for(int j=0 ; j < reviews.length ; j++) {
             	
 				GregorianCalendar rdate = CalendarToolKit.iso8601ToCalendar(reviews[j].getReviewDate());

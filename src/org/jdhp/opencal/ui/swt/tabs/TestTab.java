@@ -21,9 +21,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Scale;
 
+import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.model.card.Card;
 import org.jdhp.opencal.model.card.Review;
-import org.jdhp.opencal.model.cardcollection.CardCollection;
 import org.jdhp.opencal.model.cardcollection.CardManipulator;
 import org.jdhp.opencal.model.professor.Professor;
 import org.jdhp.opencal.ui.css.CSS;
@@ -149,7 +149,8 @@ public class TestTab {
 		wrongAnswerButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				if(wrongAnswerButton.getEnabled()) {
-					manipulator.pop().putReview(Review.WRONG_ANSWER_STRING);
+					Review newReview = new Review(CalendarToolKit.calendarToIso8601(new GregorianCalendar()), Review.WRONG_ANSWER_STRING);
+					manipulator.pop().getReviews().add(newReview);
 					manipulator.pop().setGrade(Professor.DONT_REVIEW_THIS_TODAY);
 					manipulator.remove();
 
@@ -171,7 +172,8 @@ public class TestTab {
 		rightAnswerButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				if(rightAnswerButton.getEnabled()) {
-					manipulator.pop().putReview(Review.RIGHT_ANSWER_STRING);
+					Review newReview = new Review(CalendarToolKit.calendarToIso8601(new GregorianCalendar()), Review.RIGHT_ANSWER_STRING);
+					manipulator.pop().getReviews().add(newReview);
 					manipulator.pop().setGrade(Professor.DONT_REVIEW_THIS_TODAY);
 					manipulator.remove();
 
@@ -323,7 +325,7 @@ public class TestTab {
 	final private void updateCardList() {
 		cardList.clear();
 		
-		for(Card card : CardCollection.getInstance()) {
+		for(Card card : OpenCAL.cardCollection) {
     		if(card.getGrade() != Professor.DONT_REVIEW_THIS_TODAY && !card.isHidden())
     			cardList.add(card);
 		}
@@ -433,7 +435,7 @@ public class TestTab {
 			html.append("</span> - ");
 			
 			html.append("<span class=\"information\" title=\"");
-			Review reviews[] = card.getReviews();
+			Review reviews[] = card.getReviews().toArray(new Review[0]);
 			for(int i=0 ; i<reviews.length ; i++) {
 				html.append(reviews[i].getReviewDate());
 				html.append(" : ");
@@ -444,7 +446,7 @@ public class TestTab {
 			
 			html.append("Checked ");
 			html.append("<span class=\"highlight\">");
-			html.append(card.getReviews().length);
+			html.append(card.getReviews().size());
 			// TODO : Late ... days
 			html.append("</span>");
 			html.append(" times");
@@ -464,7 +466,7 @@ public class TestTab {
 			 * veut donner la priorité aux cartes révisées la veille).
 			 */
 			if(card.getGrade() == 0) {
-                Review[] review_tab = card.getReviews();
+                Review[] review_tab = card.getReviews().toArray(new Review[0]);
                 
                 GregorianCalendar yesterday = new GregorianCalendar();
                 yesterday.add(Calendar.DAY_OF_MONTH, -1);
@@ -481,7 +483,7 @@ public class TestTab {
 			
 			// Tags
 			html.append("<div id=\"tags\">");
-			String tags[] = card.getTags();
+			String tags[] = card.getTags().toArray(new String[0]);
 			for(int i=0 ; i<tags.length ; i++) {
 				html.append("<span class=\"tag\">");
 				html.append(tags[i]);

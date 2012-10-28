@@ -29,6 +29,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
+import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.model.cardcollection.CardCollection;
 import org.jdhp.opencal.ui.swt.images.SharedImages;
 
@@ -101,7 +102,7 @@ public class TagsEditor {
 				// Display content assist information when user press botrh the CTRL and SPACE keys.
 				if(((event.stateMask & SWT.CTRL) != 0) && (event.character == ' ')) {
 					// Get tag list
-					String[] fullTagList = CardCollection.getInstance().getTags(true);
+					String[] fullTagList = OpenCAL.cardCollection.getTags(true);
 					String basename = editableText.getText().split("\n", -1)[editableText.getCaretLineNumber()];
 					basename = basename.toLowerCase().trim();
 					ArrayList<String> tagList = new ArrayList<String>();

@@ -5,6 +5,10 @@
 
 package org.jdhp.opencal.ui.swt.tabs;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.ModifyEvent;
@@ -15,8 +19,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.model.card.Card;
-import org.jdhp.opencal.model.cardcollection.CardCollection;
 import org.jdhp.opencal.ui.swt.MainWindow;
 import org.jdhp.opencal.ui.swt.images.SharedImages;
 import org.jdhp.opencal.ui.swt.widgets.EditableBrowser;
@@ -89,8 +93,11 @@ public class AddTab {
 		
 		addButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				Card newCard = new Card(questionArea.getText(), answerArea.getText(), tagsArea.getText().split("\n"));
-				CardCollection.getInstance().add(newCard);
+				String[] tagArray = tagsArea.getText().split("\n");
+				List<String> tagList = new ArrayList<String>(Arrays.asList(tagArray));
+				
+				Card newCard = new Card(questionArea.getText(), answerArea.getText(), tagList);
+				OpenCAL.cardCollection.add(newCard);
 				
 				questionArea.setText("");
 				answerArea.setText("");

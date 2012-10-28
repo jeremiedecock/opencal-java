@@ -29,6 +29,7 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Text;
 
+import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.model.card.Card;
 import org.jdhp.opencal.model.card.Review;
 import org.jdhp.opencal.model.cardcollection.CardCollection;
@@ -109,7 +110,7 @@ public class CardSelector {
 		///////////////////////////////////////////////////////////////////////
 
 		this.cardList = new ArrayList<Card>();
-		this.cardList.addAll(CardCollection.getInstance());
+		this.cardList.addAll(OpenCAL.cardCollection);
         
         ///////////////////////////////////////////////////////////////////////
 		// CardSelectionComposite /////////////////////////////////////////////
@@ -418,7 +419,7 @@ public class CardSelector {
 		String formerSelectedTagLabel = tagSelectionCombo.getText();
 
 		// Update the list of existing tags
-		String[] tags = CardCollection.getInstance().getTags(!showHiddenCardsCheckbox.getSelection());
+		String[] tags = OpenCAL.cardCollection.getTags(!showHiddenCardsCheckbox.getSelection());
 		tagSelectionCombo.setItems(tags);
 
 		// Re sélectionne l'ancien tag si c'est possible
@@ -443,7 +444,7 @@ public class CardSelector {
 		
 			case ALL_CARDS_LIST :
                 
-                for(Card card : CardCollection.getInstance()) {
+                for(Card card : OpenCAL.cardCollection) {
                     if(!card.isHidden() || showHiddenCardsCheckbox.getSelection()) {
 	                    cardList.add(card);
                     }
@@ -452,10 +453,10 @@ public class CardSelector {
 				
 			case REVIEWED_CARDS_LIST : 
                 
-				for(Card card : CardCollection.getInstance()) {
+				for(Card card : OpenCAL.cardCollection) {
                     boolean hasBeenReviewed = false;
                     
-                    Review[] reviews = card.getReviews();
+                    Review[] reviews = card.getReviews().toArray(new Review[0]);
                     for(Review review : reviews) {
                         if(review.getReviewDate().equals(CalendarToolKit.calendarToIso8601(new GregorianCalendar())))
                         	hasBeenReviewed = true;
@@ -467,10 +468,10 @@ public class CardSelector {
 				
 			case REVIEWED_CARDS_WRONG_LIST : 
                 
-				for(Card card : CardCollection.getInstance()) {
+				for(Card card : OpenCAL.cardCollection) {
                     boolean keepThisCard = false;
                     
-                    Review[] reviews = card.getReviews();
+                    Review[] reviews = card.getReviews().toArray(new Review[0]);
                     for(Review review : reviews) {
                         if(review.getReviewDate().equals(CalendarToolKit.calendarToIso8601(new GregorianCalendar()))) {
                         	if(review.getResult().equals(Review.WRONG_ANSWER_STRING)) {
@@ -485,7 +486,7 @@ public class CardSelector {
 				
 			case NEW_CARDS_LIST :
                 
-				for(Card card : CardCollection.getInstance()) {
+				for(Card card : OpenCAL.cardCollection) {
                     if(card.getCreationDate().equals(CalendarToolKit.calendarToIso8601(new GregorianCalendar())))
                     	cardList.add(card);
                 }
@@ -493,7 +494,7 @@ public class CardSelector {
 				
 			case HIDDEN_CARDS_LIST :
                 
-				for(Card card : CardCollection.getInstance()) {
+				for(Card card : OpenCAL.cardCollection) {
                     if(card.isHidden())cardList.add(card);
                 }
 				break;
@@ -502,9 +503,9 @@ public class CardSelector {
                 
 				// If a tag is selected add the tag's cards (else keep cardList empty)
 				if(!tagSelectionCombo.getText().equals("")) {
-					for(Card card : CardCollection.getInstance()) {
+					for(Card card : OpenCAL.cardCollection) {
 	                    if(!card.isHidden() || showHiddenCardsCheckbox.getSelection()) {
-	                        String[] tags = card.getTags();
+	                        String[] tags = card.getTags().toArray(new String[0]);
 	                        
 	                        boolean addCard = false;
 	                        for(String tag : tags) {

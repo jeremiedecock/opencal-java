@@ -5,26 +5,11 @@
 
 package org.jdhp.opencal.model.card;
 
-import java.io.StringWriter;  // TODO: REMOVE THIS !
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 
-import javax.xml.transform.OutputKeys;  // TODO: REMOVE THIS !
-import javax.xml.transform.Result;  // TODO: REMOVE THIS !
-import javax.xml.transform.Source;  // TODO: REMOVE THIS !
-import javax.xml.transform.Transformer;  // TODO: REMOVE THIS !
-import javax.xml.transform.TransformerFactory;  // TODO: REMOVE THIS !
-import javax.xml.transform.dom.DOMSource;  // TODO: REMOVE THIS !
-import javax.xml.transform.stream.StreamResult;  // TODO: REMOVE THIS !
-
-import org.jdhp.opencal.OpenCAL;
-import org.jdhp.opencal.data.pkb.PersonalKnowledgeBase;  // TODO: REMOVE THIS !
 import org.jdhp.opencal.util.CalendarToolKit;
-
-import org.w3c.dom.CDATASection;  // TODO: REMOVE THIS !
-import org.w3c.dom.Element;  // TODO: REMOVE THIS !
-import org.w3c.dom.Node;  // TODO: REMOVE THIS !
-import org.w3c.dom.NodeList;  // TODO: REMOVE THIS !
 
 /**
  * 
@@ -33,73 +18,178 @@ import org.w3c.dom.NodeList;  // TODO: REMOVE THIS !
  */
 public class Card {
 	
+	private String question;
 	
-//  TODO:
-//	private String question;
-//	private String answer;
-//	private List<String> tags;    // TODO : utiliser une collection (set?)
-//	private List<Review> reviews; // TODO : utiliser une collection (set?)
-//	private Date cdate;
-//	private boolean hidden;
+	private String answer;
 	
+	private List<String> tags;
+	
+	private List<Review> reviews;
+	
+	private GregorianCalendar creationDate;  // TODO: use Date instead ?
+	
+	private boolean isHidden;
 
-	private Element element;
-	
 	private float grade;
 
 	/**
-	 * Constructeur utilisé lors de la création des cartes contenues dans le fichier XML.
+	 * Constructor called by PKB.load().
 	 * 
-	 * @param element
+	 * @param question
+	 * @param answer
+	 * @param tags
+	 * @param reviews
+	 * @param cdate
+	 * @param hidden
 	 */
-	public Card(Element element) {
-		this.element = element;
-		this.grade = OpenCAL.professor.assess(this);
+	public Card(String question, String answer, List<String> tags, List<Review> reviews, String creationDate, boolean isHidden) {
+		this.setQuestion(question);
+		this.setAnswer(answer);
+		this.setTags(tags);
+		this.setReviews(reviews);
+		this.setCreationDate(creationDate);
+		this.setHidden(isHidden);
+		
+//		System.out.println(this);
 	}
 	
 	/**
-	 * Constructeur utilisé lors de la création de cartes depuis l'interface utilisateur.
+	 * Constructor called by Window.
 	 * 
-	 * @param questionString
-	 * @param answerString
-	 * @param tagStrings
+	 * @param question
+	 * @param answer
+	 * @param tags
 	 */
-	public Card(String questionString, String answerString, String[] tagStrings) {
-		if(questionString != null && !questionString.equals("")) {
-			// Add the new "card" element to the DOM tree
-			this.element = PersonalKnowledgeBase.getDomDocument().createElement("card");
-			this.element.setAttribute("cdate", CalendarToolKit.calendarToIso8601(new GregorianCalendar()));
-			
-			// Question
-			Element questionElement = PersonalKnowledgeBase.getDomDocument().createElement("question");
-			this.element.appendChild(questionElement);
-			questionElement.appendChild(PersonalKnowledgeBase.getDomDocument().createCDATASection(questionString));
-			
-			// Answer
-			Element answerElement = PersonalKnowledgeBase.getDomDocument().createElement("answer");
-			this.element.appendChild(answerElement);
-			answerElement.appendChild(PersonalKnowledgeBase.getDomDocument().createCDATASection(answerString));
-			
-			// Tags
-			for(int i=0 ; i<tagStrings.length ; i++) {
-				if(!tagStrings[i].equals("")) {
-					Element tagElement = PersonalKnowledgeBase.getDomDocument().createElement("tag");
-					this.element.appendChild(tagElement);
-					String tagValue = this.tagFilter(tagStrings[i]);
-					tagElement.appendChild(PersonalKnowledgeBase.getDomDocument().createTextNode(tagValue));
-				}
-			}
-			
-			NodeList nodeList = PersonalKnowledgeBase.getDomDocument().getElementsByTagName("pkb");
-			Element pkbElement = (Element) nodeList.item(0);
-			pkbElement.appendChild(this.element);
-			
-			this.grade = OpenCAL.professor.assess(this);
+	public Card(String question, String answer, List<String> tags) {
+		this(question, answer, tags, new ArrayList<Review>(), CalendarToolKit.calendarToIso8601(new GregorianCalendar()), false);
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getQuestion() {
+		return question;
+	}
+
+	/**
+	 * 
+	 * @param question
+	 */
+	public void setQuestion(String question) {
+		if(question == null || question.isEmpty()) {
+			// TODO: throw exception or warning ?...
+		} else {
+			this.question = question;
 		}
 	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getAnswer() {
+		return answer;
+	}
+
+	/**
+	 * 
+	 * @param answer
+	 */
+	public void setAnswer(String answer) {
+		this.answer = answer;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public List<String> getTags() {
+		return tags;
+	}
+
+	/**
+	 * 
+	 * @param tags
+	 */
+	public void setTags(List<String> tags) {
+		
+		for(String tag : tags) {
+			// TODO : n'authoriser que l'alphanum et [ _-] ?
+			// TODO : interdire les balises xml [<>...] car les tags ne sont pas dans des CDATA
+			//tag = tag.trim().toLowerCase(Locale.ENGLISH);  // TODO : i18n and L10n issues ???
+			tag = tag.trim().toLowerCase();  // TODO : i18n and L10n issues ???
+		}
+		
+		this.tags = tags;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public List<Review> getReviews() {
+		return reviews;
+	}
+
+	/**
+	 * 
+	 * @param reviews
+	 */
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getCreationDate() {
+		return CalendarToolKit.calendarToIso8601(creationDate);
+	}
+
+	/**
+	 * 
+	 * @param creationDate
+	 */
+	public void setCreationDate(String creationDate) {
+		this.creationDate = CalendarToolKit.iso8601ToCalendar(creationDate);  // TODO: throw exception if non valid date
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isHidden() {
+		return isHidden;
+	}
+
+	/**
+	 * 
+	 * @param isHidden
+	 */
+	public void setHidden(boolean isHidden) {
+		this.isHidden = isHidden;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public float getGrade() {
+		return grade;
+	}
+
+	/**
+	 * 
+	 * @param grade
+	 */
+	public void setGrade(float grade) {
+		this.grade = grade;
+	}
 	
 	/**
-	 * Retourne vrai si les attributs question ou answer contiennent le motif "pattern".
+	 * Retourne vrai si question ou answer contiennent le motif "pattern".
 	 * 
 	 * @param pattern
 	 * @param caseSensitive
@@ -121,254 +211,48 @@ public class Card {
 		
 		return contains;
 	}
-	
-	/**
-	 * Retourne vrai si les attributs question ou answer contiennent le motif "pattern".
-	 * 
-	 * @param pattern
-	 * @return
-	 */
-	public boolean containsRegex(String pattern) {
-		// TODO
-		return false;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public Element getElement() {
-		return this.element;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public String getCreationDate() {
-		return this.element.getAttribute("cdate");
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public String getQuestion() {
-		String question = "";
-		
-		NodeList nodeCards = this.element.getElementsByTagName("question");
-		if(nodeCards.getLength() != 0) {
-			Element questionElement = (Element) nodeCards.item(0);
-			question = questionElement.getTextContent();
-		}
-		
-		return question;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public String getAnswer() {
-		String answer = "";
-		
-		NodeList nodeCards = this.element.getElementsByTagName("answer");
-		if(nodeCards.getLength() != 0) {
-			Element answerElement = (Element) nodeCards.item(0);
-			answer = answerElement.getTextContent();
-		}
-		
-		return answer;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public String[] getTags() {
-		ArrayList<String> tags = new ArrayList<String>();
-		
-		NodeList nodeCards = this.element.getElementsByTagName("tag");
-		Element tagElement;
-		for(int i=0 ; i < nodeCards.getLength() ; i++) {
-			tagElement = (Element) nodeCards.item(i);
-			tags.add(tagElement.getTextContent());
-		}
-		
-		return tags.toArray(new String[0]);
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public String getTagsString() {
-		StringBuffer tags = new StringBuffer();
-		
-		NodeList nodeCards = this.element.getElementsByTagName("tag");
-		Element tagElement;
-		for(int i=0 ; i < nodeCards.getLength() ; i++) {
-			tagElement = (Element) nodeCards.item(i);
-			if(tags.length() != 0) tags.append("\n");
-			tags.append(tagElement.getTextContent());
-		}
-		
-		return tags.toString();
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public Review[] getReviews() {
-		ArrayList<Review> reviews = new ArrayList<Review>();
-		
-		NodeList nodeCards = this.element.getElementsByTagName("review");
-		Element reviewElement;
-		for(int i=0 ; i < nodeCards.getLength() ; i++) {
-			reviewElement = (Element) nodeCards.item(i);
-			reviews.add(new Review(reviewElement.getAttribute("rdate"), reviewElement.getAttribute("result")));
-		}
-		
-		return reviews.toArray(new Review[0]);
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public float getGrade() {
-		return this.grade;
-	}
 
-	/**
-	 * 
-	 * @return
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
 	 */
-	public boolean isHidden() {
-        String attrString = this.element.getAttribute("hidden");
-		return attrString.equals("true") ? true : false;
-    }
-	
-	/**
-	 * 
-	 * @param result
-	 */
-	public void putReview(String result) {
-		// Add the new "review" element to the DOM tree
-		Element reviewElement = PersonalKnowledgeBase.getDomDocument().createElement("review");
-		reviewElement.setAttribute("rdate", CalendarToolKit.calendarToIso8601(new GregorianCalendar()));
-		reviewElement.setAttribute("result", result);
-		this.element.appendChild(reviewElement);
-		
-		// Update grade
-		this.grade = OpenCAL.professor.assess(this);
-	}
-	
-	/**
-	 * 
-	 * @param newQuestion
-	 */
-	public void setQuestion(String newQuestion) {
-		NodeList nodeCards = this.element.getElementsByTagName("question");
-		Element questionElement = (Element) nodeCards.item(0);
-		((CDATASection) questionElement.getFirstChild()).setTextContent(newQuestion);
-	}
-	
-	/**
-	 * 
-	 * @param newAnswer
-	 */
-	public void setAnswer(String newAnswer) {
-		NodeList nodeCards = this.element.getElementsByTagName("answer");
-		Element answerElement = (Element) nodeCards.item(0);
-		((CDATASection) answerElement.getFirstChild()).setTextContent(newAnswer);
-	}
-	
-	/**
-	 * 
-	 * @param newTags
-	 */
-	public void setTags(String[] newTags) {
-		// Remove old tags
-		NodeList nodeCards = this.element.getElementsByTagName("tag");
-		while(nodeCards.getLength() > 0) {
-			// Remove the "#Text" node following the "Tag" node
-			Node nextSibling = nodeCards.item(0).getNextSibling();
-			if(nextSibling != null && nextSibling.getNodeType() == Node.TEXT_NODE) this.element.removeChild(nextSibling);
-			
-			// Remove the "Tag" node
-			this.element.removeChild(nodeCards.item(0));
-		}
-		
-		// Insert new tags
-		Element tagElement;
-		for(int i=0 ; i<newTags.length ; i++) {
-			if(!newTags[i].equals("")) {
-				tagElement = PersonalKnowledgeBase.getDomDocument().createElement("tag");
-				this.element.appendChild(tagElement);
-				String tagValue = this.tagFilter(newTags[i]);
-				tagElement.appendChild(PersonalKnowledgeBase.getDomDocument().createTextNode(tagValue));
-			}
-		}
-	}
-
-	/**
-	 * 
-	 * @param isHidden
-	 */
-	public void setHidden(boolean isHidden) {
-        // Update XML element
-        this.element.setAttribute("hidden", isHidden ? "true" : "false");
-    }
-	
-	/**
-	 * 
-	 * @param grade
-	 */
-	public void setGrade(float grade) {
-		this.grade = grade;
-	}
-	
-	/**
-	 * 
-	 * @param tag
-	 * @return
-	 */
-	private String tagFilter(String tag) {
-		// TODO : n'authoriser que l'alphanum et [ _-] ?
-		// TODO : interdire les balises xml [<>...] car les tags ne sont pas dans des CDATA
-		//tag = tag.trim().toLowerCase(Locale.ENGLISH);  // TODO : i18n and L10n issues ???
-		tag = tag.trim().toLowerCase();  // TODO : i18n and L10n issues ???
-		return tag;
-	}
-	
-	/**
-	 * Return the XML value
-	 */
+	@Override
 	public String toString() {
-		StringWriter stringWriter = new StringWriter();
+		StringBuilder builder = new StringBuilder();
+		builder.append("Card [creationDate=");
+		builder.append(this.getCreationDate());
 		
-		try {
-			// Make DOM source
-			Source domSource = new DOMSource(this.element);
+		builder.append(", isHidden=");
+		builder.append(this.isHidden());
 		
-			// Make output file
-			Result streamResult = new StreamResult(stringWriter);
+		builder.append(", grade=");
+		builder.append(this.getGrade());
 		
-			// Setup transformer
-			TransformerFactory factory = TransformerFactory.newInstance();
-			Transformer transformer = factory.newTransformer();
-			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-			transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+		builder.append(", question=");
+		builder.append(this.getQuestion());
 		
-			// Transformation
-			transformer.transform(domSource, streamResult);
-		} catch (Exception e) {
-			e.printStackTrace();
+		builder.append(", answer=");
+		builder.append(this.getAnswer());
+		
+		builder.append(", reviews=[ ");
+		for(Review review : this.getReviews()) {
+			builder.append("<");
+			builder.append(review.getReviewDate());
+			builder.append(",");
+			builder.append(review.getResult());
+			builder.append("> ");
 		}
+		builder.append("]");
 		
-		return stringWriter.toString();
+		builder.append(", tags=[ ");
+		for(String tag : this.getTags()) {
+			builder.append("<");
+			builder.append(tag);
+			builder.append("> ");
+		}
+		builder.append("]");
+		
+		builder.append("]");
+		return builder.toString();
 	}
 	
 }

@@ -1,25 +1,21 @@
 package org.jdhp.opencal.tests;
 
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.model.card.Card;
+import org.jdhp.opencal.model.card.Review;
+import org.jdhp.opencal.model.professor.Professor;
 import org.jdhp.opencal.model.professor.ProfessorBen;
 import org.jdhp.opencal.model.professor.ProfessorFactory;
 import org.jdhp.opencal.util.CalendarToolKit;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 import junit.framework.TestCase;
 
 public class ProfessorBenTest extends TestCase {
 
-	// TODO: remove this !!!
-	private Document document;
+	private Professor professor;
 	
 	/**
 	 * 
@@ -27,15 +23,6 @@ public class ProfessorBenTest extends TestCase {
 	 */
 	public ProfessorBenTest(String name) {
 		super(name);
-
-		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		DocumentBuilder db;
-		try {
-			db = dbf.newDocumentBuilder();
-			this.document = db.newDocument();
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		}
 	}
 
 	/**
@@ -44,7 +31,7 @@ public class ProfessorBenTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		
-		OpenCAL.professor = ProfessorFactory.createProfessor("Ben");
+		this.professor = ProfessorFactory.createProfessor("Ben");
 	}
 
 	/**
@@ -68,9 +55,9 @@ public class ProfessorBenTest extends TestCase {
 				{"2008-01-01", "2008-01-02=good,2008-01-04=bad,2008-01-05=good", "1.0"},
 				{"2008-01-01", "2008-01-02=good,2008-01-04=bad", "0.0"}};
 		
-		for(int i=0 ; i<testArray.length ; i++) {
-			Card card = this.createCard(testArray[i][0], testArray[i][1]);
-			assertEquals(Float.parseFloat(testArray[i][2]), card.getGrade());
+		for(String[] test : testArray) {
+			Card card = this.createCard(test[0], test[1]);
+			assertEquals(Float.parseFloat(test[2]), card.getGrade());
 		}
 	}
 
@@ -88,12 +75,12 @@ public class ProfessorBenTest extends TestCase {
 				{"2008-01-01", "3", "2008-01-09"},
 				{"2008-01-01", "4", "2008-01-17"}};
 		
-		for(int i=0 ; i<testArray.length ; i++) {
-			GregorianCalendar lastRevisionDate = CalendarToolKit.iso8601ToCalendar(testArray[i][0]);
-			int grade = Integer.parseInt(testArray[i][1]);
+		for(String[] test : testArray) {
+			GregorianCalendar lastRevisionDate = CalendarToolKit.iso8601ToCalendar(test[0]);
+			int grade = Integer.parseInt(test[1]);
 			
 			String expectedRevisionDate = CalendarToolKit.calendarToIso8601(ProfessorBen.getExpectedRevisionDate(lastRevisionDate, grade));
-			String expectedExpectedRevisionDate = testArray[i][2];
+			String expectedExpectedRevisionDate = test[2];
 			
 			assertEquals(expectedExpectedRevisionDate, expectedRevisionDate);
 		}
@@ -112,34 +99,32 @@ public class ProfessorBenTest extends TestCase {
 				{1, 2},
 				{2, 4}};
 		
-		for(int i=0 ; i<testArray.length ; i++) {
-			assertEquals(testArray[i][1], ProfessorBen.deltaDays(testArray[i][0]));
+		for(int test[] : testArray) {
+			assertEquals(test[1], ProfessorBen.deltaDays(test[0]));
 		}
 	}
 	
 	/**
 	 * 
-	 * @param cdateString
-	 * @param reviewString
+	 * @param creationDate
+	 * @param reviewsString
 	 * @return
 	 */
-	private Card createCard(String cdateString, String reviewString) {
-		Element element = this.document.createElement("card");
-		
-		// cdate
-		element.setAttribute("cdate", cdateString);
+	private Card createCard(String creationDate, String reviewsString) {
 		
 		// reviews
-		String reviews[] = reviewString.split(",");
-		for(int i=0 ; i<reviews.length ; i++) {
-			Element reviewElement = this.document.createElement("review");
-			String review[] = reviews[i].split("=");
-			reviewElement.setAttribute("rdate", review[0]);
-			reviewElement.setAttribute("result", review[1]);
-			element.appendChild(reviewElement);
+		String reviewArray[] = reviewsString.split(",");
+		List<Review> reviewList = new ArrayList<Review>();
+		
+		for(String reviewString : reviewArray) {
+			String reviewAttributes[] = reviewString.split("=");
+			reviewList.add(new Review(reviewAttributes[0], reviewAttributes[1]));
 		}
 		
-		return new Card(element);
+		Card card = new Card("test", "test", new ArrayList<String>(), reviewList, creationDate, false);
+		card.setGrade(this.professor.assess(card));
+		
+		return card;
 	}
 
 }

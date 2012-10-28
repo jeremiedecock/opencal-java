@@ -17,6 +17,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.model.cardcollection.CardCollection;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -94,8 +95,8 @@ public class MonitorTab {
 		TimeSeries s1 = new TimeSeries("Card created per day", Day.class);
 		TimeSeries s2 = new TimeSeries("Revision per day", Day.class);
 		
-		int[] cardCreationStats = CardCollection.getInstance().getCardCreationStats(numberOfDays);
-		int[] revisionStats = CardCollection.getInstance().getRevisionStats(numberOfDays);
+		int[] cardCreationStats = OpenCAL.cardCollection.getCardCreationStats(numberOfDays);
+		int[] revisionStats = OpenCAL.cardCollection.getRevisionStats(numberOfDays);
 
 		GregorianCalendar date = new GregorianCalendar();
 		date.add(Calendar.DAY_OF_MONTH, -numberOfDays+1);

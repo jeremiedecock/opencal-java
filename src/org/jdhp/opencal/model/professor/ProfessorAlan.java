@@ -6,13 +6,11 @@
 package org.jdhp.opencal.model.professor;
 
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import org.jdhp.opencal.model.card.Card;
 import org.jdhp.opencal.model.card.Review;
 import org.jdhp.opencal.util.CalendarToolKit;
-
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 /**
  * 
@@ -23,6 +21,9 @@ public class ProfessorAlan implements Professor {
 	
 	public static final String NAME = "Alan";
 	
+	/**
+	 * 
+	 */
 	public String getName() {
 		return ProfessorAlan.NAME;
 	}
@@ -35,16 +36,16 @@ public class ProfessorAlan implements Professor {
 	public float assess(Card card) {
 		int grade = 0;
 		
-		NodeList reviewList = card.getElement().getElementsByTagName("review");
+		List<Review> reviewList = card.getReviews();
 		
-		if(reviewList.getLength() == 0) {
+		if(reviewList.isEmpty()) {
 			grade = Professor.HAS_NEVER_BEEN_REVIEWED;
 		} else {
 			// TODO : vérifier que les noeuds "review" sont bien classés par date croissante
 			if(!isSorted(reviewList)) System.out.println("Unsorted card detected : " + card);
 			
-			for(int i=0 ; i < reviewList.getLength() ; i++) {
-				if(((Element) reviewList.item(i)).getAttribute("result").equals(Review.RIGHT_ANSWER_STRING)) {
+			for(Review review : reviewList) {
+				if(review.getResult().equals(Review.RIGHT_ANSWER_STRING)) {
 					grade++;
 				} else {
 					grade = 0;
@@ -56,19 +57,20 @@ public class ProfessorAlan implements Professor {
 	}
 	
 	/**
+	 * TODO: use directly a sorted list/set on the date
 	 * 
 	 * @param reviewList
 	 * @return
 	 */
-	public static boolean isSorted(NodeList reviewList) {
+	public static boolean isSorted(List<Review> reviewList) {
 		boolean isSorted = true;
 		
-		if(reviewList.getLength()>1) {
-			GregorianCalendar lastDate = CalendarToolKit.iso8601ToCalendar(((Element) reviewList.item(0)).getAttribute("rdate"));
+		if(reviewList.size() > 1) {
+			GregorianCalendar lastDate = CalendarToolKit.iso8601ToCalendar(reviewList.get(0).getReviewDate());
 			
 			int i = 1;
-			while(i < reviewList.getLength() && isSorted) {
-				GregorianCalendar rdate = CalendarToolKit.iso8601ToCalendar(((Element) reviewList.item(i)).getAttribute("rdate"));
+			while(i < reviewList.size() && isSorted) {
+				GregorianCalendar rdate = CalendarToolKit.iso8601ToCalendar(reviewList.get(0).getReviewDate());
 				
 				if(rdate.before(lastDate)) isSorted = false;
 				

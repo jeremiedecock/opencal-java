@@ -7,13 +7,11 @@ package org.jdhp.opencal.model.professor;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import org.jdhp.opencal.model.card.Card;
 import org.jdhp.opencal.model.card.Review;
 import org.jdhp.opencal.util.CalendarToolKit;
-
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 /**
  * 
@@ -36,18 +34,18 @@ public class ProfessorCharlie implements Professor {
 	public float assess(Card card) {
 		float grade = 0;
 		
-		NodeList reviewList = card.getElement().getElementsByTagName("review");
+		List<Review> reviewList = card.getReviews();
 		
-		if(reviewList.getLength() == 0) {
+		if(reviewList.isEmpty()) {
 			grade = Professor.HAS_NEVER_BEEN_REVIEWED;
 		} else {
-			GregorianCalendar cdate = CalendarToolKit.iso8601ToCalendar(card.getElement().getAttribute("cdate"));
+			GregorianCalendar cdate = CalendarToolKit.iso8601ToCalendar(card.getCreationDate());
 			GregorianCalendar expectedRevisionDate = getExpectedRevisionDate(cdate, grade);
 			
 			// TODO : vérifier que les noeuds "review" sont bien classés par date croissante
-			for(int i=0 ; i < reviewList.getLength() ; i++) {
-				GregorianCalendar rdate = CalendarToolKit.iso8601ToCalendar(((Element) reviewList.item(i)).getAttribute("rdate"));
-				String result = ((Element) reviewList.item(i)).getAttribute("result"); 
+			for(Review review : reviewList) {
+				GregorianCalendar rdate = CalendarToolKit.iso8601ToCalendar(review.getReviewDate());
+				String result = review.getResult();
 				
 				if(result.equals(Review.RIGHT_ANSWER_STRING)) {
 					if(!rdate.before(expectedRevisionDate)) {

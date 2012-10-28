@@ -6,6 +6,7 @@
 package org.jdhp.opencal.ui.swt.tabs;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -29,9 +30,9 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Text;
 
+import org.jdhp.opencal.OpenCAL;
 import org.jdhp.opencal.model.card.Card;
 import org.jdhp.opencal.model.card.Review;
-import org.jdhp.opencal.model.cardcollection.CardCollection;
 import org.jdhp.opencal.ui.swt.MainWindow;
 import org.jdhp.opencal.ui.swt.images.SharedImages;
 import org.jdhp.opencal.ui.swt.widgets.EditableBrowser;
@@ -107,7 +108,7 @@ public class ExploreTab {
 		///////////////////////////////////////////////////////////////////////
 
         cardList = new ArrayList<Card>();
-        cardList.addAll(CardCollection.getInstance());
+        cardList.addAll(OpenCAL.cardCollection);
 
 		///////////////////////////////////////////////////////////////////////
 		// GUI ////////////////////////////////////////////////////////////////
@@ -271,7 +272,9 @@ public class ExploreTab {
 			public void widgetSelected(SelectionEvent e) {
 				getSelectedCard().setQuestion(questionArea.getText());
 				getSelectedCard().setAnswer(answerArea.getText());
-				getSelectedCard().setTags(tagsArea.getText().split("\n"));
+				
+				String[] tagArray = tagsArea.getText().split("\n");
+				getSelectedCard().setTags(new ArrayList<String>(Arrays.asList(tagArray)));
 				
 				saveButton.setEnabled(false);
 				cancelButton.setEnabled(false);
@@ -545,7 +548,7 @@ public class ExploreTab {
 		String formerSelectedTagLabel = tagSelectionCombo.getText();
 
 		// Update the list of existing tags
-		String[] tags = CardCollection.getInstance().getTags(!showHiddenCardsCheckbox.getSelection());
+		String[] tags = OpenCAL.cardCollection.getTags(!showHiddenCardsCheckbox.getSelection());
 		tagSelectionCombo.setItems(tags);
 
 		// Re sélectionne l'ancien tag si c'est possible
@@ -570,7 +573,7 @@ public class ExploreTab {
 		
 			case ExploreTab.ALL_CARDS_LIST :
                 
-                for(Card card : CardCollection.getInstance()) {
+                for(Card card : OpenCAL.cardCollection) {
                     if(!card.isHidden() || showHiddenCardsCheckbox.getSelection()) {
 	                    cardList.add(card);
                     }
@@ -579,10 +582,10 @@ public class ExploreTab {
 				
 			case ExploreTab.REVIEWED_CARDS_LIST : 
                 
-				for(Card card : CardCollection.getInstance()) {
+				for(Card card : OpenCAL.cardCollection) {
                     boolean hasBeenReviewed = false;
                     
-                    Review[] reviews = card.getReviews();
+                    Review[] reviews = card.getReviews().toArray(new Review[0]);
                     for(Review review : reviews) {
                         if(review.getReviewDate().equals(CalendarToolKit.calendarToIso8601(new GregorianCalendar())))
                         	hasBeenReviewed = true;
@@ -594,7 +597,7 @@ public class ExploreTab {
 				
 			case ExploreTab.NEW_CARDS_LIST :
                 
-				for(Card card : CardCollection.getInstance()) {
+				for(Card card : OpenCAL.cardCollection) {
                     if(card.getCreationDate().equals(CalendarToolKit.calendarToIso8601(new GregorianCalendar())))
                     	cardList.add(card);
                 }
@@ -602,7 +605,7 @@ public class ExploreTab {
 				
 			case ExploreTab.HIDDEN_CARDS_LIST :
                 
-				for(Card card : CardCollection.getInstance()) {
+				for(Card card : OpenCAL.cardCollection) {
                     if(card.isHidden())
                     	cardList.add(card);
                 }
@@ -612,9 +615,9 @@ public class ExploreTab {
                 
 				// If a tag is selected add the tag's cards (else keep cardList empty)
 				if(!tagSelectionCombo.getText().equals("")) {
-					for(Card card : CardCollection.getInstance()) {
+					for(Card card : OpenCAL.cardCollection) {
 	                    if(!card.isHidden() || showHiddenCardsCheckbox.getSelection()) {
-	                        String[] tags = card.getTags();
+	                        String[] tags = card.getTags().toArray(new String[0]);
 	                        
 	                        boolean addCard = false;
 	                        for(String tag : tags) {
@@ -680,7 +683,14 @@ public class ExploreTab {
 		if(selectedCard != null) {
 			questionArea.setText(selectedCard.getQuestion());
 			answerArea.setText(selectedCard.getAnswer());
-			tagsArea.setText(selectedCard.getTagsString());
+			
+			StringBuilder tagsString = new StringBuilder();
+			for(String tag : selectedCard.getTags()) {
+				tagsString.append(tag);
+				tagsString.append("\n");
+			}
+
+			tagsArea.setText(tagsString.toString());
 		} else {
 			questionArea.setText("");
 			answerArea.setText("");

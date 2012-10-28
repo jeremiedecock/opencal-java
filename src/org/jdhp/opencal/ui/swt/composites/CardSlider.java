@@ -422,7 +422,7 @@ public class CardSlider implements ModifyListListener {
 			html.append("</span> - ");
 			
 			html.append("<span class=\"information\" title=\"");
-			Review reviews[] = card.getReviews();
+			Review reviews[] = card.getReviews().toArray(new Review[0]);
 			for(int i=0 ; i<reviews.length ; i++) {
 				html.append(reviews[i].getReviewDate());
 				html.append(" : ");
@@ -433,7 +433,7 @@ public class CardSlider implements ModifyListListener {
 			
 			html.append("Checked ");
 			html.append("<span class=\"highlight\">");
-			html.append(card.getReviews().length);
+			html.append(card.getReviews().size());
 			// TODO : Late ... days
 			html.append("</span>");
 			html.append(" times");
@@ -453,7 +453,7 @@ public class CardSlider implements ModifyListListener {
 			 * veut donner la priorité aux cartes révisées la veille).
 			 */
 			if(card.getGrade() == 0) {
-                Review[] review_tab = card.getReviews();
+                Review[] review_tab = card.getReviews().toArray(new Review[0]);
                 
                 GregorianCalendar yesterday = new GregorianCalendar();
                 yesterday.add(Calendar.DAY_OF_MONTH, -1);
@@ -470,7 +470,7 @@ public class CardSlider implements ModifyListListener {
 			
 			// Tags
 			html.append("<div id=\"tags\">");
-			String tags[] = card.getTags();
+			String tags[] = card.getTags().toArray(new String[0]);
 			for(int i=0 ; i<tags.length ; i++) {
 				html.append("<span class=\"tag\">");
 				html.append(tags[i]);

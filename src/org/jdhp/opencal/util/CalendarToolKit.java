@@ -19,7 +19,7 @@ public class CalendarToolKit {
 	 * @param iso8601
 	 * @return
 	 */
-	public static GregorianCalendar iso8601ToCalendar(String iso8601) {
+	public static GregorianCalendar iso8601ToCalendar(String iso8601) {  // TODO: throw exception if non valid date
 		String[] calendarFields = iso8601.split("-", 3);
 		return new GregorianCalendar(Integer.parseInt(calendarFields[0]), Integer.parseInt(calendarFields[1]) - 1, Integer.parseInt(calendarFields[2]));
 	}
