@@ -3,7 +3,7 @@ Section: misc
 Priority: optional
 Maintainer: Jeremie Decock <jd.jdhp@gmail.com>
 Build-Depends: debhelper (>> 7), javahelper (>= 0.32) , ant
-Build-Depends-Indep: openjdk-6-jdk
+Build-Depends-Indep: openjdk-6-jdk | openjdk-7-jdk
 Standards-Version: 3.8.3
 Homepage: http://www.jdhp.org
 
