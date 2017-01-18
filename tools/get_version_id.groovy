@@ -13,6 +13,9 @@
 //
 //     export CLASSPATH="/home/YOUR/PATH/TO/OPENCAL/bin:$CLASSPATH"
 //
+// For Unix users, don't use the shorten notation of your home path ("~/") in
+// CLASSPATH definition, it won't work!
+//
 // Then you can simply run this script with:
 //
 //     groovy get_version_id.groovy
