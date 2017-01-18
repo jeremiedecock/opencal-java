@@ -148,7 +148,7 @@ public class AboutDialog extends Dialog {
         // License //////////
         String license = "";
         try {
-            InputStream inStream = OpenCAL.class.getResourceAsStream("COPYING");
+            InputStream inStream = OpenCAL.class.getResourceAsStream("LICENSE");
             if(inStream != null) {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(inStream));
                 String line = null;
