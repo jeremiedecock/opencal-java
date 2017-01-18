@@ -36,90 +36,90 @@ import org.jfree.ui.RectangleInsets;
  */
 public class MonitorTab {
 
-	final private Composite parentComposite;
-	
-	final private TimeSeriesCollection dataset;
-	
-	final private JFreeChart chart;
-	
-	/**
-	 * 
-	 * @param parentComposite
-	 */
-	public MonitorTab(Composite parentComposite) {
-		this.parentComposite = parentComposite;
+    final private Composite parentComposite;
+    
+    final private TimeSeriesCollection dataset;
+    
+    final private JFreeChart chart;
+    
+    /**
+     * 
+     * @param parentComposite
+     */
+    public MonitorTab(Composite parentComposite) {
+        this.parentComposite = parentComposite;
 
-		this.parentComposite.setLayout(new FillLayout(SWT.VERTICAL));
-		
-		// ********** //
-		
-		this.dataset = new TimeSeriesCollection();
-		
-		this.chart = ChartFactory.createTimeSeriesChart("Statistics", "", "", dataset, true, true, false);
-		this.chart.setBackgroundPaint(new Color(this.parentComposite.getBackground().getRed(),
-				                                this.parentComposite.getBackground().getGreen(),
-				                                this.parentComposite.getBackground().getBlue()));
-		this.chart.setPadding(new RectangleInsets(10.0, 10.0, 10.0, 10.0));
+        this.parentComposite.setLayout(new FillLayout(SWT.VERTICAL));
+        
+        // ********** //
+        
+        this.dataset = new TimeSeriesCollection();
+        
+        this.chart = ChartFactory.createTimeSeriesChart("Statistics", "", "", dataset, true, true, false);
+        this.chart.setBackgroundPaint(new Color(this.parentComposite.getBackground().getRed(),
+                                                this.parentComposite.getBackground().getGreen(),
+                                                this.parentComposite.getBackground().getBlue()));
+        this.chart.setPadding(new RectangleInsets(10.0, 10.0, 10.0, 10.0));
 
-		XYPlot plot = (XYPlot) this.chart.getPlot();
-		plot.setBackgroundPaint(Color.white);
-		plot.setDomainGridlinePaint(Color.lightGray);
-		plot.setRangeGridlinePaint(Color.lightGray);
-		plot.setAxisOffset(new RectangleInsets(5.0, 5.0, 5.0, 5.0));
-		plot.setDomainCrosshairVisible(true);
-		plot.setRangeCrosshairVisible(true);
+        XYPlot plot = (XYPlot) this.chart.getPlot();
+        plot.setBackgroundPaint(Color.white);
+        plot.setDomainGridlinePaint(Color.lightGray);
+        plot.setRangeGridlinePaint(Color.lightGray);
+        plot.setAxisOffset(new RectangleInsets(5.0, 5.0, 5.0, 5.0));
+        plot.setDomainCrosshairVisible(true);
+        plot.setRangeCrosshairVisible(true);
 
-		DateAxis axis = (DateAxis) plot.getDomainAxis();
-		axis.setDateFormatOverride(new SimpleDateFormat("dd/MM/yyyy"));
-		
-		this.chart.getLegend().setMargin(new RectangleInsets(10.0, 0.0, 5.0, 0.0));
-		this.chart.getLegend().setItemFont(new Font("Monospaced", Font.PLAIN, 9));
-		
-		// ********** //
-		
-		Composite awtComp = new Composite(this.parentComposite, SWT.EMBEDDED);
-		Frame chartFrame = SWT_AWT.new_Frame(awtComp);
-		
-		chartFrame.setLayout(new GridLayout());
-		ChartPanel cp = new ChartPanel(this.chart);
-		chartFrame.add(cp);
-	}
-	
-	/**
-	 * 
-	 * Update the dataset
-	 */
-	public void update() {
-		int numberOfDays = 30;
-		
-		TimeSeries s1 = new TimeSeries("Card created per day", Day.class);
-		TimeSeries s2 = new TimeSeries("Revision per day", Day.class);
-		
-		int[] cardCreationStats = OpenCAL.cardCollection.getCardCreationStats(numberOfDays);
-		int[] revisionStats = OpenCAL.cardCollection.getRevisionStats(numberOfDays);
+        DateAxis axis = (DateAxis) plot.getDomainAxis();
+        axis.setDateFormatOverride(new SimpleDateFormat("dd/MM/yyyy"));
+        
+        this.chart.getLegend().setMargin(new RectangleInsets(10.0, 0.0, 5.0, 0.0));
+        this.chart.getLegend().setItemFont(new Font("Monospaced", Font.PLAIN, 9));
+        
+        // ********** //
+        
+        Composite awtComp = new Composite(this.parentComposite, SWT.EMBEDDED);
+        Frame chartFrame = SWT_AWT.new_Frame(awtComp);
+        
+        chartFrame.setLayout(new GridLayout());
+        ChartPanel cp = new ChartPanel(this.chart);
+        chartFrame.add(cp);
+    }
+    
+    /**
+     * 
+     * Update the dataset
+     */
+    public void update() {
+        int numberOfDays = 30;
+        
+        TimeSeries s1 = new TimeSeries("Card created per day", Day.class);
+        TimeSeries s2 = new TimeSeries("Revision per day", Day.class);
+        
+        int[] cardCreationStats = OpenCAL.cardCollection.getCardCreationStats(numberOfDays);
+        int[] revisionStats = OpenCAL.cardCollection.getRevisionStats(numberOfDays);
 
-		GregorianCalendar date = new GregorianCalendar();
-		date.add(Calendar.DAY_OF_MONTH, -numberOfDays+1);
-		
-		for(int i=0 ; i<cardCreationStats.length ; i++) {
-			date.add(Calendar.DAY_OF_MONTH, 1);
-			
-			s1.addOrUpdate(new Day(date.get(Calendar.DAY_OF_MONTH),
-					               date.get(Calendar.MONTH) + 1,
-					               date.get(Calendar.YEAR)),
-					       cardCreationStats[i]);
-			
-			s2.addOrUpdate(new Day(date.get(Calendar.DAY_OF_MONTH),
-		                           date.get(Calendar.MONTH) + 1,
-		                           date.get(Calendar.YEAR)),
-		                   revisionStats[i]);
-		}
+        GregorianCalendar date = new GregorianCalendar();
+        date.add(Calendar.DAY_OF_MONTH, -numberOfDays+1);
+        
+        for(int i=0 ; i<cardCreationStats.length ; i++) {
+            date.add(Calendar.DAY_OF_MONTH, 1);
+            
+            s1.addOrUpdate(new Day(date.get(Calendar.DAY_OF_MONTH),
+                                   date.get(Calendar.MONTH) + 1,
+                                   date.get(Calendar.YEAR)),
+                           cardCreationStats[i]);
+            
+            s2.addOrUpdate(new Day(date.get(Calendar.DAY_OF_MONTH),
+                                   date.get(Calendar.MONTH) + 1,
+                                   date.get(Calendar.YEAR)),
+                           revisionStats[i]);
+        }
 
-		this.dataset.removeAllSeries();
-		this.dataset.addSeries(s1);
-		this.dataset.addSeries(s2);
+        this.dataset.removeAllSeries();
+        this.dataset.addSeries(s1);
+        this.dataset.addSeries(s2);
 
-		if(this.chart != null) this.chart.setNotify(true);
-	}
-	
+        if(this.chart != null) this.chart.setNotify(true);
+    }
+    
 }

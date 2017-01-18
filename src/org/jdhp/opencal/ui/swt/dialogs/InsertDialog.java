@@ -18,45 +18,45 @@ import org.eclipse.swt.widgets.Shell;
  */
 public abstract class InsertDialog extends Dialog {
 
-	/**
-	 * The tag to be inserted in card's question or answer
-	 */
-	protected String tag;
+    /**
+     * The tag to be inserted in card's question or answer
+     */
+    protected String tag;
 
-	/**
-	 * Creates the dialog's contents
-	 * 
-	 * @param shell the dialog window
-	 */
-	protected abstract void createContents(final Shell shell);
+    /**
+     * Creates the dialog's contents
+     * 
+     * @param shell the dialog window
+     */
+    protected abstract void createContents(final Shell shell);
 
-	public InsertDialog(Shell parent, int style) {
-		super(parent, style);
-	}
+    public InsertDialog(Shell parent, int style) {
+        super(parent, style);
+    }
 
-	/**
-	 * Opens the dialog and returns the image tag
-	 * 
-	 * @return tag the image tag
-	 */
-	public final String open() {
-		// Create the dialog window
-		Shell shell = new Shell(this.getParent(), this.getStyle() | SWT.RESIZE);
-		shell.setText(this.getText());
-		shell.setMinimumSize(480, 520); // TODO
-		//shell.setSize(480, 520);      // TODO
-		this.createContents(shell);
-		shell.pack();
-		shell.open();
+    /**
+     * Opens the dialog and returns the image tag
+     * 
+     * @return tag the image tag
+     */
+    public final String open() {
+        // Create the dialog window
+        Shell shell = new Shell(this.getParent(), this.getStyle() | SWT.RESIZE);
+        shell.setText(this.getText());
+        shell.setMinimumSize(480, 520); // TODO
+        //shell.setSize(480, 520);      // TODO
+        this.createContents(shell);
+        shell.pack();
+        shell.open();
 
-		Display display = this.getParent().getDisplay();
-		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch()) {
-				display.sleep();
-			}
-		}
+        Display display = this.getParent().getDisplay();
+        while (!shell.isDisposed()) {
+            if (!display.readAndDispatch()) {
+                display.sleep();
+            }
+        }
 
-		// Return the image tag, or null
-		return this.tag;
-	}
+        // Return the image tag, or null
+        return this.tag;
+    }
 }

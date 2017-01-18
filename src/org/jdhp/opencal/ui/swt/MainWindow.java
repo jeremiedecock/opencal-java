@@ -53,102 +53,102 @@ import org.jdhp.opencal.util.CalendarToolKit;
  *
  */
 public class MainWindow {
-	
-	final public static Display DISPLAY = new Display();
-	
-	final private Shell shell;
-	
-	final private Label statusLabel1;
-	
-	final private Label statusLabel2;
-	
-	final private Label statusLabel3;
-	
-	final private Label statusLabel4;
-	
-	
-	final private TabItem tabItemAddCard;
+    
+    final public static Display DISPLAY = new Display();
+    
+    final private Shell shell;
+    
+    final private Label statusLabel1;
+    
+    final private Label statusLabel2;
+    
+    final private Label statusLabel3;
+    
+    final private Label statusLabel4;
+    
+    
+    final private TabItem tabItemAddCard;
 
-	final private TabItem tabItemTrain;
-	
-	final private TabItem tabItemTest;
-	
-	final private TabItem tabItemExplore;
-	
-	final private TabItem tabItemMonitor;
-	
-	
-	final private AddTab addCardTab;
-	
-	final private TrainTab trainTab;
-	
-	final private TestTab testTab;
-	
-	final private ExploreTab exploreTab;
-	
-	final private MonitorTab monitorTab;
-	
-	private URI pkbURI;
-	
-	
-	// Singleton pattern
-	private static MainWindow uniqueInstance = null;
-	
-	/**
-	 * Singleton pattern
-	 * TODO : add sync...
-	 * 
-	 * @return
-	 */
-	public static MainWindow getInstance() {
-		if(MainWindow.uniqueInstance == null) {
-			MainWindow.uniqueInstance = new MainWindow();
-		}
-		return MainWindow.uniqueInstance; 
-	}
-	
-	/**
-	 * 
-	 */
-	private MainWindow() {
-		
-		try {
-			this.pkbURI = new URI(ApplicationProperties.getPkbPath());
-		} catch (URISyntaxException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		this.shell = new Shell(MainWindow.DISPLAY);
-		this.shell.setLayout(new GridLayout(1, false));
-		
-		this.shell.setText(OpenCAL.PROGRAM_NAME + " " + OpenCAL.PROGRAM_VERSION + " - " + this.pkbURI.getPath());
-		this.shell.setMinimumSize(400, 350);
-		this.shell.setSize(640, 480);
-		
-		/*
-		 * Depending where the icon is displayed, the platform chooses the icon
-		 * with the "best" attributes. It is expected that the array will
-		 * contain the same icon rendered at different sizes, with different
-		 * depth and transparency attributes.
-		 */
-		Image[] icons = {
-				SharedImages.getImage(SharedImages.EMBLEM_DOCUMENTS_16),
-				SharedImages.getImage(SharedImages.EMBLEM_DOCUMENTS_22),
-				SharedImages.getImage(SharedImages.EMBLEM_DOCUMENTS_24),
-				SharedImages.getImage(SharedImages.EMBLEM_DOCUMENTS_32),
-				SharedImages.getImage(SharedImages.EMBLEM_DOCUMENTS_48)
-				};
-		this.shell.setImages(icons);
-		
-		// Center the main shell on the primary monitor
+    final private TabItem tabItemTrain;
+    
+    final private TabItem tabItemTest;
+    
+    final private TabItem tabItemExplore;
+    
+    final private TabItem tabItemMonitor;
+    
+    
+    final private AddTab addCardTab;
+    
+    final private TrainTab trainTab;
+    
+    final private TestTab testTab;
+    
+    final private ExploreTab exploreTab;
+    
+    final private MonitorTab monitorTab;
+    
+    private URI pkbURI;
+    
+    
+    // Singleton pattern
+    private static MainWindow uniqueInstance = null;
+    
+    /**
+     * Singleton pattern
+     * TODO : add sync...
+     * 
+     * @return
+     */
+    public static MainWindow getInstance() {
+        if(MainWindow.uniqueInstance == null) {
+            MainWindow.uniqueInstance = new MainWindow();
+        }
+        return MainWindow.uniqueInstance; 
+    }
+    
+    /**
+     * 
+     */
+    private MainWindow() {
+        
+        try {
+            this.pkbURI = new URI(ApplicationProperties.getPkbPath());
+        } catch (URISyntaxException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+        
+        this.shell = new Shell(MainWindow.DISPLAY);
+        this.shell.setLayout(new GridLayout(1, false));
+        
+        this.shell.setText(OpenCAL.PROGRAM_NAME + " " + OpenCAL.PROGRAM_VERSION + " - " + this.pkbURI.getPath());
+        this.shell.setMinimumSize(400, 350);
+        this.shell.setSize(640, 480);
+        
+        /*
+         * Depending where the icon is displayed, the platform chooses the icon
+         * with the "best" attributes. It is expected that the array will
+         * contain the same icon rendered at different sizes, with different
+         * depth and transparency attributes.
+         */
+        Image[] icons = {
+                SharedImages.getImage(SharedImages.EMBLEM_DOCUMENTS_16),
+                SharedImages.getImage(SharedImages.EMBLEM_DOCUMENTS_22),
+                SharedImages.getImage(SharedImages.EMBLEM_DOCUMENTS_24),
+                SharedImages.getImage(SharedImages.EMBLEM_DOCUMENTS_32),
+                SharedImages.getImage(SharedImages.EMBLEM_DOCUMENTS_48)
+                };
+        this.shell.setImages(icons);
+        
+        // Center the main shell on the primary monitor
         Monitor primary = MainWindow.DISPLAY.getPrimaryMonitor();
         Rectangle bounds = primary.getBounds();
         Rectangle rect = this.shell.getBounds();
         int x = bounds.x + (bounds.width - rect.width) / 2;
         int y = bounds.y + (bounds.height - rect.height) / 2;
         this.shell.setLocation(x, y);
-		
+        
         // Create the menubar
         Menu menu = new Menu(this.shell, SWT.BAR);
         this.shell.setMenuBar(menu);
@@ -181,293 +181,293 @@ public class MainWindow {
         
         // File items /////////////////
         
-		MenuItem newItem = new MenuItem(fileMenu, SWT.PUSH);
-		newItem.setImage(SharedImages.getImage(SharedImages.DOCUMENT_NEW_16));
-		newItem.setText("New...");
+        MenuItem newItem = new MenuItem(fileMenu, SWT.PUSH);
+        newItem.setImage(SharedImages.getImage(SharedImages.DOCUMENT_NEW_16));
+        newItem.setText("New...");
 
-		MenuItem openItem = new MenuItem(fileMenu, SWT.PUSH);
-		openItem.setImage(SharedImages.getImage(SharedImages.DOCUMENT_OPEN_16));
-		openItem.setText("Open...");
+        MenuItem openItem = new MenuItem(fileMenu, SWT.PUSH);
+        openItem.setImage(SharedImages.getImage(SharedImages.DOCUMENT_OPEN_16));
+        openItem.setText("Open...");
 
-		MenuItem closeItem = new MenuItem(fileMenu, SWT.PUSH);
-		closeItem.setText("Close");
+        MenuItem closeItem = new MenuItem(fileMenu, SWT.PUSH);
+        closeItem.setText("Close");
 
-		closeItem.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent event) {
-				//OpenCAL.cardCollection.clear();
-				//pkbURI. = null;
-				//shell.setText(OpenCAL.PROGRAM_NAME + " " + OpenCAL.PROGRAM_VERSION);
-			}
-		});
+        closeItem.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent event) {
+                //OpenCAL.cardCollection.clear();
+                //pkbURI. = null;
+                //shell.setText(OpenCAL.PROGRAM_NAME + " " + OpenCAL.PROGRAM_VERSION);
+            }
+        });
 
-		new MenuItem(fileMenu, SWT.SEPARATOR);
+        new MenuItem(fileMenu, SWT.SEPARATOR);
 
-		MenuItem importItem = new MenuItem(fileMenu, SWT.PUSH);
-		importItem.setText("Import Card Set...");
-		importItem.setEnabled(false);
+        MenuItem importItem = new MenuItem(fileMenu, SWT.PUSH);
+        importItem.setText("Import Card Set...");
+        importItem.setEnabled(false);
 
-		MenuItem exportItem = new MenuItem(fileMenu, SWT.PUSH);
-		exportItem.setText("Export Card Set...");
-		exportItem.setEnabled(false);
+        MenuItem exportItem = new MenuItem(fileMenu, SWT.PUSH);
+        exportItem.setText("Export Card Set...");
+        exportItem.setEnabled(false);
 
-		new MenuItem(fileMenu, SWT.SEPARATOR);
+        new MenuItem(fileMenu, SWT.SEPARATOR);
 
-		MenuItem pdfItem = new MenuItem(fileMenu, SWT.PUSH);
-		pdfItem.setImage(SharedImages.getImage(SharedImages.TEXT_16));
-		pdfItem.setText("Export Test To PDF...");
-		pdfItem.setEnabled(false);
-		
-		MenuItem printItem = new MenuItem(fileMenu, SWT.PUSH);
-		printItem.setImage(SharedImages.getImage(SharedImages.DOCUMENT_PRINT_16));
-		printItem.setText("Print Test...");
-		printItem.setEnabled(false);
-
-		new MenuItem(fileMenu, SWT.SEPARATOR);
-
-		MenuItem quitItem = new MenuItem(fileMenu, SWT.PUSH);
-		quitItem.setImage(SharedImages.getImage(SharedImages.SYSTEM_LOG_OUT_16));
-		quitItem.setText("Quit");
-
-		quitItem.addListener(SWT.Selection, new Listener() {
-			public void handleEvent(Event e) {
-				shell.close();
-			}
-		});
-
-		// Edit items /////////////////
-		
-		MenuItem undoItem = new MenuItem(editMenu, SWT.PUSH);
-		undoItem.setImage(SharedImages.getImage(SharedImages.EDIT_UNDO_16));
-		undoItem.setText("Undo Typing");
-		undoItem.setEnabled(false);
-
-		MenuItem redoItem = new MenuItem(editMenu, SWT.PUSH);
-		redoItem.setImage(SharedImages.getImage(SharedImages.EDIT_REDO_16));
-		redoItem.setText("Redo");
-		redoItem.setEnabled(false);
-
-		new MenuItem(editMenu, SWT.SEPARATOR);
-
-		MenuItem copyItem = new MenuItem(editMenu, SWT.PUSH);
-		copyItem.setImage(SharedImages.getImage(SharedImages.EDIT_COPY_16));
-		copyItem.setText("Copy");
-		copyItem.setEnabled(false);
-
-		MenuItem cutItem = new MenuItem(editMenu, SWT.PUSH);
-		cutItem.setImage(SharedImages.getImage(SharedImages.EDIT_CUT_16));
-		cutItem.setText("Cut");
-		cutItem.setEnabled(false);
-
-		MenuItem pastItem = new MenuItem(editMenu, SWT.PUSH);
-		pastItem.setImage(SharedImages.getImage(SharedImages.EDIT_PASTE_16));
-		pastItem.setText("Past");
-		pastItem.setEnabled(false);
-
-		// Window items ///////////////
-		
-		// Virtual keyboard
-		MenuItem virtualKeyboardItem = new MenuItem(windowMenu, SWT.PUSH);
-		virtualKeyboardItem.setImage(SharedImages.getImage(SharedImages.PREFERENCES_SYSTEM_16));
-		virtualKeyboardItem.setText("Virtual Keyboard...");
-		virtualKeyboardItem.setAccelerator(SWT.MOD1 + 'W');  // Define a shortcut to open this Dialog (ctrl + w)
-
-		virtualKeyboardItem.addListener(SWT.Selection, new Listener() {
-			public void handleEvent(Event e) {
-				VirtualKeyboardDialog dialog = VirtualKeyboardDialog.getInstance();
-				dialog.open();
-			}
-		});
-		
-		// Preferences
-		MenuItem preferencesItem = new MenuItem(windowMenu, SWT.PUSH);
-		preferencesItem.setImage(SharedImages.getImage(SharedImages.PREFERENCES_SYSTEM_16));
-		preferencesItem.setText("Preferences...");
-
-		preferencesItem.addListener(SWT.Selection, new Listener() {
-			public void handleEvent(Event e) {
-				PreferencesDialog dialog = new PreferencesDialog(shell);
-				dialog.open();
-			}
-		});
-		
-		// Help items /////////////////
-		MenuItem aboutItem = new MenuItem(helpMenu, SWT.PUSH);
-		aboutItem.setImage(SharedImages.getImage(SharedImages.HELP_BROWSER_16));
-		aboutItem.setText("About OpenCAL...");
-
-		aboutItem.addListener(SWT.Selection, new Listener() {
-			public void handleEvent(Event e) {
-				AboutDialog dialog = new AboutDialog(shell);
-				dialog.open();
-			}
-		});
+        MenuItem pdfItem = new MenuItem(fileMenu, SWT.PUSH);
+        pdfItem.setImage(SharedImages.getImage(SharedImages.TEXT_16));
+        pdfItem.setText("Export Test To PDF...");
+        pdfItem.setEnabled(false);
         
-		///////////////////////////////
-		
-        // Create the tabfolder
-		final TabFolder tabFolder = new TabFolder(this.shell, SWT.NONE);
-		
-		tabFolder.setLayoutData(new GridData(GridData.FILL_BOTH));
-		
-		this.tabItemAddCard = new TabItem(tabFolder, SWT.NONE);
-		this.tabItemTrain = new TabItem(tabFolder, SWT.NONE);
-		this.tabItemTest = new TabItem(tabFolder, SWT.NONE);
-		this.tabItemExplore = new TabItem(tabFolder, SWT.NONE);
-		this.tabItemMonitor = new TabItem(tabFolder, SWT.NONE);
-		
-		tabItemAddCard.setText("Add");
-		tabItemTrain.setText("Review");
-		tabItemTest.setText("Test");
-		tabItemExplore.setText("Explore");
-		tabItemMonitor.setText("Monitor");
-		
-		tabItemAddCard.setToolTipText("Add new cards");
-		tabItemTrain.setToolTipText("Review some cards");
-		tabItemTest.setToolTipText("Test your knowledges");
-		tabItemExplore.setToolTipText("Explore your knowledge base");
-		tabItemMonitor.setToolTipText("Your statistics");
-		
-		Composite addCardComposite = new Composite(tabFolder, SWT.NONE);
-		Composite trainComposite = new Composite(tabFolder, SWT.NONE);
-		Composite testComposite = new Composite(tabFolder, SWT.NONE);
-		Composite exploreComposite = new Composite(tabFolder, SWT.NONE);
-		Composite monitorComposite = new Composite(tabFolder, SWT.NONE);
-		
-		tabItemAddCard.setControl(addCardComposite);
-		tabItemTrain.setControl(trainComposite);
-		tabItemTest.setControl(testComposite);
-		tabItemExplore.setControl(exploreComposite);
-		tabItemMonitor.setControl(monitorComposite);
-		
-		addCardTab = new AddTab(addCardComposite);
-		trainTab = new TrainTab(trainComposite);
-		testTab = new TestTab(testComposite);
-		exploreTab = new ExploreTab(exploreComposite);
-		monitorTab = new MonitorTab(monitorComposite);
-		
-		// Add listeners on tabFolder (prevent when a tabItem is selected)
-		tabFolder.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				switch (tabFolder.getSelectionIndex()) {
-					case 0 :
-						addCardTab.update();
-						break;
-					case 1 :
-						trainTab.update();
-						break;
-					case 2 :
-						testTab.update();
-						break;
-					case 3 :
-						exploreTab.update();
-						break;
-					case 4 :
-						monitorTab.update();
-						break;
-				}
-			}
-		});
-		
-		// Create the Status Bar
-		Composite statusBar = new Composite(this.shell, SWT.NONE);
-		statusBar.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		GridLayout statusBarGridLayout = new GridLayout(9, true);
-		statusBarGridLayout.marginWidth = 0;
-		statusBarGridLayout.marginHeight = 0;
-		statusBarGridLayout.horizontalSpacing = 5;
-		statusBarGridLayout.verticalSpacing = 0;
-		statusBarGridLayout.marginTop = 4;
-		statusBarGridLayout.marginBottom = 0;
-		statusBarGridLayout.marginLeft = 1;
-		statusBarGridLayout.marginRight = 0;
-		statusBar.setLayout(statusBarGridLayout);
-		
-		this.statusLabel1 = new Label(statusBar, SWT.LEFT);
-		GridData statusLabel1GridData = new GridData(GridData.FILL_HORIZONTAL);
-		statusLabel1GridData.horizontalSpan = 6;
-		this.statusLabel1.setLayoutData(statusLabel1GridData);
-		
-		this.statusLabel2 = new Label(statusBar, SWT.CENTER);
-		this.statusLabel2.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		
-		this.statusLabel3 = new Label(statusBar, SWT.CENTER);
-		this.statusLabel3.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		
-		this.statusLabel4 = new Label(statusBar, SWT.CENTER);
-		this.statusLabel4.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-	}
-	
-	/**
-	 * 
-	 */
-	public void print(String text) {
-		MessageBox mb = new MessageBox(this.shell, SWT.APPLICATION_MODAL | SWT.ICON_INFORMATION | SWT.OK);
-		mb.setText("Info...");
-		mb.setMessage(text);
-		mb.open();
-	}
-	
-	/**
-	 * 
-	 */
-	public void printAlert(String text) {
-		MessageBox mb = new MessageBox(this.shell, SWT.APPLICATION_MODAL | SWT.ICON_WARNING | SWT.OK);
-		mb.setText("Alert...");
-		mb.setMessage(text);
-		mb.open();
-	}
-	
-	/**
-	 * 
-	 */
-	public void printError(String text) {
-		MessageBox mb = new MessageBox(this.shell, SWT.APPLICATION_MODAL | SWT.ICON_ERROR | SWT.OK);
-		mb.setText("Error...");
-		mb.setMessage(text);
-		mb.open();
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public static String[] getQuestionStrings(List<Card> cardList, boolean displayErrors) {
-		ArrayList<String> questionStrings = new ArrayList<String>();
-		
-		Iterator<Card> it = cardList.iterator();
-		while(it.hasNext()) {
-			Card card = it.next();
-			
-			String prefix = "";
-			
-			if(card.isHidden()) {
-				prefix = "⬚ ";
-			} else {
-				if(displayErrors) {
-		            Review[] reviews = card.getReviews().toArray(new Review[0]);
-		            
-		            for(int j=0 ; j<reviews.length ; j++) {
-		                if(reviews[j].getReviewDate().equals(CalendarToolKit.calendarToIso8601(new GregorianCalendar())))
-		                	if(reviews[j].getResult().equals(Review.WRONG_ANSWER_STRING)) prefix = "✖ ";
-		                	else prefix = "✔ ";
-		            }
-				}
-			}
+        MenuItem printItem = new MenuItem(fileMenu, SWT.PUSH);
+        printItem.setImage(SharedImages.getImage(SharedImages.DOCUMENT_PRINT_16));
+        printItem.setText("Print Test...");
+        printItem.setEnabled(false);
 
-			questionStrings.add(prefix + card.getQuestion());
-		}
-		
-		return questionStrings.toArray(new String[0]);
-	}
-	
-	/**
-	 * 
-	 */
-	public void updateStatus() {
-		this.statusLabel1.setText("");
-		this.statusLabel1.setToolTipText("");
-		
-		GregorianCalendar gc = new GregorianCalendar();
+        new MenuItem(fileMenu, SWT.SEPARATOR);
+
+        MenuItem quitItem = new MenuItem(fileMenu, SWT.PUSH);
+        quitItem.setImage(SharedImages.getImage(SharedImages.SYSTEM_LOG_OUT_16));
+        quitItem.setText("Quit");
+
+        quitItem.addListener(SWT.Selection, new Listener() {
+            public void handleEvent(Event e) {
+                shell.close();
+            }
+        });
+
+        // Edit items /////////////////
+        
+        MenuItem undoItem = new MenuItem(editMenu, SWT.PUSH);
+        undoItem.setImage(SharedImages.getImage(SharedImages.EDIT_UNDO_16));
+        undoItem.setText("Undo Typing");
+        undoItem.setEnabled(false);
+
+        MenuItem redoItem = new MenuItem(editMenu, SWT.PUSH);
+        redoItem.setImage(SharedImages.getImage(SharedImages.EDIT_REDO_16));
+        redoItem.setText("Redo");
+        redoItem.setEnabled(false);
+
+        new MenuItem(editMenu, SWT.SEPARATOR);
+
+        MenuItem copyItem = new MenuItem(editMenu, SWT.PUSH);
+        copyItem.setImage(SharedImages.getImage(SharedImages.EDIT_COPY_16));
+        copyItem.setText("Copy");
+        copyItem.setEnabled(false);
+
+        MenuItem cutItem = new MenuItem(editMenu, SWT.PUSH);
+        cutItem.setImage(SharedImages.getImage(SharedImages.EDIT_CUT_16));
+        cutItem.setText("Cut");
+        cutItem.setEnabled(false);
+
+        MenuItem pastItem = new MenuItem(editMenu, SWT.PUSH);
+        pastItem.setImage(SharedImages.getImage(SharedImages.EDIT_PASTE_16));
+        pastItem.setText("Past");
+        pastItem.setEnabled(false);
+
+        // Window items ///////////////
+        
+        // Virtual keyboard
+        MenuItem virtualKeyboardItem = new MenuItem(windowMenu, SWT.PUSH);
+        virtualKeyboardItem.setImage(SharedImages.getImage(SharedImages.PREFERENCES_SYSTEM_16));
+        virtualKeyboardItem.setText("Virtual Keyboard...");
+        virtualKeyboardItem.setAccelerator(SWT.MOD1 + 'W');  // Define a shortcut to open this Dialog (ctrl + w)
+
+        virtualKeyboardItem.addListener(SWT.Selection, new Listener() {
+            public void handleEvent(Event e) {
+                VirtualKeyboardDialog dialog = VirtualKeyboardDialog.getInstance();
+                dialog.open();
+            }
+        });
+        
+        // Preferences
+        MenuItem preferencesItem = new MenuItem(windowMenu, SWT.PUSH);
+        preferencesItem.setImage(SharedImages.getImage(SharedImages.PREFERENCES_SYSTEM_16));
+        preferencesItem.setText("Preferences...");
+
+        preferencesItem.addListener(SWT.Selection, new Listener() {
+            public void handleEvent(Event e) {
+                PreferencesDialog dialog = new PreferencesDialog(shell);
+                dialog.open();
+            }
+        });
+        
+        // Help items /////////////////
+        MenuItem aboutItem = new MenuItem(helpMenu, SWT.PUSH);
+        aboutItem.setImage(SharedImages.getImage(SharedImages.HELP_BROWSER_16));
+        aboutItem.setText("About OpenCAL...");
+
+        aboutItem.addListener(SWT.Selection, new Listener() {
+            public void handleEvent(Event e) {
+                AboutDialog dialog = new AboutDialog(shell);
+                dialog.open();
+            }
+        });
+        
+        ///////////////////////////////
+        
+        // Create the tabfolder
+        final TabFolder tabFolder = new TabFolder(this.shell, SWT.NONE);
+        
+        tabFolder.setLayoutData(new GridData(GridData.FILL_BOTH));
+        
+        this.tabItemAddCard = new TabItem(tabFolder, SWT.NONE);
+        this.tabItemTrain = new TabItem(tabFolder, SWT.NONE);
+        this.tabItemTest = new TabItem(tabFolder, SWT.NONE);
+        this.tabItemExplore = new TabItem(tabFolder, SWT.NONE);
+        this.tabItemMonitor = new TabItem(tabFolder, SWT.NONE);
+        
+        tabItemAddCard.setText("Add");
+        tabItemTrain.setText("Review");
+        tabItemTest.setText("Test");
+        tabItemExplore.setText("Explore");
+        tabItemMonitor.setText("Monitor");
+        
+        tabItemAddCard.setToolTipText("Add new cards");
+        tabItemTrain.setToolTipText("Review some cards");
+        tabItemTest.setToolTipText("Test your knowledges");
+        tabItemExplore.setToolTipText("Explore your knowledge base");
+        tabItemMonitor.setToolTipText("Your statistics");
+        
+        Composite addCardComposite = new Composite(tabFolder, SWT.NONE);
+        Composite trainComposite = new Composite(tabFolder, SWT.NONE);
+        Composite testComposite = new Composite(tabFolder, SWT.NONE);
+        Composite exploreComposite = new Composite(tabFolder, SWT.NONE);
+        Composite monitorComposite = new Composite(tabFolder, SWT.NONE);
+        
+        tabItemAddCard.setControl(addCardComposite);
+        tabItemTrain.setControl(trainComposite);
+        tabItemTest.setControl(testComposite);
+        tabItemExplore.setControl(exploreComposite);
+        tabItemMonitor.setControl(monitorComposite);
+        
+        addCardTab = new AddTab(addCardComposite);
+        trainTab = new TrainTab(trainComposite);
+        testTab = new TestTab(testComposite);
+        exploreTab = new ExploreTab(exploreComposite);
+        monitorTab = new MonitorTab(monitorComposite);
+        
+        // Add listeners on tabFolder (prevent when a tabItem is selected)
+        tabFolder.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent e) {
+                switch (tabFolder.getSelectionIndex()) {
+                    case 0 :
+                        addCardTab.update();
+                        break;
+                    case 1 :
+                        trainTab.update();
+                        break;
+                    case 2 :
+                        testTab.update();
+                        break;
+                    case 3 :
+                        exploreTab.update();
+                        break;
+                    case 4 :
+                        monitorTab.update();
+                        break;
+                }
+            }
+        });
+        
+        // Create the Status Bar
+        Composite statusBar = new Composite(this.shell, SWT.NONE);
+        statusBar.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        GridLayout statusBarGridLayout = new GridLayout(9, true);
+        statusBarGridLayout.marginWidth = 0;
+        statusBarGridLayout.marginHeight = 0;
+        statusBarGridLayout.horizontalSpacing = 5;
+        statusBarGridLayout.verticalSpacing = 0;
+        statusBarGridLayout.marginTop = 4;
+        statusBarGridLayout.marginBottom = 0;
+        statusBarGridLayout.marginLeft = 1;
+        statusBarGridLayout.marginRight = 0;
+        statusBar.setLayout(statusBarGridLayout);
+        
+        this.statusLabel1 = new Label(statusBar, SWT.LEFT);
+        GridData statusLabel1GridData = new GridData(GridData.FILL_HORIZONTAL);
+        statusLabel1GridData.horizontalSpan = 6;
+        this.statusLabel1.setLayoutData(statusLabel1GridData);
+        
+        this.statusLabel2 = new Label(statusBar, SWT.CENTER);
+        this.statusLabel2.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        
+        this.statusLabel3 = new Label(statusBar, SWT.CENTER);
+        this.statusLabel3.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        
+        this.statusLabel4 = new Label(statusBar, SWT.CENTER);
+        this.statusLabel4.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+    }
+    
+    /**
+     * 
+     */
+    public void print(String text) {
+        MessageBox mb = new MessageBox(this.shell, SWT.APPLICATION_MODAL | SWT.ICON_INFORMATION | SWT.OK);
+        mb.setText("Info...");
+        mb.setMessage(text);
+        mb.open();
+    }
+    
+    /**
+     * 
+     */
+    public void printAlert(String text) {
+        MessageBox mb = new MessageBox(this.shell, SWT.APPLICATION_MODAL | SWT.ICON_WARNING | SWT.OK);
+        mb.setText("Alert...");
+        mb.setMessage(text);
+        mb.open();
+    }
+    
+    /**
+     * 
+     */
+    public void printError(String text) {
+        MessageBox mb = new MessageBox(this.shell, SWT.APPLICATION_MODAL | SWT.ICON_ERROR | SWT.OK);
+        mb.setText("Error...");
+        mb.setMessage(text);
+        mb.open();
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    public static String[] getQuestionStrings(List<Card> cardList, boolean displayErrors) {
+        ArrayList<String> questionStrings = new ArrayList<String>();
+        
+        Iterator<Card> it = cardList.iterator();
+        while(it.hasNext()) {
+            Card card = it.next();
+            
+            String prefix = "";
+            
+            if(card.isHidden()) {
+                prefix = "⬚ ";
+            } else {
+                if(displayErrors) {
+                    Review[] reviews = card.getReviews().toArray(new Review[0]);
+                    
+                    for(int j=0 ; j<reviews.length ; j++) {
+                        if(reviews[j].getReviewDate().equals(CalendarToolKit.calendarToIso8601(new GregorianCalendar())))
+                            if(reviews[j].getResult().equals(Review.WRONG_ANSWER_STRING)) prefix = "✖ ";
+                            else prefix = "✔ ";
+                    }
+                }
+            }
+
+            questionStrings.add(prefix + card.getQuestion());
+        }
+        
+        return questionStrings.toArray(new String[0]);
+    }
+    
+    /**
+     * 
+     */
+    public void updateStatus() {
+        this.statusLabel1.setText("");
+        this.statusLabel1.setToolTipText("");
+        
+        GregorianCalendar gc = new GregorianCalendar();
 
         // Cards Added /////////////////
         int nbCardsAdded = 0;
@@ -476,8 +476,8 @@ public class MainWindow {
             if(card.getCreationDate().equals(CalendarToolKit.calendarToIso8601(gc))) nbCardsAdded++;
         }
         
-		this.statusLabel2.setText("A : " + nbCardsAdded);
-		this.statusLabel2.setToolTipText(nbCardsAdded + " cards added today");
+        this.statusLabel2.setText("A : " + nbCardsAdded);
+        this.statusLabel2.setToolTipText(nbCardsAdded + " cards added today");
 
         // Cards Checked ///////////////
         int nbCardsChecked = 0;
@@ -487,52 +487,52 @@ public class MainWindow {
             Review[] reviews = card.getReviews().toArray(new Review[0]);
             for(Review review : reviews) {
                 if(review.getReviewDate().equals(CalendarToolKit.calendarToIso8601(gc)))
-                	hasBeenReviewed = true;
+                    hasBeenReviewed = true;
             }
             
             if(hasBeenReviewed) nbCardsChecked++;
         }
         
-		this.statusLabel3.setText("C : " + nbCardsChecked);
-		this.statusLabel3.setToolTipText(nbCardsChecked + " cards checked today");
+        this.statusLabel3.setText("C : " + nbCardsChecked);
+        this.statusLabel3.setToolTipText(nbCardsChecked + " cards checked today");
 
         // Cards Left //////////////////
         int nbCardsLeft = 0;
         // TODO...
-		this.statusLabel4.setText("L : " + nbCardsLeft);
-		this.statusLabel4.setToolTipText(nbCardsLeft + " cards left for today");
-	}
-	
-	/**
-	 * 
-	 */
-	public void run() {
-		// Init statubar
+        this.statusLabel4.setText("L : " + nbCardsLeft);
+        this.statusLabel4.setToolTipText(nbCardsLeft + " cards left for today");
+    }
+    
+    /**
+     * 
+     */
+    public void run() {
+        // Init statubar
         this.updateStatus();
-		
-		// Main loop
-		this.shell.open();
-		
-		while(!this.shell.isDisposed()) {
-			if(!MainWindow.DISPLAY.readAndDispatch()) MainWindow.DISPLAY.sleep();
-		}
-		
-		MainWindow.DISPLAY.dispose();
-	}
-	
-	/**
-	 * 
-	 */
-	public void close() {
-		this.shell.close();
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public Shell getShell() {
-		return this.shell;
-	}
-	
+        
+        // Main loop
+        this.shell.open();
+        
+        while(!this.shell.isDisposed()) {
+            if(!MainWindow.DISPLAY.readAndDispatch()) MainWindow.DISPLAY.sleep();
+        }
+        
+        MainWindow.DISPLAY.dispose();
+    }
+    
+    /**
+     * 
+     */
+    public void close() {
+        this.shell.close();
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    public Shell getShell() {
+        return this.shell;
+    }
+    
 }

@@ -33,87 +33,87 @@ import org.jdhp.opencal.ui.swt.widgets.TagsEditor;
  */
 public class AddTab {
 
-	final private Composite parentComposite;
-	
-	/**
-	 * 
-	 * @param parentComposite
-	 */
-	public AddTab(Composite parentComposite) {
-		
-		this.parentComposite = parentComposite;
-		this.parentComposite.setLayout(new GridLayout(1, false));
+    final private Composite parentComposite;
+    
+    /**
+     * 
+     * @param parentComposite
+     */
+    public AddTab(Composite parentComposite) {
+        
+        this.parentComposite = parentComposite;
+        this.parentComposite.setLayout(new GridLayout(1, false));
 
-		///////////////////////////
-		// SasheForm //////////////
-		///////////////////////////
+        ///////////////////////////
+        // SasheForm //////////////
+        ///////////////////////////
 
         SashForm verticalSashForm = new SashForm(this.parentComposite, SWT.VERTICAL);
-		verticalSashForm.setLayoutData(new GridData(GridData.FILL_BOTH));
-		
-		// Question ////////
-		final EditableBrowser questionArea = new EditableBrowser(verticalSashForm);
-		questionArea.setTitle("Question");
-		
-		// Answer //////////
-		final EditableBrowser answerArea = new EditableBrowser(verticalSashForm);
-		answerArea.setTitle("Answer");
+        verticalSashForm.setLayoutData(new GridData(GridData.FILL_BOTH));
+        
+        // Question ////////
+        final EditableBrowser questionArea = new EditableBrowser(verticalSashForm);
+        questionArea.setTitle("Question");
+        
+        // Answer //////////
+        final EditableBrowser answerArea = new EditableBrowser(verticalSashForm);
+        answerArea.setTitle("Answer");
 
-		// Tags ////////////
-		final TagsEditor tagsArea = new TagsEditor(verticalSashForm);
-		tagsArea.setTitle("Tags");
-		
-		verticalSashForm.setWeights(new int[] {40, 40, 20});
-		
-		///////////////////////////
-		// Add Button /////////////
-		///////////////////////////
+        // Tags ////////////
+        final TagsEditor tagsArea = new TagsEditor(verticalSashForm);
+        tagsArea.setTitle("Tags");
+        
+        verticalSashForm.setWeights(new int[] {40, 40, 20});
+        
+        ///////////////////////////
+        // Add Button /////////////
+        ///////////////////////////
 
-		final Button addButton = new Button(this.parentComposite, SWT.PUSH);
-		addButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_CENTER));
-		addButton.setText("Add this card");
-		addButton.setImage(SharedImages.getImage(SharedImages.LIST_ADD_24));
-		addButton.setToolTipText("Add this card to the knowledge base");
-		addButton.setEnabled(false);
+        final Button addButton = new Button(this.parentComposite, SWT.PUSH);
+        addButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_CENTER));
+        addButton.setText("Add this card");
+        addButton.setImage(SharedImages.getImage(SharedImages.LIST_ADD_24));
+        addButton.setToolTipText("Add this card to the knowledge base");
+        addButton.setEnabled(false);
 
-		///////////////////////////
-		// Listeners //////////////
-		///////////////////////////
+        ///////////////////////////
+        // Listeners //////////////
+        ///////////////////////////
 
-		questionArea.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				// Question can't be empty
-				if(questionArea.getText().trim().equals("")) {
-					addButton.setEnabled(false);
-				} else {
-					addButton.setEnabled(true);
-				}
-			}
-		});
-		
-		addButton.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				String[] tagArray = tagsArea.getText().split("\n");
-				List<String> tagList = new ArrayList<String>(Arrays.asList(tagArray));
-				
-				Card newCard = new Card(questionArea.getText(), answerArea.getText(), tagList);
-				OpenCAL.cardCollection.add(newCard);
-				
-				questionArea.setText("");
-				answerArea.setText("");
-				tagsArea.setText("");
-				
-				MainWindow.getInstance().updateStatus();
-			
-				// Set focus to the question field
-				questionArea.setFocus();
-			}
-		});
-	}
-	
-	/**
-	 * 
-	 */
-	public void update() { }
-	
+        questionArea.addModifyListener(new ModifyListener() {
+            public void modifyText(ModifyEvent e) {
+                // Question can't be empty
+                if(questionArea.getText().trim().equals("")) {
+                    addButton.setEnabled(false);
+                } else {
+                    addButton.setEnabled(true);
+                }
+            }
+        });
+        
+        addButton.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent e) {
+                String[] tagArray = tagsArea.getText().split("\n");
+                List<String> tagList = new ArrayList<String>(Arrays.asList(tagArray));
+                
+                Card newCard = new Card(questionArea.getText(), answerArea.getText(), tagList);
+                OpenCAL.cardCollection.add(newCard);
+                
+                questionArea.setText("");
+                answerArea.setText("");
+                tagsArea.setText("");
+                
+                MainWindow.getInstance().updateStatus();
+            
+                // Set focus to the question field
+                questionArea.setFocus();
+            }
+        });
+    }
+    
+    /**
+     * 
+     */
+    public void update() { }
+    
 }

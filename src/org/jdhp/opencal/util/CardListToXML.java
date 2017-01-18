@@ -26,53 +26,53 @@ import org.w3c.dom.Element;
 
 public class CardListToXML {
 
-//	public static String cardListToXML(List<Card> cardList) {
+//  public static String cardListToXML(List<Card> cardList) {
 //
-//		// Créer un document
-//		Document document = null;
-//		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-//		DocumentBuilder db;
-//		try {
-//			db = dbf.newDocumentBuilder();
-//			document = db.newDocument();
-//		} catch (ParserConfigurationException e) {
-//			e.printStackTrace();
-//		}
-//		
-//		// Ajouter un noeud root au document
-//		Element rootElement = document.createElement("root");
-//		document.appendChild(rootElement);
-//		
-//		// Ajouter les elements de chaques cartes dans le rootElement
-//		Iterator<Card> it = cardList.iterator();
-//		while(it.hasNext()) {
-//			Card card = it.next();
-//			rootElement.appendChild(document.importNode(card.getElement(), true));
-//		}
-//		
-//		// Convert the document
-//		StringWriter stringWriter = new StringWriter();
-//		
-//		try {
-//			// Make DOM source
-//			Source domSource = new DOMSource(document);
-//		
-//			// Make output file
-//			Result streamResult = new StreamResult(stringWriter);
-//		
-//			// Setup transformer
-//			TransformerFactory factory = TransformerFactory.newInstance();
-//			Transformer transformer = factory.newTransformer();
-//			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-//			transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-//		
-//			// Transformation
-//			transformer.transform(domSource, streamResult);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		
-//		return stringWriter.toString();
-//	}
+//      // Créer un document
+//      Document document = null;
+//      DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+//      DocumentBuilder db;
+//      try {
+//          db = dbf.newDocumentBuilder();
+//          document = db.newDocument();
+//      } catch (ParserConfigurationException e) {
+//          e.printStackTrace();
+//      }
+//      
+//      // Ajouter un noeud root au document
+//      Element rootElement = document.createElement("root");
+//      document.appendChild(rootElement);
+//      
+//      // Ajouter les elements de chaques cartes dans le rootElement
+//      Iterator<Card> it = cardList.iterator();
+//      while(it.hasNext()) {
+//          Card card = it.next();
+//          rootElement.appendChild(document.importNode(card.getElement(), true));
+//      }
+//      
+//      // Convert the document
+//      StringWriter stringWriter = new StringWriter();
+//      
+//      try {
+//          // Make DOM source
+//          Source domSource = new DOMSource(document);
+//      
+//          // Make output file
+//          Result streamResult = new StreamResult(stringWriter);
+//      
+//          // Setup transformer
+//          TransformerFactory factory = TransformerFactory.newInstance();
+//          Transformer transformer = factory.newTransformer();
+//          transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+//          transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+//      
+//          // Transformation
+//          transformer.transform(domSource, streamResult);
+//      } catch (Exception e) {
+//          e.printStackTrace();
+//      }
+//      
+//      return stringWriter.toString();
+//  }
 
 }

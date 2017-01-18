@@ -15,19 +15,19 @@ import org.jdhp.opencal.model.cardcollection.CardCollection;
  */
 public interface PersonalKnowledgeBase {
 
-	/**
-	 * 
-	 * @param uri
-	 * @return
-	 * @throws PersonalKnowledgeBaseException
-	 */
-	public CardCollection load(URI uri) throws PersonalKnowledgeBaseException;
-	
-	/**
-	 * 
-	 * @param cardCollection
-	 * @param uri
-	 * @throws PersonalKnowledgeBaseException
-	 */
-	public void save(CardCollection cardCollection, URI uri) throws PersonalKnowledgeBaseException;
+    /**
+     * 
+     * @param uri
+     * @return
+     * @throws PersonalKnowledgeBaseException
+     */
+    public CardCollection load(URI uri) throws PersonalKnowledgeBaseException;
+    
+    /**
+     * 
+     * @param cardCollection
+     * @param uri
+     * @throws PersonalKnowledgeBaseException
+     */
+    public void save(CardCollection cardCollection, URI uri) throws PersonalKnowledgeBaseException;
 }

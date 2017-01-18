@@ -10,7 +10,7 @@ import java.util.Collection;
 import org.jdhp.opencal.model.card.Card;
 
 public interface ModifyListListener {
-	
-	void listModification(Collection<Card> cardCollection);
-	
+    
+    void listModification(Collection<Card> cardCollection);
+    
 }
