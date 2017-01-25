@@ -386,10 +386,22 @@ public class EditableBrowser {
         // HTML head
         html.append("<head>\n");
         html.append("<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\" />\n");
+
+        // CSS
         html.append("<style type=\"text/css\" media=\"all\">\n");
         html.append(CSS.EDITABLE_BROWSER_CSS);
         //html.append("* {background-color: blue;}");  // Debug
         html.append("</style>\n");
+
+        // Mathjax
+        // Install MathJax on Debian: aptitude install libjs-mathjax
+        html.append("<script type=\"text/x-mathjax-config\">\n");
+        html.append("MathJax.Hub.Config({\n");
+        html.append("    tex2jax: {inlineMath: [[\"$\",\"$\"],[\"\\\\(\",\"\\\\)\"]]}\n");
+        html.append("});\n");
+        html.append("</script>\n");
+        html.append("<script type=\"text/javascript\" src='/usr/share/javascript/mathjax/MathJax.js?config=TeX-AMS_HTML-full'></script>\n");
+
         html.append("</head>\n");
 
         // HTML body
