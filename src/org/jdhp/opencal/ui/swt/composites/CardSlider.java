@@ -390,6 +390,7 @@ public class CardSlider implements ModifyListListener {
 
     /**
      * TODO : Utiliser un StringBuffer pour la variable "html".
+     * Utilisé dans le tab "review".
      * 
      * @param card
      * @param answer
@@ -399,13 +400,18 @@ public class CardSlider implements ModifyListListener {
         StringBuffer html = new StringBuffer();
         
         html.append("<!DOCTYPE html>\n");
+        html.append("<html>\n");
+
+        // HTML head
         html.append("<head>\n");
         html.append("<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\" />\n");
-        html.append("<title>opencal</title>\n");
         html.append("<style type=\"text/css\" media=\"all\">\n");
         html.append(CSS.REVIEW_CSS);
+        //html.append("* {background-color: red;}");  // Debug
         html.append("</style>\n");
         html.append("</head>\n");
+
+        // HTML body
         html.append("<body>");
         
         if(card == null) {
