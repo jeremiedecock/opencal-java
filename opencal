@@ -3,12 +3,20 @@
 # OpenCAL v3
 # Copyright (c) 2006,2007,2008,2009,2010,2011 Jérémie DECOCK <jd.jdhp@gmail.com>
 
-ROOT="."
-OPTS=
-#OPTS="-Dopencal.userproperties.location=.devel.properties"
-BIN="$ROOT/bin/"
-LIBS="$ROOT/ext/lib/swt-3.6.1-gtk-linux-x86.jar:$ROOT/ext/lib/junit_3.8.2.jar:$ROOT/ext/lib/jcommon-1.0.14.jar:$ROOT/ext/lib/jfreechart-1.0.11.jar"
+LIB_DIR="/usr/share/java"
 
-#java ${OPTS} $@ -cp ${LIBS} -jar $ROOT/opencal.jar
+JCOMMON_LIB="jcommon.jar"
+JFREECHART_LIB="jfreechart.jar"
+JUNIT_LIB="junit4.jar"
+SWT_LIB="swt.jar"
+
+OPENCAL_ROOT=$(dirname "$0")
+
+BIN="${OPENCAL_ROOT}/bin"
+LIBS="${CLASS_DIR}:${LIB_DIR}/${JCOMMON_LIB}:${LIB_DIR}/${JFREECHART_LIB}:${LIB_DIR}/${JUNIT_LIB}:${LIB_DIR}/${SWT_LIB}"
+
+OPTS="-Dopencal.userproperties.location=devel.properties"
+#OPTS=
+
+#java ${OPTS} $@ -cp ${LIBS} -jar ${OPENCAL_ROOT}/opencal.jar
 java ${OPTS} $@ -cp ${BIN}:${LIBS} org.jdhp.opencal.OpenCAL
-
