@@ -27,6 +27,7 @@ import org.jdhp.opencal.model.card.Review;
 import org.jdhp.opencal.model.cardcollection.CardManipulator;
 import org.jdhp.opencal.model.professor.Professor;
 import org.jdhp.opencal.ui.css.CSS;
+import org.jdhp.opencal.ui.html.HtmlWrapper;
 import org.jdhp.opencal.ui.html.QuestionAnswerToHtml;
 import org.jdhp.opencal.ui.html.QuestionAnswerToHtmlImpl;
 import org.jdhp.opencal.ui.swt.MainWindow;
@@ -409,70 +410,45 @@ public class TestTab {
      * @return
      */
     final private String htmlOut(Card card) {
-        StringBuffer html = new StringBuffer();
-        
-        html.append("<!DOCTYPE html>\n");
-        html.append("<html>\n");
-
-        // HTML head
-        html.append("<head>\n");
-        html.append("<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\" />\n");
-        html.append("<style type=\"text/css\" media=\"all\">\n");
-        html.append(CSS.REVIEW_CSS);
-        //html.append("* {background-color: green;}");  // Debug
-        html.append("</style>\n");
-
-        // Mathjax
-        // Install MathJax on Debian: aptitude install libjs-mathjax
-        html.append("<script type=\"text/x-mathjax-config\">\n");
-        html.append("MathJax.Hub.Config({\n");
-        html.append("    tex2jax: {inlineMath: [[\"$\",\"$\"],[\"\\\\(\",\"\\\\)\"]]}\n");
-        html.append("});\n");
-        html.append("</script>\n");
-        html.append("<script type=\"text/javascript\" src='/usr/share/javascript/mathjax/MathJax.js?config=TeX-AMS_HTML-full'></script>\n");
-
-        html.append("</head>\n");
-
-        // HTML body
-        html.append("<body>");
+        StringBuffer html_body = new StringBuffer();
         
         if(card == null) {
-            html.append("<div id=\"empty\">Test done</div>\n");
+            html_body.append("<div id=\"empty\">Test done</div>\n");
         } else {
             // Informations
-            html.append("<div id=\"informations\">");
+            html_body.append("<div id=\"informations\">");
             
-            html.append("<span class=\"information\">");
-            html.append("Created on ");
-            html.append("<span class=\"highlight\">");
-            html.append(card.getCreationDate());
-            html.append("</span>");
-            html.append("</span> - ");
+            html_body.append("<span class=\"information\">");
+            html_body.append("Created on ");
+            html_body.append("<span class=\"highlight\">");
+            html_body.append(card.getCreationDate());
+            html_body.append("</span>");
+            html_body.append("</span> - ");
             
-            html.append("<span class=\"information\" title=\"");
+            html_body.append("<span class=\"information\" title=\"");
             Review reviews[] = card.getReviews().toArray(new Review[0]);
             for(int i=0 ; i<reviews.length ; i++) {
-                html.append(reviews[i].getReviewDate());
-                html.append(" : ");
-                html.append(reviews[i].getResult());
-                html.append("\n");
+                html_body.append(reviews[i].getReviewDate());
+                html_body.append(" : ");
+                html_body.append(reviews[i].getResult());
+                html_body.append("\n");
             }
-            html.append("\">");
+            html_body.append("\">");
             
-            html.append("Checked ");
-            html.append("<span class=\"highlight\">");
-            html.append(card.getReviews().size());
+            html_body.append("Checked ");
+            html_body.append("<span class=\"highlight\">");
+            html_body.append(card.getReviews().size());
             // TODO : Late ... days
-            html.append("</span>");
-            html.append(" times");
-            html.append("</span> - ");
+            html_body.append("</span>");
+            html_body.append(" times");
+            html_body.append("</span> - ");
             
-            html.append("<span class=\"information\">");
-            html.append("Level ");
-            html.append("<span class=\"highlight\">");
-            html.append(card.getGrade() == Professor.HAS_NEVER_BEEN_REVIEWED ? "-" : card.getGrade());
-            html.append("</span>");
-            html.append("</span>");
+            html_body.append("<span class=\"information\">");
+            html_body.append("Level ");
+            html_body.append("<span class=\"highlight\">");
+            html_body.append(card.getGrade() == Professor.HAS_NEVER_BEEN_REVIEWED ? "-" : card.getGrade());
+            html_body.append("</span>");
+            html_body.append("</span>");
 
             /*
              * Affiche une image pour mettre en evidence les cartes pour
@@ -489,43 +465,42 @@ public class TestTab {
                 for(Review review : review_tab) {
                     if(review.getReviewDate().equals(CalendarToolKit.calendarToIso8601(yesterday))) {
                         // TODO: set the width in CSS and remove the workaround "&nbsp;&nbsp;&nbsp;&nbsp;"
-                        html.append(" <span class=\"star\">&nbsp;&nbsp;&nbsp;&nbsp;</span>");
+                        html_body.append(" <span class=\"star\">&nbsp;&nbsp;&nbsp;&nbsp;</span>");
                     }
                 }
             }
             
-            html.append("</div>");
+            html_body.append("</div>");
             
             // Tags
-            html.append("<div id=\"tags\">");
+            html_body.append("<div id=\"tags\">");
             String tags[] = card.getTags().toArray(new String[0]);
             for(int i=0 ; i<tags.length ; i++) {
-                html.append("<span class=\"tag\">");
-                html.append(tags[i]);
-                html.append("</span>");
-                html.append(" ");      // a space is needed between each span to "wrap" it
+                html_body.append("<span class=\"tag\">");
+                html_body.append(tags[i]);
+                html_body.append("</span>");
+                html_body.append(" ");      // a space is needed between each span to "wrap" it
             }
-            html.append("</div>");
+            html_body.append("</div>");
             
             // Question
-            html.append("<h1 class=\"question\">Question</h1>");
-            html.append("<div class=\"question\">");
-            html.append(filter.questionAnswerToHtml(card.getQuestion()));
-            html.append("</div>");
+            html_body.append("<h1 class=\"question\">Question</h1>");
+            html_body.append("<div class=\"question\">");
+            html_body.append(filter.questionAnswerToHtml(card.getQuestion()));
+            html_body.append("</div>");
             
             // Answer
             if(getState() == TestTab.RESULT_STATE) {
-                html.append("<h1 class=\"answer\">Answer</h1>");
-                html.append("<div class=\"answer\">");
-                html.append(filter.questionAnswerToHtml(card.getAnswer()));
-                html.append("</div>");
+                html_body.append("<h1 class=\"answer\">Answer</h1>");
+                html_body.append("<div class=\"answer\">");
+                html_body.append(filter.questionAnswerToHtml(card.getAnswer()));
+                html_body.append("</div>");
             }
         }
         
-        html.append("</body>\n");
-        html.append("</html>");
-        
-        return html.toString();
+        String html = HtmlWrapper.wrapHtmlBody(html_body.toString(), CSS.REVIEW_CSS);
+ 
+        return html;
     }
     
     /**
