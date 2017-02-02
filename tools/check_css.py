@@ -32,7 +32,13 @@ from java.net import URI
 from org.jdhp.opencal.ui.css import CSS
 
 def main():
+    print("*** EDITABLE_BROWSER_CSS ***")
     html = CSS.EDITABLE_BROWSER_CSS
+    print(html)
+
+    print()
+    print("*** REVIEW_CSS ***")
+    html = CSS.REVIEW_CSS
     print(html)
 
 if __name__ == '__main__':
