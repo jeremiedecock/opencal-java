@@ -29,12 +29,11 @@ public class CSS {
             BufferedReader reader = new BufferedReader(new InputStreamReader(CSS.class.getResourceAsStream(source)));
             
             String line;
-            do {
-                line = reader.readLine();
-                if(line != null) {
-                    css.append(line);
-                }
-            } while(line != null);
+            while((line = reader.readLine()) != null) {
+                css.append(line);
+                css.append("\n");
+            }
+            reader.close();
         } catch(FileNotFoundException e) {
             System.out.println(e);
         } catch(IOException e) {
