@@ -1,14 +1,16 @@
 * {
-	font-family : monospace,fixed;
-	font-size : 13px;
-	white-space : pre-wrap;
+    font-family : monospace,fixed;
+    font-size : 14px;
+
+/*  TODO: "white-space: pre-wrap" disturb Mathjax rendering... */
+/*  white-space : pre-wrap; */
 }
 
 h1 {
-	font-size : 14px;
-	font-family : verdana, sans-serif;
+    font-size : 16px;
+    font-family : verdana, sans-serif;
 }
 
 img {
-	max-width : 100%;
+    max-width : 100%;
 }
