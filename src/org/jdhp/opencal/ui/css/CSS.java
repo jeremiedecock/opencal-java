@@ -33,6 +33,7 @@ public class CSS {
                 css.append(line);
                 css.append("\n");
             }
+
             reader.close();
         } catch(FileNotFoundException e) {
             System.out.println(e);
