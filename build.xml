@@ -64,7 +64,7 @@ variable from something like "us.utf8" to "us".
     <property name="swt_lib" value="swt.jar" />
     
     <property name="classpath" value="${class_dir}:${lib_dir}/${jcommon_lib}:${lib_dir}/${jfreechart_lib}:${lib_dir}/${junit_lib}:${lib_dir}/${swt_lib}" />
-    <property name="jar_classpath" value="./ ./lib/${jcommon_lib} ./lib/${jfreechart_lib} ./lib/${junit_lib} ./lib/${swt_lib}" />
+    <property name="jar_classpath" value="${lib_dir}/${jcommon_lib} ${lib_dir}/${jfreechart_lib} ${lib_dir}/${junit_lib} ${lib_dir}/${swt_lib}" />
 
     <!-- ========== TARGETS ========== -->
 
