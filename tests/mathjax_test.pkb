@@ -169,6 +169,7 @@ $$]]></answer>
 <card cdate="2017-01-31" hidden="false">
 <question><![CDATA[$\LaTeX$ fonts
 
+
 mathbb
 
 $$\mathbb{ABCDEFGHIJKLMNOPQRSTUVWXYZ}$$
@@ -202,7 +203,7 @@ mathfrak
 
 $$\mathfrak{ABCDEFGHIJKLMNOPQRSTUVWXYZ}$$
 $$\mathfrak{abcdefghijklmnopqrstuvwxyz}$$]]></question>
-<answer><![CDATA[$$mathbb
+<answer><![CDATA[mathbb
 
 $$\mathbb{ABCDEFGHIJKLMNOPQRSTUVWXYZ}$$
 
