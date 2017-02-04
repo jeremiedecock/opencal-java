@@ -1,9 +1,10 @@
 * {
     font-family : monospace,fixed;
     font-size : 14px;
+}
 
-/*  TODO: "white-space: pre-wrap" disturb Mathjax rendering... */
-/*  white-space : pre-wrap; */
+body {
+    white-space : pre-wrap;
 }
 
 h1 {

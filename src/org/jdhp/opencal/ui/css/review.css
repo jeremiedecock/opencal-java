@@ -102,9 +102,7 @@ h1.answer {
 
 div.question {
     margin            : 0em 2em 0.5em 2em;
-    
-/*  TODO: "white-space: pre-wrap" disturb Mathjax rendering... */
-/*  white-space : pre-wrap; */
+    white-space       : pre-wrap;
 }
 
 div.question img {
@@ -113,9 +111,7 @@ div.question img {
 
 div.answer {
     margin            : 0em 2em 0.5em 2em;
-    
-/*  TODO: "white-space: pre-wrap" disturb Mathjax rendering... */
-/*  white-space : pre-wrap; */
+    white-space       : pre-wrap;
 }
 
 div.answer img {
