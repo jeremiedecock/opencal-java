@@ -13,7 +13,7 @@ import java.io.InputStreamReader;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Shell;
 
-public class InsertDotDialog extends InsertScriptDialog {
+public final class InsertDotDialog extends InsertScriptDialog {
     
     /**
      * InsertImageDialog constructor

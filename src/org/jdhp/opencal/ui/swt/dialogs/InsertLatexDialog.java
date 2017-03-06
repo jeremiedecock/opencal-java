@@ -13,7 +13,7 @@ import java.io.InputStreamReader;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Shell;
 
-public class InsertLatexDialog extends InsertScriptDialog {
+public final class InsertLatexDialog extends InsertScriptDialog {
     
     public static final String SOURCE_HEADER = "";
     public static final String SOURCE_FOOTER = "";
