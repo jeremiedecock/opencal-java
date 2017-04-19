@@ -5,6 +5,7 @@
 
 package org.jdhp.opencal.ui.html;
 
+import org.jdhp.opencal.data.properties.ApplicationProperties;
 import org.jdhp.opencal.ui.css.CSS;
 
 public class HtmlWrapper {
@@ -31,7 +32,9 @@ public class HtmlWrapper {
         html.append("    tex2jax: {inlineMath: [[\"$\",\"$\"],[\"\\\\(\",\"\\\\)\"]]}\n");
         html.append("});\n");
         html.append("</script>\n");
-        html.append("<script type=\"text/javascript\" src='/usr/share/javascript/mathjax/MathJax.js?config=TeX-AMS_HTML-full'></script>\n");
+
+        String mathjaxPath = ApplicationProperties.getMathjaxPath();
+        html.append("<script type=\"text/javascript\" src='" + mathjaxPath + "'></script>\n");
 
         html.append("</head>\n");
         
@@ -42,7 +45,7 @@ public class HtmlWrapper {
         
         html.append("</body>\n");
         html.append("</html>");
- 
+
         return html.toString();
     }
   

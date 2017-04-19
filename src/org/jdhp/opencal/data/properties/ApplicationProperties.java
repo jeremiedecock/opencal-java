@@ -160,14 +160,52 @@ public class ApplicationProperties {
     public static void setPkbPath(String value) {
         ApplicationProperties.applicationProperties.setProperty("pkb.path", value);
     }
-    
+
+    /**
+     *
+     * @return
+     */
+    public static String getMathjaxPath() {
+        String mathjaxDefaultPath = "/usr/share/javascript/mathjax/mathjax.js?config=tex-ams_html-full";  // TODO: so far, this path is only valid for debian; include mathjax source code within the jar file or at least put it in a common directory...
+        String mathjaxPath = ApplicationProperties.applicationProperties.getProperty("ext.mathjax.path", mathjaxDefaultPath);
+
+        return mathjaxPath;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public static void setMathjaxPath(String value) {
+        ApplicationProperties.applicationProperties.setProperty("ext.mathjax.path", value);
+    }
+
+    /**
+     *
+     * @return
+     */
+    public static String getUiPackage() {
+        String uiDefaultPackage = "org.jdhp.opencal.ui.swt";
+        String uiPackage = ApplicationProperties.applicationProperties.getProperty("package.ui", uiDefaultPackage);
+
+        return uiPackage;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public static void setUiPackage(String value) {
+        ApplicationProperties.applicationProperties.setProperty("package.ui", value);
+    }
+
     /**
      * ATTENTION : doit être appellé uniquement au démarrage du programme pour initialiser OpenCAL.professorName
      * OpenCAL.getProfessorName() doit être utilisé dans le cas contraire pour éviter les incohérences. 
      * 
      * @return
      */
-    public static String getProfessorName() {
+    public static String getProfessorName() {   // TODO: change to "getProfessorPackage"
         String defaultProfessorName = ApplicationProperties.DEFAULT_PROFESSOR_NAME;
         return ApplicationProperties.applicationProperties.getProperty("professor.name", defaultProfessorName);
     }
@@ -177,7 +215,7 @@ public class ApplicationProperties {
      * 
      * @return
      */
-    public static void setProfessorName(String value) {
+    public static void setProfessorName(String value) {   // TODO: change to "setProfessorPackage"
         ApplicationProperties.applicationProperties.setProperty("professor.name", value);
     }
     
