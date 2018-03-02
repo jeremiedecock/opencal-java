@@ -4,6 +4,7 @@ doc/doxygen/
 doc/javadoc/
 tmp/
 .settings/
+.gradle/
 debian/files
 debian/opencal.substvars
 debian/opencal.postinst.debhelper
