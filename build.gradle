@@ -1,0 +1,58 @@
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+
+mainClassName = "org.jdhp.opencal.ui.javafx.MainWindow"
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src'
+            exclude 'org/jdhp/opencal/tests/**'
+            exclude 'org/jdhp/opencal/ui/swt/**'
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    //compile "org.apache.commons:commons-math3:3.6.1"
+    testCompile "junit:junit:4.12"
+}
+
+jar {
+    baseName = 'opencal'
+    //version =  '0.1.0'
+}
+
+task copyDefaultPropertiesTask(type: Copy) {
+    from "default.properties"
+    into "$buildDir/classes/java/main/org/jdhp/opencal/data/properties"
+}
+
+task copyCSSTask(type: Copy) {
+    from "src/org/jdhp/opencal/ui/css"
+    into "$buildDir/classes/java/main/org/jdhp/opencal/ui/css"
+    exclude "**/*.java"
+}
+
+// task copyIconsTask(type: Copy) {
+//     from "src/org/jdhp/opencal/ui/icons"
+//     into "$buildDir/classes/java/main/org/jdhp/opencal/ui/icons"
+//     exclude "**/*.java"
+// }
+
+task copyMiscFilesTask(type: Copy) {
+    from "LICENSE"
+    from "AUTHORS"
+    into "$buildDir/classes/java/main/"
+}
+
+compileJava.dependsOn copyDefaultPropertiesTask
+compileJava.dependsOn copyCSSTask
+// compileJava.dependsOn copyIconsTask
+compileJava.dependsOn copyMiscFilesTask
