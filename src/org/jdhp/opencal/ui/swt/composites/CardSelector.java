@@ -364,7 +364,7 @@ public class CardSelector {
 
         try {
             selectedCard = cardList.get(selectionIndex);
-        } catch(ArrayIndexOutOfBoundsException ex) {
+        } catch(IndexOutOfBoundsException ex) {
             selectedCard = null;
         }
 

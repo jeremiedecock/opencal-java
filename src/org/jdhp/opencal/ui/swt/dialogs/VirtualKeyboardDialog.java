@@ -263,7 +263,7 @@ public class VirtualKeyboardDialog extends Dialog {
                 ((GridData) control.getLayoutData()).widthHint = max_size;
                 ((GridData) control.getLayoutData()).heightHint = max_size;
             }
-        } catch(ArrayIndexOutOfBoundsException ex) {
+        } catch(IndexOutOfBoundsException ex) {
             // TODO
         }
     }
