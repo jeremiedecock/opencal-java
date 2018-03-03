@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# OpenCAL v3
+# Copyright (c) 2006,2007,2008,2009,2010,2011 Jérémie DECOCK <jd.jdhp@gmail.com>
+
+LIB_DIR=./ext_macosx
+
+JUNIT_LIB="junit4.jar"
+SWT_LIB="swt.jar"
+
+OPENCAL_ROOT=$(dirname "$0")
+
+BIN="${OPENCAL_ROOT}/bin"
+LIBS="${CLASS_DIR}:${LIB_DIR}/${JUNIT_LIB}:${LIB_DIR}/${SWT_LIB}"
+
+OPTS="-Dopencal.userproperties.location=macos.properties"
+#OPTS=
+
+#java -XstartOnFirstThread ${OPTS} $@ -cp ${LIBS} -jar ${OPENCAL_ROOT}/opencal.jar
+java -XstartOnFirstThread ${OPTS} $@ -cp ${BIN}:${LIBS} org.jdhp.opencal.OpenCAL
