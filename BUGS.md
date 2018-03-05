@@ -12,7 +12,8 @@
     this add a '\n' at the beginning of each question/answer...
   - Leading '\n' and spaces could be left in the PKB files and simply removed
     in "Card" constructors... But I would like to avoid such a big change in
-    the PKB file to avoid possible hidden data loss or hidden data bugs...
+    the PKB file to avoid possible hidden (in git diffs) data loss or hidden
+    data bugs...
   - `transformer.setOutputProperty(OutputKeys.INDENT, "no");` could be used in
     `org.jdhp.opencal.data.pkb.DOMPersonalKnowledgeBase.save()` to completely
     remove the indentation but it's less convenient to version PKB files with
