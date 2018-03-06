@@ -45,8 +45,6 @@ public class ApplicationProperties {
     
     /**
      * Set user properties object.
-     * 
-     * @return
      */
     public static void loadApplicationProperties() throws ApplicationPropertiesException {
         // Create and load default properties ///////////////////////
@@ -106,7 +104,6 @@ public class ApplicationProperties {
     
     /**
      * 
-     * @return
      */
     public static void setDefaultAuthor(String value) {
         ApplicationProperties.applicationProperties.setProperty("default.author", value);
@@ -122,7 +119,6 @@ public class ApplicationProperties {
     
     /**
      * 
-     * @return
      */
     public static void setDefaultLicense(String value) {
         ApplicationProperties.applicationProperties.setProperty("default.license", value);
@@ -155,7 +151,6 @@ public class ApplicationProperties {
 
     /**
      * 
-     * @return
      */
     public static void setPkbPath(String value) {
         ApplicationProperties.applicationProperties.setProperty("pkb.path", value);
@@ -174,7 +169,6 @@ public class ApplicationProperties {
 
     /**
      *
-     * @return
      */
     public static void setMathjaxPath(String value) {
         ApplicationProperties.applicationProperties.setProperty("ext.mathjax.path", value);
@@ -193,7 +187,6 @@ public class ApplicationProperties {
 
     /**
      *
-     * @return
      */
     public static void setUiPackage(String value) {
         ApplicationProperties.applicationProperties.setProperty("package.ui", value);
@@ -213,7 +206,6 @@ public class ApplicationProperties {
     /**
      * ATTENTION : doit être appellé uniquement par OpenCAL.setProfessorName() pour éviter les incohérences avec OpenCAL.professorName
      * 
-     * @return
      */
     public static void setProfessorName(String value) {   // TODO: change to "setProfessorPackage"
         ApplicationProperties.applicationProperties.setProperty("professor.name", value);
@@ -230,7 +222,6 @@ public class ApplicationProperties {
 
     /**
      * 
-     * @return
      */
     public static void setLastInsertFilePath(String value) {
         ApplicationProperties.applicationProperties.setProperty("last.insert.picture.path", value);
