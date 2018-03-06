@@ -99,7 +99,7 @@ public class CardManipulator {
 
     /**
      * 
-     * @param index
+     * @param newIndex
      * @return 
      */
     public boolean setIndex(int newIndex) {
