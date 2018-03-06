@@ -35,12 +35,12 @@ public class Card {
     /**
      * Constructor called by PKB.load().
      * 
-     * @param question
-     * @param answer
-     * @param tags
-     * @param reviews
-     * @param cdate
-     * @param hidden
+     * @param question The question of the card
+     * @param answer The answer of the card
+     * @param tags A list of tags that categorize the card
+     * @param reviews The list of the user's reviews for this card
+     * @param creationDate The card's creation date
+     * @param isHidden True if the card should be hidden
      */
     public Card(String question, String answer, List<String> tags, List<Review> reviews, String creationDate, boolean isHidden) {
         this.setQuestion(question);
@@ -56,9 +56,9 @@ public class Card {
     /**
      * Constructor called by Window.
      * 
-     * @param question
-     * @param answer
-     * @param tags
+     * @param question The question of the card
+     * @param answer The answer of the card
+     * @param tags A list of tags that categorize the card
      */
     public Card(String question, String answer, List<String> tags) {
         this(question, answer, tags, new ArrayList<Review>(), CalendarToolKit.calendarToIso8601(new GregorianCalendar()), false);
@@ -66,7 +66,7 @@ public class Card {
 
     /**
      * 
-     * @return
+     * @return The question of the card
      */
     public String getQuestion() {
         return question;
@@ -74,7 +74,7 @@ public class Card {
 
     /**
      * 
-     * @param question
+     * @param question The question of the card
      */
     public void setQuestion(String question) {
         if(question == null || question.isEmpty()) {
@@ -86,7 +86,7 @@ public class Card {
 
     /**
      * 
-     * @return
+     * @return The answer of the card
      */
     public String getAnswer() {
         return answer;
@@ -94,7 +94,7 @@ public class Card {
 
     /**
      * 
-     * @param answer
+     * @param answer The answer of the card
      */
     public void setAnswer(String answer) {
         this.answer = answer;
@@ -102,7 +102,7 @@ public class Card {
 
     /**
      * 
-     * @return
+     * @return A list of tags that categorize the card
      */
     public List<String> getTags() {
         return tags;
@@ -110,7 +110,7 @@ public class Card {
 
     /**
      * 
-     * @param tags
+     * @param tags A list of tags that categorize the card
      */
     public void setTags(List<String> tags) {
         
@@ -126,7 +126,7 @@ public class Card {
 
     /**
      * 
-     * @return
+     * @return The list of the user's reviews for this card
      */
     public List<Review> getReviews() {
         return reviews;
@@ -134,7 +134,7 @@ public class Card {
 
     /**
      * 
-     * @param reviews
+     * @param reviews The list of the user's reviews for this card
      */
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
@@ -142,7 +142,7 @@ public class Card {
 
     /**
      * 
-     * @return
+     * @return The card's creation date
      */
     public String getCreationDate() {
         return CalendarToolKit.calendarToIso8601(creationDate);
@@ -150,7 +150,7 @@ public class Card {
 
     /**
      * 
-     * @param creationDate
+     * @param creationDate The card's creation date
      */
     public void setCreationDate(String creationDate) {
         this.creationDate = CalendarToolKit.iso8601ToCalendar(creationDate);  // TODO: throw exception if non valid date
@@ -158,7 +158,7 @@ public class Card {
 
     /**
      * 
-     * @return
+     * @return True if the card should be hidden
      */
     public boolean isHidden() {
         return isHidden;
@@ -166,7 +166,7 @@ public class Card {
 
     /**
      * 
-     * @param isHidden
+     * @param isHidden True if the card should be hidden
      */
     public void setHidden(boolean isHidden) {
         this.isHidden = isHidden;
@@ -189,11 +189,11 @@ public class Card {
     }
     
     /**
-     * Retourne vrai si question ou answer contiennent le motif "pattern".
+     * Return true if question or answer contain the given pattern.
      * 
-     * @param pattern
+     * @param pattern The pattern (string) to search
      * @param caseSensitive
-     * @return
+     * @return True if question or answer contain the given pattern
      */
     public boolean contains(String pattern, boolean caseSensitive) {
         boolean contains;
