@@ -1,18 +1,41 @@
 bin/
+tmp/
+opencal.jar
+
+# Gradle ##############################
+build/
+.gradle/
+
+# Ant #################################
 dist/
+
+# Docs ################################
 doc/doxygen/
 doc/javadoc/
-tmp/
+
+# InteliJ IDEA ########################
+out/
+
+# Eclipse #############################
+.classpath
+.project
 .settings/
-.gradle/
+
+# Vim swap files ######################
+*.swp
+
+# Emacs temporary files ###############
+*~
+
+# Debian ##############################
 debian/files
 debian/opencal.substvars
 debian/opencal.postinst.debhelper
 debian/opencal.postrm.debhelper
 debian/opencal.debhelper.log
 debian/opencal/
-opencal.jar
-*.swp
+
+# LaTeX ###############################
 *.log
 *.aux
 *.dvi
@@ -20,5 +43,9 @@ opencal.jar
 *.lot
 *.lof
 *.out
-.classpath
-.project
+
+# MacOSX Thumbnail files ##############
+.DS_Store
+
+# Windows Thumbnail files #############
+Thumbs.db
