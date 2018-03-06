@@ -23,7 +23,7 @@ public class CardManipulator {
     
     /**
      * 
-     * @param PKB_FILE_PATH
+     * @param cardList
      */
     public CardManipulator(List<Card> cardList) {
         this.index = 0;
