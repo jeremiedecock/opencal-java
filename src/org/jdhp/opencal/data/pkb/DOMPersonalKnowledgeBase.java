@@ -205,6 +205,7 @@ public class DOMPersonalKnowledgeBase implements PersonalKnowledgeBase {
             Transformer transformer;
             transformer = factory.newTransformer();
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            //transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "0");
             transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 
             // Make the "DOM source" object
