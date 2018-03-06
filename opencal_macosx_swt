@@ -17,4 +17,5 @@ OPTS="-Dopencal.userproperties.location=macos.properties"
 #OPTS=
 
 #java -XstartOnFirstThread ${OPTS} $@ -cp ${LIBS} -jar ${OPENCAL_ROOT}/opencal.jar
-java -XstartOnFirstThread ${OPTS} $@ -cp ${BIN}:${LIBS} org.jdhp.opencal.OpenCAL
+#java -XstartOnFirstThread ${OPTS} $@ -cp ${BIN}:${LIBS} org.jdhp.opencal.OpenCAL
+java -XstartOnFirstThread ${OPTS} $@ -cp ${BIN}:${LIBS} org.jdhp.opencal.ui.swt.MainWindow

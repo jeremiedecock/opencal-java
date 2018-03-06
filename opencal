@@ -19,4 +19,5 @@ OPTS="-Dopencal.userproperties.location=devel.properties"
 #OPTS=
 
 #java ${OPTS} $@ -cp ${LIBS} -jar ${OPENCAL_ROOT}/opencal.jar
-java ${OPTS} $@ -cp ${BIN}:${LIBS} org.jdhp.opencal.OpenCAL
+#java ${OPTS} $@ -cp ${BIN}:${LIBS} org.jdhp.opencal.OpenCAL
+java ${OPTS} $@ -cp ${BIN}:${LIBS} org.jdhp.opencal.ui.swt.MainWindow
