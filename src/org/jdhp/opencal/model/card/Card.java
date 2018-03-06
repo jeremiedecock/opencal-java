@@ -189,7 +189,7 @@ public class Card {
     }
     
     /**
-     * Return true if question or answer contain the given pattern.
+     * Return true if question or answer contain the given {@code pattern}.
      * 
      * @param pattern The pattern (string) to search
      * @param caseSensitive
