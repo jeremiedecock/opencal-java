@@ -15,6 +15,9 @@ doc/javadoc/
 
 # InteliJ IDEA ########################
 out/
+*.iml
+*.ipr
+*.iws
 
 # Eclipse #############################
 .classpath
