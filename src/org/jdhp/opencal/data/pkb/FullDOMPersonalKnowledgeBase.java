@@ -5,20 +5,25 @@
 
 package org.jdhp.opencal.data.pkb;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.net.URI;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.jdhp.opencal.model.card.Card;
 import org.jdhp.opencal.model.card.Review;
@@ -33,7 +38,7 @@ import org.xml.sax.SAXException;
  *
  * @author Jérémie Decock
  */
-public class DOMPersonalKnowledgeBase implements PersonalKnowledgeBase {
+public class FullDOMPersonalKnowledgeBase implements PersonalKnowledgeBase {
 
     public static final String NAME = "DOM";
     
@@ -135,41 +140,85 @@ public class DOMPersonalKnowledgeBase implements PersonalKnowledgeBase {
      */
     public void save(CardCollection cardCollection, URI uri) throws PersonalKnowledgeBaseException {
         File pkbFile = new File(uri);
-
+        
         try {
-            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(pkbFile), StandardCharsets.UTF_8));
-            out.append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n");
-            out.append("<pkb>\n");
-            for (Card card : cardCollection) {
-                String is_hidden = card.isHidden() ? "true" : "false";
-                out.append("<card cdate=\"" + card.getCreationDate() + "\" hidden=\"" + is_hidden + "\">\n");
+            // Make DOM document
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document domDocument = db.newDocument();
+            
+            // Add root element (pkb)
+            Element rootElement = domDocument.createElement("pkb");
+            domDocument.appendChild(rootElement);
+            
+            // Add each card in root
+            for(Card card : cardCollection) {
+                
+                // Add the new "card" element to the DOM tree
+                Element cardElement = domDocument.createElement("card");
 
+                // Creation date
+                cardElement.setAttribute("cdate", card.getCreationDate());
+                
+                // Is hidden
+                cardElement.setAttribute("hidden", card.isHidden() ? "true" : "false");
+                
                 // Question
-                out.append("<question><![CDATA[" + card.getQuestion() + "]]></question>\n");
-
+                Element questionElement = domDocument.createElement("question");
+                cardElement.appendChild(questionElement);
+                questionElement.appendChild(domDocument.createCDATASection(card.getQuestion()));
+                
                 // Answer
-                out.append("<answer><![CDATA[" + card.getAnswer() + "]]></answer>\n");
-
+                Element answerElement = domDocument.createElement("answer");
+                cardElement.appendChild(answerElement);
+                answerElement.appendChild(domDocument.createCDATASection(card.getAnswer()));
+                
                 // Tags
-                for (String tag : card.getTags()) {
-                    if (!tag.equals("")) {
-                        out.append("<tag>" + tag + "</tag>\n");
+                for(String tag : card.getTags()) {
+                    if(!tag.equals("")) {
+                        Element tagElement = domDocument.createElement("tag");
+                        tagElement.appendChild(domDocument.createTextNode(tag));
+                        
+                        cardElement.appendChild(tagElement);
                     }
                 }
-
+                
                 // Reviews
-                for (Review review : card.getReviews()) {
-                    out.append("<review rdate=\"" + review.getReviewDate() + "\" result=\"" + review.getResult() + "\"/>\n");
+                for(Review review : card.getReviews()) {
+                    Element reviewElement = domDocument.createElement("review");
+                    reviewElement.setAttribute("rdate", review.getReviewDate());
+                    reviewElement.setAttribute("result", review.getResult());
+                    
+                    cardElement.appendChild(reviewElement);
                 }
-
-                out.append("</card>\n");
+                
+                // Append the card element to the root
+                rootElement.appendChild(cardElement);
+                
             }
-            out.append("</pkb>\n");
-            out.close();
-        } catch(FileNotFoundException e) {
-            throw new PersonalKnowledgeBaseException(uri + " does not exist or is inaccessible (FileNotFoundException)", e);
-        } catch(IOException e) {
-            throw new PersonalKnowledgeBaseException(uri + " I/O error (IOException)", e);
+
+            // Make output file
+            Result streamResult = new StreamResult(pkbFile);
+
+            // Setup transformer
+            TransformerFactory factory = TransformerFactory.newInstance();
+            Transformer transformer;
+            transformer = factory.newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            //transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "0");
+            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+
+            // Make the "DOM source" object
+            Source domSource = new DOMSource(domDocument);
+            
+            // Transformation
+            transformer.transform(domSource, streamResult);
+        } catch (TransformerConfigurationException e) {
+            throw new PersonalKnowledgeBaseException("Can't write the PKB file (TransformerConfigurationException)", e);
+        } catch (TransformerException e) {
+            throw new PersonalKnowledgeBaseException("Can't write the PKB file (TransformerException)", e);
+        } catch (ParserConfigurationException e) {
+            throw new PersonalKnowledgeBaseException("Can't write the PKB file (ParserConfigurationException)", e);
         }
     }
     
