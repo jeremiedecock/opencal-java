@@ -140,7 +140,7 @@ public class DOMPersonalKnowledgeBase implements PersonalKnowledgeBase {
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(pkbFile), StandardCharsets.UTF_8));
             out.append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n");
             out.append("<pkb>\n");
-            for (Card card : cardCollection) {
+            for(Card card : cardCollection) {
                 String is_hidden = card.isHidden() ? "true" : "false";
                 out.append("<card cdate=\"" + card.getCreationDate() + "\" hidden=\"" + is_hidden + "\">\n");
 
@@ -148,17 +148,22 @@ public class DOMPersonalKnowledgeBase implements PersonalKnowledgeBase {
                 out.append("<question><![CDATA[" + card.getQuestion() + "]]></question>\n");
 
                 // Answer
-                out.append("<answer><![CDATA[" + card.getAnswer() + "]]></answer>\n");
+                String answer = card.getAnswer();
+                if(answer.equals("")) {
+                    out.append("<answer/>\n");
+                } else {
+                    out.append("<answer><![CDATA[" + answer + "]]></answer>\n");
+                }
 
                 // Tags
-                for (String tag : card.getTags()) {
-                    if (!tag.equals("")) {
+                for(String tag : card.getTags()) {
+                    if(!tag.equals("")) {
                         out.append("<tag>" + tag + "</tag>\n");
                     }
                 }
 
                 // Reviews
-                for (Review review : card.getReviews()) {
+                for(Review review : card.getReviews()) {
                     out.append("<review rdate=\"" + review.getReviewDate() + "\" result=\"" + review.getResult() + "\"/>\n");
                 }
 
