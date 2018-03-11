@@ -21,7 +21,7 @@ public class QuestionAnswerToHtmlImpl implements QuestionAnswerToHtml {
             String pattern = "&lt;img file=&quot;([0-9abcdef]{32}.(png|jpg|jpeg|gif))&quot; /&gt;";
             Pattern regPat = Pattern.compile(pattern);
             Matcher matcher = regPat.matcher(html);
-            html = matcher.replaceAll("<img src=\"" + ApplicationProperties.getImgPath() + "$1\" />");
+            html = matcher.replaceAll("<img src=\"" + ApplicationProperties.getImgPath() + "/$1\" />");
         }
         
         // Make html audio tags
@@ -29,7 +29,7 @@ public class QuestionAnswerToHtmlImpl implements QuestionAnswerToHtml {
             String pattern = "&lt;audio file=&quot;([0-9abcdef]{32}.(ogg|oga|flac|spx|wav|mp3))&quot; /&gt;";
             Pattern regPat = Pattern.compile(pattern);
             Matcher matcher = regPat.matcher(html);
-            html = matcher.replaceAll("<audio controls src=\"" + ApplicationProperties.getImgPath() + "$1\">Your browser does not support the audio tag.<audio/>");
+            html = matcher.replaceAll("<audio controls src=\"" + ApplicationProperties.getImgPath() + "/$1\">Your browser does not support the audio tag.<audio/>");
         }
 
         // Make html video tags
@@ -37,7 +37,7 @@ public class QuestionAnswerToHtmlImpl implements QuestionAnswerToHtml {
             String pattern = "&lt;video file=&quot;([0-9abcdef]{32}.(ogg|ogv|vp8|avi|mp4|mpg|wmv|mov))&quot; /&gt;";
             Pattern regPat = Pattern.compile(pattern);
             Matcher matcher = regPat.matcher(html);
-            html = matcher.replaceAll("<video controls src=\"" + ApplicationProperties.getImgPath() + "$1\">Your browser does not support the video tag.<video/>");
+            html = matcher.replaceAll("<video controls src=\"" + ApplicationProperties.getImgPath() + "/$1\">Your browser does not support the video tag.<video/>");
         }
         
         return html;
