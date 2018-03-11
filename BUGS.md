@@ -1,7 +1,8 @@
 # KNOWN BUGS
 
 - Copy/paste from/to clipboard doesn't work when the program is called from a tmux shell (for both SWT and JavaFX)
-- The formatting of XML Transformer has changed in Java9 and it's a mess... See http://java9.wtf/xml-transformer/ for more explanations.
+- The formatting of XML Transformer has changed in Java9 and it's a mess... See
+  http://java9.wtf/xml-transformer/ for more explanations.
   - In Java8 `transformer.setOutputProperty(OutputKeys.INDENT, "yes");` indents
     the text with 0 spaces by default. In Java9 it indents the text with 4
     spaces by default.
@@ -25,3 +26,17 @@
     reading too...
   - In any cases, many tests have to be done with care to avoid data loss or
     any other bug on data!
+- Broken links in generated HTML since Java9 (only checked on MacOSX)
+  - Cause: the last slash that separates the file name to its directory is
+    missing... Example:: 
+
+    <img src="/home/joe/pkb/materials74335472e713709aaac2eccdd679cb0b.png" />
+
+    insead of 
+
+    <img src="/home/joe/pkb/materials/74335472e713709aaac2eccdd679cb0b.png" />
+
+    Files where the issue should be fixed: grep -r "img src" src/org/jdhp/opencal/ui/
+- Since Java9, when a card is created with an image, the image is not written
+  on the disk (probably the same for audio and video files). Only checked on MacOSX.
+  - Certainly the same cause than the previous bug...
