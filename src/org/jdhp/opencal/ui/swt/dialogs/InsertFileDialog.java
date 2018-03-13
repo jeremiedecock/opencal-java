@@ -276,6 +276,7 @@ public abstract class InsertFileDialog extends InsertDialog {
                 // TODO : vérifier l'emprunte MD5 du fichier, vérif que le fichier est bien fermé avec "lsof", ne pas copier le fichier si dest existe déjà, ...
                 File src = new File(path);
 
+                // See https://stackoverflow.com/questions/34459486/joining-paths-in-java
                 String dstDirPath = ApplicationProperties.getImgPath();
                 String dstFileName = hexDigest + "." + extension;
                 Path dstPath = Paths.get(dstDirPath, dstFileName);
