@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -263,7 +265,7 @@ public abstract class InsertFileDialog extends InsertDialog {
                 
                 dis.close();                        // Add fis.close() and bis.close() ? No, "dis.close()" is enough to close the stream (checked with "lsof" Unix command).
 
-                // Make destination directory if it don't exist
+                // Make destination directory if it doesn't exist
                 // TODO
                 File dstDir = new File(ApplicationProperties.getImgPath());
                 if(!dstDir.exists()) {
@@ -273,7 +275,11 @@ public abstract class InsertFileDialog extends InsertDialog {
                 // Copy file ////////////
                 // TODO : vérifier l'emprunte MD5 du fichier, vérif que le fichier est bien fermé avec "lsof", ne pas copier le fichier si dest existe déjà, ...
                 File src = new File(path);
-                File dst = new File(ApplicationProperties.getImgPath() + hexDigest + "." + extension); // TODO
+
+                String dstDirPath = ApplicationProperties.getImgPath();
+                String dstFileName = hexDigest + "." + extension;
+                Path dstPath = Paths.get(dstDirPath, dstFileName);
+                File dst = dstPath.toFile(); // TODO
                 
                 FileInputStream  srcStream = new FileInputStream(src);
                 FileOutputStream dstStream = new FileOutputStream(dst);
