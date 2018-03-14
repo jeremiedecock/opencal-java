@@ -31,7 +31,7 @@ implementions.
 One trick for filtering containing only US-ASCII is to use the ISO-8859-1
 encoding. This does not seem to contain illegal character sequences, and the
 lower 7 bits are US-ASCII. Another trick is to change the LANG environment
-variable from something like "us.utf8" to "us".
+variable from something like "us.utf8" to "us". 
 -->
 
 <project name="OpenCAL" basedir="." default="jar">
@@ -40,41 +40,38 @@ variable from something like "us.utf8" to "us".
 
     <!-- PROPERTIES (LOCAL) -->
     <property name="project_name" value="opencal" />
-    <property name="main_class" value="org.jdhp.opencal.ui.swt.MainWindow" />
+    <property name="main_class" value="org.jdhp.opencal.OpenCAL" />
     <property name="package_names" value="org.jdhp.opencal.*" />
 
     <!-- PROPERTIES (GLOBAL) -->
     <property name="src_dir" value="${basedir}/src/main/java" />
     <property name="class_dir" value="${basedir}/bin" />
     <!--<property name="lib_dir" value="${basedir}/ext/lib" />-->
-    <property name="lib_dir" value="/usr/share/java" />
+    <property name="lib_dir" value="/Users/jdecock/bin/java_libs" />
     <property name="javadoc_dir" value="${basedir}/doc/javadoc" />
     <property name="dist_dir" value="${basedir}/dist" />
     <property name="dist_project_dir" value="${dist_dir}/${project_name}" />
     <property name="dist_project_lib_dir" value="${dist_project_dir}/lib" />
-
+    
     <property name="jar_file" value="${basedir}/${project_name}.jar" />
     <property name="dist_file" value="${dist_dir}/${project_name}.zip" />
     <property name="run_script_file" value="${basedir}/${project_name}" />
 
     <!-- PROPERTIES (LIBS) -->
-    <property name="jcommon_lib" value="jcommon.jar" />
-    <property name="jfreechart_lib" value="jfreechart.jar" />
     <property name="junit_lib" value="junit4.jar" />
-    <property name="swt_lib" value="swt.jar" />
-
-    <property name="classpath" value="${class_dir}:${lib_dir}/${jcommon_lib}:${lib_dir}/${jfreechart_lib}:${lib_dir}/${junit_lib}:${lib_dir}/${swt_lib}" />
-    <property name="jar_classpath" value="${lib_dir}/${jcommon_lib} ${lib_dir}/${jfreechart_lib} ${lib_dir}/${junit_lib} ${lib_dir}/${swt_lib}" />
+    
+    <property name="classpath" value="${class_dir}:${lib_dir}/${junit_lib}" />
+    <property name="jar_classpath" value="${lib_dir}/${junit_lib}" />
 
     <!-- ========== TARGETS ========== -->
 
     <!-- TARGET BUILD -->
     <target name="build" description="Build class files">
         <echo>Generate class files</echo>
-
+        
         <delete dir="${class_dir}" />
         <mkdir dir="${class_dir}" />
-
+        
         <!-- Copy some (root) files -->
         <mkdir dir="${class_dir}/org/jdhp/opencal" />
         <copy file="${basedir}/default.properties" todir="${class_dir}/org/jdhp/opencal/data/properties" />
@@ -86,13 +83,13 @@ variable from something like "us.utf8" to "us".
         <copy todir="${class_dir}/org/jdhp/opencal/ui/swt/images">
             <fileset dir="${src_dir}/org/jdhp/opencal/ui/swt/images" excludes="**/*.java" />
         </copy>
-
+        
         <!-- Copy CSS (SWT) -->
         <mkdir dir="${class_dir}/org/jdhp/opencal/ui/css" />
         <copy todir="${class_dir}/org/jdhp/opencal/ui/css">
             <fileset dir="${src_dir}/org/jdhp/opencal/ui/css" excludes="**/*.java" />
         </copy>
-
+        
         <!-- Build classes -->
         <javac srcdir="${src_dir}" destdir="${class_dir}" classpath="${classpath}" includeantruntime="false" />
     </target>
@@ -143,7 +140,7 @@ variable from something like "us.utf8" to "us".
 
         <delete dir="${javadoc_dir}" />
         <mkdir dir="${javadoc_dir}" />
-
+        
         <!-- Generate documentation -->
         <javadoc sourcepath="${src_dir}" destdir="${javadoc_dir}" packagenames="${package_names}" />
     </target>
@@ -162,8 +159,8 @@ variable from something like "us.utf8" to "us".
     <!-- TARGET RUN -->
     <target name="run" depends="build" description="Run the project">
         <echo>Run the project</echo>
-        <java classpath="${classpath}" classname="${main_class}" fork="true">
-            <jvmarg value="-Dopencal.userproperties.location=devel.properties"/>
+        <java classpath="${classpath}" classname="${main_class}">
+            <jvmarg value="-XstartOnFirstThread"/>
         </java>
     </target>
 

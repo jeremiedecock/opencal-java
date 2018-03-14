@@ -44,7 +44,7 @@ variable from something like "us.utf8" to "us".
     <property name="package_names" value="org.jdhp.opencal.*" />
 
     <!-- PROPERTIES (GLOBAL) -->
-    <property name="src_dir" value="${basedir}/src" />
+    <property name="src_dir" value="${basedir}/src/main/java" />
     <property name="class_dir" value="${basedir}/bin" />
     <!--<property name="lib_dir" value="${basedir}/ext/lib" />-->
     <property name="lib_dir" value="${basedir}/ext_macosx" />
