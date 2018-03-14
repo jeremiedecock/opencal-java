@@ -1,9 +1,4 @@
-/*
- * OpenCAL
- * Copyright (c) 2007,2008,2009,2010,2011,2012,2016,2017 Jérémie DECOCK <jd.jdhp@gmail.com> (www.jdhp.org)
- */
-
-package org.jdhp.opencal.tests;
+package org.jdhp.opencal.model.professor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,40 +8,22 @@ import org.jdhp.opencal.model.card.Review;
 import org.jdhp.opencal.model.professor.Professor;
 import org.jdhp.opencal.model.professor.ProfessorFactory;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ProfessorAlanTest extends TestCase {
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+class ProfessorAlanTest {
 
     private Professor professor;
     
-    /**
-     * 
-     * @param name
-     */
-    public ProfessorAlanTest(String name) {
-        super(name);
-    }
-
-    /**
-     * 
-     */
-    protected void setUp() throws Exception {
-        super.setUp();
-        
+    @BeforeEach
+    void init() throws Exception {
         this.professor = ProfessorFactory.createProfessor("Alan");
     }
 
-    /**
-     * 
-     */
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
-    /**
-     * 
-     */
-    public void testAssess() {
+    @Test
+    void testAssess() {
         /*
          * testArray[][0] = cdate         (ex: "2008-01-01")
          * testArray[][1] = reviewDates   (ex: "2008-01-02=good,2008-01-04=good")
@@ -63,13 +40,7 @@ public class ProfessorAlanTest extends TestCase {
         }
     }
     
-    /**
-     * 
-     * @param creationDate
-     * @param reviewsString
-     * @return
-     */
-    private Card createCard(String creationDate, String reviewsString) {
+    Card createCard(String creationDate, String reviewsString) {
         
         // reviews
         String reviewArray[] = reviewsString.split(",");
