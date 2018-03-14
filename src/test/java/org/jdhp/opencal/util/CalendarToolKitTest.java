@@ -1,30 +1,16 @@
-/*
- * OpenCAL
- * Copyright (c) 2007,2008,2009,2010,2011,2012,2016,2017 Jérémie DECOCK <jd.jdhp@gmail.com> (www.jdhp.org)
- */
-
-package org.jdhp.opencal.tests;
+package org.jdhp.opencal.util;
 
 import java.util.GregorianCalendar;
 
 import org.jdhp.opencal.util.CalendarToolKit;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class CalendarToolKitTest extends TestCase {
+import org.junit.jupiter.api.Test;
 
-    public CalendarToolKitTest(String name) {
-        super(name);
-    }
+class CalendarToolKitTest {
 
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
-
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
+    @Test
     public void testIso8601ToCalendar() {
         GregorianCalendar calendar;
         String testArray[] = {
@@ -38,6 +24,7 @@ public class CalendarToolKitTest extends TestCase {
         }
     }
 
+    @Test
     public void testCalendarToIso8601() {
         GregorianCalendar calendar;
         String testArray[] = {
