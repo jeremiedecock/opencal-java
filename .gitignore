@@ -15,6 +15,7 @@ doc/javadoc/
 
 # InteliJ IDEA ########################
 out/
+.idea/
 *.iml
 *.ipr
 *.iws
