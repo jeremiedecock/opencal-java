@@ -161,7 +161,7 @@ public class ApplicationProperties {
      * @return
      */
     public static String getMathjaxPath() {
-        String mathjaxDefaultPath = "/usr/share/javascript/mathjax/mathjax.js?config=tex-ams_html-full";  // TODO: so far, this path is only valid for debian; include mathjax source code within the jar file or at least put it in a common directory...
+        String mathjaxDefaultPath = "/usr/share/javascript/mathjax/MathJax.js?config=TeX-AMS_HTML-full";  // TODO: so far, this path is only valid for debian; include mathjax source code within the jar file or at least put it in a common directory...
         String mathjaxPath = ApplicationProperties.applicationProperties.getProperty("ext.mathjax.path", mathjaxDefaultPath);
 
         return mathjaxPath;
