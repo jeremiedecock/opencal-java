@@ -10,6 +10,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import java.security.MessageDigest;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.custom.StackLayout;
@@ -33,6 +35,7 @@ import org.jdhp.opencal.ui.html.QuestionAnswerToHtmlImpl;
 import org.jdhp.opencal.ui.swt.MainWindow;
 import org.jdhp.opencal.ui.swt.images.SharedImages;
 import org.jdhp.opencal.util.CalendarToolKit;
+import org.jdhp.opencal.util.DataToolKit;
 
 /**
  * 
@@ -332,6 +335,34 @@ public class TestTab {
         }
 
         TestTab.sortCards(cardList);
+
+        // DEBUG /////////////////////////////////////////////////
+        // The following bloc is useful to compare different implementations of Ben (i.e. Java VS Python)
+        /*
+        for(Card card : cardList) {
+            String question = card.getQuestion();
+            String answer = card.getAnswer();
+
+            try {
+                MessageDigest md = MessageDigest.getInstance("MD5");
+
+                md.reset();
+                byte[] questionBytes = question.getBytes("UTF-8");
+                byte[] questionMD5Bytes = md.digest(questionBytes);
+                String questionMD5Str = DataToolKit.byteArray2Hex(questionMD5Bytes);
+
+                md.reset();
+                byte[] answerBytes = answer.getBytes("UTF-8");
+                byte[] answerMD5Bytes = md.digest(answerBytes);
+                String answerMD5Str = DataToolKit.byteArray2Hex(answerMD5Bytes);
+
+                System.out.println(questionMD5Str + " " + answerMD5Str);
+            } catch(Exception e) {
+                System.out.println(e);
+            }
+        }
+        */
+        // END DEBUG /////////////////////////////////////////////
         
         updateBrowser();
     }
